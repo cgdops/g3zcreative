@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import MetaTags from '../common/MetaTags';
 import { Box, Container, Typography, Button, Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -58,6 +59,10 @@ function Home() {
 
   return (
     <Box>
+      <MetaTags
+        title="Home"
+        description="Transform your online presence with G3Z Creative's expert web development, SEO, copywriting, and design services. Schedule a free consultation today!"
+      />
       <HeroSection>
         <Container>
           <Typography variant="h1" gutterBottom>

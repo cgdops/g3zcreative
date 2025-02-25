@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import MetaTags from '../common/MetaTags';
 import { Box, Container, Typography, TextField, Button, MenuItem, Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -44,6 +45,10 @@ const Contact = () => {
 
   return (
     <Box sx={{ py: 8 }}>
+      <MetaTags
+        title="Contact Us"
+        description="Get in touch with G3Z Creative for expert web development, SEO, and digital marketing services. Schedule a consultation to discuss your project needs."
+      />
       <Container maxWidth="lg">
         <Typography variant="h1" align="center" gutterBottom>
           Contact Us

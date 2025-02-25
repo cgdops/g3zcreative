@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import MetaTags from '../common/MetaTags';
 import { Box, Container, Typography, Grid, Paper, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -61,6 +62,10 @@ const Services = () => {
 
   return (
     <Box sx={{ py: 8 }}>
+      <MetaTags
+        title="Services"
+        description="Explore our comprehensive digital solutions including web development, SEO services, content creation, and digital marketing strategies. Find the perfect service for your business needs."
+      />
       <Container maxWidth="lg">
         <Typography variant="h1" align="center" gutterBottom>
           Our Services

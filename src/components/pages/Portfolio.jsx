@@ -41,6 +41,10 @@ const Portfolio = () => {
 
   return (
     <Box sx={{ py: 8 }}>
+        <MetaTags
+        title="Case Studies"
+        description="Discover how we've helped businesses achieve their digital goals with our expertise in web development, SEO, copywriting, and design."
+      />
       <Container maxWidth="lg">
         <Typography variant="h1" align="center" gutterBottom>
           Our Portfolio

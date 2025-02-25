@@ -67,6 +67,10 @@ const CaseStudy = () => {
 
   return (
     <Box sx={{ py: 8 }}>
+        <MetaTags
+        title="Case Studies"
+        description="Discover how we've helped businesses achieve their digital goals with our expertise in web development, SEO, copywriting, and design."
+      />
       <Container maxWidth="lg">
         <Section>
           <Typography variant="h1" gutterBottom>
