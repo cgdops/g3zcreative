@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import Home from './components/pages/Home';
+import Services from './components/pages/Services';
+import Contact from './components/pages/Contact';
 import Navbar from './components/layout/Navbar';
 
 // Create a custom theme
@@ -56,11 +58,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/services" element={<div>Services Page</div>} />
+        <Route path="/services" element={<Services />} />
         <Route path="/portfolio" element={<div>Portfolio Page</div>} />
         <Route path="/about" element={<div>About Page</div>} />
         <Route path="/testimonials" element={<div>Testimonials Page</div>} />
-        <Route path="/contact" element={<div>Contact Page</div>} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </ThemeProvider>
   );
