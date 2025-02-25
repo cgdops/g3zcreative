@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { Box, Container, Typography, Grid, Paper, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
