@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Grid, Paper, Button } from '@mui/material';
+import MetaTags from '../common/MetaTags';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 
