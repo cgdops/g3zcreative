@@ -8,6 +8,7 @@ import Contact from './components/pages/Contact';
 import Portfolio from './components/pages/Portfolio';
 import CaseStudy from './components/pages/CaseStudy';
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 
 // Create a custom theme
 const theme = createTheme({
@@ -63,10 +64,9 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/portfolio/:id" element={<CaseStudy />} />
-        <Route path="/about" element={<div>About Page</div>} />
-        <Route path="/testimonials" element={<div>Testimonials Page</div>} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
+      <Footer />
     </ThemeProvider>
   );
 }

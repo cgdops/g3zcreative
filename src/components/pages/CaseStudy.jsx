@@ -26,7 +26,7 @@ const CaseStudy = () => {
   // In a real application, this would come from an API or database
   const caseStudies = {
     'shiny-dog-paws': {
-      title: 'Shiny Dog Paws: 340% ROAS and 56 New Appointments in First Month',
+      title: 'Shiny Dog Paws: 340% ROAS and 56 New Appointments in the First Month',
       metrics: [
         { label: 'New Clients', value: '56' },
         { label: 'Revenue Generated', value: '$5,040' },
@@ -36,7 +36,7 @@ const CaseStudy = () => {
         name: 'Rose Yanke',
         position: 'Founder',
         company: 'Shiny Dog Paws',
-        testimonial: 'New Alchemy Media didn\'t just get me clients; they gave me the confidence to build the business I always dreamed of.'
+        testimonial: 'Christian didn\'t just get me clients; he gave me the confidence to build the business I always dreamed of.'
       },
       overview: 'Shiny Dog Paws offers comprehensive mobile grooming services covering Florida\'s treasure coast. They cover every aspect of dog\'s well-being as well as their owners peace of mind. From a relaxing bath and expert haircut to essential nail trimming and ear cleaning, Shiny Dog Paws provide a stress-free, personalized experience right at their clients doorstep.',
       challenge: 'Rose had the skills and the van, but no real plan to attract clients. She was feeling overwhelmed and unsure how to get her business off the ground.',
