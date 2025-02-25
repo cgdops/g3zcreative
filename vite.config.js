@@ -11,5 +11,5 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true
   },
-  base: '/g3zcreative'
+  base: '/g3zcreative/'
 })
