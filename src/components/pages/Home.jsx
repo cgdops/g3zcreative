@@ -70,6 +70,9 @@ function Home() {
             variant="contained"
             color="secondary"
             size="large"
+            href="https://calendar.app.google/S5f1g5313ZUninPR9"
+            target="_blank"
+            rel="noopener noreferrer"
             sx={{ mt: 4 }}
           >
             Schedule a Free Consultation
