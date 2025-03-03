@@ -35,7 +35,7 @@ const Portfolio = () => {
         { label: 'Revenue Generated', value: '$5,040' },
         { label: 'ROAS', value: '340%' }
       ],
-      image: '/project-images/shiny-dog-paws.jpg'
+      image: 'https://cdn.prod.website-files.com/66abf947d2ea52691898cf82/67c5b85545580e5408cc8fdd_Screenshot%202025-03-03%20091010.png'
     },
     // Add more projects here
   ];
