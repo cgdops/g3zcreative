@@ -34,6 +34,7 @@
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---gap--xl-gap: var(--ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--5x);
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---gap--xxl-gap: var(--ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--6x);
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---gap--xxs-gap: var(--ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--0-5x);
+  --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--1x: 1rem;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---h0-heading--h0-margin-bottom: .3em;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---font--heading-font: "Young Serif", sans-serif;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---h0-heading--h0-size: 5.61rem;
@@ -156,7 +157,6 @@
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---core-neutral-color--neutral-inverse: #121316;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---core-color-tint--accent-primary-a30: #f425644d;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---core-color-tint--neutral-inverse-a80: #121316cc;
-  --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--1x: 1rem;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--2x: 2rem;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--0-5x: .5rem;
   --ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--1-5x: 1.5rem;
@@ -572,6 +572,12 @@
 
 .grid-layout.x-right {
   place-items: stretch end;
+}
+
+.grid-layout.services-megamenu-grid {
+  grid-column-gap: var(--ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--1x);
+  grid-row-gap: var(--ai-gen-82921b10-4b39-48f0-b346-808cf4903d29-1748479616780---spacing--1x);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .heading-huge {
@@ -5869,6 +5875,10 @@ img {
 
   .grid-layout.y-top {
     align-items: start;
+  }
+
+  .grid-layout.services-megamenu-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .heading-huge {
