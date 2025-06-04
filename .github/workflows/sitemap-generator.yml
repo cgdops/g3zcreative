@@ -1,0 +1,48 @@
+name: Generate and Deploy Sitemap
+
+on:
+  push:
+    branches:
+      - main # Or whatever branch GitHub Pages serves your site from (e.g., master, gh-pages)
+
+jobs:
+  build-and-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # This is crucial for the sitemap action to correctly determine
+          # the last modification dates of your files based on commit history.
+          fetch-depth: 0
+
+      - name: Generate Sitemap
+        uses: cicirello/generate-sitemap@v2 # Use the latest version for best results
+        with:
+          # --- IMPORTANT: Replace with your actual GitHub Pages URL ---
+          # Example for a Project Page: 'https://your-username.github.io/your-repo-name/'
+          # Example for a User/Organization Page: 'https://your-username.github.io/'
+          # Example for a Custom Domain: 'https://www.your-custom-domain.com/'
+          base-url-path: 'https://g3zcreative.com/'
+
+          # If your website files are in a subdirectory (e.g., 'docs' or 'dist'),
+          # specify that here. Otherwise, '.' (the repository root) is correct.
+          path-to-root: '.'
+
+          # Optional: You can exclude specific paths if needed.
+          # For example, if you have an admin dashboard or a 404 page you don't want indexed.
+          # exclude-paths: 'admin/ 404.html'
+
+          # Optional: Exclude .html extension from URLs in the sitemap if your
+          # GitHub Pages setup serves them cleanly (e.g., example.com/about instead of example.com/about.html)
+          # drop-html-extension: true
+
+      - name: Commit and Push Sitemap
+        uses: EndBug/add-and-commit@v9 # A reliable action to commit files
+        with:
+          add: 'sitemap.xml' # The sitemap.xml file will be generated in your repo root
+          message: 'Docs: Auto-generated sitemap.xml'
+          # Use the GITHUB_TOKEN for authentication.
+          # This token is automatically provided by GitHub Actions for your repository.
+          # No need to create a personal access token.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
