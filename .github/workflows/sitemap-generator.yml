@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate Sitemap
-        uses: cicirello/generate-sitemap@v2 # Use the latest version for best results
+        uses: cicirello/generate-sitemap@v1 # Use the latest version for best results
         with:
           # --- IMPORTANT: Replace with your actual GitHub Pages URL ---
           # Example for a Project Page: 'https://your-username.github.io/your-repo-name/'
