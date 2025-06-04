@@ -1,50 +1,54 @@
-name: Generate and Deploy Sitemap
+name: Deploy Website and Generate Sitemap
 
 on:
   push:
     branches:
-      - main # Or whatever branch GitHub Pages serves your site from (e.g., master, gh-pages)
+      - main # Or your publishing branch (where your Webflow files are)
 
 jobs:
-  build-and-sitemap:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
-      contents: write
+    permissions:
+      contents: write # Needed for sitemap commit
+      pages: write    # Needed for GitHub Pages deployment
+      id-token: write # Needed for GitHub Pages deployment
+
+    environment: # Optional but recommended for Pages deployments
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # This is crucial for the sitemap action to correctly determine
-          # the last modification dates of your files based on commit history.
-          fetch-depth: 0
+          fetch-depth: 0 # Needed for sitemap lastmod dates
 
+      # --- Step 1: Generate Sitemap (as before) ---
       - name: Generate Sitemap
-        uses: cicirello/generate-sitemap@v1 # Use the latest version for best results
+        uses: cicirello/generate-sitemap@v1
         with:
-          # --- IMPORTANT: Replace with your actual GitHub Pages URL ---
-          # Example for a Project Page: 'https://your-username.github.io/your-repo-name/'
-          # Example for a User/Organization Page: 'https://your-username.github.io/'
-          # Example for a Custom Domain: 'https://www.your-custom-domain.com/'
-          base-url-path: 'https://g3zcreative.com/'
-
-          # If your website files are in a subdirectory (e.g., 'docs' or 'dist'),
-          # specify that here. Otherwise, '.' (the repository root) is correct.
-          path-to-root: '.'
-
-          # Optional: You can exclude specific paths if needed.
-          # For example, if you have an admin dashboard or a 404 page you don't want indexed.
-          # exclude-paths: 'admin/ 404.html'
-
-          # Optional: Exclude .html extension from URLs in the sitemap if your
-          # GitHub Pages setup serves them cleanly (e.g., example.com/about instead of example.com/about.html)
-          # drop-html-extension: true
+          base-url-path: 'https://g3zcreative.com/' # IMPORTANT: REPLACE THIS
+          path-to-root: '.' # Or your Webflow export folder if it's not root
 
       - name: Commit and Push Sitemap
-        uses: EndBug/add-and-commit@v9 # A reliable action to commit files
+        uses: EndBug/add-and-commit@v9
         with:
-          add: 'sitemap.xml' # The sitemap.xml file will be generated in your repo root
+          add: 'sitemap.xml'
           message: 'Docs: Auto-generated sitemap.xml'
-          # Use the GITHUB_TOKEN for authentication.
-          # This token is automatically provided by GitHub Actions for your repository.
-          # No need to create a personal access token.
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Step 2: Set up GitHub Pages (required for `upload-pages-artifact`) ---
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # --- Step 3: Upload your Webflow exported files as an artifact ---
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Your Webflow files are likely in the root, or specify a subfolder
+          path: './' # This tells it to upload everything in the current directory
+
+      # --- Step 4: Deploy the artifact to GitHub Pages ---
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
