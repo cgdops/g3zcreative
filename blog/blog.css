@@ -1,0 +1,213 @@
+/* ─── Blog styles — G3Z Creative ────────────────────────────────────────────
+   Uses existing Webflow CSS variables and class conventions.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Tags */
+.blog-tag {
+  display: inline-block;
+  padding: 0.2em 0.75em;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background-color: color-mix(in srgb, var(--core-accent-color--accent-primary, #F42564) 12%, transparent);
+  color: var(--core-accent-color--accent-primary, #F42564);
+  white-space: nowrap;
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Blog post hero */
+.blog-post-hero {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.blog-back-link {
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.blog-back-link:hover { opacity: 1; }
+
+.blog-post-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  font-family: "Young Serif", serif;
+}
+
+.blog-post-byline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.65;
+}
+
+.blog-post-separator { opacity: 0.4; }
+
+/* Featured image */
+.blog-featured-image-wrapper {
+  margin: 2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 520px;
+}
+
+.blog-featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Article body — style rendered markdown */
+.blog-post-body {
+  max-width: 72ch;
+  margin: 0 auto;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.blog-post-body h2 {
+  font-family: "Young Serif", serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+
+.blog-post-body h3 {
+  font-family: "Young Serif", serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-post-body h4, .blog-post-body h5, .blog-post-body h6 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.blog-post-body p { margin-bottom: 1.25rem; }
+
+.blog-post-body ul,
+.blog-post-body ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.blog-post-body li { margin-bottom: 0.4rem; }
+
+.blog-post-body a {
+  color: var(--core-accent-color--accent-primary, #F42564);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-post-body blockquote {
+  border-left: 3px solid var(--core-accent-color--accent-primary, #F42564);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.blog-post-body code {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+}
+
+.blog-post-body pre {
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+}
+
+.blog-post-body pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.9em;
+}
+
+.blog-post-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.blog-post-body hr {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  margin: 2rem 0;
+}
+
+/* CTA section centering */
+.blog-cta { align-items: center; text-align: center; }
+
+/* Blog index cards */
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.blog-card-image {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.blog-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-card-image img { transform: scale(1.04); }
+
+.blog-card .card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.blog-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
