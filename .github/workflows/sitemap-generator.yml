@@ -1,19 +1,19 @@
-name: Deploy Website and Generate Sitemap
+name: Build Blog and Deploy
 
 on:
   push:
     branches:
-      - main # Or your publishing branch (where your Webflow files are)
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Needed for sitemap commit
-      pages: write    # Needed for GitHub Pages deployment
-      id-token: write # Needed for GitHub Pages deployment
+      contents: write
+      pages: write
+      id-token: write
 
-    environment: # Optional but recommended for Pages deployments
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
@@ -21,14 +21,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Needed for sitemap lastmod dates
+          fetch-depth: 0
 
-      # --- Step 1: Generate Sitemap (as before) ---
+      # ── Step 1: Build blog pages from _posts/*.md ──────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install blog dependencies
+        run: npm install
+
+      - name: Build blog HTML
+        run: node scripts/build-blog.js
+
+      # ── Step 2: Clean up build artifacts before packaging ─────────────────
+      - name: Remove build-only files
+        run: rm -rf node_modules scripts _posts package.json package-lock.json
+
+      # ── Step 3: Generate sitemap (now includes /blog/* pages) ─────────────
       - name: Generate Sitemap
         uses: cicirello/generate-sitemap@v1
         with:
-          base-url-path: 'https://g3zcreative.com/' # IMPORTANT: REPLACE THIS
-          path-to-root: '.' # Or your Webflow export folder if it's not root
+          base-url-path: 'https://g3zcreative.com/'
+          path-to-root: '.'
 
       - name: Commit and Push Sitemap
         uses: EndBug/add-and-commit@v9
@@ -37,18 +53,15 @@ jobs:
           message: 'Docs: Auto-generated sitemap.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      # --- Step 2: Set up GitHub Pages (required for `upload-pages-artifact`) ---
+      # ── Step 4: Deploy to GitHub Pages ────────────────────────────────────
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # --- Step 3: Upload your Webflow exported files as an artifact ---
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Your Webflow files are likely in the root, or specify a subfolder
-          path: './' # This tells it to upload everything in the current directory
+          path: './'
 
-      # --- Step 4: Deploy the artifact to GitHub Pages ---
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
