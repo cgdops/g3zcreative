@@ -38,11 +38,11 @@
       height: 20px;
       width: 20px;
       border-radius: 50%;
-      background: #f42564;
+      background: #da104d;
       cursor: pointer;
       -webkit-appearance: none;
       margin-top: -7px;
-      box-shadow: 0 2px 4px rgba(244, 37, 100, 0.3);
+      box-shadow: 0 2px 4px rgba(218, 16, 77, 0.3);
       transition: background 0.15s, transform 0.15s;
     }
     input[type=range]::-webkit-slider-thumb:hover {
@@ -66,7 +66,7 @@
     .calculator-input-value {
       font-family: 'Young Serif', serif;
       font-weight: bold;
-      color: #f42564;
+      color: #da104d;
       font-size: 1.1rem;
     }
     .metric-card {
@@ -86,7 +86,7 @@
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #718096;
+      color: #4a5568;
       margin-bottom: 0.5rem;
       font-weight: 700;
     }
@@ -98,7 +98,7 @@
     }
     .metric-desc {
       font-size: 0.8rem;
-      color: #718096;
+      color: #4a5568;
       margin-top: 0.25rem;
     }
   </style>
@@ -257,6 +257,7 @@
     </div>
   </header>
 
+  <main id="main-content">
   <header class="section intro-section utility-overflow-hidden">
     <div class="container utility-max-width-90">
       <div class="w-layout-grid grid-layout desktop-5-column tablet-1-column grid-gap-md y-top utility-margin-bottom-4rem">
@@ -277,12 +278,12 @@
         <!-- Calculator Inputs -->
         <div class="card" style="background: white; border: 1px solid #e2e8f0;">
           <div class="card-body">
-            <h3 style="margin-top: 0; margin-bottom: 2rem;">1. Enter Your Business Metrics</h3>
+            <h2 style="margin-top: 0; margin-bottom: 2rem; font-size: 1.5rem; font-family: 'Figtree', sans-serif;">1. Enter Your Business Metrics</h2>
             
             <!-- Input 1: Average Contract Value -->
             <div class="calculator-input-group">
               <div class="calculator-input-header">
-                <span class="calculator-input-label">Average Contract Value / Customer Value</span>
+                <label class="calculator-input-label" for="contractValueInput">Average Contract Value / Customer Value</label>
                 <span class="calculator-input-value" id="contractValueDisplay">$5,000</span>
               </div>
               <input type="range" id="contractValueInput" min="500" max="25000" step="500" value="5000">
@@ -291,7 +292,7 @@
             <!-- Input 2: Current Monthly Leads -->
             <div class="calculator-input-group">
               <div class="calculator-input-header">
-                <span class="calculator-input-label">Current Monthly Leads (Organic & Paid)</span>
+                <label class="calculator-input-label" for="leadsInput">Current Monthly Leads (Organic & Paid)</label>
                 <span class="calculator-input-value" id="leadsDisplay">20</span>
               </div>
               <input type="range" id="leadsInput" min="5" max="200" step="5" value="20">
@@ -300,7 +301,7 @@
             <!-- Input 3: Close Rate -->
             <div class="calculator-input-group">
               <div class="calculator-input-header">
-                <span class="calculator-input-label">Average Sales Close Rate (%)</span>
+                <label class="calculator-input-label" for="closeRateInput">Average Sales Close Rate (%)</label>
                 <span class="calculator-input-value" id="closeRateDisplay">15%</span>
               </div>
               <input type="range" id="closeRateInput" min="5" max="80" step="5" value="15">
@@ -309,7 +310,7 @@
             <!-- Input 4: Admin Hours Spent per Week -->
             <div class="calculator-input-group">
               <div class="calculator-input-header">
-                <span class="calculator-input-label">Weekly Administrative / Manual CRM Hours</span>
+                <label class="calculator-input-label" for="adminHoursInput">Weekly Administrative / Manual CRM Hours</label>
                 <span class="calculator-input-value" id="adminHoursDisplay">15 hrs</span>
               </div>
               <input type="range" id="adminHoursInput" min="2" max="60" step="1" value="15">
@@ -318,7 +319,7 @@
             <!-- Input 5: Admin Labor Rate -->
             <div class="calculator-input-group">
               <div class="calculator-input-header">
-                <span class="calculator-input-label">Internal Hourly Labor Rate (for admin)</span>
+                <label class="calculator-input-label" for="laborRateInput">Internal Hourly Labor Rate (for admin)</label>
                 <span class="calculator-input-value" id="laborRateDisplay">$40/hr</span>
               </div>
               <input type="range" id="laborRateInput" min="15" max="150" step="5" value="40">
@@ -340,9 +341,9 @@
             </div>
 
             <!-- Metric 2: New Monthly Revenue -->
-            <div class="metric-card" style="border: 1px solid var(--core-accent-color--accent-primary, #f42564);">
-              <div class="metric-title" style="color: var(--core-accent-color--accent-primary, #f42564);">New Monthly Revenue</div>
-              <div class="metric-number" id="newRevenue" style="color: var(--core-accent-color--accent-primary, #f42564); font-size: 2.25rem;">$11,250</div>
+            <div class="metric-card" style="border: 1px solid var(--core-accent-color--accent-primary, #da104d);">
+              <div class="metric-title" style="color: var(--core-accent-color--accent-primary, #da104d);">New Monthly Revenue</div>
+              <div class="metric-number" id="newRevenue" style="color: var(--core-accent-color--accent-primary, #da104d); font-size: 2.25rem;">$11,250</div>
               <div class="metric-desc">Projected organic sales growth</div>
             </div>
 
@@ -366,7 +367,7 @@
           <div class="card" style="background: #1e1e1e; color: white; border: none; margin-top: 1rem;">
             <div class="card-body flex-vertical" style="justify-content: space-between; align-items: stretch; padding: 2rem;">
               <div>
-                <h3 style="color: white; margin-top:0; margin-bottom: 0.5rem; text-align: center;">Total G3Z ROI Summary</h3>
+                <h2 style="color: white; margin-top:0; margin-bottom: 0.5rem; text-align: center; font-size: 1.5rem; font-family: 'Figtree', sans-serif;">Total G3Z ROI Summary</h2>
                 <p class="utility-text-inverse-secondary" style="font-size: 0.85rem; text-align: center; margin-bottom: 1.5rem;">Based on combining pSEO ($3K setup + $500/mo) and AI Retainer ($2.5K/mo).</p>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem; border-bottom: 1px dashed #444; padding-bottom: 0.75rem;">
                   <span>Monthly Investment:</span>
@@ -383,7 +384,7 @@
               </div>
 
               <div class="button-group" style="width: 100%;">
-                <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="button w-inline-block" style="width: 100%; text-align: center; justify-content: center; background-color: var(--core-accent-color--accent-primary, #f42564); color: white;">
+                <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="button w-inline-block" style="width: 100%; text-align: center; justify-content: center; background-color: var(--core-accent-color--accent-primary, #da104d); color: white;">
                   <div>Book Call to Build Your Pipeline</div>
                 </a>
               </div>
@@ -409,7 +410,7 @@
         </div>
         <div class="card">
           <div class="card-body flex-vertical x-center y-center utility-text-align-center" style="padding: 2.5rem 2rem;">
-            <h3>Request Your Blueprint</h3>
+            <h2 style="font-size: 1.5rem; font-family: 'Figtree', sans-serif; margin-top: 0;">Request Your Blueprint</h2>
             <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 2rem;">Ready to save your ROI projection and get your custom rank audit? Book a direct call with us to review your calculator results and prepare your blueprint report.</p>
             <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="button w-button">Book your blueprint session</a>
           </div>
@@ -417,6 +418,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <footer class="footer">
     <div class="container-3">
