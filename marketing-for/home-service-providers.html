@@ -582,7 +582,8 @@
       </div>
       <div class="divider utility-margin-top-1rem utility-margin-bottom-1rem"></div>
       <div class="flex-horizontal x-right">
-        <div class="utility-text-secondary-2">© 2025 G3Z Creative, LLC. All rights reserved.</div>
+        <div class="utility-text-secondary-2">© <span id="copyright-year">2025</span> G3Z Creative, LLC. All rights reserved.</div>
+        <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
       </div>
     </div>
   </footer>
