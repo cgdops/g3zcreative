@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "roofers",
+    "name": "Roofing Contractors",
+    "singular": "Roofing Contractor",
+    "serviceType": "Roofing Services",
+    "description": "residential and commercial roof replacements, repairs, leak detection, and maintenance."
+  },
+  {
+    "slug": "hvac",
+    "name": "HVAC Specialists",
+    "singular": "HVAC Contractor",
+    "serviceType": "HVAC Services",
+    "description": "air conditioning repairs, furnace installations, heat pump tuning, and air quality audits."
+  },
+  {
+    "slug": "plumbers",
+    "name": "Plumbing Experts",
+    "singular": "Plumbing Service",
+    "serviceType": "Plumbing Services",
+    "description": "emergency drain cleaning, water heater installations, pipe leak repairs, and commercial plumbing."
+  },
+  {
+    "slug": "electricians",
+    "name": "Electrical Contractors",
+    "singular": "Electrician",
+    "serviceType": "Electrical Services",
+    "description": "panel upgrades, residential wiring, commercial lighting, generator setups, and emergency repairs."
+  },
+  {
+    "slug": "landscapers",
+    "name": "Landscape Designers",
+    "singular": "Landscaping Service",
+    "serviceType": "Landscaping Services",
+    "description": "custom patio installations, landscape lighting, sod installations, tree care, and weekly lawn maintenance."
+  }
+]

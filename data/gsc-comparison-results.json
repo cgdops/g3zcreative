@@ -1,0 +1,1346 @@
+{
+  "metadata": {
+    "siteUrl": "sc-domain:g3zcreative.com",
+    "currentRange": {
+      "start": "2026-05-04",
+      "end": "2026-06-03"
+    },
+    "prevRange": {
+      "start": "2026-04-03",
+      "end": "2026-05-03"
+    },
+    "generatedAt": "2026-06-06T22:40:40.781Z"
+  },
+  "summary": {
+    "current": {
+      "clicks": 3,
+      "impressions": 485,
+      "avgPos": "13.37",
+      "queriesCount": 69
+    },
+    "previous": {
+      "clicks": 0,
+      "impressions": 1002,
+      "avgPos": "17.31",
+      "queriesCount": 82
+    },
+    "diff": {
+      "clicks": 3,
+      "impressions": -517,
+      "avgPos": "-3.94"
+    }
+  },
+  "clickWinners": [
+    {
+      "query": "local businesses",
+      "current": {
+        "clicks": 1,
+        "impressions": 2,
+        "ctr": 0.5,
+        "position": 3.5
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 1,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0.5
+      }
+    },
+    {
+      "query": "small businesses",
+      "current": {
+        "clicks": 1,
+        "impressions": 1,
+        "ctr": 1,
+        "position": 1
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 1,
+        "impressions": 1,
+        "position": null,
+        "ctr": 1
+      }
+    },
+    {
+      "query": "small businesses near me",
+      "current": {
+        "clicks": 1,
+        "impressions": 1,
+        "ctr": 1,
+        "position": 25
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 1,
+        "impressions": 1,
+        "position": null,
+        "ctr": 1
+      }
+    }
+  ],
+  "positionWinners": [
+    {
+      "query": "miramar fl seo agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 28
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -4,
+        "position": 27,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design miramar fl",
+      "current": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 26,
+        "ctr": 0,
+        "position": 11.538461538461538
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -21,
+        "position": 10.538461538461538,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website designer near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 18.5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 25,
+        "ctr": 0,
+        "position": 29
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -17,
+        "position": 10.5,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar beach webdesign",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 24,
+        "ctr": 0,
+        "position": 14.208333333333334
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -20,
+        "position": 9.208333333333334,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website design miramar fl",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 36,
+        "ctr": 0,
+        "position": 10.083333333333334
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -32,
+        "position": 9.083333333333334,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designer near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 15.285714285714286
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 24.03030303030303
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -19,
+        "position": 8.744588744588745,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar digital marketing agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 8.8
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -3,
+        "position": 7.800000000000001,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website redesign near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 32.42857142857143
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 20,
+        "ctr": 0,
+        "position": 40
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -13,
+        "position": 7.571428571428569,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "pembroke pines web design company",
+      "current": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 27.666666666666668
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 34.333333333333336
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 0,
+        "position": 6.666666666666668,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "seo services near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 13.631578947368421
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 19.78787878787879
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -14,
+        "position": 6.156299840510368,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designers near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 22,
+        "ctr": 0,
+        "position": 25.545454545454547
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -18,
+        "position": 4.545454545454547,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "google ads agency miramar fl",
+      "current": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 5.142857142857143
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -2,
+        "position": 4.142857142857143,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designer pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 34.333333333333336
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 18,
+        "ctr": 0,
+        "position": 37.666666666666664
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -12,
+        "position": 3.3333333333333286,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar website designer",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 9.285714285714286
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 34,
+        "ctr": 0,
+        "position": 12.441176470588236
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -20,
+        "position": 3.155462184873949,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website services miramar fl",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 4
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 0,
+        "position": 3,
+        "ctr": 0
+      }
+    }
+  ],
+  "clickLosers": [],
+  "positionLosers": [
+    {
+      "query": "miramar fl social media marketing agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 44.6
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 22.666666666666668
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -1,
+        "position": -21.933333333333334,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website design pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 41
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 22.666666666666668
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -4,
+        "position": -18.333333333333332,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar fl digital pr agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 22.5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 8
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -2,
+        "position": -14.5,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 41
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 34.333333333333336
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -1,
+        "position": -6.666666666666664,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "social media marketing",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 0,
+        "position": -3,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local seo miramar",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 12.454545454545455
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 51,
+        "ctr": 0,
+        "position": 10
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -40,
+        "position": -2.454545454545455,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "graphic designer pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 41
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 20,
+        "ctr": 0,
+        "position": 39
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -16,
+        "position": -2,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar fl google ads management agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 73.6
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 71.8
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 0,
+        "position": -1.7999999999999972,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "digital marketing pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 19.333333333333332
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -4,
+        "position": -1.6666666666666679,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar web design company",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 10.571428571428571
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 20,
+        "ctr": 0,
+        "position": 9.1
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -6,
+        "position": -1.4714285714285715,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local seo services miramar florida",
+      "current": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 16.714285714285715
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 23,
+        "ctr": 0,
+        "position": 15.478260869565217
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -16,
+        "position": -1.2360248447204985,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design company near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 37
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 36
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -7,
+        "position": -1,
+        "ctr": 0
+      }
+    }
+  ],
+  "newQueries": [
+    {
+      "query": "website design agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 9,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "businesses near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 4.666666666666666
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 3,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local businesses",
+      "current": {
+        "clicks": 1,
+        "impressions": 2,
+        "ctr": 0.5,
+        "position": 3.5
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 1,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0.5
+      }
+    },
+    {
+      "query": "internet services agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "marketing agency near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "small business website design near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website design for small business",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 2,
+        "position": null,
+        "ctr": 0
+      }
+    }
+  ],
+  "strikeZone": [
+    {
+      "query": "seo services near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 13.631578947368421
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 19.78787878787879
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -14,
+        "position": 6.156299840510368,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designer near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 15.285714285714286
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 24.03030303030303
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -19,
+        "position": 8.744588744588745,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "graphic design companies pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 20.047619047619047
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -10,
+        "position": -0.9523809523809526,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local seo miramar",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 12.454545454545455
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 51,
+        "ctr": 0,
+        "position": 10
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -40,
+        "position": -2.454545454545455,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design companies pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 19.181818181818183
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 22,
+        "ctr": 0,
+        "position": 18.272727272727273
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -11,
+        "position": -0.9090909090909101,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "website designer near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 18.5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 25,
+        "ctr": 0,
+        "position": 29
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -17,
+        "position": 10.5,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local seo services miramar florida",
+      "current": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 16.714285714285715
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 23,
+        "ctr": 0,
+        "position": 15.478260869565217
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -16,
+        "position": -1.2360248447204985,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar fl digital pr agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 22.5
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 8
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -2,
+        "position": -14.5,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designers near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 22,
+        "ctr": 0,
+        "position": 25.545454545454547
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -18,
+        "position": 4.545454545454547,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "social media marketing pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 21
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -2,
+        "position": 0,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "digital marketing pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 19.333333333333332
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -4,
+        "position": -1.6666666666666679,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "small businesses near me",
+      "current": {
+        "clicks": 1,
+        "impressions": 1,
+        "ctr": 1,
+        "position": 25
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 1,
+        "impressions": 1,
+        "position": null,
+        "ctr": 1
+      }
+    },
+    {
+      "query": "local advertising for small business",
+      "current": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 13
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 1,
+        "position": null,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "small business near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": null,
+      "diff": {
+        "clicks": 0,
+        "impressions": 1,
+        "position": null,
+        "ctr": 0
+      }
+    }
+  ],
+  "lowCtrOpportunities": [
+    {
+      "query": "g3z",
+      "current": {
+        "clicks": 0,
+        "impressions": 94,
+        "ctr": 0,
+        "position": 3.9574468085106385
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 82,
+        "ctr": 0,
+        "position": 3.9390243902439024
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 12,
+        "position": -0.018422418266736074,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "digital marketing miramar",
+      "current": {
+        "clicks": 0,
+        "impressions": 31,
+        "ctr": 0,
+        "position": 2.290322580645161
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 52,
+        "ctr": 0,
+        "position": 3.269230769230769
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -21,
+        "position": 0.9789081885856081,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "seo services near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 13.631578947368421
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 19.78787878787879
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -14,
+        "position": 6.156299840510368,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design miramar",
+      "current": {
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 1.2105263157894737
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 36,
+        "ctr": 0,
+        "position": 1.1111111111111112
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -17,
+        "position": -0.09941520467836251,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "seo agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 17,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 1.5714285714285714
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 10,
+        "position": 0.5714285714285714,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "digital marketing agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 1
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 1
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 9,
+        "position": 0,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar web design company",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 10.571428571428571
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 20,
+        "ctr": 0,
+        "position": 9.1
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -6,
+        "position": -1.4714285714285715,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar website design services",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 10.857142857142858
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 15,
+        "ctr": 0,
+        "position": 11.066666666666666
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -1,
+        "position": 0.20952380952380878,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar website designer",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 9.285714285714286
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 34,
+        "ctr": 0,
+        "position": 12.441176470588236
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -20,
+        "position": 3.155462184873949,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web designer near me",
+      "current": {
+        "clicks": 0,
+        "impressions": 14,
+        "ctr": 0,
+        "position": 15.285714285714286
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 24.03030303030303
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -19,
+        "position": 8.744588744588745,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "graphic design companies pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 21
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 20.047619047619047
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -10,
+        "position": -0.9523809523809526,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "local seo miramar",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 12.454545454545455
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 51,
+        "ctr": 0,
+        "position": 10
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -40,
+        "position": -2.454545454545455,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "web design companies pembroke pines",
+      "current": {
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 19.181818181818183
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 22,
+        "ctr": 0,
+        "position": 18.272727272727273
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": -11,
+        "position": -0.9090909090909101,
+        "ctr": 0
+      }
+    },
+    {
+      "query": "miramar fl website design agency",
+      "current": {
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 5.3
+      },
+      "previous": {
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 4.875
+      },
+      "diff": {
+        "clicks": 0,
+        "impressions": 2,
+        "position": -0.4249999999999998,
+        "ctr": 0
+      }
+    }
+  ]
+}
