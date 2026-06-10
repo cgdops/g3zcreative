@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Miramar",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "sub-tropical climate, high hurricane wind codes, and heavy seasonal summer rains",
+    "landmark": "Miramar Regional Park"
+  },
+  {
+    "name": "Pembroke Pines",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "sub-tropical humidity, intense sun exposure, and strict HOA building guidelines",
+    "landmark": "C.B. Smith Park"
+  },
+  {
+    "name": "Hollywood",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "coastal salt-air corrosion, high water table, and historical commercial district standards",
+    "landmark": "Hollywood Beach Broadwalk"
+  },
+  {
+    "name": "Davie",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "semi-rural acreage, horse farm drainage needs, and rapid college town commercial expansion",
+    "landmark": "Bergeron Rodeo Grounds"
+  },
+  {
+    "name": "Miami Lakes",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "planned community aesthetics, strict architectural control committees, and limestone base layers",
+    "landmark": "Main Street Miami Lakes"
+  },
+  {
+    "name": "Toronto",
+    "stateAbbr": "ON",
+    "state": "Ontario",
+    "county": "Greater Toronto Area",
+    "localDetails": "harsh winter freeze-thaw cycles, heavy lake-effect snow loads, and dense metropolitan building codes",
+    "landmark": "CN Tower"
+  },
+  {
+    "name": "Mississauga",
+    "stateAbbr": "ON",
+    "state": "Ontario",
+    "county": "Peel Region",
+    "localDetails": "rapid industrial development, massive transit corridor requirements, and varying suburban soil compositions",
+    "landmark": "Celebration Square"
+  },
+  {
+    "name": "Oakville",
+    "stateAbbr": "ON",
+    "state": "Ontario",
+    "county": "Halton Region",
+    "localDetails": "historic lakeside aesthetic regulations, premium residential property requirements, and strict urban tree canopy bylaws",
+    "landmark": "Oakville Harbour"
+  },
+  {
+    "name": "Vaughan",
+    "stateAbbr": "ON",
+    "state": "Ontario",
+    "county": "York Region",
+    "localDetails": "high-density business park logistics, clay-heavy soils, and rapid suburban commercial construction standards",
+    "landmark": "Canada's Wonderland"
+  },
+  {
+    "name": "Richmond Hill",
+    "stateAbbr": "ON",
+    "state": "Ontario",
+    "county": "York Region",
+    "localDetails": "Oak Ridges Moraine environmental protection acts, steep grading drainage regulations, and premium residential design aesthetics",
+    "landmark": "David Dunlap Observatory"
+  }
+]
