@@ -128,8 +128,22 @@ function main() {
   console.log('\n--- ENCRYPTED PAYLOAD GENERATED ---');
   console.log(`Password used: "${password}"`);
   console.log(`Input File: ${inputFile}`);
-  console.log('\nCopy and paste this config object into clients.html:\n');
-  console.log(JSON.stringify(result, null, 2));
+  
+  // Automatically patch clients.html
+  const clientsHtmlPath = path.join(__dirname, '..', 'clients.html');
+  if (fs.existsSync(clientsHtmlPath)) {
+    let clientsHtml = fs.readFileSync(clientsHtmlPath, 'utf8');
+    const regex = /const\s+ENCRYPTED_CONFIG\s*=\s*\{[\s\S]*?\};/;
+    if (regex.test(clientsHtml)) {
+      clientsHtml = clientsHtml.replace(regex, `const ENCRYPTED_CONFIG = ${JSON.stringify(result, null, 2)};`);
+      fs.writeFileSync(clientsHtmlPath, clientsHtml, 'utf8');
+      console.log(`Successfully patched clients.html with new payload!`);
+    } else {
+      console.error(`Error: Could not find ENCRYPTED_CONFIG declaration in clients.html`);
+    }
+  } else {
+    console.error(`Error: clients.html not found at ${clientsHtmlPath}`);
+  }
   console.log('-----------------------------------\n');
 }
 
