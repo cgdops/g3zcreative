@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Magnum Media Mesh Campaign Pitch Deck</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/g3zc.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({
+      google: {
+        families: ["Figtree:300,400,500,600,700", "Young Serif:regular"]
+      }
+    });
+  </script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+  <style>
+    :root {
+      --bg-dark: #080b10;
+      --card-bg: rgba(20, 26, 38, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f42564;
+      --accent-gradient: linear-gradient(135deg, #f42564 0%, #ff5e62 100%);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --glow-color: rgba(244, 37, 100, 0.15);
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Figtree', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Ambient Background Glows */
+    .ambient-glow-1 {
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 37, 100, 0.1) 0%, rgba(244, 37, 100, 0) 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .ambient-glow-2 {
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Header Bar */
+    .deck-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(8, 11, 16, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      color: var(--text-main);
+    }
+
+    .deck-title-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .deck-title-badge h1 {
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 600;
+    }
+
+    .badge {
+      background: rgba(244, 37, 100, 0.15);
+      border: 1px solid rgba(244, 37, 100, 0.3);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Presentation Area */
+    .deck-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .slide {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 960px;
+      height: 540px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      position: relative;
+      animation: fade-slide-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fade-slide-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .slide-body {
+      padding: 3rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Slide Content Layouts */
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+      height: 100%;
+    }
+
+    .slide-title-large {
+      font-family: 'Young Serif', serif;
+      font-size: 3.2rem;
+      line-height: 1.1;
+      margin: 0 0 1rem 0;
+      background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 1.25rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0 0 1.5rem 0;
+    }
+
+    .slide-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .slide-media {
+      background: rgba(8, 11, 16, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      height: 100%;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 1.5rem;
+    }
+
+    /* Mock Media Mesh Demo */
+    .mesh-demo-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 10px 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .mesh-logo {
+      font-size: 4rem;
+      color: var(--accent);
+      z-index: 2;
+      filter: drop-shadow(0 0 15px rgba(244, 37, 100, 0.4));
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* Bullet list */
+    .deck-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .deck-bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+
+    .deck-bullets li .bullet-icon {
+      color: var(--accent);
+      font-size: 1.25rem;
+      margin-top: 0.1rem;
+    }
+
+    /* Target Grid cards */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .target-card {
+      background: rgba(8, 11, 16, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+
+    .target-card:hover {
+      border-color: rgba(244, 37, 100, 0.3);
+    }
+
+    .target-card .icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .target-card h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      color: white;
+    }
+
+    .target-card p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Channel Roadmap layout */
+    .channel-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 1.5rem;
+      align-items: center;
+      background: rgba(8, 11, 16, 0.4);
+      border: 1px solid var(--card-border);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+    }
+
+    .channel-icon-wrap {
+      background: rgba(244, 37, 100, 0.1);
+      border: 1px solid rgba(244, 37, 100, 0.2);
+      border-radius: 8px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .channel-info h4 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1rem;
+    }
+
+    .channel-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Navigation Bar */
+    .deck-nav-controls {
+      position: absolute;
+      bottom: 2rem;
+      left: 3rem;
+      right: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 5;
+    }
+
+    .slide-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      width: 24px;
+      border-radius: 100px;
+    }
+
+    .nav-btn-group {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .ctrl-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(244, 37, 100, 0.3);
+    }
+
+    .ctrl-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: rgba(255,255,255,0.02);
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+      .slide {
+        height: auto;
+        min-height: 460px;
+      }
+      .slide-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .slide-body {
+        padding: 2rem;
+      }
+      .deck-nav-controls {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem 2rem;
+      }
+      .target-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Header Bar -->
+  <header class="deck-header">
+    <a href="clients.html" class="back-btn">
+      <span class="material-symbols-outlined">arrow_back</span> Back to Portal
+    </a>
+    <div class="deck-title-badge">
+      <h1>Magnum Media Mesh Campaign</h1>
+      <span class="badge">B2B Strategy</span>
+    </div>
+  </header>
+
+  <!-- Presentation Area -->
+  <div class="deck-container">
+    
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" id="slide-0">
+      <div class="slide-body">
+        <div class="slide-grid">
+          <div>
+            <span class="badge" style="margin-bottom: 1rem;">US Launch Pitch</span>
+            <h2 class="slide-title-large">Transforming Skylines & Advertising</h2>
+            <div class="slide-subtitle">Magnum Media & 3Cinno Strategic Partnership</div>
+            <p class="slide-desc">A high-impact social media campaign designed to introduce revolutionary LED Media Mesh technology to premium US commercial developments, outdoor advertisers, and architectural firms.</p>
+          </div>
+          <div class="slide-media">
+            <div class="mesh-demo-bg"></div>
+            <span class="material-symbols-outlined mesh-logo">view_in_ar</span>
+            <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted); z-index:2;">LED Media Mesh Visualization</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Product Overview -->
+    <div class="slide" id="slide-1">
+      <div class="slide-body">
+        <div class="slide-grid">
+          <div>
+            <h2 class="slide-title-large" style="font-size: 2.5rem;">Why LED Media Mesh?</h2>
+            <div class="slide-subtitle">Unmatched Transparency & Visual Range</div>
+            <p class="slide-desc">Unlike traditional bulky billboards, 3Cinno LED Media Mesh offers up to 70%+ transparency, turning massive building glass facades into digital canvases without blocking natural light inside.</p>
+            <ul class="deck-bullets">
+              <li>
+                <span class="material-symbols-outlined bullet-icon">done_all</span>
+                <span><strong>Ultralight Structure:</strong> Low structural load requirement for rapid retrofitting.</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined bullet-icon">done_all</span>
+                <span><strong>70% Transparency:</strong> Permits indoor views and natural lighting while shining bright outdoors.</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined bullet-icon">done_all</span>
+                <span><strong>All-Weather IP67:</strong> Engineered to withstand harsh winter storms and high heat.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="slide-media">
+            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: white; z-index:2;">Performance Metrics</div>
+            <div style="display: flex; gap: 1.5rem; z-index: 2; width: 100%; justify-content: space-around; text-align: center;">
+              <div>
+                <div style="font-size: 2.2rem; font-weight: 700; color: var(--accent);">70%+</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Transparency</div>
+              </div>
+              <div>
+                <div style="font-size: 2.2rem; font-weight: 700; color: #6366f1;">8000+</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Nits Brightness</div>
+              </div>
+            </div>
+            <hr style="border: 0; border-top: 1px solid var(--card-border); width: 100%; margin: 1.5rem 0; z-index:2;">
+            <div style="font-size: 0.8rem; color: var(--text-muted); z-index:2; text-align: center;">Ideal for landmark commercial districts (New York, Los Angeles, Miami)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Target Audience -->
+    <div class="slide" id="slide-2">
+      <div class="slide-body">
+        <h2 class="slide-title-large" style="font-size: 2.5rem; text-align: center; margin-bottom: 0.25rem;">US Target Markets</h2>
+        <div class="slide-subtitle" style="text-align: center; margin-bottom: 1rem;">Reaching Decision Makers Where They Engage</div>
+        
+        <div class="target-grid">
+          <div class="target-card">
+            <span class="material-symbols-outlined icon">domain</span>
+            <h4>Commercial Developers</h4>
+            <p>Property owners looking to turn bare concrete/glass building facades into multi-million dollar ad inventory.</p>
+          </div>
+          <div class="target-card">
+            <span class="material-symbols-outlined icon">architecture</span>
+            <h4>Architects & Designers</h4>
+            <p>B2B professionals eager to integrate dynamic media elements natively into conceptual structural designs.</p>
+          </div>
+          <div class="target-card">
+            <span class="material-symbols-outlined icon">campaign</span>
+            <h4>Out-Of-Home Agencies</h4>
+            <p>US media planners looking for innovative, digital display solutions that capture urban pedestrian attention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Social Campaign Strategy -->
+    <div class="slide" id="slide-3">
+      <div class="slide-body">
+        <h2 class="slide-title-large" style="font-size: 2.5rem; margin-bottom: 0.25rem;">The Social Roadmap</h2>
+        <div class="slide-subtitle" style="margin-bottom: 1.5rem;">Multi-Channel Funnel for Magnum Media</div>
+        
+        <div class="channel-row">
+          <div class="channel-icon-wrap">
+            <span class="material-symbols-outlined" style="font-size: 28px;">business</span>
+          </div>
+          <div class="channel-info">
+            <h4>LinkedIn: The B2B Lead Generator</h4>
+            <p>Targeted sponsored articles and case studies highlighting cost efficiency, fast installation, and ROI projection models directed at US real estate investment trusts (REITs).</p>
+          </div>
+        </div>
+
+        <div class="channel-row">
+          <div class="channel-icon-wrap">
+            <span class="material-symbols-outlined" style="font-size: 28px;">photo_camera</span>
+          </div>
+          <div class="channel-info">
+            <h4>Instagram: Aesthetic Showcase</h4>
+            <p>Stunning vertical Reels comparing traditional facades vs. Mesh-activated media screens. Focus on night renders, light projection, and architect design challenges.</p>
+          </div>
+        </div>
+
+        <div class="channel-row">
+          <div class="channel-icon-wrap">
+            <span class="material-symbols-outlined" style="font-size: 28px;">play_circle</span>
+          </div>
+          <div class="channel-info">
+            <h4>YouTube: Deep-Dive Tech Reviews</h4>
+            <p>Partnering with US structural engineers and B2B tech channels to review 3Cinno's media mesh reliability, wind loading specifications, and pixel-pitch options.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Launch Phases & Budget -->
+    <div class="slide" id="slide-4">
+      <div class="slide-body">
+        <div class="slide-grid">
+          <div>
+            <h2 class="slide-title-large" style="font-size: 2.5rem;">US Campaign Launch</h2>
+            <div class="slide-subtitle">Proposed Timeline & Allocation</div>
+            <p class="slide-desc">A structured B2B marketing schedule ensuring maximum exposure for the partnership launch over a 12-week timeline.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span><strong>Phase 1: Build Hype (Weeks 1-4)</strong></span>
+                <span style="color: var(--accent);">Visual Concepts</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span><strong>Phase 2: Launch Specs (Weeks 5-8)</strong></span>
+                <span style="color: #6366f1;">Tech Specs & Guides</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span><strong>Phase 3: Lead Capture (Weeks 9-12)</strong></span>
+                <span style="color: #10b981;">Free Mesh Samples</span>
+              </div>
+            </div>
+          </div>
+          <div class="slide-media" style="justify-content: space-between;">
+            <div style="font-size: 1.1rem; font-weight: 600; color: white;">Budget Allocation</div>
+            <div style="width: 100%;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                <span>LinkedIn Account Target B2B Ads</span>
+                <span>45%</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.05); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                <div style="background: var(--accent); width: 45%; height: 100%;"></div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                <span>Instagram Visual Retargeting Reels</span>
+                <span>35%</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.05); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                <div style="background: #6366f1; width: 35%; height: 100%;"></div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                <span>B2B Influencer Content Reviews</span>
+                <span>20%</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.05); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background: #10b981; width: 20%; height: 100%;"></div>
+              </div>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">Estimated reach: 250,000+ highly targeted US B2B industry impressions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation controls inside slider container -->
+    <div class="deck-nav-controls">
+      <div class="slide-dots">
+        <span class="dot active" onclick="goToSlide(0)"></span>
+        <span class="dot" onclick="goToSlide(1)"></span>
+        <span class="dot" onclick="goToSlide(2)"></span>
+        <span class="dot" onclick="goToSlide(3)"></span>
+        <span class="dot" onclick="goToSlide(4)"></span>
+      </div>
+      <div class="nav-btn-group">
+        <button id="prev-btn" class="ctrl-btn" onclick="prevSlide()" disabled>
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button id="next-btn" class="ctrl-btn" onclick="nextSlide()">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Security check: Redirect to clients page if password is not set
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedPass = sessionStorage.getItem('client_portal_pass');
+      if (!savedPass) {
+        // Redirect to portal if they try to access directly without login
+        window.location.href = 'clients.html';
+      }
+    });
+
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function goToSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      
+      slides[currentSlideIndex].classList.remove('active');
+      dots[currentSlideIndex].classList.remove('active');
+
+      currentSlideIndex = index;
+
+      slides[currentSlideIndex].classList.add('active');
+      dots[currentSlideIndex].classList.add('active');
+
+      // Update button disabled states
+      prevBtn.disabled = currentSlideIndex === 0;
+      nextBtn.disabled = currentSlideIndex === slides.length - 1;
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlideIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentSlideIndex - 1);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
