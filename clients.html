@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Client Area | G3Z Creative</title>
+  <meta name="description" content="Secure portal for G3Z Creative clients to access presentations, audits, and marketing decks.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/g3zc.webflow.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({
+      google: {
+        families: ["Figtree:300,400,500,600,700", "Young Serif:regular"]
+      }
+    });
+  </script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+  <style>
+    /* Reset & Theme Styles */
+    :root {
+      --bg-dark: #080b10;
+      --card-bg: rgba(20, 26, 38, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f42564;
+      --accent-gradient: linear-gradient(135deg, #f42564 0%, #ff5e62 100%);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --glow-color: rgba(244, 37, 100, 0.15);
+    }
+
+    body.client-portal-body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Figtree', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .ambient-glow-1 {
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 37, 100, 0.1) 0%, rgba(244, 37, 100, 0) 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+      animation: float-glow 20s infinite alternate ease-in-out;
+    }
+
+    .ambient-glow-2 {
+      position: fixed;
+      bottom: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(80px);
+      z-index: -1;
+      pointer-events: none;
+      animation: float-glow 25s infinite alternate-reverse ease-in-out;
+    }
+
+    @keyframes float-glow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(5%, 5%) scale(1.1); }
+    }
+
+    /* Lock Screen Layout */
+    .portal-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 1;
+    }
+
+    .lock-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                  0 0 50px rgba(244, 37, 100, 0.05);
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .lock-card:hover {
+      border-color: rgba(244, 37, 100, 0.25);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45), 
+                  0 0 60px rgba(244, 37, 100, 0.08);
+    }
+
+    .brand-header {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 0 8px var(--glow-color));
+      transition: transform 0.3s ease;
+    }
+
+    .lock-card:hover .brand-logo {
+      transform: scale(1.05);
+    }
+
+    .brand-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .portal-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0 0 2rem 0;
+    }
+
+    /* Input Field Styling */
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-input {
+      width: 100%;
+      background: rgba(8, 11, 16, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 48px 14px 16px;
+      color: var(--text-main);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .password-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(244, 37, 100, 0.15);
+      background: rgba(8, 11, 16, 0.9);
+    }
+
+    .visibility-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+    }
+
+    .visibility-toggle:hover {
+      color: var(--text-main);
+    }
+
+    .visibility-toggle .material-symbols-outlined {
+      font-size: 20px;
+    }
+
+    /* Access Button */
+    .access-btn {
+      width: 100%;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(244, 37, 100, 0.3);
+    }
+
+    .access-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(244, 37, 100, 0.4);
+      filter: brightness(1.1);
+    }
+
+    .access-btn:active {
+      transform: translateY(1px);
+    }
+
+    .access-btn:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Error Message Shake Animation */
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      animation: shake 0.4s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    /* Spinner style */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Decrypted Layout Styling */
+    #unlocked-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Unlocked Content Styles (Matches index styling) */
+    .unlocked-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .client-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .client-header h2 {
+      font-size: 2.75rem;
+      font-weight: 700;
+      margin: 0.5rem 0 1rem 0;
+      letter-spacing: -0.03em;
+      font-family: 'Young Serif', serif;
+      background: linear-gradient(135deg, #ffffff 0%, #9ca3af 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .client-header .badge {
+      display: inline-block;
+      background: rgba(244, 37, 100, 0.1);
+      border: 1px solid rgba(244, 37, 100, 0.2);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .client-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .deck-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .deck-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .deck-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(244, 37, 100, 0.25);
+      box-shadow: 0 15px 35px rgba(244, 37, 100, 0.06), 0 10px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .deck-preview {
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .deck-preview.intro-deck { background: linear-gradient(135deg, #1e1b4b 0%, #31102f 100%); }
+    .deck-preview.seo-deck { background: linear-gradient(135deg, #062f4f 0%, #000000 100%); }
+    .deck-preview.cro-deck { background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%); }
+
+    .glow-orb {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: var(--accent);
+      filter: blur(50px);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .deck-preview .icon {
+      font-size: 48px;
+      color: rgba(255, 255, 255, 0.8);
+      z-index: 1;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    .deck-info {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .deck-info h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
+      color: #ffffff;
+    }
+
+    .deck-info p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0 0 1.5rem 0;
+      flex: 1;
+    }
+
+    .deck-meta {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .deck-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .deck-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .deck-btn.primary {
+      background: var(--accent-gradient);
+      color: white;
+    }
+
+    .deck-btn.primary:hover {
+      filter: brightness(1.15);
+    }
+
+    .deck-btn.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+
+    .deck-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .deck-btn .material-symbols-outlined {
+      font-size: 16px;
+    }
+
+    .client-footer {
+      text-align: center;
+      border-top: 1px solid var(--card-border);
+      padding-top: 2rem;
+      margin-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .client-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .client-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Navigation Back Button */
+    .portal-nav {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .back-to-home {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .back-to-home:hover {
+      color: var(--text-main);
+    }
+
+    .back-to-home .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    .logout-btn {
+      display: none;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0;
+      transition: color 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      color: var(--accent);
+    }
+
+    .logout-btn .material-symbols-outlined {
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .lock-card {
+        padding: 2rem 1.5rem;
+      }
+      .client-header h2 {
+        font-size: 2rem;
+      }
+      .deck-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="client-portal-body">
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Portal Header Bar -->
+  <header class="portal-nav">
+    <a href="index.html" class="back-to-home">
+      <span class="material-symbols-outlined">arrow_back</span> Back to Home
+    </a>
+    <button id="logout-button" class="logout-btn" onclick="logout()">
+      <span class="material-symbols-outlined">logout</span> Log Out
+    </button>
+  </header>
+
+  <!-- Login Area -->
+  <div id="login-portal" class="portal-wrapper">
+    <div class="lock-card">
+      <div class="brand-header">
+        <img src="images/g-brand-primary.svg" alt="G3Z Creative" class="brand-logo">
+        <h1 class="brand-title">Client Workspace</h1>
+      </div>
+      <p class="portal-subtitle">Welcome. Please enter your partner passcode to access pitch decks and campaign strategy.</p>
+      
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label for="passcode">Partner Passcode</label>
+          <div class="password-wrapper">
+            <input type="password" id="passcode" class="password-input" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="visibility-toggle" onclick="togglePasswordVisibility()" aria-label="Toggle password visibility">
+              <span class="material-symbols-outlined" id="visibility-icon">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="submit-btn" class="access-btn">
+          <span class="spinner" id="btn-spinner"></span>
+          <span id="btn-text">Access Portal</span>
+          <span class="material-symbols-outlined">vpn_key</span>
+        </button>
+
+        <div class="error-msg" id="error-message">
+          <span class="material-symbols-outlined">error</span>
+          <span>Invalid passcode. Please try again.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Unlocked Area -->
+  <main id="unlocked-content">
+    <!-- Content will be decrypted and injected here -->
+  </main>
+
+  <script>
+    // Encrypted Content Payload (AES-256-GCM)
+    // Salt, IV, and authTag derived during encryption process
+    const ENCRYPTED_CONFIG = {
+      "salt": "08bf7d20976fe3f1a7892b94919be5ad",
+      "iv": "f964cd8a1ef9bd49b345e775",
+      "authTag": "5083d7eecb97ccce2547b2c60aa44581",
+      "encryptedData": "abd4429dd7c0bc05e3f7ccb9c9dce058efff31ab1e4ac5d18208cdd4e3a8e56c29b67e5180a9a59c2026e92c73f50a69a6f87a66d2440641c1be3689fdc3ee3c4732e3375ee22466a4bb9c7dda66bbffad29f9eac95f81bb357314104a2bd0d22fadb5f908baae9a0d34fc5baf32df581b6aaa99d87ea9a931546c207532a85f8ff18bcbcafc664993f3a37eed5197a4d0d56667f0d5c9201383b535df3d68ea17eb6e46e4872aab192a9f6b7d36340db0d8ec48ef3494ae49a993a70352d545402841ea0fc5f5a935f99d066a9129e381ed389d53ceaee83f72e00753c171ebfeb056d7fece9dc71145fd0491090af397303efa0a6b8116abbd9d0740de3b2f91b53ab44d92c52418bbda1eebae7886fe65c9fa7e0bacdd0405c5364c6d3e1a1115bc19ab26cc23f9305d44c6f4704174632645b7ba57148de426ee31c2a7cade3082d33cf7a1a6d283e354e8aa84e742b39be2a2452e7acf4d7c2c8d9137a266cf974aa0b225a7b09e9e433ef06d7f620b9feb2f6c0abe7d574c5f98c3dccc4e664437d766efe4e447a0362abe900fd5548e7e36e2857caeea84c2a1ef9175de99b4f9338fb69945d5e1d177cee6250cd8e508ca715e2b99b802810603db6a53566e8e9fba5bd9bfdc90420e9aa18835f5c853584769b6dd99422c676096c6ba2ab2f621c9004fb89b6be03071b993241f7b68452d24fab6f84813087e9abac407f8ff171f1c614b83a74abb137000ae198eff30a140b7b0693d1089ec71f59a13068d0b9f793509e747c295b2de45f4f0874a9c522d23c0ac5c8a97dd4d16d0ffb8eb3c4951e0466fa2d57ca848a3d232ae5432bbbf1f8f0818867d621692b0c45a640a68b0fb4be589d0008ea51bb99198d5eee040db89b5e94f253f8ceca62535ba7c498532f2ae120aada859b80447638f606bcdacf888060191a5b22a7b4a1b0a9a2e4108a6b327f37332d76e9e59c48bbb72b06209af759047ef3456104df69bb004b9ea2e2f6fb641d94031edf5e0b2d6580bb6cc36de5a898f556d781ee4853344a0fd9de4682453c0d17669c5dadc2af2b3c8131b70d690781e22142f8f618a05be37d1812d805eee31b9cc47d5d52cea12597238e2cf3afc170ff1f08140aa01abccf986263612db3642899c36600015747a04bb5fb3ee95751dfec2d45a507bc4547eef840578fe89b9b0b05ad11c04038c207de39f3d0ff9cf502c0f552327c7ae45f465dac776b4ee88777798a1e261aac9e6de64b81c025f2a58d132601d291b28f5e144f573a08b8ebcc0e77e6cac15fb8f0b86497ef0c21d6f06c1dee8cc7fc0a385ef73e0943f09e105f8bdf54659a1030885bb5161daf0ed38946738dc689e2ead975534a7c712b8a3e1de2f6eb45c05b7a743cdba8ad711d6c116258bb1d7a8257086a0bce804c8758619726d221caa6dfc1449b00a93cffc319d409d862ebff3b98e3c222036cc66d584a89ce2142c8505b4be53dd8632290263fdc9595a1e59a7735e1ea6ffb4bd0ca90dc2aabc78c530536724850fd45d20c3a309dbf99807b63bda568e8534acc4ead106941871a94db1edf96a51ac18fb080df1b5baed8d173de409fa97bb2760cdaec97bdca6c85312cd10a1ebbcd009a4c2a8e109390f39b45ecc165f4f28bf718fbd6eb0cb327701990989d3a6563a4cbe0390231f97ed60bd36704eda0f2c3842d74cf2f99c7934473fdbe7e0df543f9c0e7776ef10f9a85ec239ff206c123eb38207fe3516389f67beeef151dc03fc5614d5d1f3effb2aec7ed0073e152556b4d220ead68fd57fd0907e5f81dc10f121246b7f5135d3e2d368f6df60a1dd3ac1102e11177e9ca9216b7900ec9d1b1b4e4055f833900eefa0f638d68d36a90f64e2a6246b9f0be0b0d30effc61c0e384789af1e7e15b3d7c68149272ab648994de20f3f1d22e25bdd51f123ccc4d51a5525f173a9098a73e3356722170d9922bc2122ec8a75ac43a23728a711f7b6166465c4196d042fabb200fc717454ea9246e10b30c6776512e35ae467d7e2fbed8816fefa319c74b8eaa8134e28a203d4b2886c918804295cfde5fe1d756ef1c897647ddb4ee47a820aa23c4a02b511d652f3c5d1b2dc1d9f2ad401fd81ef67b16ecf51b85f371fc5b5077ecfac629db8f905b952e95b330654fcaded4f6052e967ed20060ba1397c12c30ccb6dc9c3e81849f1ae72717afa8ec23250188f5dbd0fd79e06339a66e3c061a9efab83ca235aeb734c762ea5890325e71330592cbc5b7d04dac3dddb6318a713ffe2edbf104bc8455b33883471482a6f1482dc0306b57d30d4c7b3c4fd6d8e27a89bae6a1400eed579be6b5765bdc1921e5c0cbb1f674dbb65ea0b8e9ce187f341f274e8da14146ce546b34f5de6ac62a7124094ffcce9f7e3c725b16d23d90c7108ee41f8d1826a9f13b8d5d339d7a8627efcc61f7b6f48275d7c1e4f40d94481afc5b66f95fbd754c6ae4e7de464bb6c09440cbb06c2fb8390f8e19cafe0f854506b3bb5fbfe6e3f12ce38b1700a33c9ada62a42d2bcdcf2043ade2e8296309ecf6bea2a86c6ad8b2c77cdcd60466acde3267012ba73d5a8a46d17fbb07d7b563527d110fc2248b5a34bf952d48d3148f8f2b00e294e973c6c0d2951909183dd94d461165217ea1d5f00a2669b31c7e32adb1114ec9d9159b1a47102c168ce92b54dfb24886f11a25c0af4a317356ea74e679e0e1ac575684fd720246cd24f91c1242f78d562aed5f43d9e298fe658551be472cae751c66176a6a4c1ebbaed82afe14f96f8754e1eff77260dc3283d0f9518720bd5f03d1228ae0bb394ead66c301742981822bd290e43225fcb465364f3413188b6379c58a672163f79aaac28a886e0dae4eb5bb4259cfd84ca342b18439025bab2e1aed3a2e7c87885e0a3f2e91883c2187618f84ff2076633333ae833bfe6367503b0b153418403e9f8657725d12859eeb06a70a7797d63a84db84edea9bc75a861d17dcf1ae3868a340fa176b7c58afd310091f7691794e01ce576f2e46c0234b2782adbbbe40f83698a1a4784320021ba5c0d588a03c0c3205a4a1e344b5816b0edadca138dd9cb9b1a32d4655f8cb645f8f2c404289f61773d3d1d9c48ca03edaff804fc20bab99fd20a1a2dce70a854a53366407fe9c2ad9d2601f459690b6b3bae2a29a046b0528bb9f0dd077c863829528dcb8e83223f59a30c4cc4e7bb1145172c06c7aee27fcef911a230d3ceffa55885273e46b1ce258e009007eaa0c3b2244aa89e231ffcc7113a6492019e57fe3e3a1f7812771aa12438989f92f4e5aa3bee67a0e4479edcdeaf3c880c678865431c29b23e581c71f555407cd3641606502eafef69bab49b0afc60004d1624c2338858dd1d592b32511b577288cddca41c379aa8c1f1459493ff374d1d201daef38fce15c5801aca2c306fee46e75c2c2dbcafb7d6c8a1446c5e318c883929de6af305ca20a62c29d80acf8093dbf7a17d72d5e63a62d6cfb808ef4a6199418241871ae4beea2e553808dacc1269f3d06daa92c8ad88bfa6f5957ed981ce1ef2ff7cac94c5f98d3186dbb1d79cf62ef2b4ecbb0c8fa607161503f2a61286c4908ccea3f2b6a7c5988044669cc7f0acd85dbbd94e60e8bc4dc21b05101f16155cc64bff61b2f2299c6a2b5a5de96eaefaed1999298ecfda0ab6633029596f7994dc6f71e52a019dff806fcd30629d386beb699117dbad3d6cb1df0b2abd7a2edb9d12cac5c55c651dc141e715b2e42a2211b6478a62f6a8569a280a19caea81b63d0580588951895233f40f1b537b837ec67ff6432eb05027628b8c919f72e9e0f01c529bbd9f3757742980efd1782d6962ac88b0cca74f50f774f368930f3386a5edf14396b32c18c1ce243c3a61d07a53111891c6d87e2e3238cc2e8c2868993c892600f347cdcca9db29f33958ca7c94358e12c5cf807f7ae21a147b52326870c53a51f6197603e9bb5ee9987ebef59c030e64dfe84511116ef0c79e0ed97e1bbdcfe4cdbbed7fe18406dcc7b2b41c0bec21f57f516f47d8e0277263cb587f4cb677e4e10ddef864e3eb3a44b9ee9f627efd86f6a7e1c3003ec5434295a59ce53cd9716141c5887844794226bde4142e43da827849a52d5cbb51afff8af1ac08daae8cfd9728ea97bb9ccb70bf00875852e5616f6ecd5b4fc56efbb2ff8038cf5f2e06f8b7e6d139ba272367349efa26eeb8b5c69d226d85e4befaa6caa66a0371779af87348bd65a068948cd2b845046b30bd59070c50485b93ee0cb12d31edede55c03698273ff005e52a908e9cbce14b3ae3a8a0ee31d04764183f5e6199c46935687390f8ff452489b1c55bd2187f1e1760c84b7d726c7bc389b4af07740cb19caaf2e37382785c8fd7dc8e03479b850f0bab566208cc8e8ee757aacaab44e1b1e1dc01a9241ad8305f35df4abe9bf33817a8b2a925e55e21b95158fdbf45a",
+      "iterations": 100000
+    };
+
+    // Helper functions
+    function hexToBuffer(hex) {
+      const bytes = new Uint8Array(hex.length / 2);
+      for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+      }
+      return bytes.buffer;
+    }
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('passcode');
+      const icon = document.getElementById('visibility-icon');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.textContent = 'visibility_off';
+      } else {
+        passwordInput.type = 'password';
+        icon.textContent = 'visibility';
+      }
+    }
+
+    async function decryptPayload(password) {
+      const salt = hexToBuffer(ENCRYPTED_CONFIG.salt);
+      const iv = hexToBuffer(ENCRYPTED_CONFIG.iv);
+      const authTag = hexToBuffer(ENCRYPTED_CONFIG.authTag);
+      const encryptedData = hexToBuffer(ENCRYPTED_CONFIG.encryptedData);
+
+      // Concatenate ciphertext and auth tag for Web Crypto AES-GCM
+      const combined = new Uint8Array(encryptedData.byteLength + authTag.byteLength);
+      combined.set(new Uint8Array(encryptedData), 0);
+      combined.set(new Uint8Array(authTag), encryptedData.byteLength);
+
+      const enc = new TextEncoder();
+      const passwordKey = await window.crypto.subtle.importKey(
+        'raw',
+        enc.encode(password),
+        'PBKDF2',
+        false,
+        ['deriveKey']
+      );
+
+      const key = await window.crypto.subtle.deriveKey(
+        {
+          name: 'PBKDF2',
+          salt: salt,
+          iterations: ENCRYPTED_CONFIG.iterations,
+          hash: 'SHA-256'
+        },
+        passwordKey,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      );
+
+      const decrypted = await window.crypto.subtle.decrypt(
+        {
+          name: 'AES-GCM',
+          iv: iv,
+          tagLength: 128
+        },
+        key,
+        combined
+      );
+
+      const dec = new TextDecoder();
+      return dec.decode(decrypted);
+    }
+
+    function showUnlocked(decryptedHTML) {
+      const loginPortal = document.getElementById('login-portal');
+      const unlockedContent = document.getElementById('unlocked-content');
+      const logoutBtn = document.getElementById('logout-button');
+
+      // Hide login, show content with animations
+      loginPortal.style.display = 'none';
+      logoutBtn.style.display = 'flex';
+      unlockedContent.innerHTML = decryptedHTML;
+      unlockedContent.style.display = 'block';
+      
+      // Trigger reflow then transition opacity
+      setTimeout(() => {
+        unlockedContent.style.opacity = '1';
+      }, 50);
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      
+      const passwordInput = document.getElementById('passcode');
+      const submitBtn = document.getElementById('submit-btn');
+      const spinner = document.getElementById('btn-spinner');
+      const btnText = document.getElementById('btn-text');
+      const errorMsg = document.getElementById('error-message');
+
+      const password = passwordInput.value;
+      
+      // Update UI state to loading
+      submitBtn.disabled = true;
+      spinner.style.display = 'block';
+      btnText.textContent = 'Decrypting...';
+      errorMsg.style.display = 'none';
+
+      // Small timeout to allow UI update before cryptographic CPU work
+      setTimeout(async () => {
+        try {
+          const decryptedHTML = await decryptPayload(password);
+          
+          // Store passcode in sessionStorage for session persistence
+          sessionStorage.setItem('client_portal_pass', password);
+          
+          showUnlocked(decryptedHTML);
+        } catch (e) {
+          console.error(e);
+          // Show error and reset button
+          errorMsg.style.display = 'flex';
+          submitBtn.disabled = false;
+          spinner.style.display = 'none';
+          btnText.textContent = 'Access Portal';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      }, 100);
+    }
+
+    function logout() {
+      sessionStorage.removeItem('client_portal_pass');
+      window.location.reload();
+    }
+
+    // Auto-login if session persists
+    window.addEventListener('DOMContentLoaded', async () => {
+      const savedPass = sessionStorage.getItem('client_portal_pass');
+      if (savedPass) {
+        try {
+          const decryptedHTML = await decryptPayload(savedPass);
+          showUnlocked(decryptedHTML);
+        } catch (e) {
+          // If cached session decryption fails (e.g. payload changed), clear it
+          sessionStorage.removeItem('client_portal_pass');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
