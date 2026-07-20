@@ -544,15 +544,15 @@
         </p>
         
         <div class="apply-card">
-          <form id="toronto-dream-form">
+          <form id="toronto-dream-form" action="https://forms.un-static.com/forms/cb1a3dc5e9c7e2b1638177d88701739ef10baa4e" method="POST">
             <div class="form-group">
               <label for="owner-name" class="form-label">Full Name</label>
-              <input type="text" id="owner-name" name="owner-name" class="form-input" placeholder="Christian Gomez" required>
+              <input type="text" id="owner-name" name="name" class="form-input" placeholder="Christian Gomez" required>
             </div>
             
             <div class="form-group">
               <label for="business-name" class="form-label">Business Name / Idea</label>
-              <input type="text" id="business-name" name="business-name" class="form-input" placeholder="Toronto Craft Bakers" required>
+              <input type="text" id="business-name" name="business" class="form-input" placeholder="Toronto Craft Bakers" required>
             </div>
             
             <div class="form-group">
@@ -567,7 +567,7 @@
             
             <div class="form-group">
               <label for="business-desc" class="form-label">Tell us your dream (Describe your business)</label>
-              <textarea id="business-desc" name="business-desc" class="form-input form-textarea" placeholder="I create hand-crafted ceramic mugs and want to sell them locally in Toronto..." required></textarea>
+              <textarea id="business-desc" name="message" class="form-input form-textarea" placeholder="I create hand-crafted ceramic mugs and want to sell them locally in Toronto..." required></textarea>
             </div>
             
             <button type="submit" class="submit-btn">Apply For Free Design</button>
@@ -634,21 +634,7 @@
     </section>
   </main>
 
-  <!-- Success Modal Pop-up -->
-  <div id="success-modal" class="modal-overlay">
-    <div class="modal-content">
-      <button class="modal-close-x" onclick="closeModal()">×</button>
-      <div class="modal-icon material-symbols-outlined">check_circle</div>
-      <h3 class="modal-title">Application Prepared!</h3>
-      <p class="modal-body">
-        We've generated an email draft containing your application details. Please send the draft email in your mail client, and then book your design call immediately below to secure your spot.
-      </p>
-      <div class="modal-btn-group">
-        <a id="email-send-link" href="#" class="btn btn-primary" style="margin-bottom: 0.5rem;">Click to Open Email Client</a>
-        <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="btn btn-secondary">Schedule Design Meeting</a>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Standard Footer copy from pricing.html -->
   <footer class="footer">
@@ -786,56 +772,7 @@
       });
     });
 
-    // Form Handling
-    const form = document.getElementById('toronto-dream-form');
-    const modal = document.getElementById('success-modal');
-    const emailLink = document.getElementById('email-send-link');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const ownerName = document.getElementById('owner-name').value;
-      const businessName = document.getElementById('business-name').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const businessDesc = document.getElementById('business-desc').value;
-      
-      // Constructing email body
-      const subject = encodeURIComponent("Dream Offer Application - " + businessName);
-      const emailBody = encodeURIComponent(
-        "G3Z Creative Dream Offer Application (Toronto & GTA)\n" +
-        "==================================================\n\n" +
-        "Owner Name: " + ownerName + "\n" +
-        "Business Name: " + businessName + "\n" +
-        "Email Address: " + email + "\n" +
-        "Phone Number: " + phone + "\n\n" +
-        "Business/Dream Description:\n" + businessDesc + "\n\n" +
-        "Thank you! Looking forward to my design consultation."
-      );
-      
-      const mailtoUrl = "mailto:hello@g3zcreative.com?subject=" + subject + "&body=" + emailBody;
-      
-      // Update modal click to send email
-      emailLink.href = mailtoUrl;
-      
-      // Show success modal
-      modal.style.display = "flex";
-      
-      // Open email client in background
-      window.location.href = mailtoUrl;
-    });
-
-    function closeModal() {
-      modal.style.display = "none";
-      form.reset();
-    }
-
-    // Close modal when clicking outside content
-    window.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
   </script>
 
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6837ae7e314e91dd48e1e240" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
