@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Free Website Design for Toronto Solo Businesses | G3Z Creative</title>
+  <meta content="🎁 Get a professional, custom website design for your GTA small business at $0 design fees. Fully managed hosting & updates from $200/year. Claim your intro offer!" name="description">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  
+  <!-- Existing stylesheets -->
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/g3zc.webflow.css" rel="stylesheet" type="text/css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Figtree:300,400,600,700","Young Serif:regular"]  }});</script>
+  
+  <!-- FontAwesome & Material Symbols for premium look -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  
+  <style>
+    /* Premium style overrides for the style guidance: Dark header, clean white body */
+    body {
+      background-color: #ffffff;
+      color: #0f172a;
+      font-family: 'Figtree', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    h1, h2, h3, .h1-heading, .h2-heading, .h3-heading {
+      font-family: 'Young Serif', serif;
+      color: #0f172a;
+    }
+    
+    /* Nav bar styling: Dark background as requested in the style guidance */
+    .toronto-nav {
+      background-color: #090a0d;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+    .toronto-nav .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .toronto-nav .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      gap: 0.5rem;
+    }
+    .toronto-nav .nav-logo-text {
+      font-family: 'Young Serif', serif;
+      font-size: 1.25rem;
+      font-weight: normal;
+    }
+    .toronto-nav .nav-cta {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .toronto-nav .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+    
+    /* Hero section */
+    .hero-section {
+      padding: 5rem 1.5rem;
+      background: radial-gradient(circle at top left, rgba(16, 185, 129, 0.03) 0%, rgba(255, 255, 255, 0) 60%);
+      text-align: center;
+    }
+    .hero-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background-color: rgba(16, 185, 129, 0.08);
+      color: #059669;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(16, 185, 129, 0.15);
+    }
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+    }
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+    
+    /* Video Embed Container */
+    .video-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+      border: 6px solid #ffffff;
+      outline: 1px solid rgba(15, 23, 42, 0.08);
+      background-color: #000;
+      position: relative;
+    }
+    .video-wrapper video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Value Props / Offer Cards */
+    .section-offer {
+      padding: 5rem 1.5rem;
+      background-color: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 3rem;
+    }
+    .section-title span {
+      display: block;
+      font-size: 0.9rem;
+      font-family: 'Figtree', sans-serif;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #059669;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .grid-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .offer-card {
+      background-color: #ffffff;
+      padding: 2.5rem;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .offer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+    }
+    .offer-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 1rem;
+    }
+    .offer-card p {
+      color: #64748b;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    /* Interactive application form */
+    .section-apply {
+      padding: 6rem 1.5rem;
+      background-color: #ffffff;
+    }
+    .apply-container {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+    .apply-card {
+      background-color: #ffffff;
+      padding: 3rem 2.5rem;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    }
+    @media (max-width: 480px) {
+      .apply-card {
+        padding: 2rem 1.5rem;
+      }
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #0f172a;
+      background-color: #f8fafc;
+      transition: border-color 0.2s, background-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #10b981;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+      transition: all 0.2s;
+      margin-top: 1rem;
+    }
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+    }
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .or-divider {
+      text-align: center;
+      margin: 2rem 0;
+      position: relative;
+    }
+    .or-divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background-color: #e2e8f0;
+      z-index: 1;
+    }
+    .or-divider span {
+      background-color: #ffffff;
+      padding: 0 1rem;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .direct-book-card {
+      text-align: center;
+      background-color: rgba(16, 185, 129, 0.04);
+      border: 1px dashed rgba(16, 185, 129, 0.3);
+      padding: 1.5rem;
+      border-radius: 12px;
+    }
+    .direct-book-title {
+      font-weight: 600;
+      color: #047857;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    .direct-book-link {
+      color: #059669;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    
+    /* Success Modal Pop-up */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-content {
+      background-color: #ffffff;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      animation: modalFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes modalFadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-icon {
+      font-size: 3.5rem;
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    .modal-body {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+    .modal-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .modal-close-x {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+    .modal-close-x:hover {
+      color: #64748b;
+    }
+    
+    /* FAQ Section */
+    .section-faq {
+      padding: 5rem 1.5rem;
+      background-color: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+    }
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover {
+      border-color: #cbd5e1;
+    }
+    .faq-question {
+      padding: 1.25rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      color: #1e293b;
+    }
+    .faq-answer {
+      padding: 0 1.5rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      color: #475569;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    .faq-item.active .faq-answer {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      max-height: 500px;
+    }
+    .faq-icon {
+      font-size: 1.25rem;
+      transition: transform 0.3s;
+      color: #64748b;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+      color: #10b981;
+    }
+    
+    /* Subtitle custom formatting */
+    .highlight {
+      color: #059669;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dark Navbar (Style Guidance compliant) -->
+  <header class="toronto-nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="images/g-brand-primary.svg" loading="lazy" height="32" alt="G3Z Logo">
+        <span class="nav-logo-text">G3Z Creative</span>
+      </a>
+      <a href="#apply" class="nav-cta">Claim Free Design</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <span class="badge">GTA INTRODUCTORY OFFER</span>
+        <h1 class="hero-title">Your Dream. Our Design. Let's Put Your Solo Business on the Map.</h1>
+        <p class="hero-subtitle">
+          G3Z Creative has officially landed in the GTA, and we are introducing ourselves by building <span class="highlight">100% free website designs</span> for local solo business owners. No setup costs. No design fees. No hidden catches.
+        </p>
+        <div class="hero-actions">
+          <a href="#apply" class="btn btn-primary">Claim Your Free Website</a>
+          <a href="#video-ad" class="btn btn-secondary">Watch Intro Video</a>
+        </div>
+      </div>
+      
+      <!-- Video Container -->
+      <div id="video-ad" class="video-wrapper">
+        <video autoplay muted loop playsinline controls preload="auto">
+          <source src="videos/Toronto July Ad.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+
+    <!-- The Offer Details -->
+    <section class="section-offer">
+      <div class="container-3">
+        <h2 class="section-title"><span>How it works</span>A Free Custom Website. No Catch.</h2>
+        
+        <div class="grid-container">
+          <div class="offer-card">
+            <span class="card-icon">🎁</span>
+            <h3>$0 Upfront Design Fees</h3>
+            <p>Every big brand started where you are. We craft a completely custom, professional site tailored to your craft—whether you are a baker, barber, creator, or builder. Not a template, a real online presence.</p>
+          </div>
+          
+          <div class="offer-card">
+            <span class="card-icon">⚙️</span>
+            <h3>Fully Managed For You</h3>
+            <p>We handle the complex tech. Speed optimizations, daily backups, robust firewalls, and security certificates are built-in. Want to change some text or an image? Send it over, and we'll handle the updates.</p>
+          </div>
+          
+          <div class="offer-card">
+            <span class="card-icon">💰</span>
+            <h3>Just $200 / Year</h3>
+            <p>To keep your site live, blazing fast, secure, and maintained, we host and manage it under a single, flat, annual membership of $200. No contracts, no setup fees, cancel whenever you want.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lead Form & Contact Option -->
+    <section id="apply" class="section-apply">
+      <div class="apply-container">
+        <h2 class="section-title" style="margin-bottom: 1.5rem;"><span>Claim Yours</span>Start Your Dream Application</h2>
+        <p style="text-align: center; color: #475569; margin-bottom: 3rem; font-size: 1.05rem;">
+          This intro offer to Toronto is highly exclusive and won't last forever. Tell us a bit about your dream business below to get started.
+        </p>
+        
+        <div class="apply-card">
+          <form id="toronto-dream-form">
+            <div class="form-group">
+              <label for="owner-name" class="form-label">Full Name</label>
+              <input type="text" id="owner-name" name="owner-name" class="form-input" placeholder="Christian Gomez" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="business-name" class="form-label">Business Name / Idea</label>
+              <input type="text" id="business-name" name="business-name" class="form-input" placeholder="Toronto Craft Bakers" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="hello@g3zcreative.com" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="647-555-0199" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="business-desc" class="form-label">Tell us your dream (Describe your business)</label>
+              <textarea id="business-desc" name="business-desc" class="form-input form-textarea" placeholder="I create hand-crafted ceramic mugs and want to sell them locally in Toronto..." required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Apply For Free Design</button>
+          </form>
+          
+          <div class="or-divider">
+            <span>OR</span>
+          </div>
+          
+          <div class="direct-book-card">
+            <div class="direct-book-title">Ready to secure your slot immediately?</div>
+            <p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.75rem;">Skip the line and book a 1-on-1 strategy call with our lead designer.</p>
+            <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="direct-book-link">Book Your Call on HubSpot →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="section-faq">
+      <div class="faq-container">
+        <h2 class="section-title"><span>Got Questions?</span>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is the design really free? What is the catch?</span>
+            <span class="material-symbols-outlined faq-icon">expand_more</span>
+          </div>
+          <div class="faq-answer">
+            Yes, it is 100% free web design. G3Z Creative has just launched in Toronto & the GTA and we want to build strong relationships with local solo business owners. We waive all upfront design fees (valued at thousands of dollars). In exchange, we manage the hosting, updates, security, and maintenance for a flat $200/year to keep the site running.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What does the $200/year membership cover?</span>
+            <span class="material-symbols-outlined faq-icon">expand_more</span>
+          </div>
+          <div class="faq-answer">
+            It covers premium cloud hosting, SSL security certificates (HTTPS), automated backups, defense against attacks, and all future content changes. If you need to swap a photo, add a testimonial, or change your operating hours, you email us and our support team takes care of it.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Do I own my website? Can I move it?</span>
+            <span class="material-symbols-outlined faq-icon">expand_more</span>
+          </div>
+          <div class="faq-answer">
+            Absolutely. You own all text content, photography, and brand assets. If you ever decide to transition away from our managed hosting, we will export your files and help you transfer them seamlessly.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How long will it take to design and launch my website?</span>
+            <span class="material-symbols-outlined faq-icon">expand_more</span>
+          </div>
+          <div class="faq-answer">
+            Once you apply, book a slot, and provide us with your basic business information and copy, we usually draft and build the site within 1 to 2 weeks.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal Pop-up -->
+  <div id="success-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close-x" onclick="closeModal()">×</button>
+      <div class="modal-icon">check_circle</div>
+      <h3 class="modal-title">Application Prepared!</h3>
+      <p class="modal-body">
+        We've generated an email draft containing your application details. Please send the draft email in your mail client, and then book your design call immediately below to secure your spot.
+      </p>
+      <div class="modal-btn-group">
+        <a id="email-send-link" href="#" class="btn btn-primary" style="margin-bottom: 0.5rem;">Click to Open Email Client</a>
+        <a href="https://meetings-na2.hubspot.com/christian-gomez" target="_blank" class="btn btn-secondary">Schedule Design Meeting</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standard Footer copy from pricing.html -->
+  <footer class="footer">
+    <div class="container-3">
+      <div class="w-layout-grid grid-layout-3 desktop-5-column tablet-2-column mobile-landscape-1-column grid-gap-md">
+        <div id="w-node-_851d61a1-1dad-400a-5b6a-92b99f998536-b17c3d94" class="flex-vertical flex-gap-sm w-node-dc6886a5-5e1c-56fd-8999-bf22927e3ee5-927e3ee2">
+          <a href="index.html" class="logo footer-logo w-inline-block">
+            <div class="nav-logo-icon"><img loading="lazy" src="images/g-brand-primary.svg" alt="" class="footer-logo"></div>
+            <div class="paragraph-xl utility-margin-bottom-0">G3Z Creative</div>
+          </a>
+          <ul role="list" aria-label="Social media links" class="footer-icons-group utility-margin-top-auto w-list-unstyled">
+            <li class="utility-margin-bottom-0">
+              <a href="https://instagram.com/g3zcreative" target="_blank" class="footer-icon-link w-inline-block">
+                <div class="icon-small on-accent-icon"><svg width="100%" height="100%" viewbox="0 0 16 16" class="svg-3">
+                    <path d="M8,1.441c2.136,0,2.389.009,3.233.047a4.419,4.419,0,0,1,1.485.276,2.472,2.472,0,0,1,.92.6,2.472,2.472,0,0,1,.6.92,4.419,4.419,0,0,1,.276,1.485c.038.844.047,1.1.047,3.233s-.009,2.389-.047,3.233a4.419,4.419,0,0,1-.276,1.485,2.644,2.644,0,0,1-1.518,1.518,4.419,4.419,0,0,1-1.485.276c-.844.038-1.1.047-3.233.047s-2.389-.009-3.233-.047a4.419,4.419,0,0,1-1.485-.276,2.472,2.472,0,0,1-.92-.6,2.472,2.472,0,0,1-.6-.92,4.419,4.419,0,0,1-.276-1.485c-.038-.844-.047-1.1-.047-3.233s.009-2.389.047-3.233a4.419,4.419,0,0,1,.276-1.485,2.472,2.472,0,0,1,.6-.92,2.472,2.472,0,0,1,.92-.6,4.419,4.419,0,0,1,1.485-.276c.844-.038,1.1-.047,3.233-.047M8,0C5.827,0,5.555.009,4.7.048A5.868,5.868,0,0,0,2.76.42a3.908,3.908,0,0,0-1.417.923A3.908,3.908,0,0,0,.42,2.76,5.868,5.868,0,0,0,.048,4.7C.009,5.555,0,5.827,0,8s.009,2.445.048,3.3A5.868,5.868,0,0,0,.42,13.24a3.908,3.908,0,0,0,.923,1.417,3.908,3.908,0,0,0,1.417.923,5.868,5.868,0,0,0,1.942.372C5.555,15.991,5.827,16,8,16s2.445-.009,3.3-.048a5.868,5.868,0,0,0,1.942-.372,4.094,4.094,0,0,0,2.34-2.34,5.868,5.868,0,0,0,.372-1.942c.039-.853.048-1.125.048-3.3s-.009-2.445-.048-3.3A5.868,5.868,0,0,0,15.58,2.76a3.908,3.908,0,0,0-.923-1.417A3.908,3.908,0,0,0,13.24.42,5.868,5.868,0,0,0,11.3.048C10.445.009,10.173,0,8,0Z" fill="currentColor"></path>
+                    <path d="M8,3.892A4.108,4.108,0,1,0,12.108,8,4.108,4.108,0,0,0,8,3.892Zm0,6.775A2.667,2.667,0,1,1,10.667,8,2.667,2.667,0,0,1,8,10.667Z" fill="currentColor"></path>
+                    <circle cx="12.27" cy="3.73" r="0.96" fill="currentColor"></circle>
+                  </svg></div>
+                <div class="utility-screen-reader-visible-only">Connect on Instagram<br></div>
+              </a>
+            </li>
+            <li class="utility-margin-bottom-0">
+              <a href="https://linkedin.com/company/g3zcreative" target="_blank" class="footer-icon-link w-inline-block">
+                <div class="icon-small on-accent-icon"><svg width="100%" height="100%" viewbox="0 0 16 16">
+                    <path d="M15.3,0H0.7C0.3,0,0,0.3,0,0.7v14.7C0,15.7,0.3,16,0.7,16h14.7c0.4,0,0.7-0.3,0.7-0.7V0.7 C16,0.3,15.7,0,15.3,0z M4.7,13.6H2.4V6h2.4V13.6z M3.6,5C2.8,5,2.2,4.3,2.2,3.6c0-0.8,0.6-1.4,1.4-1.4c0.8,0,1.4,0.6,1.4,1.4 C4.9,4.3,4.3,5,3.6,5z M13.6,13.6h-2.4V9.9c0-0.9,0-2-1.2-2c-1.2,0-1.4,1-1.4,2v3.8H6.2V6h2.3v1h0c0.3-0.6,1.1-1.2,2.2-1.2 c2.4,0,2.8,1.6,2.8,3.6V13.6z" fill="currentColor" class="svg-3"></path>
+                  </svg></div>
+                <div class="utility-screen-reader-visible-only">Connect on LinkedIn</div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul role="list" id="w-node-dc6886a5-5e1c-56fd-8999-bf22927e3f12-927e3ee2" class="utility-margin-bottom-0 w-list-unstyled">
+          <li>
+            <h3 class="h5-heading">Company</h3>
+          </li>
+          <li>
+            <a href="mailto:hello@g3zcreative.com?subject=Hi!" class="footer-link w-inline-block">
+              <div>hello@g3zcreative.com</div>
+            </a>
+          </li>
+          <li>
+            <a href="tel:+17868300833" class="footer-link w-inline-block">
+              <div>+1 (786) 967-3699</div>
+            </a>
+          </li>
+          <li>
+            <a href="clients.html" class="footer-link w-inline-block">
+              <div style="color: var(--accent); font-weight: 600;">Client Portal 🔒</div>
+            </a>
+          </li>
+        </ul>
+        <ul role="list" id="w-node-dc6886a5-5e1c-56fd-8999-bf22927e3f26-927e3ee2" class="utility-margin-bottom-0 w-list-unstyled">
+          <li>
+            <h3 class="h5-heading">Services</h3>
+          </li>
+          <li>
+            <a href="services/branding.html" class="footer-link w-inline-block">
+              <div>Branding</div>
+            </a>
+          </li>
+          <li>
+            <a href="services/website-development-miramar.html" class="footer-link w-inline-block">
+              <div>Website Development</div>
+            </a>
+          </li>
+          <li>
+            <a href="services/seo.html" class="footer-link w-inline-block">
+              <div>SEO Services</div>
+            </a>
+          </li>
+          <li>
+            <a href="services/social-media-marketing.html" class="footer-link w-inline-block">
+              <div>Social Media Marketing</div>
+            </a>
+          </li>
+          <li>
+            <a href="services/local-marketing.html" class="footer-link w-inline-block">
+              <div>Local Marketing</div>
+            </a>
+          </li>
+          <li>
+            <a href="pricing.html" class="footer-link w-inline-block">
+              <div>Pricing</div>
+            </a>
+          </li>
+          <li>
+            <a href="roi-calculator.html" class="footer-link w-inline-block">
+              <div>ROI Calculator</div>
+            </a>
+          </li>
+        </ul>
+        <ul role="list" id="w-node-b9167970-46c6-7223-0220-a7abdfb13a88-927e3ee2" class="utility-margin-bottom-0 w-list-unstyled">
+          <li>
+            <h3 class="h5-heading">Marketing For</h3>
+          </li>
+          <li>
+            <a href="marketing-for/dance-studios.html" class="footer-link w-inline-block">
+              <div>Dance Studios</div>
+            </a>
+          </li>
+          <li>
+            <a href="marketing-for/home-service-providers.html" class="footer-link w-inline-block">
+              <div>Home Service Providers</div>
+            </a>
+          </li>
+          <li>
+            <a href="marketing-for/roofers.html" class="footer-link w-inline-block">
+              <div>Roofing Contractors</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="divider utility-margin-top-1rem utility-margin-bottom-1rem"></div>
+      <div class="flex-horizontal x-right">
+        <div class="utility-text-secondary-2">© <span id="copyright-year">2025</span> G3Z Creative, LLC. All rights reserved.</div>
+        <script>document.getElementById('copyright-year').textContent = new Date().getFullYear();</script>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Accordion and Form submit JavaScript -->
+  <script>
+    // Accordion Toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        // Close all items
+        faqItems.forEach(i => i.classList.remove('active'));
+        // If it wasn't active, open it
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Form Handling
+    const form = document.getElementById('toronto-dream-form');
+    const modal = document.getElementById('success-modal');
+    const emailLink = document.getElementById('email-send-link');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const ownerName = document.getElementById('owner-name').value;
+      const businessName = document.getElementById('business-name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const businessDesc = document.getElementById('business-desc').value;
+      
+      // Constructing email body
+      const subject = encodeURIComponent("Dream Offer Application - " + businessName);
+      const emailBody = encodeURIComponent(
+        "G3Z Creative Dream Offer Application (Toronto & GTA)\n" +
+        "==================================================\n\n" +
+        "Owner Name: " + ownerName + "\n" +
+        "Business Name: " + businessName + "\n" +
+        "Email Address: " + email + "\n" +
+        "Phone Number: " + phone + "\n\n" +
+        "Business/Dream Description:\n" + businessDesc + "\n\n" +
+        "Thank you! Looking forward to my design consultation."
+      );
+      
+      const mailtoUrl = "mailto:hello@g3zcreative.com?subject=" + subject + "&body=" + emailBody;
+      
+      // Update modal click to send email
+      emailLink.href = mailtoUrl;
+      
+      // Show success modal
+      modal.style.display = "flex";
+      
+      // Open email client in background
+      window.location.href = mailtoUrl;
+    });
+
+    function closeModal() {
+      modal.style.display = "none";
+      form.reset();
+    }
+
+    // Close modal when clicking outside content
+    window.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  </script>
+
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6837ae7e314e91dd48e1e240" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+</body>
+</html>
