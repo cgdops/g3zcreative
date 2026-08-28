@@ -24,6 +24,165 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3L9H02HJMV"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3L9H02HJMV');</script>
+  <style>
+    .pseo-hero-section {
+      padding-top: 3.5rem;
+      padding-bottom: 3.5rem;
+      background: linear-gradient(180deg, #ffffff 0%, #fdf8f9 100%);
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .pseo-hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .pseo-hero-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .pseo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(218, 16, 77, 0.08);
+      color: #da104d;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 1.15rem;
+      border: 1px solid rgba(218, 16, 77, 0.18);
+    }
+    .pseo-hero-title {
+      font-size: clamp(2.1rem, 3.4vw, 3.2rem) !important;
+      line-height: 1.15 !important;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 0;
+      margin-bottom: 1.15rem;
+      text-wrap: balance;
+    }
+    .pseo-hero-desc {
+      color: #475569;
+      font-size: 1.08rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 580px;
+    }
+    .pseo-pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.85rem;
+    }
+    .pseo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .pseo-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+      position: relative;
+    }
+    .pseo-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .pseo-card-title {
+      font-family: 'Young Serif', serif;
+      font-size: 1.25rem;
+      color: #0f172a;
+    }
+    .pseo-live-badge {
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #a7f3d0;
+    }
+    .pseo-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.25rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+    .pseo-card-list li strong {
+      color: #0f172a;
+    }
+    .pseo-card-callout {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.85rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.84rem;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 991px) {
+      .pseo-hero-section {
+        padding-top: 2.75rem;
+        padding-bottom: 2.75rem;
+      }
+      .pseo-hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .pseo-hero-title {
+        font-size: clamp(1.85rem, 5.5vw, 2.6rem) !important;
+      }
+      .pseo-card {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 479px) {
+      .pseo-hero-section {
+        padding-top: 1.75rem;
+        padding-bottom: 2rem;
+      }
+      .pseo-hero-title {
+        font-size: clamp(1.65rem, 6.5vw, 2.15rem) !important;
+        line-height: 1.2 !important;
+      }
+      .pseo-hero-desc {
+        font-size: 0.98rem;
+        margin-bottom: 1.25rem;
+      }
+      .pseo-pill-group {
+        margin-bottom: 1.5rem;
+      }
+      .pseo-card {
+        padding: 1.25rem 1rem;
+      }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -211,55 +370,78 @@
     </div>
   </header>
 
-<header class="section intro-section utility-overflow-hidden">
-  <div class="container utility-max-width-90">
-    <div class="w-layout-grid grid-layout desktop-5-column tablet-1-column grid-gap-md y-top utility-margin-bottom-4rem">
-      <div class="utility-container-cqw">
-        <h1 class="heading-responsive-lg utility-margin-bottom-0">Grow Your Electrician Business in Oakville</h1>
-      </div>
-      <div class="utility-max-width-sm">
-        <p class="subheading">Stop buying shared leads from Angi or HomeAdvisor. G3Z Creative builds custom web conversion engines and automated search pipelines that generate exclusive, high-value incoming calls for Electrical Contractors in Oakville, ON.</p>
-        <div class="button-group">
-          <a href="../pricing.html" class="button w-button">View Packages & Pricing</a>
-          <a href="../roi-calculator.html" class="button secondary-button w-button">Run ROI Calculator</a>
+<header class="section pseo-hero-section utility-overflow-hidden">
+  <div class="container">
+    <div class="pseo-hero-grid">
+      <div class="pseo-hero-left">
+        <div class="pseo-badge">
+          📍 Exclusive Lead Generation for Oakville, ON
         </div>
+        <h1 class="heading-responsive-lg pseo-hero-title">Grow Your Electrician Business in Oakville</h1>
+        <p class="subheading pseo-hero-desc">Stop buying shared leads from Angi or HomeAdvisor. G3Z Creative builds custom web conversion engines and automated search pipelines that generate exclusive, high-value incoming calls for Electrical Contractors in Oakville, ON &amp; surrounding areas.</p>
+        
+        <div class="pseo-pill-group">
+          <div class="pseo-pill"><span>🎯</span> 100% Exclusive Leads</div>
+          <div class="pseo-pill"><span>📍</span> Google Maps &amp; Local Pack</div>
+          <div class="pseo-pill"><span>⚡</span> 100/100 Speed Scores</div>
+        </div>
+
+        <div class="button-group">
+          <a href="/pricing.html" class="button w-button">View Packages &amp; Pricing</a>
+          <a href="/roi-calculator.html" class="button secondary-button w-button">Run ROI Calculator</a>
+        </div>
+      </div>
+
+      <div class="pseo-card">
+        <div class="pseo-card-header">
+          <div class="pseo-card-title">📍 Oakville Market Blueprint</div>
+          <span class="pseo-live-badge">● Active Territory</span>
+        </div>
+        <ul class="pseo-card-list">
+          <li><strong>Industry:</strong> <span>Electrical Contractors</span></li>
+          <li><strong>Target Region:</strong> <span>Oakville, ON (Halton Region)</span></li>
+          <li><strong>Niche Focus:</strong> <span>panel upgrades, residential wiring, commercial lighting, generator setups, and emergency repairs.</span></li>
+          <li><strong>Local Market Factors:</strong> <span>historic lakeside aesthetic regulations, premium residential property requirements, and strict urban tree canopy bylaws</span></li>
+        </ul>
+        <div class="pseo-card-callout">
+          💡 <em>No shared lead portals. We engineer your direct search ranking near Oakville Harbour.</em>
+        </div>
+        <a href="tel:+17869673699" class="button w-button" data-open-inquiry="true" style="width: 100%; text-align: center; justify-content: center;">
+          Start Consultation
+        </a>
       </div>
     </div>
   </div>
 </header>
 
-<section class="section">
+<section class="section" style="padding-top: 4rem; padding-bottom: 4rem;">
   <div class="container">
-    <div class="w-layout-grid grid-layout tablet-1-column grid-gap-xxl">
-      <div>
-        <h2>Dominate the Local Oakville Market</h2>
-        <p class="paragraph-lg utility-margin-bottom-2rem">If you want your Electrician business to grow, you need to show up on Google the exact second a homeowner or commercial property manager in Oakville is looking for your services.</p>
-        
-        <div class="w-layout-grid grid-layout mobile-portrait-1-column grid-gap-sm">
-          <div>
-            <h4>Exclusive Local Lead Flow</h4>
-            <p class="paragraph-sm utility-text-secondary">We build systems that feed leads directly into your phone and CRM. No bidding against five competitors for the exact same lead.</p>
-          </div>
-          <div>
-            <h4>Hyper-Local Search Optimization</h4>
-            <p class="paragraph-sm utility-text-secondary">We target high-intent search queries that include your specific services in Oakville, ensuring you rank in the Map Pack near landmarks like Oakville Harbour.</p>
-          </div>
-          <div>
-            <h4>Built to Convert</h4>
-            <p class="paragraph-sm utility-text-secondary">A website is useless if it doesn't ring. We design layout systems featuring clear phone number placements, quick quote forms, and social proof elements.</p>
-          </div>
+    <div style="max-width: 780px; margin-bottom: 2.5rem;">
+      <span class="eyebrow" style="color: var(--core-accent-color--accent-primary, #da104d);">Targeted Market Dominance</span>
+      <h2 style="margin-top: 0.5rem; margin-bottom: 1rem;">Dominate the Local Oakville Market</h2>
+      <p class="paragraph-lg utility-text-secondary">If you want your Electrician business to grow, you need to show up on Google the exact second a homeowner or commercial property manager in Oakville is looking for your services.</p>
+    </div>
+    
+    <div class="w-layout-grid grid-layout desktop-3-column tablet-1-column grid-gap-md">
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size: 1.6rem; margin-bottom: 0.75rem;">🎯</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #0f172a;">Exclusive Local Lead Flow</h3>
+          <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 0;">We build systems that feed leads directly into your phone and CRM. No bidding against five competitors for the exact same lead.</p>
         </div>
       </div>
-      <div class="card" style="align-self: center;">
+      <div class="card">
         <div class="card-body">
-          <h3>Local Search Opportunities</h3>
-          <hr style="border:0; border-top: 1px solid #eee; margin: 1rem 0;">
-          <ul style="padding-left:1.25rem; line-height: 1.8;">
-            <li><strong>Service Niche:</strong> Electrical Contractors</li>
-            <li><strong>Target Region:</strong> Oakville, ON (Halton Region)</li>
-            <li><strong>Niche Focus:</strong> panel upgrades, residential wiring, commercial lighting, generator setups, and emergency repairs.</li>
-            <li><strong>Local Nuances:</strong> historic lakeside aesthetic regulations, premium residential property requirements, and strict urban tree canopy bylaws</li>
-          </ul>
+          <div style="font-size: 1.6rem; margin-bottom: 0.75rem;">📍</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #0f172a;">Hyper-Local Search Optimization</h3>
+          <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 0;">We target high-intent search queries that include your specific services in Oakville, ensuring you rank in the Map Pack near landmarks like Oakville Harbour.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div style="font-size: 1.6rem; margin-bottom: 0.75rem;">⚡</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #0f172a;">Built to Convert</h3>
+          <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 0;">A website is useless if it doesn't ring. We design layout systems featuring clear phone number placements, quick quote forms, and social proof elements.</p>
         </div>
       </div>
     </div>
@@ -321,7 +503,7 @@
     </div>
 
     <div style="text-align: center; margin-top: 3rem;">
-      <a href="../pricing.html" class="button">Compare Packages & Details</a>
+      <a href="/pricing.html" class="button">Compare Packages &amp; Details</a>
     </div>
   </div>
 </section>
