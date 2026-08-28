@@ -1,0 +1,89 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
+
+const ROOT = path.join(__dirname, '..');
+const NAV_TEMPLATE_PATH = path.join(ROOT, 'templates', 'nav.html');
+const FOOTER_TEMPLATE_PATH = path.join(ROOT, 'templates', 'footer.html');
+
+if (!fs.existsSync(NAV_TEMPLATE_PATH)) {
+  console.error(`Error: Nav template not found at ${NAV_TEMPLATE_PATH}`);
+  process.exit(1);
+}
+
+if (!fs.existsSync(FOOTER_TEMPLATE_PATH)) {
+  console.error(`Error: Footer template not found at ${FOOTER_TEMPLATE_PATH}`);
+  process.exit(1);
+}
+
+const rawNavTemplate = fs.readFileSync(NAV_TEMPLATE_PATH, 'utf8');
+const rawFooterTemplate = fs.readFileSync(FOOTER_TEMPLATE_PATH, 'utf8');
+
+function getPrefix(filePath) {
+  const rel = path.relative(ROOT, filePath);
+  const depth = rel.split(path.sep).length - 1;
+  return depth > 0 ? '../'.repeat(depth) : '';
+}
+
+function processHtmlFile(filePath) {
+  let content = fs.readFileSync(filePath, 'utf8');
+  const prefix = getPrefix(filePath);
+
+  const navHtml = rawNavTemplate.replace(/\{\{prefix\}\}/g, prefix);
+  const footerHtml = rawFooterTemplate.replace(/\{\{prefix\}\}/g, prefix);
+
+  let modified = false;
+
+  // Replace Header
+  const headerRegex = /<header class="nav">[\s\S]*?<\/header>/i;
+  if (headerRegex.test(content)) {
+    content = content.replace(headerRegex, navHtml);
+    modified = true;
+  }
+
+  // Replace Footer
+  const footerRegex = /<footer[\s\S]*?<\/footer>/i;
+  if (footerRegex.test(content)) {
+    content = content.replace(footerRegex, footerHtml);
+    modified = true;
+  }
+
+  if (modified) {
+    fs.writeFileSync(filePath, content, 'utf8');
+    return true;
+  }
+  return false;
+}
+
+function scanAndSync(dir) {
+  let count = 0;
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'blog' && entry.name !== 'templates') {
+        count += scanAndSync(fullPath);
+      }
+    } else if (entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'crm.html' && entry.name !== 'privacy-policy.html') {
+      if (processHtmlFile(fullPath)) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+console.log('🔄 Synchronizing templates/nav.html and templates/footer.html across site...');
+const totalUpdated = scanAndSync(ROOT);
+console.log(`✅ Synced header & footer templates across ${totalUpdated} HTML files.`);
+
+// Rebuild pSEO and Sitemap
+console.log('\n🚀 Rebuilding Programmatic SEO pages & Sitemap...');
+try {
+  execSync('node scripts/build-pseo.js', { stdio: 'inherit', cwd: ROOT });
+  execSync('node scripts/build-sitemap.js', { stdio: 'inherit', cwd: ROOT });
+  execSync('node scripts/validate-nav-links.js', { stdio: 'inherit', cwd: ROOT });
+  console.log('\n🎉 Entire site navigation & layout successfully synchronized!');
+} catch (err) {
+  console.error('Error during build steps:', err);
+}

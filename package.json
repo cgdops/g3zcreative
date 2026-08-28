@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "G3Z Creative website with automated blog system",
   "scripts": {
+    "sync": "node scripts/sync-templates.js",
     "build:pseo": "node scripts/build-pseo.js",
     "build:sitemap": "node scripts/build-sitemap.js",
-    "build": "npm run build:pseo && npm run build:sitemap",
+    "build": "node scripts/sync-templates.js",
     "fetch:gsc": "node scripts/fetch-gsc.js",
     "test:dataforseo": "node scripts/test-dataforseo.js",
     "submit:indexing": "node scripts/submit-indexing.js"

@@ -75,7 +75,7 @@ function scan(dir) {
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'blog') {
+      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'blog' && entry.name !== 'templates' && entry.name !== 'scripts') {
         scan(fullPath);
       }
     } else if (entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'crm.html' && entry.name !== 'privacy-policy.html') {

@@ -68,8 +68,13 @@ if (!fs.existsSync(TEMPLATE_FILE)) {
 const indexHtml = fs.readFileSync(INDEX_HTML, 'utf8');
 const template  = fs.readFileSync(TEMPLATE_FILE, 'utf8');
 
-const nav    = fixPaths(extractSection(indexHtml, '<header class="nav">', 'header'));
-const footer = fixPaths(extractSection(indexHtml, '<footer', 'footer'));
+const nav = fs.existsSync(path.join(ROOT, 'templates', 'nav.html'))
+  ? fs.readFileSync(path.join(ROOT, 'templates', 'nav.html'), 'utf8').replace(/\{\{prefix\}\}/g, '/')
+  : fixPaths(extractSection(indexHtml, '<header class="nav">', 'header'));
+
+const footer = fs.existsSync(path.join(ROOT, 'templates', 'footer.html'))
+  ? fs.readFileSync(path.join(ROOT, 'templates', 'footer.html'), 'utf8').replace(/\{\{prefix\}\}/g, '/')
+  : fixPaths(extractSection(indexHtml, '<footer', 'footer'));
 
 const sharedHead = `
   <meta content="width=device-width, initial-scale=1" name="viewport">
