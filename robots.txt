@@ -1,5 +1,14 @@
 User-agent: *
 Allow: /
 
+# Internal data fragments — HTML partials with no <head>, so they cannot
+# carry a noindex tag. Blocked from crawling instead.
+Disallow: /data/
+
+# Note: clients.html, crm.html, lead.html, success.html and
+# deck-media-mesh.html are deliberately NOT listed here. They use
+# <meta name="robots" content="noindex">, and blocking them here would
+# stop crawlers reading that tag — leaving them indexable.
+
 # Sitemaps
 Sitemap: https://g3zcreative.com/sitemap.xml

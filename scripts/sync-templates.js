@@ -16,8 +16,11 @@ if (!fs.existsSync(FOOTER_TEMPLATE_PATH)) {
   process.exit(1);
 }
 
-const rawNavTemplate = fs.readFileSync(NAV_TEMPLATE_PATH, 'utf8');
-const rawFooterTemplate = fs.readFileSync(FOOTER_TEMPLATE_PATH, 'utf8');
+// Trimmed: the templates end in a newline, and re-inserting it on every run
+// appended a blank line per template per file — ~230 files showed as changed
+// on every build without any real change.
+const rawNavTemplate = fs.readFileSync(NAV_TEMPLATE_PATH, 'utf8').trim();
+const rawFooterTemplate = fs.readFileSync(FOOTER_TEMPLATE_PATH, 'utf8').trim();
 
 function getPrefix(filePath) {
   const rel = path.relative(ROOT, filePath);
@@ -32,23 +35,21 @@ function processHtmlFile(filePath) {
   const navHtml = rawNavTemplate.replace(/\{\{prefix\}\}/g, prefix);
   const footerHtml = rawFooterTemplate.replace(/\{\{prefix\}\}/g, prefix);
 
-  let modified = false;
+  const original = content;
 
   // Replace Header
   const headerRegex = /<header class="nav">[\s\S]*?<\/header>/i;
   if (headerRegex.test(content)) {
     content = content.replace(headerRegex, navHtml);
-    modified = true;
   }
 
   // Replace Footer
   const footerRegex = /<footer[\s\S]*?<\/footer>/i;
   if (footerRegex.test(content)) {
     content = content.replace(footerRegex, footerHtml);
-    modified = true;
   }
 
-  if (modified) {
+  if (content !== original) {
     fs.writeFileSync(filePath, content, 'utf8');
     return true;
   }
@@ -61,7 +62,7 @@ function scanAndSync(dir) {
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'blog' && entry.name !== 'templates') {
+      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'templates') {
         count += scanAndSync(fullPath);
       }
     } else if (entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'crm.html' && entry.name !== 'privacy-policy.html') {
