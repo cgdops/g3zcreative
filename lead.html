@@ -465,6 +465,16 @@
           <div class="detail-val" id="detailCompany">&mdash;</div>
         </div>
         <div class="detail-item">
+          <div class="detail-label">Enrichment</div>
+          <div class="detail-val">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <input type="text" id="enrichDomainInput" class="search-input" placeholder="company domain" style="flex:1; min-width:140px; font-size:0.8rem; padding:4px 8px;">
+              <button type="button" class="btn btn-sm" id="enrichBtn">Find Email</button>
+            </div>
+            <div id="enrichResult" style="margin-top:8px; font-size:0.8rem;"></div>
+          </div>
+        </div>
+        <div class="detail-item">
           <div class="detail-label">Service Interest</div>
           <div class="detail-val" id="detailService">&mdash;</div>
         </div>
@@ -533,6 +543,9 @@
       const detailPhone = document.getElementById('detailPhone');
       const detailEmail = document.getElementById('detailEmail');
       const detailCompany = document.getElementById('detailCompany');
+      const enrichBtn = document.getElementById('enrichBtn');
+      const enrichDomainInput = document.getElementById('enrichDomainInput');
+      const enrichResult = document.getElementById('enrichResult');
       const detailService = document.getElementById('detailService');
       const detailSource = document.getElementById('detailSource');
       const detailMessage = document.getElementById('detailMessage');
@@ -669,6 +682,8 @@
         }
 
         detailCompany.textContent = lead.company || '—';
+        enrichDomainInput.value = lead.company_domain || '';
+        renderEnrichmentState(lead);
         detailService.textContent = lead.service_interest || 'General Inquiry';
         detailSource.textContent = lead.source_page || '/';
         detailMessage.textContent = lead.message || 'No additional message provided.';
@@ -691,6 +706,106 @@
           timelineList.appendChild(item);
         });
       }
+
+      // Enrichment — shows the last known state without spending a lookup.
+      function renderEnrichmentState(lead) {
+        if (!lead.enrichment_status || lead.enrichment_status === 'pending') {
+          enrichResult.innerHTML = '';
+          return;
+        }
+        if (lead.enrichment_status === 'not_found') {
+          enrichResult.innerHTML = '<span style="color:var(--text-muted);">No email found at this domain.</span>';
+          return;
+        }
+        if (lead.enrichment_status === 'failed') {
+          enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">Last lookup failed. Try again.</span>';
+          return;
+        }
+        if (lead.enrichment_status === 'found') {
+          enrichResult.innerHTML = '<span style="color:var(--text-muted);">A suggestion was found earlier &mdash; click Find Email to view it.</span>';
+        }
+      }
+
+      // A found email is a suggestion. It is never written to the lead until
+      // it's explicitly accepted here.
+      function renderEnrichmentResult(enrichment) {
+        if (!enrichment) {
+          enrichResult.innerHTML = '';
+          return;
+        }
+
+        if (enrichment.status !== 'found' || !enrichment.email) {
+          enrichResult.innerHTML = '<span style="color:var(--text-muted);">No email found at '
+            + escapeHtml(enrichment.company_domain || 'that domain') + '.</span>';
+          return;
+        }
+
+        const confidence = typeof enrichment.confidence === 'number' ? enrichment.confidence : null;
+        const low = confidence !== null && confidence < 70;
+        const meta = [];
+        if (confidence !== null) meta.push(confidence + '% confidence');
+        if (enrichment.verification) meta.push(escapeHtml(enrichment.verification));
+        if (enrichment.job_title) meta.push(escapeHtml(enrichment.job_title));
+
+        enrichResult.innerHTML =
+          '<div style="color:white; font-weight:600;">' + escapeHtml(enrichment.email) + '</div>'
+          + '<div style="color:' + (low ? 'var(--warning, #f59e0b)' : 'var(--text-muted)') + '; margin:2px 0 6px;">'
+          + meta.join(' &middot; ') + (low ? ' &mdash; low confidence, verify before sending' : '') + '</div>'
+          + '<button type="button" class="btn btn-sm" id="acceptEmailBtn">Use this email</button>';
+
+        document.getElementById('acceptEmailBtn').addEventListener('click', async () => {
+          try {
+            const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: enrichment.email })
+            });
+            if (res.ok) {
+              await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  type: 'enrichment',
+                  content: 'Accepted enriched email ' + enrichment.email + '.'
+                })
+              });
+              enrichResult.innerHTML = '<span style="color:var(--success, #22c55e);">Saved to lead.</span>';
+              fetchLeadDetails();
+            } else {
+              alert('Could not save the email.');
+            }
+          } catch (err) {
+            alert('Could not save the email.');
+          }
+        });
+      }
+
+      enrichBtn.addEventListener('click', async () => {
+        enrichBtn.disabled = true;
+        enrichBtn.textContent = 'Searching...';
+        enrichResult.innerHTML = '';
+
+        try {
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/enrich', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ company_domain: enrichDomainInput.value.trim() })
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">'
+              + escapeHtml(data.error || 'Enrichment failed.') + '</span>';
+            return;
+          }
+          renderEnrichmentResult(data.enrichment);
+        } catch (err) {
+          enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">Enrichment request failed.</span>';
+        } finally {
+          enrichBtn.disabled = false;
+          enrichBtn.textContent = 'Find Email';
+        }
+      });
 
       // Save Stage & Valuation
       stageForm.addEventListener('submit', async (e) => {

@@ -859,12 +859,17 @@
           <input type="text" name="name" class="search-input" required placeholder="John Doe">
         </div>
         <div style="margin-bottom: 0.85rem;">
-          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Phone or Email *</label>
-          <input type="text" name="contact_info" class="search-input" required placeholder="(305) 555-0100 or john@example.com">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Phone or Email</label>
+          <input type="text" name="contact_info" class="search-input" placeholder="(305) 555-0100 or john@example.com">
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Company / Niche</label>
           <input type="text" name="company" class="search-input" placeholder="Miami Electricians LLC">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Company Domain</label>
+          <input type="text" name="company_domain" class="search-input" placeholder="hollandamerica.com">
+          <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Needed to enrich. Enter this or contact info &mdash; first and last name both required for lookup.</div>
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Stage</label>
@@ -1260,6 +1265,7 @@
           name: formData.get('name'),
           contact_info: formData.get('contact_info'),
           company: formData.get('company'),
+          company_domain: formData.get('company_domain'),
           status: formData.get('status'),
           message: formData.get('message')
         };
@@ -1273,6 +1279,9 @@
             manualLeadForm.reset();
             manualModalOverlay.classList.remove('active');
             fetchLeads();
+          } else {
+            const err = await res.json().catch(() => ({}));
+            alert(err.error || 'Could not create lead.');
           }
         } catch (err) {
           alert('Could not create lead.');

@@ -105,7 +105,7 @@ export async function onRequestPatch(context) {
     const values = [];
 
     const allowedFields = [
-      'name', 'contact_info', 'email', 'phone', 'company',
+      'name', 'contact_info', 'email', 'phone', 'company', 'company_domain',
       'service_interest', 'message', 'status', 'estimated_value', 'starred'
     ];
 

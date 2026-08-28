@@ -5,6 +5,7 @@
  */
 
 import { checkAuth } from './auth.js';
+import { normalizeDomain } from './enrich.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -138,9 +139,19 @@ export async function onRequestPost(context) {
     const body = await request.json().catch(() => ({}));
     const name = (body.name || '').trim();
     const contactInfo = (body.contact_info || body.phone || body.email || '').trim();
+    const companyDomain = normalizeDomain(body.company_domain);
 
-    if (!name || !contactInfo) {
-      return new Response(JSON.stringify({ error: 'Name and Contact Info are required' }), {
+    if (!name) {
+      return new Response(JSON.stringify({ error: 'Name is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+      });
+    }
+
+    // An outbound lead has no contact details yet — that's the whole point of
+    // enriching it. A company domain is enough to create the record.
+    if (!contactInfo && !companyDomain) {
+      return new Response(JSON.stringify({ error: 'Provide contact info, or a company domain to enrich from' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
       });
@@ -159,12 +170,12 @@ export async function onRequestPost(context) {
 
     await env.DB.prepare(`
       INSERT INTO leads (
-        id, name, contact_info, email, phone, company,
+        id, name, contact_info, email, phone, company, company_domain,
         service_interest, message, source_page, status,
         estimated_value, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     `).bind(
-      leadId, name, contactInfo, email, phone, company,
+      leadId, name, contactInfo, email, phone, company, companyDomain || null,
       serviceInterest, message, sourcePage, status,
       estimatedValue
     ).run();
