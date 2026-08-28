@@ -240,6 +240,15 @@
       display: flex;
       flex-direction: column;
       max-height: calc(100vh - 300px);
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kanban-column.drag-over {
+      border-color: var(--primary) !important;
+      background: rgba(218, 16, 77, 0.08) !important;
+      box-shadow: 0 0 24px rgba(218, 16, 77, 0.25) !important;
+    }
+    .kanban-column.drag-over .column-header {
+      background: rgba(218, 16, 77, 0.15) !important;
     }
     .column-header {
       padding: 0.9rem 1rem;
@@ -249,6 +258,7 @@
       justify-content: space-between;
       background: rgba(15, 23, 42, 0.4);
       border-radius: 14px 14px 0 0;
+      transition: background 0.2s ease;
     }
     .column-title {
       font-size: 0.85rem;
@@ -275,6 +285,11 @@
       gap: 0.75rem;
       flex: 1;
       min-height: 120px;
+      transition: background 0.2s ease;
+    }
+    .column-cards.drag-over {
+      background: rgba(218, 16, 77, 0.04);
+      border-radius: 8px;
     }
 
     /* Lead Card */
@@ -283,14 +298,24 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      cursor: grab;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
+      user-select: none;
     }
     .lead-card:hover {
       border-color: #64748b;
       transform: translateY(-2px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    .lead-card:active {
+      cursor: grabbing;
+    }
+    .lead-card.dragging {
+      opacity: 0.35;
+      transform: scale(0.96) rotate(1deg);
+      border: 2px dashed var(--primary);
+      box-shadow: 0 12px 28px rgba(218, 16, 77, 0.35);
     }
     .card-top {
       display: flex;
@@ -1061,6 +1086,82 @@
         document.getElementById('kpiPipelineVal').textContent = `$${val.toLocaleString()} Pipeline Val`;
       }
 
+      // Update Lead Stage (Used by Drag & Drop and Drawer)
+      async function updateLeadStage(leadId, newStatus) {
+        const leadIndex = state.leads.findIndex(l => l.id === leadId);
+        if (leadIndex === -1) return;
+
+        const lead = state.leads[leadIndex];
+        const oldStatus = lead.status;
+        if (oldStatus === newStatus) return;
+
+        // Optimistic UI update
+        lead.status = newStatus;
+        if (state.counts[oldStatus] !== undefined) {
+          state.counts[oldStatus] = Math.max(0, state.counts[oldStatus] - 1);
+        }
+        if (state.counts[newStatus] !== undefined) {
+          state.counts[newStatus] = (state.counts[newStatus] || 0) + 1;
+        }
+
+        renderMetrics();
+        renderKanban();
+        renderList();
+
+        try {
+          const res = await fetch(`/api/crm/leads/${leadId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus })
+          });
+          if (!res.ok) {
+            // Rollback on server error
+            lead.status = oldStatus;
+            renderMetrics();
+            renderKanban();
+            renderList();
+          }
+        } catch (err) {
+          console.error('Failed to update stage:', err);
+          lead.status = oldStatus;
+          renderMetrics();
+          renderKanban();
+          renderList();
+        }
+      }
+
+      // Setup Kanban Column Drag and Drop Zones
+      let dndInitialized = false;
+      function setupKanbanDragAndDrop() {
+        if (dndInitialized) return;
+        dndInitialized = true;
+
+        const columns = document.querySelectorAll('.kanban-column');
+        columns.forEach(col => {
+          col.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            col.classList.add('drag-over');
+          });
+
+          col.addEventListener('dragleave', (e) => {
+            if (!col.contains(e.relatedTarget)) {
+              col.classList.remove('drag-over');
+            }
+          });
+
+          col.addEventListener('drop', (e) => {
+            e.preventDefault();
+            col.classList.remove('drag-over');
+            const leadId = e.dataTransfer.getData('text/plain');
+            const targetStatus = col.getAttribute('data-status');
+            if (leadId && targetStatus) {
+              updateLeadStage(leadId, targetStatus);
+            }
+          });
+        });
+      }
+
       // Render Kanban Board
       function renderKanban() {
         const columns = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
@@ -1086,6 +1187,8 @@
           colLeads.forEach(lead => {
             const card = document.createElement('div');
             card.className = 'lead-card';
+            card.setAttribute('draggable', 'true');
+            card.dataset.leadId = lead.id;
             
             const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
             const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
@@ -1093,7 +1196,10 @@
             card.innerHTML = `
               <div class="card-top">
                 <div class="card-name">${escapeHtml(lead.name)}</div>
-                <div class="card-time">${timeAgo(lead.created_at)}</div>
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span class="card-time">${timeAgo(lead.created_at)}</span>
+                  <span title="Drag to move stage" style="color:var(--text-muted); opacity:0.4; font-size:0.85rem; cursor:grab; line-height:1;">⋮⋮</span>
+                </div>
               </div>
               ${lead.company ? `<div class="card-company">🏢 ${escapeHtml(lead.company)}</div>` : ''}
               <div class="card-service">${escapeHtml(lead.service_interest || 'Inquiry')}</div>
@@ -1107,7 +1213,27 @@
               </div>
             `;
 
-            card.addEventListener('click', () => openLeadDrawer(lead.id));
+            let isDragging = false;
+
+            card.addEventListener('dragstart', (e) => {
+              isDragging = true;
+              e.dataTransfer.setData('text/plain', lead.id);
+              e.dataTransfer.effectAllowed = 'move';
+              setTimeout(() => card.classList.add('dragging'), 0);
+            });
+
+            card.addEventListener('dragend', () => {
+              card.classList.remove('dragging');
+              setTimeout(() => { isDragging = false; }, 50);
+              document.querySelectorAll('.kanban-column').forEach(c => c.classList.remove('drag-over'));
+              document.querySelectorAll('.column-cards').forEach(c => c.classList.remove('drag-over'));
+            });
+
+            card.addEventListener('click', (e) => {
+              if (isDragging) return;
+              openLeadDrawer(lead.id);
+            });
+
             container.appendChild(card);
           });
         });
@@ -1369,7 +1495,8 @@
         })[m]);
       }
 
-      // Initial check
+      // Initial check & DnD setup
+      setupKanbanDragAndDrop();
       checkAuth();
     })();
   </script>
