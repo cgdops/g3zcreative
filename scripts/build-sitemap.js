@@ -16,6 +16,10 @@ const staticPages = [
 
 const serviceFiles = fs.readdirSync(path.join(ROOT, 'services')).filter(f => f.endsWith('.html'));
 const marketingFiles = fs.readdirSync(path.join(ROOT, 'marketing-for')).filter(f => f.endsWith('.html'));
+const blogDir = path.join(ROOT, 'blog');
+const blogFiles = fs.existsSync(blogDir)
+  ? fs.readdirSync(blogDir).filter(f => f.endsWith('.html'))
+  : [];
 
 let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
@@ -32,7 +36,12 @@ for (const f of marketingFiles) {
   xml += `<url>\n<loc>${BASE_URL}/marketing-for/${f}</loc>\n<lastmod>${TODAY}</lastmod>\n</url>\n`;
 }
 
+for (const f of blogFiles) {
+  const loc = f === 'index.html' ? `${BASE_URL}/blog/` : `${BASE_URL}/blog/${f}`;
+  xml += `<url>\n<loc>${loc}</loc>\n<lastmod>${TODAY}</lastmod>\n</url>\n`;
+}
+
 xml += `</urlset>\n`;
 
 fs.writeFileSync(SITEMAP_PATH, xml, 'utf8');
-console.log(`✓ Sitemap regenerated with ${staticPages.length + serviceFiles.length + marketingFiles.length} URLs at ${SITEMAP_PATH}`);
+console.log(`✓ Sitemap regenerated with ${staticPages.length + serviceFiles.length + marketingFiles.length + blogFiles.length} URLs at ${SITEMAP_PATH}`);
