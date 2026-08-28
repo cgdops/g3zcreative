@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Lead Details ó G3Z Creative CRM</title>
+  <title>Lead Details ‚Äî G3Z Creative CRM</title>
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -383,7 +383,7 @@
       <h2 style="font-family: 'Young Serif', serif; margin-bottom: 0.5rem;">G3Z Creative CRM</h2>
       <p style="font-size: 0.85rem; color: var(--text-muted);">Enter passcode to access lead intelligence.</p>
       <form id="loginForm">
-        <input type="password" id="passcodeInput" class="input-field" placeholder="ïïïïïïïï" style="margin: 1.25rem 0 1rem; text-align: center; letter-spacing: 0.2em;" required autofocus>
+        <input type="password" id="passcodeInput" class="input-field" placeholder="‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢‚Ä¢" style="margin: 1.25rem 0 1rem; text-align: center; letter-spacing: 0.2em;" required autofocus>
         <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Unlock</button>
       </form>
       <div id="loginError" style="color: #f87171; font-size: 0.8rem; margin-top: 0.75rem; display: none;"></div>
@@ -393,12 +393,12 @@
   <!-- Header -->
   <header>
     <div class="brand-group">
-      <a href="/crm" class="back-btn">? Pipeline</a>
+      <a href="/crm" class="back-btn">&larr; Pipeline</a>
       <img src="/images/favicon.png" width="28" height="28" style="border-radius: 6px;">
       <div style="font-weight: 700; font-size: 1.05rem;">G3Z <span class="crm-badge">CRM</span></div>
     </div>
     <div>
-      <button id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">?? Lock</button>
+      <button id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Lock</button>
     </div>
   </header>
 
@@ -410,69 +410,69 @@
         <h1 class="lead-name" id="leadName">Loading...</h1>
         <span class="status-badge" id="leadStatusBadge">...</span>
       </div>
-      <div class="hero-meta" id="leadReceivedTime">Received: ó</div>
+      <div class="hero-meta" id="leadReceivedTime">Received: &mdash;</div>
 
       <!-- Quick 1-Click Communications -->
       <div class="direct-actions-grid">
-        <a href="#" class="action-btn btn-call" id="btnCall">?? Call Phone</a>
-        <a href="#" class="action-btn btn-sms" id="btnSms">?? Send SMS</a>
-        <a href="#" class="action-btn btn-email" id="btnEmail">?? Send Email</a>
+        <a href="#" class="action-btn btn-call" id="btnCall">üìû Call Phone</a>
+        <a href="#" class="action-btn btn-sms" id="btnSms">üí¨ Send SMS</a>
+        <a href="#" class="action-btn btn-email" id="btnEmail">‚úâÔ∏è Send Email</a>
       </div>
     </div>
 
     <!-- Stage & Valuation -->
     <div class="card-section">
-      <div class="section-title">?? Stage &amp; Deal Valuation</div>
+      <div class="section-title">üìä Stage &amp; Deal Valuation</div>
       <form id="stageForm" class="stage-val-row">
         <select id="stageSelect" class="input-field">
-          <option value="new">? New Lead</option>
-          <option value="contacted">?? Contacted</option>
-          <option value="qualified">?? Qualified</option>
-          <option value="proposal">?? Proposal Sent</option>
-          <option value="won">?? Deal Won</option>
-          <option value="lost">?? Lost</option>
-          <option value="spam">?? Spam / Archive</option>
+          <option value="new">‚ö° New Lead</option>
+          <option value="contacted">üí¨ Contacted</option>
+          <option value="qualified">üéØ Qualified</option>
+          <option value="proposal">üìÑ Proposal Sent</option>
+          <option value="won">üèÜ Deal Won</option>
+          <option value="lost">üìÅ Lost</option>
+          <option value="spam">üö´ Spam / Archive</option>
         </select>
         <input type="number" id="valueInput" class="input-field" placeholder="Est. Deal Value ($)" min="0" step="100">
         <button type="submit" class="btn-primary" id="saveStageBtn">Save</button>
       </form>
-      <div id="saveToast" style="color: var(--success); font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none;">? Updated successfully</div>
+      <div id="saveToast" style="color: var(--success); font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none;">&check; Updated successfully</div>
     </div>
 
     <!-- Lead Information -->
     <div class="card-section">
-      <div class="section-title">?? Contact Profile</div>
+      <div class="section-title">üìã Contact Profile</div>
       <div class="detail-grid">
         <div class="detail-item">
           <div class="detail-label">Phone</div>
-          <div class="detail-val" id="detailPhone">ó</div>
+          <div class="detail-val" id="detailPhone">&mdash;</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Email</div>
-          <div class="detail-val" id="detailEmail">ó</div>
+          <div class="detail-val" id="detailEmail">&mdash;</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Company</div>
-          <div class="detail-val" id="detailCompany">ó</div>
+          <div class="detail-val" id="detailCompany">&mdash;</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Service Interest</div>
-          <div class="detail-val" id="detailService">ó</div>
+          <div class="detail-val" id="detailService">&mdash;</div>
         </div>
         <div class="detail-item full-width-item">
           <div class="detail-label">Source Page</div>
-          <div class="detail-val" style="color: var(--info);" id="detailSource">ó</div>
+          <div class="detail-val" style="color: var(--info);" id="detailSource">&mdash;</div>
         </div>
         <div class="detail-item full-width-item">
           <div class="detail-label">Inquiry Message</div>
-          <div class="detail-val" style="white-space: pre-wrap; line-height: 1.5;" id="detailMessage">ó</div>
+          <div class="detail-val" style="white-space: pre-wrap; line-height: 1.5;" id="detailMessage">&mdash;</div>
         </div>
       </div>
     </div>
 
     <!-- Timeline & Notes -->
     <div class="card-section">
-      <div class="section-title">?? Activity Log &amp; Notes</div>
+      <div class="section-title">üìù Activity Log &amp; Notes</div>
       <form id="noteForm" class="note-form">
         <input type="text" id="noteInput" class="input-field" placeholder="Log call notes, outreach details, or next steps..." required>
         <button type="submit" class="btn-primary" style="white-space: nowrap;">Add Note</button>
@@ -486,7 +486,7 @@
         <div style="font-weight: 700; font-size: 0.95rem; color: #f87171;">Delete Lead</div>
         <div style="font-size: 0.8rem; color: var(--text-muted);">Permanently remove this contact and activity history.</div>
       </div>
-      <button class="btn-danger" id="deleteBtn">??? Delete Lead</button>
+      <button class="btn-danger" id="deleteBtn">üóëÔ∏è Delete Lead</button>
     </div>
   </main>
 
@@ -540,19 +540,19 @@
         const seconds = Math.floor((now - date) / 1000);
         if (seconds < 60) return 'Just now';
         const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes}m ago`;
+        if (minutes < 60) return minutes + 'm ago';
         const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours}h ago`;
+        if (hours < 24) return hours + 'h ago';
         const days = Math.floor(hours / 24);
-        if (days < 30) return `${days}d ago`;
+        if (days < 30) return days + 'd ago';
         return date.toLocaleDateString();
       }
 
       function escapeHtml(str) {
         if (!str) return '';
-        return String(str).replace(/[&<>"']/g, m => ({
-          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-        })[m]);
+        return String(str).replace(/[&<>"']/g, function(m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+        });
       }
 
       async function checkAuth() {
@@ -600,7 +600,7 @@
 
       async function fetchLeadDetails() {
         try {
-          const res = await fetch(`/api/crm/leads/${leadId}`);
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId));
           if (res.status === 401) {
             loginModal.style.display = 'flex';
             return;
@@ -619,12 +619,12 @@
 
       function renderLead(lead, notes) {
         currentLead = lead;
-        document.title = `${lead.name} ó G3Z CRM`;
+        document.title = (lead.name || 'Lead') + ' ‚Äî G3Z CRM';
 
         leadName.textContent = lead.name || 'Anonymous Lead';
         leadStatusBadge.textContent = lead.status || 'new';
-        leadStatusBadge.className = `status-badge status-${lead.status}`;
-        leadReceivedTime.textContent = `Received: ${lead.created_at ? new Date(lead.created_at.replace(' ', 'T') + 'Z').toLocaleString() : 'Just now'} (${timeAgo(lead.created_at)})`;
+        leadStatusBadge.className = 'status-badge status-' + lead.status;
+        leadReceivedTime.textContent = 'Received: ' + (lead.created_at ? new Date(lead.created_at.replace(' ', 'T') + 'Z').toLocaleString() : 'Just now') + ' (' + timeAgo(lead.created_at) + ')';
 
         stageSelect.value = lead.status || 'new';
         valueInput.value = lead.deal_value || '';
@@ -633,33 +633,33 @@
         const rawEmail = lead.email || (lead.contact_info && lead.contact_info.includes('@') ? lead.contact_info : '');
 
         if (rawPhone) {
-          btnCall.href = `tel:${rawPhone}`;
+          btnCall.href = 'tel:' + rawPhone;
           btnCall.style.opacity = '1';
           btnCall.style.pointerEvents = 'auto';
-          btnSms.href = `sms:${rawPhone}`;
+          btnSms.href = 'sms:' + rawPhone;
           btnSms.style.opacity = '1';
           btnSms.style.pointerEvents = 'auto';
-          detailPhone.innerHTML = `<a href="tel:${rawPhone}" style="color:var(--info); text-decoration:none;">${escapeHtml(lead.phone || lead.contact_info)}</a>`;
+          detailPhone.innerHTML = '<a href="tel:' + rawPhone + '" style="color:var(--info); text-decoration:none;">' + escapeHtml(lead.phone || lead.contact_info) + '</a>';
         } else {
           btnCall.style.opacity = '0.4';
           btnCall.style.pointerEvents = 'none';
           btnSms.style.opacity = '0.4';
           btnSms.style.pointerEvents = 'none';
-          detailPhone.textContent = 'ó';
+          detailPhone.textContent = '‚Äî';
         }
 
         if (rawEmail) {
-          btnEmail.href = `mailto:${rawEmail}`;
+          btnEmail.href = 'mailto:' + rawEmail;
           btnEmail.style.opacity = '1';
           btnEmail.style.pointerEvents = 'auto';
-          detailEmail.innerHTML = `<a href="mailto:${rawEmail}" style="color:var(--info); text-decoration:none;">${escapeHtml(rawEmail)}</a>`;
+          detailEmail.innerHTML = '<a href="mailto:' + rawEmail + '" style="color:var(--info); text-decoration:none;">' + escapeHtml(rawEmail) + '</a>';
         } else {
           btnEmail.style.opacity = '0.4';
           btnEmail.style.pointerEvents = 'none';
-          detailEmail.textContent = 'ó';
+          detailEmail.textContent = '‚Äî';
         }
 
-        detailCompany.textContent = lead.company || 'ó';
+        detailCompany.textContent = lead.company || '‚Äî';
         detailService.textContent = lead.service_interest || 'General Inquiry';
         detailSource.textContent = lead.source_page || '/';
         detailMessage.textContent = lead.message || 'No additional message provided.';
@@ -671,28 +671,14 @@
         timelineList.innerHTML = '';
 
         if (!notes || notes.length === 0) {
-          timelineList.innerHTML = `
-            <div class="timeline-item">
-              <div class="timeline-meta">
-                <span>Inquiry Created</span>
-                <span>${timeAgo(lead.created_at)}</span>
-              </div>
-              <div class="timeline-body">Lead captured from ${escapeHtml(lead.source_page || 'website')}.</div>
-            </div>
-          `;
+          timelineList.innerHTML = '<div class="timeline-item"><div class="timeline-meta"><span>Inquiry Created</span><span>' + timeAgo(lead.created_at) + '</span></div><div class="timeline-body">Lead captured from ' + escapeHtml(lead.source_page || 'website') + '.</div></div>';
           return;
         }
 
-        notes.forEach(note => {
+        notes.forEach(function(note) {
           const item = document.createElement('div');
           item.className = 'timeline-item';
-          item.innerHTML = `
-            <div class="timeline-meta">
-              <span style="font-weight:600; color:white;">${escapeHtml(note.author || 'Chris')}</span>
-              <span>${timeAgo(note.created_at)}</span>
-            </div>
-            <div class="timeline-body">${escapeHtml(note.content)}</div>
-          `;
+          item.innerHTML = '<div class="timeline-meta"><span style="font-weight:600; color:white;">' + escapeHtml(note.author || 'Chris') + '</span><span>' + timeAgo(note.created_at) + '</span></div><div class="timeline-body">' + escapeHtml(note.content) + '</div>';
           timelineList.appendChild(item);
         });
       }
@@ -705,14 +691,14 @@
             status: stageSelect.value,
             deal_value: valueInput.value ? parseFloat(valueInput.value) : 0
           };
-          const res = await fetch(`/api/crm/leads/${leadId}`, {
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
           if (res.ok) {
             leadStatusBadge.textContent = payload.status;
-            leadStatusBadge.className = `status-badge status-${payload.status}`;
+            leadStatusBadge.className = 'status-badge status-' + payload.status;
             saveToast.style.display = 'block';
             setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
             fetchLeadDetails();
@@ -729,10 +715,10 @@
         if (!content) return;
 
         try {
-          const res = await fetch(`/api/crm/leads/${leadId}/notes`, {
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content, author: 'Chris' })
+            body: JSON.stringify({ content: content, author: 'Chris' })
           });
           if (res.ok) {
             noteInput.value = '';
@@ -745,11 +731,11 @@
 
       // Delete Lead
       deleteBtn.addEventListener('click', async () => {
-        if (!confirm(`Are you sure you want to permanently delete "${currentLead ? currentLead.name : 'this lead'}"?`)) {
+        if (!confirm('Are you sure you want to permanently delete "' + (currentLead ? currentLead.name : 'this lead') + '"?')) {
           return;
         }
         try {
-          const res = await fetch(`/api/crm/leads/${leadId}`, { method: 'DELETE' });
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { method: 'DELETE' });
           if (res.ok) {
             window.location.href = '/crm';
           }
