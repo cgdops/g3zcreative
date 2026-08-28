@@ -107,7 +107,7 @@ function getHeaderNavDropdown(prefix) {
                         </div>
                       </li>
                       <li class="flex-horizontal w-node-_3bbc2dd5-d796-11e5-3c1c-e8b9ada0b7c3-ada0b73b">
-                        <a href="https://outlook.office.com/bookwithme/user/7f6a66ac828344eb9670c6cb66bedc6b@g3zcreative.com?anonymous&amp;ismsaljsauthenabled&amp;ep=plink" class="card-link inverse-card-link flex-child-expand w-inline-block">
+                        <a href="tel:+17869673699" data-open-inquiry="true" class="card-link inverse-card-link flex-child-expand w-inline-block">
                           <div class="card-body">
                             <div class="h3-heading">Grow your business online</div>
                             <p class="paragraph-sm utility-text-inverse-secondary">See how custom automations eliminate overhead and scale your service revenue.</p>
