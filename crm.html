@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>G3Z Creative — In-House CRM</title>
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #da104d;
+      --primary-hover: #b90b3f;
+      --primary-subtle: rgba(218, 16, 77, 0.1);
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --info: #38bdf8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    header {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    .brand-title {
+      font-family: 'Young Serif', serif;
+      font-size: 1.25rem;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .crm-badge {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--primary);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.55rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .btn:hover {
+      background: var(--surface-hover);
+      border-color: #64748b;
+    }
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+    .btn-sm {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.78rem;
+      border-radius: 6px;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 1.5rem;
+      max-width: 1700px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Metrics Bar */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+    .metric-value {
+      font-family: 'Young Serif', serif;
+      font-size: 1.85rem;
+      color: #ffffff;
+    }
+    .metric-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Filter & Controls Toolbar */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+    }
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+      max-width: 450px;
+    }
+    .search-input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: white;
+      padding: 0.55rem 0.9rem 0.55rem 2.2rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .view-toggle {
+      display: flex;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px;
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .view-btn.active {
+      background: var(--surface);
+      color: white;
+    }
+
+    /* Kanban Board */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(270px, 1fr));
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1.5rem;
+      align-items: start;
+    }
+    .kanban-column {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      max-height: calc(100vh - 300px);
+    }
+    .column-header {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 14px 14px 0 0;
+    }
+    .column-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .column-count {
+      background: #334155;
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .column-cards {
+      padding: 0.75rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+      min-height: 120px;
+    }
+
+    /* Lead Card */
+    .lead-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .lead-card:hover {
+      border-color: #64748b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+    }
+    .card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #ffffff;
+    }
+    .card-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .card-company {
+      font-size: 0.8rem;
+      color: var(--info);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .card-service {
+      display: inline-block;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.65rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .card-source {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: #0f172a;
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.65rem;
+      margin-top: 0.35rem;
+    }
+    .card-action-btn {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.35rem 0.4rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .card-action-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* List View Table */
+    .list-view {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: none;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    th {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      color: var(--text);
+    }
+    tr:hover td {
+      background: rgba(51, 65, 85, 0.3);
+      cursor: pointer;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .status-new { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .status-contacted { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .status-qualified { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .status-proposal { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+    .status-won { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .status-lost { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
+    .status-spam { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+    /* Lead Detail Drawer / Modal */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex;
+      justify-content: flex-end;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+    .drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drawer {
+      background: #1e293b;
+      border-left: 1px solid var(--border);
+      width: 100%;
+      max-width: 620px;
+      height: 100%;
+      overflow-y: auto;
+      padding: 2rem;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      transform: translateX(100%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer-overlay.active .drawer {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .drawer-title {
+      font-family: 'Young Serif', serif;
+      font-size: 1.6rem;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+    .drawer-close {
+      background: #334155;
+      border: none;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .drawer-close:hover {
+      background: var(--primary);
+      color: white;
+    }
+    .detail-section {
+      margin-bottom: 1.5rem;
+    }
+    .detail-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .detail-item label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .detail-item div {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+    .direct-actions-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+    .direct-btn {
+      flex: 1;
+      text-align: center;
+      padding: 0.7rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: white;
+      transition: all 0.15s ease;
+    }
+    .direct-btn-call:hover { background: #16a34a; border-color: #16a34a; }
+    .direct-btn-sms:hover { background: #0284c7; border-color: #0284c7; }
+    .direct-btn-mail:hover { background: var(--primary); border-color: var(--primary); }
+
+    /* Timeline & Notes */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+    .timeline-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-size: 0.85rem;
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .note-form {
+      display: flex;
+      gap: 8px;
+      margin-top: 0.75rem;
+    }
+    .note-input {
+      flex: 1;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: white;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+    .note-input:focus { outline: none; border-color: var(--primary); }
+
+    /* Login Modal */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0f172a;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .login-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      margin: 1.25rem 0 1rem;
+      text-align: center;
+      letter-spacing: 0.2em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Gate -->
+  <div class="login-overlay" id="loginModal" style="display: none;">
+    <div class="login-card">
+      <img src="/images/favicon.png" width="48" height="48" style="border-radius: 10px; margin-bottom: 1rem;">
+      <h2 style="font-family: 'Young Serif', serif; margin-bottom: 0.5rem;">G3Z Creative CRM</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Enter passcode to access contacts and pipeline.</p>
+      <form id="loginForm">
+        <input type="password" id="passcodeInput" class="login-input" placeholder="••••••••" required autofocus>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Unlock CRM</button>
+      </form>
+      <div id="loginError" style="color: #f87171; font-size: 0.8rem; margin-top: 0.75rem; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="/images/favicon.png" alt="G3Z Creative">
+      <div class="brand-title">
+        G3Z Creative <span class="crm-badge">CRM</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-primary btn-sm" id="newLeadBtn">+ New Lead</button>
+      <a href="/api/crm/export" class="btn btn-sm" id="exportBtn" title="Export leads to CSV">📥 Export CSV</a>
+      <button class="btn btn-sm" id="refreshBtn" title="Refresh">🔄</button>
+      <button class="btn btn-sm" id="logoutBtn" style="color: #94a3b8;">Lock</button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main>
+    <!-- Top KPI Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">New Leads Today</div>
+        <div class="metric-value" id="kpiNewLeads" style="color: var(--info);">0</div>
+        <div class="metric-sub">Awaiting initial outreach</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Active Pipeline</div>
+        <div class="metric-value" id="kpiActivePipeline">0</div>
+        <div class="metric-sub" id="kpiPipelineVal">$0 Est. Value</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Total Inquiries</div>
+        <div class="metric-value" id="kpiTotalLeads">0</div>
+        <div class="metric-sub">Captured all-time</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Deals Won</div>
+        <div class="metric-value" id="kpiDealsWon" style="color: var(--success);">0</div>
+        <div class="metric-sub">Closed revenue</div>
+      </div>
+    </div>
+
+    <!-- Filter & View Controls -->
+    <div class="toolbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, phone, service, or page...">
+      </div>
+
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <select id="statusFilter" class="btn" style="background: #0f172a; padding: 0.55rem 0.85rem;">
+          <option value="all">All Stages</option>
+          <option value="new">New Leads</option>
+          <option value="contacted">Contacted</option>
+          <option value="qualified">Qualified</option>
+          <option value="proposal">Proposal Sent</option>
+          <option value="won">Won Deals</option>
+          <option value="lost">Lost</option>
+          <option value="spam">Spam / Archived</option>
+        </select>
+
+        <div class="view-toggle">
+          <button class="view-btn active" id="kanbanToggleBtn">Kanban</button>
+          <button class="view-btn" id="listToggleBtn">List</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kanban Pipeline View -->
+    <div class="kanban-board" id="kanbanBoard">
+      <!-- Column 1: New Leads -->
+      <div class="kanban-column" data-status="new">
+        <div class="column-header">
+          <div class="column-title" style="color: #38bdf8;">⚡ New Leads</div>
+          <span class="column-count" id="count-new">0</span>
+        </div>
+        <div class="column-cards" id="cards-new"></div>
+      </div>
+
+      <!-- Column 2: Contacted -->
+      <div class="kanban-column" data-status="contacted">
+        <div class="column-header">
+          <div class="column-title" style="color: #f59e0b;">💬 Contacted</div>
+          <span class="column-count" id="count-contacted">0</span>
+        </div>
+        <div class="column-cards" id="cards-contacted"></div>
+      </div>
+
+      <!-- Column 3: Qualified -->
+      <div class="kanban-column" data-status="qualified">
+        <div class="column-header">
+          <div class="column-title" style="color: #c084fc;">🎯 Qualified</div>
+          <span class="column-count" id="count-qualified">0</span>
+        </div>
+        <div class="column-cards" id="cards-qualified"></div>
+      </div>
+
+      <!-- Column 4: Proposal Sent -->
+      <div class="kanban-column" data-status="proposal">
+        <div class="column-header">
+          <div class="column-title" style="color: #f472b6;">📄 Proposal Sent</div>
+          <span class="column-count" id="count-proposal">0</span>
+        </div>
+        <div class="column-cards" id="cards-proposal"></div>
+      </div>
+
+      <!-- Column 5: Won -->
+      <div class="kanban-column" data-status="won">
+        <div class="column-header">
+          <div class="column-title" style="color: #4ade80;">🏆 Deals Won</div>
+          <span class="column-count" id="count-won">0</span>
+        </div>
+        <div class="column-cards" id="cards-won"></div>
+      </div>
+
+      <!-- Column 6: Lost / Spam -->
+      <div class="kanban-column" data-status="lost">
+        <div class="column-header">
+          <div class="column-title" style="color: #94a3b8;">📁 Lost / Inactive</div>
+          <span class="column-count" id="count-lost">0</span>
+        </div>
+        <div class="column-cards" id="cards-lost"></div>
+      </div>
+    </div>
+
+    <!-- Table / List View -->
+    <div class="list-view" id="listView">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Contact Name</th>
+              <th>Contact Info</th>
+              <th>Service / Interest</th>
+              <th>Source / Page</th>
+              <th>Stage</th>
+              <th>Received</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lead Detail Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay">
+    <div class="drawer" id="leadDrawer">
+      <div class="drawer-header">
+        <div>
+          <h2 class="drawer-title" id="drawerName">Lead Name</h2>
+          <div style="font-size: 0.85rem; color: var(--text-muted);" id="drawerReceived">Received: Just now</div>
+        </div>
+        <button class="drawer-close" id="drawerCloseBtn">&times;</button>
+      </div>
+
+      <!-- Quick 1-Click Communications -->
+      <div class="direct-actions-bar">
+        <a href="#" class="direct-btn direct-btn-call" id="drawerCallBtn">📞 Call</a>
+        <a href="#" class="direct-btn direct-btn-sms" id="drawerSmsBtn">💬 SMS</a>
+        <a href="#" class="direct-btn direct-btn-mail" id="drawerMailBtn">✉️ Email</a>
+      </div>
+
+      <!-- Stage & Value Controls -->
+      <div class="detail-section">
+        <div class="detail-section-title">Stage &amp; Valuation</div>
+        <div style="display: flex; gap: 10px;">
+          <select id="drawerStatusSelect" class="btn" style="flex: 1; background: #0f172a; padding: 0.65rem;">
+            <option value="new">⚡ New Lead</option>
+            <option value="contacted">💬 Contacted</option>
+            <option value="qualified">🎯 Qualified</option>
+            <option value="proposal">📄 Proposal Sent</option>
+            <option value="won">🏆 Deal Won</option>
+            <option value="lost">📁 Lost</option>
+            <option value="spam">🚫 Spam / Archive</option>
+          </select>
+          <input type="number" id="drawerValueInput" class="search-input" placeholder="Deal Value ($)" style="width: 140px;" min="0" step="100">
+          <button class="btn btn-primary btn-sm" id="saveStageBtn">Save</button>
+        </div>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="detail-section">
+        <div class="detail-section-title">Lead Information</div>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Phone</label>
+            <div id="drawerPhone">—</div>
+          </div>
+          <div class="detail-item">
+            <label>Email</label>
+            <div id="drawerEmail">—</div>
+          </div>
+          <div class="detail-item">
+            <label>Company</label>
+            <div id="drawerCompany">—</div>
+          </div>
+          <div class="detail-item">
+            <label>Service Interest</label>
+            <div id="drawerService">—</div>
+          </div>
+          <div class="detail-item" style="grid-column: span 2;">
+            <label>Source Page</label>
+            <div id="drawerSource" style="word-break: break-all; font-size: 0.8rem; color: var(--info);">—</div>
+          </div>
+          <div class="detail-item" style="grid-column: span 2;">
+            <label>Inquiry Message</label>
+            <div id="drawerMessage" style="font-weight: 400; line-height: 1.4; color: #e2e8f0;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline & Activity Log -->
+      <div class="detail-section" style="flex: 1;">
+        <div class="detail-section-title">Activity Log &amp; Notes</div>
+        
+        <form id="addNoteForm" class="note-form">
+          <input type="text" id="noteInput" class="note-input" placeholder="Log call notes, next steps, or updates..." required>
+          <button type="submit" class="btn btn-primary btn-sm">Add Note</button>
+        </form>
+
+        <div class="timeline" id="drawerTimeline">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Danger Zone / Delete -->
+      <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto; display: flex; justify-content: space-between;">
+        <button class="btn btn-sm" id="deleteLeadBtn" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3);">🗑️ Delete Lead</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual New Lead Modal -->
+  <div class="drawer-overlay" id="manualModalOverlay" style="justify-content: center; align-items: center;">
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="font-family: 'Young Serif', serif; font-size: 1.4rem;">Add Manual Lead</h3>
+        <button class="drawer-close" id="closeManualModalBtn">&times;</button>
+      </div>
+      <form id="manualLeadForm">
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Name *</label>
+          <input type="text" name="name" class="search-input" required placeholder="John Doe">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Phone or Email *</label>
+          <input type="text" name="contact_info" class="search-input" required placeholder="(305) 555-0100 or john@example.com">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Company / Niche</label>
+          <input type="text" name="company" class="search-input" placeholder="Miami Electricians LLC">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Stage</label>
+          <select name="status" class="search-input">
+            <option value="new">New Lead</option>
+            <option value="contacted">Contacted</option>
+            <option value="qualified">Qualified</option>
+            <option value="proposal">Proposal Sent</option>
+            <option value="won">Won Deal</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 1.25rem;">
+          <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Notes / Context</label>
+          <textarea name="message" class="search-input" style="min-height: 70px;" placeholder="Referral from networking call..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Create Lead</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      let state = {
+        leads: [],
+        counts: {},
+        currentLead: null,
+        activeView: 'kanban',
+        searchQuery: '',
+        statusFilter: 'all'
+      };
+
+      // DOM Elements
+      const loginModal = document.getElementById('loginModal');
+      const loginForm = document.getElementById('loginForm');
+      const passcodeInput = document.getElementById('passcodeInput');
+      const loginError = document.getElementById('loginError');
+
+      const kanbanBoard = document.getElementById('kanbanBoard');
+      const listView = document.getElementById('listView');
+      const kanbanToggleBtn = document.getElementById('kanbanToggleBtn');
+      const listToggleBtn = document.getElementById('listToggleBtn');
+      const searchInput = document.getElementById('searchInput');
+      const statusFilter = document.getElementById('statusFilter');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      const drawerOverlay = document.getElementById('drawerOverlay');
+      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+      const drawerName = document.getElementById('drawerName');
+      const drawerReceived = document.getElementById('drawerReceived');
+      const drawerPhone = document.getElementById('drawerPhone');
+      const drawerEmail = document.getElementById('drawerEmail');
+      const drawerCompany = document.getElementById('drawerCompany');
+      const drawerService = document.getElementById('drawerService');
+      const drawerSource = document.getElementById('drawerSource');
+      const drawerMessage = document.getElementById('drawerMessage');
+      const drawerStatusSelect = document.getElementById('drawerStatusSelect');
+      const drawerValueInput = document.getElementById('drawerValueInput');
+      const drawerTimeline = document.getElementById('drawerTimeline');
+      const addNoteForm = document.getElementById('addNoteForm');
+      const noteInput = document.getElementById('noteInput');
+      const saveStageBtn = document.getElementById('saveStageBtn');
+      const deleteLeadBtn = document.getElementById('deleteLeadBtn');
+
+      const drawerCallBtn = document.getElementById('drawerCallBtn');
+      const drawerSmsBtn = document.getElementById('drawerSmsBtn');
+      const drawerMailBtn = document.getElementById('drawerMailBtn');
+
+      const newLeadBtn = document.getElementById('newLeadBtn');
+      const manualModalOverlay = document.getElementById('manualModalOverlay');
+      const closeManualModalBtn = document.getElementById('closeManualModalBtn');
+      const manualLeadForm = document.getElementById('manualLeadForm');
+
+      // Helper: time ago formatter
+      function timeAgo(dateString) {
+        if (!dateString) return '';
+        const now = new Date();
+        const date = new Date(dateString.replace(' ', 'T') + 'Z');
+        const seconds = Math.floor((now - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 30) return `${days}d ago`;
+        return date.toLocaleDateString();
+      }
+
+      // Check Authentication
+      async function checkAuth() {
+        try {
+          const res = await fetch('/api/crm/auth');
+          const data = await res.json();
+          if (data.authenticated) {
+            loginModal.style.display = 'none';
+            fetchLeads();
+          } else {
+            loginModal.style.display = 'flex';
+          }
+        } catch (e) {
+          loginModal.style.display = 'flex';
+        }
+      }
+
+      // Login handler
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.style.display = 'none';
+        try {
+          const res = await fetch('/api/crm/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passcode: passcodeInput.value })
+          });
+          const data = await res.json();
+          if (data.authenticated) {
+            loginModal.style.display = 'none';
+            fetchLeads();
+          } else {
+            loginError.textContent = data.error || 'Invalid passcode.';
+            loginError.style.display = 'block';
+          }
+        } catch (err) {
+          loginError.textContent = 'Server error. Please try again.';
+          loginError.style.display = 'block';
+        }
+      });
+
+      // Logout handler
+      logoutBtn.addEventListener('click', () => {
+        document.cookie = 'g3z_crm_auth=; Max-Age=0; path=/;';
+        window.location.reload();
+      });
+
+      // Fetch Leads
+      async function fetchLeads() {
+        try {
+          const q = encodeURIComponent(state.searchQuery);
+          const status = encodeURIComponent(state.statusFilter);
+          const res = await fetch(`/api/crm/leads?q=${q}&status=${status}`);
+          if (res.status === 401) {
+            loginModal.style.display = 'flex';
+            return;
+          }
+          const data = await res.json();
+          state.leads = data.leads || [];
+          state.counts = data.counts || {};
+          renderMetrics();
+          renderKanban();
+          renderList();
+        } catch (err) {
+          console.error('Failed to load leads:', err);
+        }
+      }
+
+      // Render KPIs
+      function renderMetrics() {
+        document.getElementById('kpiNewLeads').textContent = state.counts.new || 0;
+        document.getElementById('kpiTotalLeads').textContent = state.counts.total || 0;
+        document.getElementById('kpiDealsWon').textContent = state.counts.won || 0;
+        const active = (state.counts.contacted || 0) + (state.counts.qualified || 0) + (state.counts.proposal || 0);
+        document.getElementById('kpiActivePipeline').textContent = active;
+        const val = state.counts.pipelineValue || 0;
+        document.getElementById('kpiPipelineVal').textContent = `$${val.toLocaleString()} Pipeline Val`;
+      }
+
+      // Render Kanban Board
+      function renderKanban() {
+        const columns = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
+        
+        columns.forEach(col => {
+          const container = document.getElementById(`cards-${col}`);
+          const countBadge = document.getElementById(`count-${col}`);
+          if (!container) return;
+
+          const colLeads = state.leads.filter(l => {
+            if (col === 'lost') return l.status === 'lost' || l.status === 'spam';
+            return l.status === col;
+          });
+
+          if (countBadge) countBadge.textContent = colLeads.length;
+          container.innerHTML = '';
+
+          if (colLeads.length === 0) {
+            container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:0.75rem; padding:1.5rem 0;">No leads</div>`;
+            return;
+          }
+
+          colLeads.forEach(lead => {
+            const card = document.createElement('div');
+            card.className = 'lead-card';
+            
+            const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
+            const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
+
+            card.innerHTML = `
+              <div class="card-top">
+                <div class="card-name">${escapeHtml(lead.name)}</div>
+                <div class="card-time">${timeAgo(lead.created_at)}</div>
+              </div>
+              ${lead.company ? `<div class="card-company">🏢 ${escapeHtml(lead.company)}</div>` : ''}
+              <div class="card-service">${escapeHtml(lead.service_interest || 'Inquiry')}</div>
+              <div class="card-source" title="${escapeHtml(lead.source_page || '/')}">
+                🔗 ${escapeHtml(lead.source_page ? lead.source_page.replace(/^\/marketing-for\//, '') : 'Direct')}
+              </div>
+              <div class="card-actions" onclick="event.stopPropagation()">
+                ${rawPhone ? `<a href="tel:${rawPhone}" class="card-action-btn" title="Call">📞 Call</a>` : `<span class="card-action-btn" style="opacity:0.4;">📞</span>`}
+                ${rawPhone ? `<a href="sms:${rawPhone}" class="card-action-btn" title="SMS">💬 SMS</a>` : `<span class="card-action-btn" style="opacity:0.4;">💬</span>`}
+                ${rawEmail ? `<a href="mailto:${rawEmail}" class="card-action-btn" title="Email">✉️ Mail</a>` : `<span class="card-action-btn" style="opacity:0.4;">✉️</span>`}
+              </div>
+            `;
+
+            card.addEventListener('click', () => openLeadDrawer(lead.id));
+            container.appendChild(card);
+          });
+        });
+      }
+
+      // Render List View
+      function renderList() {
+        const tbody = document.getElementById('leadsTableBody');
+        tbody.innerHTML = '';
+
+        if (state.leads.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:2rem;">No leads found.</td></tr>`;
+          return;
+        }
+
+        state.leads.forEach(lead => {
+          const tr = document.createElement('tr');
+          const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
+          const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
+
+          tr.innerHTML = `
+            <td>
+              <strong style="color:white;">${escapeHtml(lead.name)}</strong>
+              ${lead.company ? `<div style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(lead.company)}</div>` : ''}
+            </td>
+            <td>
+              <div>${escapeHtml(lead.contact_info)}</div>
+            </td>
+            <td>
+              <span class="card-service" style="margin:0;">${escapeHtml(lead.service_interest || 'Inquiry')}</span>
+            </td>
+            <td style="font-size:0.8rem; color:var(--text-muted); max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+              ${escapeHtml(lead.source_page || '/')}
+            </td>
+            <td>
+              <span class="status-badge status-${lead.status}">${lead.status}</span>
+            </td>
+            <td style="font-size:0.8rem; color:var(--text-muted);">${timeAgo(lead.created_at)}</td>
+            <td onclick="event.stopPropagation()">
+              <div style="display:flex; gap:4px;">
+                ${rawPhone ? `<a href="tel:${rawPhone}" class="btn btn-sm">📞</a>` : ''}
+                ${rawPhone ? `<a href="sms:${rawPhone}" class="btn btn-sm">💬</a>` : ''}
+                ${rawEmail ? `<a href="mailto:${rawEmail}" class="btn btn-sm">✉️</a>` : ''}
+              </div>
+            </td>
+          `;
+
+          tr.addEventListener('click', () => openLeadDrawer(lead.id));
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Open Lead Drawer
+      async function openLeadDrawer(leadId) {
+        try {
+          const res = await fetch(`/api/crm/leads/${leadId}`);
+          const data = await res.json();
+          if (!res.ok || !data.lead) return;
+
+          state.currentLead = data.lead;
+          const lead = data.lead;
+          const notes = data.notes || [];
+
+          drawerName.textContent = lead.name;
+          drawerReceived.textContent = `Received: ${new Date(lead.created_at).toLocaleString()}`;
+          drawerPhone.textContent = lead.phone || (!lead.contact_info.includes('@') ? lead.contact_info : '—');
+          drawerEmail.textContent = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '—');
+          drawerCompany.textContent = lead.company || '—';
+          drawerService.textContent = lead.service_interest || 'General Inquiry';
+          drawerSource.textContent = lead.source_page || '/';
+          drawerMessage.textContent = lead.message || '(No extra notes provided on form)';
+          drawerStatusSelect.value = lead.status;
+          drawerValueInput.value = lead.estimated_value || '';
+
+          const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
+          const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
+
+          if (rawPhone) {
+            drawerCallBtn.href = `tel:${rawPhone}`;
+            drawerCallBtn.style.display = 'flex';
+            drawerSmsBtn.href = `sms:${rawPhone}`;
+            drawerSmsBtn.style.display = 'flex';
+          } else {
+            drawerCallBtn.style.display = 'none';
+            drawerSmsBtn.style.display = 'none';
+          }
+
+          if (rawEmail) {
+            drawerMailBtn.href = `mailto:${rawEmail}`;
+            drawerMailBtn.style.display = 'flex';
+          } else {
+            drawerMailBtn.style.display = 'none';
+          }
+
+          renderTimeline(notes);
+          drawerOverlay.classList.add('active');
+        } catch (err) {
+          console.error('Error opening lead detail:', err);
+        }
+      }
+
+      function renderTimeline(notes) {
+        drawerTimeline.innerHTML = '';
+        if (notes.length === 0) {
+          drawerTimeline.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:0.8rem; padding:1rem 0;">No notes or activity logs yet.</div>`;
+          return;
+        }
+
+        notes.forEach(note => {
+          const item = document.createElement('div');
+          item.className = 'timeline-item';
+          item.innerHTML = `
+            <div class="timeline-header">
+              <span><strong>${escapeHtml(note.author || 'Christian')}</strong> (${note.type})</span>
+              <span>${timeAgo(note.created_at)}</span>
+            </div>
+            <div style="color:#f1f5f9; white-space:pre-wrap;">${escapeHtml(note.content)}</div>
+          `;
+          drawerTimeline.appendChild(item);
+        });
+      }
+
+      // Add Note Handler
+      addNoteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!state.currentLead) return;
+        const text = noteInput.value.trim();
+        if (!text) return;
+
+        try {
+          const res = await fetch(`/api/crm/leads/${state.currentLead.id}/notes`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: text, type: 'note' })
+          });
+          if (res.ok) {
+            noteInput.value = '';
+            openLeadDrawer(state.currentLead.id);
+          }
+        } catch (err) {
+          console.error('Error adding note:', err);
+        }
+      });
+
+      // Save Stage & Value
+      saveStageBtn.addEventListener('click', async () => {
+        if (!state.currentLead) return;
+        saveStageBtn.textContent = 'Saving...';
+        try {
+          const res = await fetch(`/api/crm/leads/${state.currentLead.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              status: drawerStatusSelect.value,
+              estimated_value: parseFloat(drawerValueInput.value) || 0
+            })
+          });
+          if (res.ok) {
+            saveStageBtn.textContent = 'Saved!';
+            setTimeout(() => saveStageBtn.textContent = 'Save', 1200);
+            fetchLeads();
+            openLeadDrawer(state.currentLead.id);
+          }
+        } catch (err) {
+          saveStageBtn.textContent = 'Error';
+        }
+      });
+
+      // Delete Lead
+      deleteLeadBtn.addEventListener('click', async () => {
+        if (!state.currentLead) return;
+        if (!confirm(`Are you sure you want to delete lead "${state.currentLead.name}"?`)) return;
+        try {
+          await fetch(`/api/crm/leads/${state.currentLead.id}`, { method: 'DELETE' });
+          drawerOverlay.classList.remove('active');
+          fetchLeads();
+        } catch (err) {
+          alert('Failed to delete lead.');
+        }
+      });
+
+      // Close Drawer
+      drawerCloseBtn.addEventListener('click', () => drawerOverlay.classList.remove('active'));
+      drawerOverlay.addEventListener('click', (e) => {
+        if (e.target === drawerOverlay) drawerOverlay.classList.remove('active');
+      });
+
+      // View Toggles
+      kanbanToggleBtn.addEventListener('click', () => {
+        state.activeView = 'kanban';
+        kanbanToggleBtn.classList.add('active');
+        listToggleBtn.classList.remove('active');
+        kanbanBoard.style.display = 'grid';
+        listView.style.display = 'none';
+      });
+
+      listToggleBtn.addEventListener('click', () => {
+        state.activeView = 'list';
+        listToggleBtn.classList.add('active');
+        kanbanToggleBtn.classList.remove('active');
+        kanbanBoard.style.display = 'none';
+        listView.style.display = 'block';
+      });
+
+      // Search & Filters
+      let debounceTimer;
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          state.searchQuery = e.target.value;
+          fetchLeads();
+        }, 250);
+      });
+
+      statusFilter.addEventListener('change', (e) => {
+        state.statusFilter = e.target.value;
+        fetchLeads();
+      });
+
+      refreshBtn.addEventListener('click', fetchLeads);
+
+      // Manual Lead Modal
+      newLeadBtn.addEventListener('click', () => manualModalOverlay.classList.add('active'));
+      closeManualModalBtn.addEventListener('click', () => manualModalOverlay.classList.remove('active'));
+      manualModalOverlay.addEventListener('click', (e) => {
+        if (e.target === manualModalOverlay) manualModalOverlay.classList.remove('active');
+      });
+
+      manualLeadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(manualLeadForm);
+        const payload = {
+          name: formData.get('name'),
+          contact_info: formData.get('contact_info'),
+          company: formData.get('company'),
+          status: formData.get('status'),
+          message: formData.get('message')
+        };
+        try {
+          const res = await fetch('/api/crm/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            manualLeadForm.reset();
+            manualModalOverlay.classList.remove('active');
+            fetchLeads();
+          }
+        } catch (err) {
+          alert('Could not create lead.');
+        }
+      });
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, m => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[m]);
+      }
+
+      // Initial check
+      checkAuth();
+    })();
+  </script>
+</body>
+</html>

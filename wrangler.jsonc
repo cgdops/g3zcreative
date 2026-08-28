@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "g3zcreative",
+  "main": "src/worker.js",
   "compatibility_date": "2026-06-04",
   "observability": {
     "enabled": true
@@ -10,5 +11,12 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "g3zcreative-crm",
+      "database_id": "89854ade-3129-4073-bbd4-afd46d4ff913"
+    }
   ]
 }

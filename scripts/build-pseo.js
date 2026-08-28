@@ -89,7 +89,7 @@ const sharedHead = `
 const sharedScripts = `
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6837ae7e314e91dd48e1e240" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script src="/js/webflow.js" type="text/javascript"></script>
-  <script type="text/javascript" id="hs-script-loader" async defer src="https://js-na2.hs-scripts.com/244013468.js"></script>`;
+  <script src="/js/quick-connect.js" type="text/javascript"></script>`;
 
 const dataset = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
 
@@ -121,8 +121,17 @@ for (const row of dataset) {
   }
 
   const outputFile = path.join(OUTPUT_DIR, `${row.slug}.html`);
-  fs.writeFileSync(outputFile, pageContent, 'utf8');
-  count++;
+  let written = false;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      fs.writeFileSync(outputFile, pageContent, 'utf8');
+      written = true;
+      break;
+    } catch (e) {
+      if (attempt === 2) throw e;
+    }
+  }
+  if (written) count++;
 }
 
 console.log(`Successfully compiled ${count} programmatic pages in marketing-for/\n`);

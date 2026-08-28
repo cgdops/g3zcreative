@@ -1,0 +1,10 @@
+.git/
+node_modules/
+.credentials/
+.wrangler/
+scripts/
+templates/
+migrations/
+package.json
+package-lock.json
+*.env*
