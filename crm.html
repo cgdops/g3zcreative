@@ -469,7 +469,7 @@
     .status-lost { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
     .status-spam { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
-    /* Lead Detail Drawer / Modal */
+    /* Modal Overlay (Used for Manual Lead Form) */
     .drawer-overlay {
       position: fixed;
       top: 0;
@@ -480,45 +480,16 @@
       backdrop-filter: blur(6px);
       z-index: 1000;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
+      align-items: center;
       opacity: 0;
       visibility: hidden;
       transition: all 0.25s ease;
+      padding: 1rem;
     }
     .drawer-overlay.active {
       opacity: 1;
       visibility: visible;
-    }
-    .drawer {
-      background: #1e293b;
-      border-left: 1px solid var(--border);
-      width: 100%;
-      max-width: 620px;
-      height: 100%;
-      overflow-y: auto;
-      padding: 2rem;
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-      transform: translateX(100%);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-    }
-    .drawer-overlay.active .drawer {
-      transform: translateX(0);
-    }
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-    .drawer-title {
-      font-family: 'Young Serif', serif;
-      font-size: 1.6rem;
-      color: white;
-      margin-bottom: 0.25rem;
     }
     .drawer-close {
       background: #334155;
@@ -537,100 +508,6 @@
       background: var(--primary);
       color: white;
     }
-    .detail-section {
-      margin-bottom: 1.5rem;
-    }
-    .detail-section-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-    }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      background: #0f172a;
-      padding: 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }
-    .detail-item label {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-    .detail-item div {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #f8fafc;
-    }
-    .direct-actions-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 1.5rem;
-    }
-    .direct-btn {
-      flex: 1;
-      text-align: center;
-      padding: 0.7rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      border: 1px solid var(--border);
-      background: #0f172a;
-      color: white;
-      transition: all 0.15s ease;
-    }
-    .direct-btn-call:hover { background: #16a34a; border-color: #16a34a; }
-    .direct-btn-sms:hover { background: #0284c7; border-color: #0284c7; }
-    .direct-btn-mail:hover { background: var(--primary); border-color: var(--primary); }
-
-    /* Timeline & Notes */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-top: 1rem;
-    }
-    .timeline-item {
-      background: #0f172a;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.85rem;
-      font-size: 0.85rem;
-    }
-    .timeline-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-    }
-    .note-form {
-      display: flex;
-      gap: 8px;
-      margin-top: 0.75rem;
-    }
-    .note-input {
-      flex: 1;
-      background: #0f172a;
-      border: 1px solid var(--border);
-      color: white;
-      padding: 0.6rem 0.8rem;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 0.85rem;
-    }
-    .note-input:focus { outline: none; border-color: var(--primary); }
 
     /* Login Modal */
     .login-overlay {
@@ -775,72 +652,6 @@
         padding: 0.5rem 0.35rem;
         font-size: 0.78rem;
         min-height: 38px;
-      }
-      .drawer-overlay {
-        align-items: flex-end;
-        justify-content: center;
-      }
-      .drawer {
-        width: 100%;
-        max-width: 100vw;
-        max-height: 88vh;
-        height: auto;
-        border-left: none;
-        border-top: 1px solid var(--border);
-        border-radius: 20px 20px 0 0;
-        padding: 1.25rem 1rem env(safe-area-inset-bottom, 1.25rem);
-        transform: translateY(100%);
-        box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.7);
-      }
-      .drawer-overlay.active .drawer {
-        transform: translateY(0);
-      }
-      .drawer-pull-bar {
-        display: block;
-        width: 38px;
-        height: 4px;
-        background: #475569;
-        border-radius: 2px;
-        margin: -0.25rem auto 1rem;
-      }
-      .drawer-header {
-        padding-bottom: 0.85rem;
-        margin-bottom: 1rem;
-      }
-      .drawer-title {
-        font-size: 1.35rem;
-      }
-      .direct-actions-bar {
-        margin-bottom: 1rem;
-        gap: 6px;
-      }
-      .direct-btn {
-        padding: 0.65rem 0.4rem;
-        font-size: 0.82rem;
-        min-height: 44px;
-      }
-      .stage-val-controls {
-        flex-direction: column !important;
-        gap: 8px !important;
-      }
-      .stage-val-controls select,
-      .stage-val-controls input,
-      .stage-val-controls button {
-        width: 100% !important;
-        font-size: 16px !important;
-        min-height: 42px;
-      }
-      .detail-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-        padding: 0.85rem;
-      }
-      .detail-item div {
-        font-size: 0.85rem;
-      }
-      .note-input {
-        font-size: 16px;
-        padding: 0.65rem 0.75rem;
       }
       .modal-card {
         margin: 0.75rem;
@@ -1027,95 +838,6 @@
     </div>
   </main>
 
-  <!-- Lead Detail Drawer -->
-  <div class="drawer-overlay" id="drawerOverlay">
-    <div class="drawer" id="leadDrawer">
-      <div class="drawer-pull-bar"></div>
-      <div class="drawer-header">
-        <div>
-          <h2 class="drawer-title" id="drawerName">Lead Name</h2>
-          <div style="font-size: 0.85rem; color: var(--text-muted);" id="drawerReceived">Received: Just now</div>
-        </div>
-        <button class="drawer-close" id="drawerCloseBtn">&times;</button>
-      </div>
-
-      <!-- Quick 1-Click Communications -->
-      <div class="direct-actions-bar">
-        <a href="#" class="direct-btn direct-btn-call" id="drawerCallBtn">📞 Call</a>
-        <a href="#" class="direct-btn direct-btn-sms" id="drawerSmsBtn">💬 SMS</a>
-        <a href="#" class="direct-btn direct-btn-mail" id="drawerMailBtn">✉️ Email</a>
-      </div>
-
-      <!-- Stage & Value Controls -->
-      <div class="detail-section">
-        <div class="detail-section-title">Stage &amp; Valuation</div>
-        <div class="stage-val-controls" style="display: flex; gap: 10px;">
-          <select id="drawerStatusSelect" class="btn" style="flex: 1; background: #0f172a; padding: 0.65rem;">
-            <option value="new">⚡ New Lead</option>
-            <option value="contacted">💬 Contacted</option>
-            <option value="qualified">🎯 Qualified</option>
-            <option value="proposal">📄 Proposal Sent</option>
-            <option value="won">🏆 Deal Won</option>
-            <option value="lost">📁 Lost</option>
-            <option value="spam">🚫 Spam / Archive</option>
-          </select>
-          <input type="number" id="drawerValueInput" class="search-input" placeholder="Deal Value ($)" style="width: 140px;" min="0" step="100">
-          <button class="btn btn-primary btn-sm" id="saveStageBtn">Save</button>
-        </div>
-      </div>
-
-      <!-- Contact Details -->
-      <div class="detail-section">
-        <div class="detail-section-title">Lead Information</div>
-        <div class="detail-grid">
-          <div class="detail-item">
-            <label>Phone</label>
-            <div id="drawerPhone">—</div>
-          </div>
-          <div class="detail-item">
-            <label>Email</label>
-            <div id="drawerEmail">—</div>
-          </div>
-          <div class="detail-item">
-            <label>Company</label>
-            <div id="drawerCompany">—</div>
-          </div>
-          <div class="detail-item">
-            <label>Service Interest</label>
-            <div id="drawerService">—</div>
-          </div>
-          <div class="detail-item" style="grid-column: span 2;">
-            <label>Source Page</label>
-            <div id="drawerSource" style="word-break: break-all; font-size: 0.8rem; color: var(--info);">—</div>
-          </div>
-          <div class="detail-item" style="grid-column: span 2;">
-            <label>Inquiry Message</label>
-            <div id="drawerMessage" style="font-weight: 400; line-height: 1.4; color: #e2e8f0;">—</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Timeline & Activity Log -->
-      <div class="detail-section" style="flex: 1;">
-        <div class="detail-section-title">Activity Log &amp; Notes</div>
-        
-        <form id="addNoteForm" class="note-form">
-          <input type="text" id="noteInput" class="note-input" placeholder="Log call notes, next steps, or updates..." required>
-          <button type="submit" class="btn btn-primary btn-sm">Add Note</button>
-        </form>
-
-        <div class="timeline" id="drawerTimeline">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-
-      <!-- Danger Zone / Delete -->
-      <div style="border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto; display: flex; justify-content: space-between;">
-        <button class="btn btn-sm" id="deleteLeadBtn" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3);">🗑️ Delete Lead</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Manual New Lead Modal -->
   <div class="drawer-overlay" id="manualModalOverlay" style="justify-content: center; align-items: center;">
     <div class="modal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 2rem;">
@@ -1180,28 +902,6 @@
       const statusFilter = document.getElementById('statusFilter');
       const refreshBtn = document.getElementById('refreshBtn');
       const logoutBtn = document.getElementById('logoutBtn');
-
-      const drawerOverlay = document.getElementById('drawerOverlay');
-      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-      const drawerName = document.getElementById('drawerName');
-      const drawerReceived = document.getElementById('drawerReceived');
-      const drawerPhone = document.getElementById('drawerPhone');
-      const drawerEmail = document.getElementById('drawerEmail');
-      const drawerCompany = document.getElementById('drawerCompany');
-      const drawerService = document.getElementById('drawerService');
-      const drawerSource = document.getElementById('drawerSource');
-      const drawerMessage = document.getElementById('drawerMessage');
-      const drawerStatusSelect = document.getElementById('drawerStatusSelect');
-      const drawerValueInput = document.getElementById('drawerValueInput');
-      const drawerTimeline = document.getElementById('drawerTimeline');
-      const addNoteForm = document.getElementById('addNoteForm');
-      const noteInput = document.getElementById('noteInput');
-      const saveStageBtn = document.getElementById('saveStageBtn');
-      const deleteLeadBtn = document.getElementById('deleteLeadBtn');
-
-      const drawerCallBtn = document.getElementById('drawerCallBtn');
-      const drawerSmsBtn = document.getElementById('drawerSmsBtn');
-      const drawerMailBtn = document.getElementById('drawerMailBtn');
 
       const newLeadBtn = document.getElementById('newLeadBtn');
       const manualModalOverlay = document.getElementById('manualModalOverlay');
@@ -1447,7 +1147,7 @@
 
             card.addEventListener('click', (e) => {
               if (isDragging) return;
-              openLeadDrawer(lead.id);
+              window.location.href = `/lead?id=${encodeURIComponent(lead.id)}`;
             });
 
             container.appendChild(card);
@@ -1497,145 +1197,12 @@
             </td>
           `;
 
-          tr.addEventListener('click', () => openLeadDrawer(lead.id));
+          tr.addEventListener('click', () => {
+            window.location.href = `/lead?id=${encodeURIComponent(lead.id)}`;
+          });
           tbody.appendChild(tr);
         });
       }
-
-      // Open Lead Drawer
-      async function openLeadDrawer(leadId) {
-        try {
-          const res = await fetch(`/api/crm/leads/${leadId}`);
-          const data = await res.json();
-          if (!res.ok || !data.lead) return;
-
-          state.currentLead = data.lead;
-          const lead = data.lead;
-          const notes = data.notes || [];
-
-          drawerName.textContent = lead.name;
-          drawerReceived.textContent = `Received: ${new Date(lead.created_at).toLocaleString()}`;
-          drawerPhone.textContent = lead.phone || (!lead.contact_info.includes('@') ? lead.contact_info : '—');
-          drawerEmail.textContent = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '—');
-          drawerCompany.textContent = lead.company || '—';
-          drawerService.textContent = lead.service_interest || 'General Inquiry';
-          drawerSource.textContent = lead.source_page || '/';
-          drawerMessage.textContent = lead.message || '(No extra notes provided on form)';
-          drawerStatusSelect.value = lead.status;
-          drawerValueInput.value = lead.estimated_value || '';
-
-          const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
-          const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
-
-          if (rawPhone) {
-            drawerCallBtn.href = `tel:${rawPhone}`;
-            drawerCallBtn.style.display = 'flex';
-            drawerSmsBtn.href = `sms:${rawPhone}`;
-            drawerSmsBtn.style.display = 'flex';
-          } else {
-            drawerCallBtn.style.display = 'none';
-            drawerSmsBtn.style.display = 'none';
-          }
-
-          if (rawEmail) {
-            drawerMailBtn.href = `mailto:${rawEmail}`;
-            drawerMailBtn.style.display = 'flex';
-          } else {
-            drawerMailBtn.style.display = 'none';
-          }
-
-          renderTimeline(notes);
-          drawerOverlay.classList.add('active');
-        } catch (err) {
-          console.error('Error opening lead detail:', err);
-        }
-      }
-
-      function renderTimeline(notes) {
-        drawerTimeline.innerHTML = '';
-        if (notes.length === 0) {
-          drawerTimeline.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:0.8rem; padding:1rem 0;">No notes or activity logs yet.</div>`;
-          return;
-        }
-
-        notes.forEach(note => {
-          const item = document.createElement('div');
-          item.className = 'timeline-item';
-          item.innerHTML = `
-            <div class="timeline-header">
-              <span><strong>${escapeHtml(note.author || 'Christian')}</strong> (${note.type})</span>
-              <span>${timeAgo(note.created_at)}</span>
-            </div>
-            <div style="color:#f1f5f9; white-space:pre-wrap;">${escapeHtml(note.content)}</div>
-          `;
-          drawerTimeline.appendChild(item);
-        });
-      }
-
-      // Add Note Handler
-      addNoteForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!state.currentLead) return;
-        const text = noteInput.value.trim();
-        if (!text) return;
-
-        try {
-          const res = await fetch(`/api/crm/leads/${state.currentLead.id}/notes`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: text, type: 'note' })
-          });
-          if (res.ok) {
-            noteInput.value = '';
-            openLeadDrawer(state.currentLead.id);
-          }
-        } catch (err) {
-          console.error('Error adding note:', err);
-        }
-      });
-
-      // Save Stage & Value
-      saveStageBtn.addEventListener('click', async () => {
-        if (!state.currentLead) return;
-        saveStageBtn.textContent = 'Saving...';
-        try {
-          const res = await fetch(`/api/crm/leads/${state.currentLead.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              status: drawerStatusSelect.value,
-              estimated_value: parseFloat(drawerValueInput.value) || 0
-            })
-          });
-          if (res.ok) {
-            saveStageBtn.textContent = 'Saved!';
-            setTimeout(() => saveStageBtn.textContent = 'Save', 1200);
-            fetchLeads();
-            openLeadDrawer(state.currentLead.id);
-          }
-        } catch (err) {
-          saveStageBtn.textContent = 'Error';
-        }
-      });
-
-      // Delete Lead
-      deleteLeadBtn.addEventListener('click', async () => {
-        if (!state.currentLead) return;
-        if (!confirm(`Are you sure you want to delete lead "${state.currentLead.name}"?`)) return;
-        try {
-          await fetch(`/api/crm/leads/${state.currentLead.id}`, { method: 'DELETE' });
-          drawerOverlay.classList.remove('active');
-          fetchLeads();
-        } catch (err) {
-          alert('Failed to delete lead.');
-        }
-      });
-
-      // Close Drawer
-      drawerCloseBtn.addEventListener('click', () => drawerOverlay.classList.remove('active'));
-      drawerOverlay.addEventListener('click', (e) => {
-        if (e.target === drawerOverlay) drawerOverlay.classList.remove('active');
-      });
 
       // View Toggles
       kanbanToggleBtn.addEventListener('click', () => {

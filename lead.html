@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lead Details — G3Z Creative CRM</title>
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #da104d;
+      --primary-hover: #b80d40;
+      --primary-subtle: rgba(218, 16, 77, 0.15);
+      --bg: #0b0f17;
+      --surface: #131b2e;
+      --surface-hover: #1c2742;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --info: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+    .back-btn:hover {
+      background: var(--surface-hover);
+      border-color: #475569;
+    }
+    .crm-badge {
+      font-size: 0.7rem;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .lead-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .lead-name {
+      font-family: 'Young Serif', serif;
+      font-size: 1.75rem;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .hero-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-new { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .status-contacted { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-qualified { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
+    .status-proposal { background: rgba(244, 114, 182, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.3); }
+    .status-won { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+    .status-lost, .status-spam { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+    /* Action Buttons */
+    .direct-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.85rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      min-height: 48px;
+    }
+    .btn-call {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+    }
+    .btn-call:hover { background: rgba(34, 197, 94, 0.25); transform: translateY(-1px); }
+    .btn-sms {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+    .btn-sms:hover { background: rgba(56, 189, 248, 0.25); transform: translateY(-1px); }
+    .btn-email {
+      background: rgba(192, 132, 252, 0.15);
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      color: #c084fc;
+    }
+    .btn-email:hover { background: rgba(192, 132, 252, 0.25); transform: translateY(-1px); }
+
+    /* Section Cards */
+    .card-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Stage & Valuation Form */
+    .stage-val-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+    }
+    .input-field {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 16px;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Details Grid */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .detail-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+    }
+    .detail-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .detail-val {
+      font-size: 0.95rem;
+      color: #ffffff;
+      word-break: break-word;
+    }
+    .full-width-item {
+      grid-column: span 2;
+    }
+
+    /* Timeline & Notes */
+    .note-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .timeline-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+    }
+    .timeline-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .timeline-body {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* Danger Zone */
+    .danger-zone {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      background: rgba(239, 68, 68, 0.04);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+    }
+    .btn-danger {
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #f87171;
+    }
+
+    /* Login Modal */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #0f172a;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0.75rem 1rem; }
+      main { padding: 1rem 0.85rem 3rem; }
+      .lead-hero { padding: 1.25rem 1rem; }
+      .lead-name { font-size: 1.45rem; }
+      .direct-actions-grid { grid-template-columns: 1fr; gap: 8px; }
+      .card-section { padding: 1rem; }
+      .stage-val-row { grid-template-columns: 1fr; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .full-width-item { grid-column: span 1; }
+      .note-form { flex-direction: column; }
+      .danger-zone { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Gate -->
+  <div class="login-overlay" id="loginModal" style="display: none;">
+    <div class="login-card">
+      <img src="/images/favicon.png" width="48" height="48" style="border-radius: 10px; margin-bottom: 1rem;">
+      <h2 style="font-family: 'Young Serif', serif; margin-bottom: 0.5rem;">G3Z Creative CRM</h2>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Enter passcode to access lead intelligence.</p>
+      <form id="loginForm">
+        <input type="password" id="passcodeInput" class="input-field" placeholder="••••••••" style="margin: 1.25rem 0 1rem; text-align: center; letter-spacing: 0.2em;" required autofocus>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Unlock</button>
+      </form>
+      <div id="loginError" style="color: #f87171; font-size: 0.8rem; margin-top: 0.75rem; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand-group">
+      <a href="/crm" class="back-btn">? Pipeline</a>
+      <img src="/images/favicon.png" width="28" height="28" style="border-radius: 6px;">
+      <div style="font-weight: 700; font-size: 1.05rem;">G3Z <span class="crm-badge">CRM</span></div>
+    </div>
+    <div>
+      <button id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">?? Lock</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="mainContainer">
+    <!-- Hero Lead Summary -->
+    <div class="lead-hero">
+      <div class="hero-top">
+        <h1 class="lead-name" id="leadName">Loading...</h1>
+        <span class="status-badge" id="leadStatusBadge">...</span>
+      </div>
+      <div class="hero-meta" id="leadReceivedTime">Received: —</div>
+
+      <!-- Quick 1-Click Communications -->
+      <div class="direct-actions-grid">
+        <a href="#" class="action-btn btn-call" id="btnCall">?? Call Phone</a>
+        <a href="#" class="action-btn btn-sms" id="btnSms">?? Send SMS</a>
+        <a href="#" class="action-btn btn-email" id="btnEmail">?? Send Email</a>
+      </div>
+    </div>
+
+    <!-- Stage & Valuation -->
+    <div class="card-section">
+      <div class="section-title">?? Stage &amp; Deal Valuation</div>
+      <form id="stageForm" class="stage-val-row">
+        <select id="stageSelect" class="input-field">
+          <option value="new">? New Lead</option>
+          <option value="contacted">?? Contacted</option>
+          <option value="qualified">?? Qualified</option>
+          <option value="proposal">?? Proposal Sent</option>
+          <option value="won">?? Deal Won</option>
+          <option value="lost">?? Lost</option>
+          <option value="spam">?? Spam / Archive</option>
+        </select>
+        <input type="number" id="valueInput" class="input-field" placeholder="Est. Deal Value ($)" min="0" step="100">
+        <button type="submit" class="btn-primary" id="saveStageBtn">Save</button>
+      </form>
+      <div id="saveToast" style="color: var(--success); font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none;">? Updated successfully</div>
+    </div>
+
+    <!-- Lead Information -->
+    <div class="card-section">
+      <div class="section-title">?? Contact Profile</div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <div class="detail-val" id="detailPhone">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-val" id="detailEmail">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Company</div>
+          <div class="detail-val" id="detailCompany">—</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Service Interest</div>
+          <div class="detail-val" id="detailService">—</div>
+        </div>
+        <div class="detail-item full-width-item">
+          <div class="detail-label">Source Page</div>
+          <div class="detail-val" style="color: var(--info);" id="detailSource">—</div>
+        </div>
+        <div class="detail-item full-width-item">
+          <div class="detail-label">Inquiry Message</div>
+          <div class="detail-val" style="white-space: pre-wrap; line-height: 1.5;" id="detailMessage">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline & Notes -->
+    <div class="card-section">
+      <div class="section-title">?? Activity Log &amp; Notes</div>
+      <form id="noteForm" class="note-form">
+        <input type="text" id="noteInput" class="input-field" placeholder="Log call notes, outreach details, or next steps..." required>
+        <button type="submit" class="btn-primary" style="white-space: nowrap;">Add Note</button>
+      </form>
+      <div class="timeline" id="timelineList"></div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+      <div>
+        <div style="font-weight: 700; font-size: 0.95rem; color: #f87171;">Delete Lead</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Permanently remove this contact and activity history.</div>
+      </div>
+      <button class="btn-danger" id="deleteBtn">??? Delete Lead</button>
+    </div>
+  </main>
+
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const leadId = params.get('id');
+
+      if (!leadId) {
+        window.location.href = '/crm';
+        return;
+      }
+
+      let currentLead = null;
+
+      // Elements
+      const loginModal = document.getElementById('loginModal');
+      const loginForm = document.getElementById('loginForm');
+      const passcodeInput = document.getElementById('passcodeInput');
+      const loginError = document.getElementById('loginError');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      const leadName = document.getElementById('leadName');
+      const leadStatusBadge = document.getElementById('leadStatusBadge');
+      const leadReceivedTime = document.getElementById('leadReceivedTime');
+      const btnCall = document.getElementById('btnCall');
+      const btnSms = document.getElementById('btnSms');
+      const btnEmail = document.getElementById('btnEmail');
+
+      const stageForm = document.getElementById('stageForm');
+      const stageSelect = document.getElementById('stageSelect');
+      const valueInput = document.getElementById('valueInput');
+      const saveToast = document.getElementById('saveToast');
+
+      const detailPhone = document.getElementById('detailPhone');
+      const detailEmail = document.getElementById('detailEmail');
+      const detailCompany = document.getElementById('detailCompany');
+      const detailService = document.getElementById('detailService');
+      const detailSource = document.getElementById('detailSource');
+      const detailMessage = document.getElementById('detailMessage');
+
+      const noteForm = document.getElementById('noteForm');
+      const noteInput = document.getElementById('noteInput');
+      const timelineList = document.getElementById('timelineList');
+      const deleteBtn = document.getElementById('deleteBtn');
+
+      function timeAgo(dateString) {
+        if (!dateString) return '';
+        const now = new Date();
+        const date = new Date(dateString.replace(' ', 'T') + 'Z');
+        const seconds = Math.floor((now - date) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 30) return `${days}d ago`;
+        return date.toLocaleDateString();
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>"']/g, m => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[m]);
+      }
+
+      async function checkAuth() {
+        try {
+          const res = await fetch('/api/crm/auth');
+          const data = await res.json();
+          if (data.authenticated) {
+            loginModal.style.display = 'none';
+            fetchLeadDetails();
+          } else {
+            loginModal.style.display = 'flex';
+          }
+        } catch (e) {
+          loginModal.style.display = 'flex';
+        }
+      }
+
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.style.display = 'none';
+        try {
+          const res = await fetch('/api/crm/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passcode: passcodeInput.value })
+          });
+          const data = await res.json();
+          if (data.authenticated) {
+            loginModal.style.display = 'none';
+            fetchLeadDetails();
+          } else {
+            loginError.textContent = data.error || 'Invalid passcode.';
+            loginError.style.display = 'block';
+          }
+        } catch (err) {
+          loginError.textContent = 'Server error. Please try again.';
+          loginError.style.display = 'block';
+        }
+      });
+
+      logoutBtn.addEventListener('click', async () => {
+        await fetch('/api/crm/auth', { method: 'DELETE' });
+        window.location.href = '/crm';
+      });
+
+      async function fetchLeadDetails() {
+        try {
+          const res = await fetch(`/api/crm/leads/${leadId}`);
+          if (res.status === 401) {
+            loginModal.style.display = 'flex';
+            return;
+          }
+          if (!res.ok) {
+            alert('Lead not found.');
+            window.location.href = '/crm';
+            return;
+          }
+          const data = await res.json();
+          renderLead(data.lead, data.notes || []);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function renderLead(lead, notes) {
+        currentLead = lead;
+        document.title = `${lead.name} — G3Z CRM`;
+
+        leadName.textContent = lead.name || 'Anonymous Lead';
+        leadStatusBadge.textContent = lead.status || 'new';
+        leadStatusBadge.className = `status-badge status-${lead.status}`;
+        leadReceivedTime.textContent = `Received: ${lead.created_at ? new Date(lead.created_at.replace(' ', 'T') + 'Z').toLocaleString() : 'Just now'} (${timeAgo(lead.created_at)})`;
+
+        stageSelect.value = lead.status || 'new';
+        valueInput.value = lead.deal_value || '';
+
+        const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
+        const rawEmail = lead.email || (lead.contact_info && lead.contact_info.includes('@') ? lead.contact_info : '');
+
+        if (rawPhone) {
+          btnCall.href = `tel:${rawPhone}`;
+          btnCall.style.opacity = '1';
+          btnCall.style.pointerEvents = 'auto';
+          btnSms.href = `sms:${rawPhone}`;
+          btnSms.style.opacity = '1';
+          btnSms.style.pointerEvents = 'auto';
+          detailPhone.innerHTML = `<a href="tel:${rawPhone}" style="color:var(--info); text-decoration:none;">${escapeHtml(lead.phone || lead.contact_info)}</a>`;
+        } else {
+          btnCall.style.opacity = '0.4';
+          btnCall.style.pointerEvents = 'none';
+          btnSms.style.opacity = '0.4';
+          btnSms.style.pointerEvents = 'none';
+          detailPhone.textContent = '—';
+        }
+
+        if (rawEmail) {
+          btnEmail.href = `mailto:${rawEmail}`;
+          btnEmail.style.opacity = '1';
+          btnEmail.style.pointerEvents = 'auto';
+          detailEmail.innerHTML = `<a href="mailto:${rawEmail}" style="color:var(--info); text-decoration:none;">${escapeHtml(rawEmail)}</a>`;
+        } else {
+          btnEmail.style.opacity = '0.4';
+          btnEmail.style.pointerEvents = 'none';
+          detailEmail.textContent = '—';
+        }
+
+        detailCompany.textContent = lead.company || '—';
+        detailService.textContent = lead.service_interest || 'General Inquiry';
+        detailSource.textContent = lead.source_page || '/';
+        detailMessage.textContent = lead.message || 'No additional message provided.';
+
+        renderTimeline(notes, lead);
+      }
+
+      function renderTimeline(notes, lead) {
+        timelineList.innerHTML = '';
+
+        if (!notes || notes.length === 0) {
+          timelineList.innerHTML = `
+            <div class="timeline-item">
+              <div class="timeline-meta">
+                <span>Inquiry Created</span>
+                <span>${timeAgo(lead.created_at)}</span>
+              </div>
+              <div class="timeline-body">Lead captured from ${escapeHtml(lead.source_page || 'website')}.</div>
+            </div>
+          `;
+          return;
+        }
+
+        notes.forEach(note => {
+          const item = document.createElement('div');
+          item.className = 'timeline-item';
+          item.innerHTML = `
+            <div class="timeline-meta">
+              <span style="font-weight:600; color:white;">${escapeHtml(note.author || 'Chris')}</span>
+              <span>${timeAgo(note.created_at)}</span>
+            </div>
+            <div class="timeline-body">${escapeHtml(note.content)}</div>
+          `;
+          timelineList.appendChild(item);
+        });
+      }
+
+      // Save Stage & Valuation
+      stageForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+          const payload = {
+            status: stageSelect.value,
+            deal_value: valueInput.value ? parseFloat(valueInput.value) : 0
+          };
+          const res = await fetch(`/api/crm/leads/${leadId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            leadStatusBadge.textContent = payload.status;
+            leadStatusBadge.className = `status-badge status-${payload.status}`;
+            saveToast.style.display = 'block';
+            setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
+            fetchLeadDetails();
+          }
+        } catch (err) {
+          alert('Could not update stage.');
+        }
+      });
+
+      // Add Note
+      noteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const content = noteInput.value.trim();
+        if (!content) return;
+
+        try {
+          const res = await fetch(`/api/crm/leads/${leadId}/notes`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content, author: 'Chris' })
+          });
+          if (res.ok) {
+            noteInput.value = '';
+            fetchLeadDetails();
+          }
+        } catch (err) {
+          alert('Could not save note.');
+        }
+      });
+
+      // Delete Lead
+      deleteBtn.addEventListener('click', async () => {
+        if (!confirm(`Are you sure you want to permanently delete "${currentLead ? currentLead.name : 'this lead'}"?`)) {
+          return;
+        }
+        try {
+          const res = await fetch(`/api/crm/leads/${leadId}`, { method: 'DELETE' });
+          if (res.ok) {
+            window.location.href = '/crm';
+          }
+        } catch (err) {
+          alert('Failed to delete lead.');
+        }
+      });
+
+      checkAuth();
+    })();
+  </script>
+</body>
+</html>
