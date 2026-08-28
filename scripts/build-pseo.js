@@ -97,6 +97,38 @@ console.log(`\nCompiling Programmatic SEO Pages: ${dataset.length} pages found\n
 
 // ── Compilation Loop ──────────────────────────────────────────────────────
 
+function buildLinkMesh(currentRow, allRows) {
+  const nearbyCities = allRows
+    .filter(r => r.nicheSlug === currentRow.nicheSlug && r.slug !== currentRow.slug && r.stateAbbr === currentRow.stateAbbr)
+    .slice(0, 8);
+
+  const otherNichesInCity = allRows
+    .filter(r => r.cityName === currentRow.cityName && r.nicheSlug !== currentRow.nicheSlug);
+
+  return `
+<section class="section secondary-section" style="padding: 3.5rem 0; border-top: 1px solid #e2e8f0;">
+  <div class="container">
+    <div class="w-layout-grid grid-layout desktop-2-column tablet-1-column grid-gap-lg">
+      <div>
+        <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #0f172a;">${currentRow.nicheName} in Nearby Locations</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.88rem;">
+          ${nearbyCities.map(c => `<li><a href="/marketing-for/${c.slug}.html" style="color: #475569; text-decoration: none;">${c.nicheName} in ${c.cityName}</a></li>`).join('')}
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #0f172a;">Other Services in ${currentRow.cityName}</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.88rem;">
+          ${otherNichesInCity.map(n => `<li><a href="/marketing-for/${n.slug}.html" style="color: #475569; text-decoration: none;">${n.nicheName} in ${n.cityName}</a></li>`).join('')}
+        </ul>
+        <div style="margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px dashed #cbd5e1; font-size: 0.85rem;">
+          <a href="/services/digital-marketing-miramar.html" style="color: #da104d; font-weight: 600; text-decoration: none;">Explore Full Digital Marketing Services →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
 let count = 0;
 for (const row of dataset) {
   let pageContent = template;
@@ -106,6 +138,7 @@ for (const row of dataset) {
   pageContent = pageContent.replace(/\{\{footer\}\}/g, footer);
   pageContent = pageContent.replace(/\{\{sharedHead\}\}/g, sharedHead);
   pageContent = pageContent.replace(/\{\{sharedScripts\}\}/g, sharedScripts);
+  pageContent = pageContent.replace(/\{\{internalLinkMesh\}\}/g, buildLinkMesh(row, dataset));
 
   // Replace dynamic row tokens
   const tokens = [

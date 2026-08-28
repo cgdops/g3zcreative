@@ -646,7 +646,288 @@
       font-size: 1rem;
       margin: 1.25rem 0 1rem;
       text-align: center;
-      letter-spacing: 0.2em;
+    /* Mobile Responsive Stylesheet */
+    .mobile-stage-bar {
+      display: none;
+    }
+    .card-mobile-footer {
+      display: none;
+    }
+    .drawer-pull-bar {
+      display: none;
+    }
+    .btn-text-hide {
+      display: inline;
+    }
+
+    @media (max-width: 900px) {
+      /* Mobile Stage Switcher Pills */
+      .mobile-stage-bar {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 0.35rem 0.2rem 0.75rem;
+        margin-bottom: 0.75rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .mobile-stage-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .mobile-stage-pill {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+      }
+      .mobile-stage-pill.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+      .pill-count {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1px 6px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+      }
+      .mobile-stage-pill.active .pill-count {
+        background: rgba(255, 255, 255, 0.25);
+        color: white;
+      }
+
+      /* Kanban Board Snapping */
+      .kanban-board {
+        grid-template-columns: repeat(6, minmax(280px, 84vw));
+        gap: 0.75rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2rem;
+      }
+      .kanban-column {
+        scroll-snap-align: center;
+        scroll-margin: 1rem;
+        max-height: calc(100vh - 270px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Header on mobile */
+      header {
+        padding: 0.65rem 0.85rem;
+      }
+      .brand-title {
+        font-size: 1.05rem;
+      }
+      .crm-badge {
+        font-size: 0.65rem;
+        padding: 1px 5px;
+      }
+      .nav-actions {
+        gap: 6px;
+      }
+      .nav-actions .btn {
+        padding: 0.45rem 0.65rem;
+        font-size: 0.78rem;
+      }
+      .btn-text-hide {
+        display: none;
+      }
+
+      /* Main container */
+      main {
+        padding: 0.85rem;
+      }
+
+      /* Metrics 2x2 grid */
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 0.85rem;
+      }
+      .metric-card {
+        padding: 0.75rem 0.85rem;
+        border-radius: 10px;
+      }
+      .metric-label {
+        font-size: 0.68rem;
+        margin-bottom: 0.2rem;
+      }
+      .metric-value {
+        font-size: 1.4rem;
+      }
+      .metric-sub {
+        font-size: 0.68rem;
+        margin-top: 0.15rem;
+      }
+
+      /* Toolbar on mobile */
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 0.65rem;
+        margin-bottom: 0.85rem;
+        border-radius: 10px;
+      }
+      .search-box {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .search-input {
+        font-size: 16px; /* Prevents iOS auto-zoom */
+        padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+      }
+      .toolbar-controls {
+        display: flex;
+        gap: 6px;
+        width: 100%;
+      }
+      .toolbar-controls select {
+        flex: 1;
+        font-size: 16px;
+      }
+      .view-toggle {
+        flex-shrink: 0;
+      }
+
+      /* Mobile Quick Stage Switcher on Card */
+      .card-mobile-footer {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 0.5rem;
+        padding-top: 0.45rem;
+        border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      }
+      .card-stage-quickselect {
+        display: block;
+        width: 100%;
+        background: #0f172a;
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 0.4rem 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .card-stage-quickselect:focus {
+        outline: none;
+        border-color: var(--primary);
+        color: white;
+      }
+
+      /* Lead Card Actions */
+      .card-actions {
+        padding-top: 0.5rem;
+        gap: 6px;
+      }
+      .card-action-btn {
+        padding: 0.5rem 0.35rem;
+        font-size: 0.78rem;
+        min-height: 38px;
+      }
+
+      /* Lead Detail Drawer as Mobile Bottom Sheet */
+      .drawer-overlay {
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .drawer {
+        width: 100%;
+        max-width: 100vw;
+        max-height: 88vh;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        border-radius: 20px 20px 0 0;
+        padding: 1.25rem 1rem env(safe-area-inset-bottom, 1.25rem);
+        transform: translateY(100%);
+        box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.7);
+      }
+      .drawer-overlay.active .drawer {
+        transform: translateY(0);
+      }
+      .drawer-pull-bar {
+        display: block;
+        width: 38px;
+        height: 4px;
+        background: #475569;
+        border-radius: 2px;
+        margin: -0.25rem auto 1rem;
+      }
+      .drawer-header {
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
+      }
+      .drawer-title {
+        font-size: 1.35rem;
+      }
+      .direct-actions-bar {
+        margin-bottom: 1rem;
+        gap: 6px;
+      }
+      .direct-btn {
+        padding: 0.65rem 0.4rem;
+        font-size: 0.82rem;
+        min-height: 44px;
+      }
+      .stage-val-controls {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      .stage-val-controls select,
+      .stage-val-controls input,
+      .stage-val-controls button {
+        width: 100% !important;
+        font-size: 16px !important;
+        min-height: 42px;
+      }
+      .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 0.85rem;
+      }
+      .detail-item div {
+        font-size: 0.85rem;
+      }
+      .note-input {
+        font-size: 16px;
+        padding: 0.65rem 0.75rem;
+      }
+
+      /* Manual Lead Modal on Mobile */
+      .modal-card {
+        margin: 0.75rem;
+        padding: 1.25rem !important;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-card input,
+      .modal-card select,
+      .modal-card textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-title span:not(.crm-badge) {
+        display: none;
+      }
+      .kanban-board {
+        grid-template-columns: repeat(6, 88vw);
+      }
     }
   </style>
 </head>
@@ -671,14 +952,14 @@
     <div class="brand">
       <img src="/images/favicon.png" alt="G3Z Creative">
       <div class="brand-title">
-        G3Z Creative <span class="crm-badge">CRM</span>
+        <span>G3Z Creative</span> <span class="crm-badge">CRM</span>
       </div>
     </div>
     <div class="nav-actions">
-      <button class="btn btn-primary btn-sm" id="newLeadBtn">+ New Lead</button>
-      <a href="/api/crm/export" class="btn btn-sm" id="exportBtn" title="Export leads to CSV">📥 Export CSV</a>
+      <button class="btn btn-primary btn-sm" id="newLeadBtn">+ <span class="btn-text-hide">New </span>Lead</button>
+      <a href="/api/crm/export" class="btn btn-sm" id="exportBtn" title="Export leads to CSV"><span class="btn-text-hide">📥 </span>Export<span class="btn-text-hide"> CSV</span></a>
       <button class="btn btn-sm" id="refreshBtn" title="Refresh">🔄</button>
-      <button class="btn btn-sm" id="logoutBtn" style="color: #94a3b8;">Lock</button>
+      <button class="btn btn-sm" id="logoutBtn" style="color: #94a3b8;" title="Lock CRM">🔒<span class="btn-text-hide"> Lock</span></button>
     </div>
   </header>
 
@@ -689,7 +970,7 @@
       <div class="metric-card">
         <div class="metric-label">New Leads Today</div>
         <div class="metric-value" id="kpiNewLeads" style="color: var(--info);">0</div>
-        <div class="metric-sub">Awaiting initial outreach</div>
+        <div class="metric-sub">Awaiting outreach</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">Active Pipeline</div>
@@ -712,10 +993,10 @@
     <div class="toolbar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, phone, service, or page...">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, phone, service...">
       </div>
 
-      <div style="display: flex; gap: 10px; align-items: center;">
+      <div class="toolbar-controls">
         <select id="statusFilter" class="btn" style="background: #0f172a; padding: 0.55rem 0.85rem;">
           <option value="all">All Stages</option>
           <option value="new">New Leads</option>
@@ -732,6 +1013,16 @@
           <button class="view-btn" id="listToggleBtn">List</button>
         </div>
       </div>
+    </div>
+
+    <!-- Mobile Stage Switcher Pills -->
+    <div class="mobile-stage-bar" id="mobileStageBar">
+      <button class="mobile-stage-pill active" data-stage="new">⚡ New <span class="pill-count" id="pill-new">0</span></button>
+      <button class="mobile-stage-pill" data-stage="contacted">💬 Contacted <span class="pill-count" id="pill-contacted">0</span></button>
+      <button class="mobile-stage-pill" data-stage="qualified">🎯 Qualified <span class="pill-count" id="pill-qualified">0</span></button>
+      <button class="mobile-stage-pill" data-stage="proposal">📄 Proposal <span class="pill-count" id="pill-proposal">0</span></button>
+      <button class="mobile-stage-pill" data-stage="won">🏆 Won <span class="pill-count" id="pill-won">0</span></button>
+      <button class="mobile-stage-pill" data-stage="lost">📁 Lost <span class="pill-count" id="pill-lost">0</span></button>
     </div>
 
     <!-- Kanban Pipeline View -->
@@ -815,6 +1106,7 @@
   <!-- Lead Detail Drawer -->
   <div class="drawer-overlay" id="drawerOverlay">
     <div class="drawer" id="leadDrawer">
+      <div class="drawer-pull-bar"></div>
       <div class="drawer-header">
         <div>
           <h2 class="drawer-title" id="drawerName">Lead Name</h2>
@@ -833,7 +1125,7 @@
       <!-- Stage & Value Controls -->
       <div class="detail-section">
         <div class="detail-section-title">Stage &amp; Valuation</div>
-        <div style="display: flex; gap: 10px;">
+        <div class="stage-val-controls" style="display: flex; gap: 10px;">
           <select id="drawerStatusSelect" class="btn" style="flex: 1; background: #0f172a; padding: 0.65rem;">
             <option value="new">⚡ New Lead</option>
             <option value="contacted">💬 Contacted</option>
@@ -902,7 +1194,7 @@
 
   <!-- Manual New Lead Modal -->
   <div class="drawer-overlay" id="manualModalOverlay" style="justify-content: center; align-items: center;">
-    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 2rem;">
+    <div class="modal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 2rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
         <h3 style="font-family: 'Young Serif', serif; font-size: 1.4rem;">Add Manual Lead</h3>
         <button class="drawer-close" id="closeManualModalBtn">&times;</button>
