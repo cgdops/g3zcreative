@@ -111,13 +111,13 @@ function buildLinkMesh(currentRow, allRows) {
     <div class="w-layout-grid grid-layout desktop-2-column tablet-1-column grid-gap-lg">
       <div>
         <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #0f172a;">${currentRow.nicheName} in Nearby Locations</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.88rem;">
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem; font-size: 0.88rem;">
           ${nearbyCities.map(c => `<li><a href="/marketing-for/${c.slug}.html" style="color: #475569; text-decoration: none;">${c.nicheName} in ${c.cityName}</a></li>`).join('')}
         </ul>
       </div>
       <div>
         <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: #0f172a;">Other Services in ${currentRow.cityName}</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.88rem;">
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem; font-size: 0.88rem;">
           ${otherNichesInCity.map(n => `<li><a href="/marketing-for/${n.slug}.html" style="color: #475569; text-decoration: none;">${n.nicheName} in ${n.cityName}</a></li>`).join('')}
         </ul>
         <div style="margin-top: 1.25rem; padding-top: 0.75rem; border-top: 1px dashed #cbd5e1; font-size: 0.85rem;">

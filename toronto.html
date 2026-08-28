@@ -242,9 +242,35 @@
       border: 1px solid #e2e8f0;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
     }
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+      .hero-section {
+        padding: 3rem 1rem;
+      }
+      .hero-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
       .apply-card {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem 1.25rem;
+        border-radius: 16px;
+      }
+      .offer-card {
+        padding: 1.5rem;
+      }
+      .grid-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .video-wrapper {
+        border-width: 3px;
+        border-radius: 12px;
+      }
+      .modal-content {
+        padding: 1.5rem 1.25rem;
       }
     }
     .form-group {

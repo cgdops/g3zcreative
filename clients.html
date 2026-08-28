@@ -536,14 +536,31 @@
     }
 
     @media (max-width: 600px) {
+      .portal-wrapper {
+        padding: 1rem;
+      }
+      .portal-nav {
+        padding: 1rem;
+      }
       .lock-card {
-        padding: 2rem 1.5rem;
+        padding: 2rem 1.25rem;
+        border-radius: 16px;
       }
       .client-header h2 {
-        font-size: 2rem;
+        font-size: clamp(1.75rem, 6vw, 2.25rem);
       }
       .deck-grid {
         grid-template-columns: 1fr;
+      }
+      .passcode-input {
+        font-size: 16px !important;
+      }
+      .deck-actions {
+        flex-direction: column;
+      }
+      .deck-btn {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
