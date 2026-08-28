@@ -11,6 +11,12 @@
   <meta content="5 Best SEO &amp; Digital Marketing Agencies in Pembroke Pines for 2026" property="twitter:title">
   <meta content="An honest comparison of the top SEO and digital marketing agencies serving Pembroke Pines, FL — who each one is best for, what they offer, and how to choose." property="twitter:description">
   <meta content="summary_large_image" name="twitter:card">
+  <meta content="https://g3zcreative.com/images/best-seo-agencies-pembroke-pines.jpg" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="The 5 Best SEO and Digital Marketing Agencies in Pembroke Pines, a 2026 guide by G3Z Creative" property="og:image:alt">
+  <meta content="https://g3zcreative.com/images/best-seo-agencies-pembroke-pines.jpg" property="twitter:image">
+  <meta content="The 5 Best SEO and Digital Marketing Agencies in Pembroke Pines, a 2026 guide by G3Z Creative" name="twitter:image:alt">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="https://g3zcreative.com/blog/best-seo-agencies-pembroke-pines.html" rel="canonical">
   <link href="../css/normalize.css" rel="stylesheet" type="text/css">
@@ -71,6 +77,29 @@
       color: var(--post-muted);
       margin: 0;
     }
+    .post-figure {
+      padding-top: 2rem;
+    }
+    .post-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1200 / 630;
+      border-radius: 10px;
+      background: #0f172a;
+    }
+    .post-inline-figure {
+      margin: 0 0 1.9rem;
+    }
+    .post-inline-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1200 / 860;
+      border: 1px solid var(--post-rule);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
     .post-body {
       padding-top: 2.5rem;
       padding-bottom: 3rem;
@@ -81,7 +110,9 @@
       margin: 0 0 1.15rem;
       text-wrap: pretty;
     }
-    .post-body a {
+    /* Exclude .button — the Webflow button sets its own accent background and
+       white label, and an unscoped link rule here outranks it. */
+    .post-body a:not(.button) {
       color: #da104d;
       text-decoration: underline;
       text-underline-offset: 2px;
@@ -178,6 +209,8 @@
     }
     @media (max-width: 767px) {
       .post-hero { padding-top: 2.25rem; padding-bottom: 1.5rem; }
+      .post-figure { padding-top: 1.25rem; }
+      .post-figure img { border-radius: 7px; }
       .post-body { padding-top: 1.75rem; font-size: 1.02rem; }
       .post-intro { font-size: 1.08rem; }
       .post-entry, .post-section { padding-top: 2rem; margin-top: 2rem; }
@@ -191,6 +224,12 @@
   "@type": "BlogPosting",
   "headline": "5 Best SEO & Digital Marketing Agencies in Pembroke Pines for 2026",
   "description": "An honest comparison of the top SEO and digital marketing agencies serving Pembroke Pines, FL — who each one is best for, what they offer, and how to choose.",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://g3zcreative.com/images/best-seo-agencies-pembroke-pines.jpg",
+    "width": 1200,
+    "height": 630
+  },
   "datePublished": "2026-08-28",
   "dateModified": "2026-08-28",
   "mainEntityOfPage": {
@@ -498,6 +537,15 @@
         </div>
       </header>
 
+      <div class="post-figure">
+        <div class="container">
+          <div class="post-shell">
+            <img src="../images/best-seo-agencies-pembroke-pines.jpg" width="1200" height="630"
+                 alt="The 5 Best SEO and Digital Marketing Agencies in Pembroke Pines, a 2026 guide by G3Z Creative" fetchpriority="high" decoding="async">
+          </div>
+        </div>
+      </div>
+
       <div class="post-body">
         <div class="container">
           <div class="post-shell">
@@ -556,6 +604,10 @@
 
             <section class="post-section">
               <h2 class="post-h2">How To Choose the Right Digital Marketing Agency</h2>
+              <figure class="post-inline-figure">
+                <img src="../images/how-to-choose-digital-marketing-agency.jpg" width="1200" height="860"
+                     alt="Checklist of five questions to ask before hiring a digital marketing agency: who does the work, what it costs, contract length, their own site speed, and what they measure" loading="lazy" decoding="async">
+              </figure>
           <div class="post-tip">
             <h3 class="post-h3">Ask who actually does the work.</h3>
             <p>Plenty of agencies sell you on a founder and hand you to a junior. Ask who writes your content and builds your pages, and whether any of it is subcontracted.</p>

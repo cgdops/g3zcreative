@@ -17,6 +17,11 @@ const TITLE = '5 Best SEO &amp; Digital Marketing Agencies in Pembroke Pines for
 const TITLE_PLAIN = '5 Best SEO & Digital Marketing Agencies in Pembroke Pines for 2026';
 const DESC = 'An honest comparison of the top SEO and digital marketing agencies serving Pembroke Pines, FL — who each one is best for, what they offer, and how to choose.';
 const URL = 'https://g3zcreative.com/blog/best-seo-agencies-pembroke-pines.html';
+const IMAGE_FILE = 'best-seo-agencies-pembroke-pines.jpg';
+const IMAGE = 'https://g3zcreative.com/images/' + IMAGE_FILE;
+const IMAGE_ALT = 'The 5 Best SEO and Digital Marketing Agencies in Pembroke Pines, a 2026 guide by G3Z Creative';
+const CHECKLIST_FILE = 'how-to-choose-digital-marketing-agency.jpg';
+const CHECKLIST_ALT = 'Checklist of five questions to ask before hiring a digital marketing agency: who does the work, what it costs, contract length, their own site speed, and what they measure';
 const PUBLISHED = '2026-08-28';
 
 const agencies = [
@@ -120,6 +125,7 @@ const articleSchema = {
   '@type': 'BlogPosting',
   headline: TITLE_PLAIN,
   description: DESC,
+  image: { '@type': 'ImageObject', url: IMAGE, width: 1200, height: 630 },
   datePublished: PUBLISHED,
   dateModified: PUBLISHED,
   mainEntityOfPage: { '@type': 'WebPage', '@id': URL },
@@ -186,6 +192,12 @@ const html = `<!DOCTYPE html>
   <meta content="${TITLE}" property="twitter:title">
   <meta content="${DESC}" property="twitter:description">
   <meta content="summary_large_image" name="twitter:card">
+  <meta content="${IMAGE}" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="${IMAGE_ALT}" property="og:image:alt">
+  <meta content="${IMAGE}" property="twitter:image">
+  <meta content="${IMAGE_ALT}" name="twitter:image:alt">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="${URL}" rel="canonical">
   <link href="${PREFIX}css/normalize.css" rel="stylesheet" type="text/css">
@@ -246,6 +258,29 @@ const html = `<!DOCTYPE html>
       color: var(--post-muted);
       margin: 0;
     }
+    .post-figure {
+      padding-top: 2rem;
+    }
+    .post-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1200 / 630;
+      border-radius: 10px;
+      background: #0f172a;
+    }
+    .post-inline-figure {
+      margin: 0 0 1.9rem;
+    }
+    .post-inline-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1200 / 860;
+      border: 1px solid var(--post-rule);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
     .post-body {
       padding-top: 2.5rem;
       padding-bottom: 3rem;
@@ -256,7 +291,9 @@ const html = `<!DOCTYPE html>
       margin: 0 0 1.15rem;
       text-wrap: pretty;
     }
-    .post-body a {
+    /* Exclude .button — the Webflow button sets its own accent background and
+       white label, and an unscoped link rule here outranks it. */
+    .post-body a:not(.button) {
       color: #da104d;
       text-decoration: underline;
       text-underline-offset: 2px;
@@ -353,6 +390,8 @@ const html = `<!DOCTYPE html>
     }
     @media (max-width: 767px) {
       .post-hero { padding-top: 2.25rem; padding-bottom: 1.5rem; }
+      .post-figure { padding-top: 1.25rem; }
+      .post-figure img { border-radius: 7px; }
       .post-body { padding-top: 1.75rem; font-size: 1.02rem; }
       .post-intro { font-size: 1.08rem; }
       .post-entry, .post-section { padding-top: 2rem; margin-top: 2rem; }
@@ -385,6 +424,15 @@ ${nav}
         </div>
       </header>
 
+      <div class="post-figure">
+        <div class="container">
+          <div class="post-shell">
+            <img src="${PREFIX}images/${IMAGE_FILE}" width="1200" height="630"
+                 alt="${IMAGE_ALT}" fetchpriority="high" decoding="async">
+          </div>
+        </div>
+      </div>
+
       <div class="post-body">
         <div class="container">
           <div class="post-shell">
@@ -400,6 +448,10 @@ ${agencySections}
 
             <section class="post-section">
               <h2 class="post-h2">How To Choose the Right Digital Marketing Agency</h2>
+              <figure class="post-inline-figure">
+                <img src="${PREFIX}images/${CHECKLIST_FILE}" width="1200" height="860"
+                     alt="${CHECKLIST_ALT}" loading="lazy" decoding="async">
+              </figure>
 ${tipItems}
             </section>
 
@@ -445,6 +497,8 @@ const posts = [
     title: TITLE,
     desc: DESC,
     date: PUBLISHED,
+    img: IMAGE_FILE,
+    imgAlt: IMAGE_ALT,
     dateLabel: new Date(PUBLISHED + 'T12:00:00Z').toLocaleDateString('en-US', {
       year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC'
     })
@@ -488,6 +542,7 @@ ${nav}
     <div class="container">
       <div class="utility-max-width-md">
 ${posts.map(p => `        <div class="card utility-margin-bottom-1rem">
+          <a href="${p.href}" class="w-inline-block"><img src="${PREFIX}images/${p.img}" width="1200" height="630" alt="${p.imgAlt}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:1200/630;border-radius:8px 8px 0 0;"></a>
           <div class="card-body">
             <p class="paragraph-sm utility-text-secondary utility-margin-bottom-0-5rem"><time datetime="${p.date}">${p.dateLabel}</time></p>
             <h2 class="h5-heading"><a href="${p.href}">${p.title}</a></h2>

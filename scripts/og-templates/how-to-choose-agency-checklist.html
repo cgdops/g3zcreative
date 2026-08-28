@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1200px; height:860px; overflow:hidden;
+    background:#f8fafc;
+    font-family:'Figtree', system-ui, sans-serif;
+    color:#0f172a;
+    position:relative;
+  }
+  .accent { position:absolute; top:0; left:0; right:0; height:7px; background:#da104d; }
+  .frame { padding:56px 64px 44px; height:100%; display:flex; flex-direction:column; }
+
+  .eyebrow { font-size:13px; font-weight:700; letter-spacing:.18em; color:#da104d; margin-bottom:14px; }
+  h1 {
+    font-family:'Young Serif', Georgia, serif; font-weight:400;
+    font-size:46px; line-height:1.12; letter-spacing:-.018em; margin-bottom:8px;
+  }
+  .sub { font-size:19px; color:#64748b; margin-bottom:34px; }
+
+  .list { display:flex; flex-direction:column; gap:13px; flex:1; }
+  .row {
+    display:flex; align-items:flex-start; gap:18px;
+    background:#fff; border:1px solid #e2e8f0; border-radius:11px;
+    padding:17px 22px;
+    box-shadow:0 1px 2px rgba(15,23,42,.04);
+  }
+  .num {
+    flex:none; width:32px; height:32px; border-radius:50%;
+    background:#0f172a; color:#fff;
+    font-size:14px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .txt { flex:1; }
+  .q { font-size:19px; font-weight:700; line-height:1.32; margin-bottom:3px; }
+  .a { font-size:15.5px; line-height:1.45; color:#64748b; }
+  .flag {
+    flex:none; align-self:center;
+    font-size:12px; font-weight:700; letter-spacing:.05em;
+    color:#da104d; background:#fdeaf1;
+    border-radius:6px; padding:6px 11px; white-space:nowrap;
+  }
+
+  .foot {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:26px; padding-top:20px; border-top:1px solid #e2e8f0;
+  }
+  .brand { display:flex; align-items:center; gap:11px; }
+  .brand img { width:27px; height:27px; }
+  .brand span { font-size:17px; font-weight:600; }
+  .domain { font-size:15px; color:#94a3b8; }
+</style>
+</head>
+<body>
+  <div class="accent"></div>
+  <div class="frame">
+    <div class="eyebrow">BEFORE YOU SIGN</div>
+    <h1>How to choose the right digital marketing agency</h1>
+    <div class="sub">Five questions that separate a real partner from a retainer.</div>
+
+    <div class="list">
+      <div class="row">
+        <div class="num">1</div>
+        <div class="txt">
+          <div class="q">Who actually does the work?</div>
+          <div class="a">Many agencies sell you the founder, then hand you a junior. Ask what&rsquo;s subcontracted.</div>
+        </div>
+        <div class="flag">BAIT &amp; SWITCH</div>
+      </div>
+      <div class="row">
+        <div class="num">2</div>
+        <div class="txt">
+          <div class="q">What does it cost &mdash; before the proposal call?</div>
+          <div class="a">Two meetings before a number usually means the price is based on what you&rsquo;ll pay.</div>
+        </div>
+        <div class="flag">PRICE OPACITY</div>
+      </div>
+      <div class="row">
+        <div class="num">3</div>
+        <div class="txt">
+          <div class="q">How long is the contract?</div>
+          <div class="a">A 12-month lock-in removes the incentive to show results by month three.</div>
+        </div>
+        <div class="flag">LOCK-IN</div>
+      </div>
+      <div class="row">
+        <div class="num">4</div>
+        <div class="txt">
+          <div class="q">How fast is their own website?</div>
+          <div class="a">Run it through PageSpeed Insights. A slow SEO agency is telling you something.</div>
+        </div>
+        <div class="flag">PROOF</div>
+      </div>
+      <div class="row">
+        <div class="num">5</div>
+        <div class="txt">
+          <div class="q">What exactly will they measure?</div>
+          <div class="a">Leads and booked jobs. Impressions and rankings alone don&rsquo;t pay the retainer.</div>
+        </div>
+        <div class="flag">VANITY METRICS</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="brand">
+        <img src="../../images/g-brand-primary.svg" alt="">
+        <span>G3Z&nbsp;Creative</span>
+      </div>
+      <div class="domain">g3zcreative.com</div>
+    </div>
+  </div>
+</body>
+</html>
