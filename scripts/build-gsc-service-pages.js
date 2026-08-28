@@ -198,7 +198,7 @@ function generateHtml(page) {
       "name": "G3Z Creative",
       "url": "https://www.g3zcreative.com/",
       "logo": "https://cdn.prod.website-files.com/6837ae7e314e91dd48e1e240/6838992456d122a34dff9a62_Webclip-8.png",
-      "telephone": "+17868300833",
+      "telephone": "+17869673699",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "2751 SW 116th Ave, Suite 308",
