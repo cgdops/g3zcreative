@@ -58,6 +58,15 @@
     .qc-modal-card::-webkit-scrollbar {
       width: 6px;
     }
+    .qc-modal-card::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    .qc-modal-card::-webkit-scrollbar-corner {
+      background: transparent !important;
+      display: none !important;
+    }
     .qc-modal-card::-webkit-scrollbar-track {
       background: transparent;
       margin: 14px 0;
@@ -203,6 +212,11 @@
     }
     .qc-textarea::-webkit-scrollbar {
       width: 5px;
+    }
+    .qc-textarea::-webkit-scrollbar-button {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
     }
     .qc-textarea::-webkit-scrollbar-track {
       background: transparent;
