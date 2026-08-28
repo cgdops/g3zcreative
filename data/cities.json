@@ -16,12 +16,28 @@
     "landmark": "C.B. Smith Park"
   },
   {
-    "name": "Hollywood",
+    "name": "Cooper City",
     "stateAbbr": "FL",
     "state": "Florida",
     "county": "Broward County",
-    "localDetails": "coastal salt-air corrosion, high water table, and historical commercial district standards",
-    "landmark": "Hollywood Beach Broadwalk"
+    "localDetails": "established suburban tree canopy, equestrian trail boundaries, and residential neighborhood zoning",
+    "landmark": "Brian Piccolo Sports Park"
+  },
+  {
+    "name": "Miami Gardens",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "high-traffic commercial transit corridors, stadium event logistics, and dense residential housing",
+    "landmark": "Hard Rock Stadium"
+  },
+  {
+    "name": "Southwest Ranches",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "extensive agricultural acreage, private well water systems, and equestrian estate drainage",
+    "landmark": "Sunshine Ranches"
   },
   {
     "name": "Davie",
@@ -38,6 +54,238 @@
     "county": "Miami-Dade County",
     "localDetails": "planned community aesthetics, strict architectural control committees, and limestone base layers",
     "landmark": "Main Street Miami Lakes"
+  },
+  {
+    "name": "Hollywood",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "coastal salt-air corrosion, high water table, and historical commercial district standards",
+    "landmark": "Hollywood Beach Broadwalk"
+  },
+  {
+    "name": "Hialeah Gardens",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "industrial warehouse corridors, logistics distribution zones, and suburban family neighborhoods",
+    "landmark": "Westland Gardens Park"
+  },
+  {
+    "name": "Weston",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "master-planned community aesthetics, wetland preservation buffers, and rigid architectural guidelines",
+    "landmark": "Weston Town Center"
+  },
+  {
+    "name": "Hialeah",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "dense commercial retail strips, historic residential masonry, and bustling trade commerce",
+    "landmark": "Amelia Earhart Park"
+  },
+  {
+    "name": "Plantation",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "mature hardwood tree canopies, corporate business parks, and golf course community regulations",
+    "landmark": "Plantation Central Park"
+  },
+  {
+    "name": "Hallandale Beach",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "coastal high-rise wind exposure, saltwater corrosion, and high-density commercial strips",
+    "landmark": "Gulfstream Park"
+  },
+  {
+    "name": "Dania Beach",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "marine industry hubs, airport proximity building heights, and coastal eco-zones",
+    "landmark": "Dania Beach Pier"
+  },
+  {
+    "name": "Aventura",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "luxury high-rise condominium corridors, coastal barrier wind loads, and premier shopping districts",
+    "landmark": "Aventura Mall"
+  },
+  {
+    "name": "North Miami Beach",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "canal drainage networks, mid-century residential architecture, and commercial redevelopment zones",
+    "landmark": "Ancient Spanish Monastery"
+  },
+  {
+    "name": "Lauderhill",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "multi-cultural commercial plazas, central Broward transit routes, and established suburban subdivisions",
+    "landmark": "Central Broward Regional Park"
+  },
+  {
+    "name": "Sunrise",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "corporate headquarters corridors, Everglades edge storm exposure, and expansive retail hubs",
+    "landmark": "Sawgrass Mills"
+  },
+  {
+    "name": "North Miami",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "coastal mangrove conservation zones, university campus corridors, and urban revitalization areas",
+    "landmark": "Oleta River State Park"
+  },
+  {
+    "name": "Lauderdale Lakes",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "central urban lake networks, multi-family housing complexes, and commercial medical centers",
+    "landmark": "Vincent Torres Memorial Park"
+  },
+  {
+    "name": "Doral",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "premier corporate headquarters, international freight corridors, and luxury golf resort communities",
+    "landmark": "CityPlace Doral"
+  },
+  {
+    "name": "Sunny Isles Beach",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "oceanfront luxury high-rise engineering, extreme salt-spray exposure, and international tourism",
+    "landmark": "Newport Fishing Pier"
+  },
+  {
+    "name": "Tamarac",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "active adult community zoning, canal drainage infrastructure, and commercial commerce corridors",
+    "landmark": "Tamarac Sports Complex"
+  },
+  {
+    "name": "Fort Lauderdale",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "intra-coastal waterway sea walls, yachting industry logistics, and high-density downtown commercial centers",
+    "landmark": "Las Olas Boulevard"
+  },
+  {
+    "name": "Sweetwater",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "university campus district, major mall retail traffic, and compact residential grid layouts",
+    "landmark": "Dolphin Mall"
+  },
+  {
+    "name": "Wilton Manors",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "riverfront island geography, historic tropical bungalow architecture, and vibrant arts districts",
+    "landmark": "Island City Park Preserve"
+  },
+  {
+    "name": "Coral Gables",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "Mediterranean revival architectural codes, historic banyan canopy regulations, and luxury business centers",
+    "landmark": "Miracle Mile"
+  },
+  {
+    "name": "Margate",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "extensive residential canal systems, suburban trade services, and golf club developments",
+    "landmark": "Firefighters Park"
+  },
+  {
+    "name": "Coral Springs",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "family-centric suburban planning, strict commercial signage codes, and pristine residential neighborhoods",
+    "landmark": "Coral Springs Center for the Arts"
+  },
+  {
+    "name": "Miami",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "high-density metropolitan skyline, international trade finance, and rapid tech & commercial construction",
+    "landmark": "Brickell Financial District"
+  },
+  {
+    "name": "North Lauderdale",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "suburban family subdivisions, community park networks, and local neighborhood shopping plazas",
+    "landmark": "Hampton Pines Park"
+  },
+  {
+    "name": "Oakland Park",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "emerging culinary arts districts, light industrial warehousing, and urban residential neighborhoods",
+    "landmark": "Jaco Pastorius Park"
+  },
+  {
+    "name": "Coconut Creek",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "Butterfly Capital green canopy initiatives, sustainable building codes, and open-air promenade centers",
+    "landmark": "Promenade at Coconut Creek"
+  },
+  {
+    "name": "Pompano Beach",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "Atlantic coastal redevelopment, beachfront hospitality corridors, and extensive boating canal systems",
+    "landmark": "Pompano Beach Fishing Pier"
+  },
+  {
+    "name": "Parkland",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Broward County",
+    "localDetails": "luxury gated estate zoning, equestrian parklands, and premier architectural design standards",
+    "landmark": "Pine Trails Park"
+  },
+  {
+    "name": "Kendall",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "county": "Miami-Dade County",
+    "localDetails": "extensive suburban residential corridors, healthcare health system clusters, and regional shopping hubs",
+    "landmark": "Dadeland Mall"
   },
   {
     "name": "Toronto",

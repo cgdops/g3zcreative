@@ -6,7 +6,8 @@
     "build:pseo": "node scripts/build-pseo.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "build": "npm run build:pseo && npm run build:sitemap",
-    "fetch:gsc": "node scripts/fetch-gsc.js"
+    "fetch:gsc": "node scripts/fetch-gsc.js",
+    "test:dataforseo": "node scripts/test-dataforseo.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
