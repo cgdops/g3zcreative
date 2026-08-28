@@ -182,6 +182,44 @@
         padding: 1.25rem 1rem;
       }
     }
+
+    /* Pre-footer CTA Styling */
+    .inverse-section {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+    }
+    .inverse-section .button-group {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 1rem;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .inverse-section .button.secondary-button,
+    .inverse-section .secondary-button-on-inverse {
+      color: #ffffff !important;
+      border: 2px solid rgba(255, 255, 255, 0.85) !important;
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      box-shadow: none !important;
+      transition: all 0.2s ease;
+    }
+    .inverse-section .button.secondary-button:hover,
+    .inverse-section .secondary-button-on-inverse:hover {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #ffffff !important;
+    }
+    @media (max-width: 479px) {
+      .inverse-section .button-group {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+      .inverse-section .button-group .button,
+      .inverse-section .button-group .w-button {
+        width: 100% !important;
+      }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -509,15 +547,15 @@
 </section>
 
 <!-- CTA Section -->
-<section class="section inverse-section">
+<section class="section inverse-section" style="padding-top: 4.5rem; padding-bottom: 4.5rem; text-align: center;">
   <div class="container">
-    <div class="flex-vertical flex-gap-sm utility-text-align-center" style="align-items: center;">
-      <div class="eyebrow">Let's Discuss Parkland Growth</div>
-      <h2>Ready to dominate organic search?</h2>
-      <p class="paragraph-lg utility-text-inverse-secondary" style="max-width: 650px; margin: 0 auto 1.5rem auto;">Book a free strategy session with Christian and Leah to review your current website rankings in Parkland and outline an automation roadmap.</p>
-      <div class="button-group">
-        <a href="tel:+17869673699" class="button" data-open-inquiry="true">Start Consultation</a>
-        <a href="tel:+17869673699" class="button secondary-button">📞 Call (786) 967-3699</a>
+    <div class="flex-vertical flex-gap-sm utility-text-align-center" style="align-items: center; justify-content: center; max-width: 750px; margin: 0 auto;">
+      <div class="eyebrow" style="color: var(--core-accent-color--accent-primary, #da104d); font-weight: 700;">Let's Discuss Parkland Growth</div>
+      <h2 style="color: #ffffff; margin-top: 0.5rem; margin-bottom: 1rem;">Ready to dominate organic search?</h2>
+      <p class="paragraph-lg utility-text-inverse-secondary" style="max-width: 650px; margin: 0 auto 2rem auto; color: #94a3b8; line-height: 1.6;">Book a free strategy session with Christian and Leah to review your current website rankings in Parkland and outline an automation roadmap.</p>
+      <div class="button-group align-center" style="display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; width: 100%; margin: 0 auto;">
+        <a href="tel:+17869673699" class="button w-button" data-open-inquiry="true">Start Consultation</a>
+        <a href="tel:+17869673699" class="button secondary-button secondary-button-on-inverse w-button" style="color: #ffffff !important; border: 2px solid rgba(255, 255, 255, 0.85) !important; background: rgba(255, 255, 255, 0.08) !important; text-decoration: none; font-weight: 600;">📞 Call (786) 967-3699</a>
       </div>
     </div>
   </div>
