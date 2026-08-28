@@ -45,12 +45,30 @@
       max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.8);
       position: relative;
       transform: translateY(20px) scale(0.97);
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       font-family: 'Figtree', system-ui, -apple-system, sans-serif;
       color: #0f172a;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+    }
+    .qc-modal-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .qc-modal-card::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 14px 0;
+    }
+    .qc-modal-card::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 999px;
+      transition: background-color 0.2s ease;
+    }
+    .qc-modal-card::-webkit-scrollbar-thumb:hover {
+      background-color: #94a3b8;
     }
     .qc-modal-overlay.qc-active .qc-modal-card {
       transform: translateY(0) scale(1);
@@ -180,6 +198,21 @@
     .qc-textarea {
       min-height: 80px;
       resize: vertical;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+    }
+    .qc-textarea::-webkit-scrollbar {
+      width: 5px;
+    }
+    .qc-textarea::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .qc-textarea::-webkit-scrollbar-thumb {
+      background-color: #e2e8f0;
+      border-radius: 999px;
+    }
+    .qc-textarea::-webkit-scrollbar-thumb:hover {
+      background-color: #cbd5e1;
     }
     .qc-service-pills {
       display: flex;
