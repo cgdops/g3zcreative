@@ -24,7 +24,27 @@
       --info: #38bdf8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      scrollbar-width: thin;
+      scrollbar-color: #334155 transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
     body {
       font-family: 'Figtree', sans-serif;
       background-color: var(--bg);
@@ -227,10 +247,10 @@
     /* Kanban Board */
     .kanban-board {
       display: grid;
-      grid-template-columns: repeat(6, minmax(270px, 1fr));
+      grid-template-columns: repeat(6, minmax(230px, 1fr));
       gap: 1rem;
       overflow-x: auto;
-      padding-bottom: 1.5rem;
+      padding-bottom: 1rem;
       align-items: start;
     }
     .kanban-column {
@@ -646,13 +666,9 @@
       font-size: 1rem;
       margin: 1.25rem 0 1rem;
       text-align: center;
-    /* Mobile Responsive Stylesheet */
-    .mobile-stage-bar {
-      display: none;
+      letter-spacing: 0.2em;
     }
-    .card-mobile-footer {
-      display: none;
-    }
+
     .drawer-pull-bar {
       display: none;
     }
@@ -660,69 +676,14 @@
       display: inline;
     }
 
-    @media (max-width: 900px) {
-      /* Mobile Stage Switcher Pills */
-      .mobile-stage-bar {
-        display: flex;
-        gap: 6px;
-        overflow-x: auto;
-        padding: 0.35rem 0.2rem 0.75rem;
-        margin-bottom: 0.75rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-      .mobile-stage-bar::-webkit-scrollbar {
-        display: none;
-      }
-      .mobile-stage-pill {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        color: var(--text-muted);
-        padding: 0.45rem 0.85rem;
-        border-radius: 999px;
-        font-size: 0.78rem;
-        font-weight: 700;
-        white-space: nowrap;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        flex-shrink: 0;
-      }
-      .mobile-stage-pill.active {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: white;
-      }
-      .pill-count {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 1px 6px;
-        border-radius: 999px;
-        font-size: 0.7rem;
-      }
-      .mobile-stage-pill.active .pill-count {
-        background: rgba(255, 255, 255, 0.25);
-        color: white;
-      }
-
-      /* Kanban Board Snapping */
+    /* Responsive Breakpoints */
+    @media (max-width: 1200px) {
       .kanban-board {
-        grid-template-columns: repeat(6, minmax(280px, 84vw));
-        gap: 0.75rem;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 2rem;
-      }
-      .kanban-column {
-        scroll-snap-align: center;
-        scroll-margin: 1rem;
-        max-height: calc(100vh - 270px);
+        grid-template-columns: repeat(6, minmax(240px, 1fr));
       }
     }
 
     @media (max-width: 768px) {
-      /* Header on mobile */
       header {
         padding: 0.65rem 0.85rem;
       }
@@ -743,13 +704,9 @@
       .btn-text-hide {
         display: none;
       }
-
-      /* Main container */
       main {
         padding: 0.85rem;
       }
-
-      /* Metrics 2x2 grid */
       .metrics-grid {
         grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
@@ -770,8 +727,6 @@
         font-size: 0.68rem;
         margin-top: 0.15rem;
       }
-
-      /* Toolbar on mobile */
       .toolbar {
         flex-direction: column;
         align-items: stretch;
@@ -785,7 +740,7 @@
         max-width: 100%;
       }
       .search-input {
-        font-size: 16px; /* Prevents iOS auto-zoom */
+        font-size: 16px;
         padding: 0.55rem 0.85rem 0.55rem 2.2rem;
       }
       .toolbar-controls {
@@ -800,35 +755,18 @@
       .view-toggle {
         flex-shrink: 0;
       }
-
-      /* Mobile Quick Stage Switcher on Card */
-      .card-mobile-footer {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: 0.5rem;
-        padding-top: 0.45rem;
-        border-top: 1px dashed rgba(255, 255, 255, 0.08);
+      .kanban-board {
+        grid-template-columns: repeat(6, 85vw);
+        gap: 0.75rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1.5rem;
       }
-      .card-stage-quickselect {
-        display: block;
-        width: 100%;
-        background: #0f172a;
-        border: 1px solid var(--border);
-        color: var(--text);
-        font-size: 0.78rem;
-        font-weight: 600;
-        padding: 0.4rem 0.5rem;
-        border-radius: 6px;
-        cursor: pointer;
+      .kanban-column {
+        scroll-snap-align: center;
+        scroll-margin: 1rem;
+        max-height: calc(100vh - 270px);
       }
-      .card-stage-quickselect:focus {
-        outline: none;
-        border-color: var(--primary);
-        color: white;
-      }
-
-      /* Lead Card Actions */
       .card-actions {
         padding-top: 0.5rem;
         gap: 6px;
@@ -838,8 +776,6 @@
         font-size: 0.78rem;
         min-height: 38px;
       }
-
-      /* Lead Detail Drawer as Mobile Bottom Sheet */
       .drawer-overlay {
         align-items: flex-end;
         justify-content: center;
@@ -906,8 +842,6 @@
         font-size: 16px;
         padding: 0.65rem 0.75rem;
       }
-
-      /* Manual Lead Modal on Mobile */
       .modal-card {
         margin: 0.75rem;
         padding: 1.25rem !important;
@@ -1013,16 +947,6 @@
           <button class="view-btn" id="listToggleBtn">List</button>
         </div>
       </div>
-    </div>
-
-    <!-- Mobile Stage Switcher Pills -->
-    <div class="mobile-stage-bar" id="mobileStageBar">
-      <button class="mobile-stage-pill active" data-stage="new">⚡ New <span class="pill-count" id="pill-new">0</span></button>
-      <button class="mobile-stage-pill" data-stage="contacted">💬 Contacted <span class="pill-count" id="pill-contacted">0</span></button>
-      <button class="mobile-stage-pill" data-stage="qualified">🎯 Qualified <span class="pill-count" id="pill-qualified">0</span></button>
-      <button class="mobile-stage-pill" data-stage="proposal">📄 Proposal <span class="pill-count" id="pill-proposal">0</span></button>
-      <button class="mobile-stage-pill" data-stage="won">🏆 Won <span class="pill-count" id="pill-won">0</span></button>
-      <button class="mobile-stage-pill" data-stage="lost">📁 Lost <span class="pill-count" id="pill-lost">0</span></button>
     </div>
 
     <!-- Kanban Pipeline View -->
@@ -1454,64 +1378,6 @@
         });
       }
 
-      // Setup Mobile Stage Switcher Pills
-      let mobileStageBarInitialized = false;
-      function setupMobileStageBar() {
-        if (mobileStageBarInitialized) return;
-        mobileStageBarInitialized = true;
-
-        const pills = document.querySelectorAll('.mobile-stage-pill');
-        const board = document.getElementById('kanbanBoard');
-        if (!pills.length || !board) return;
-
-        pills.forEach(pill => {
-          pill.addEventListener('click', () => {
-            const stage = pill.getAttribute('data-stage');
-            const targetCol = document.querySelector(`.kanban-column[data-status="${stage}"]`);
-            if (targetCol) {
-              targetCol.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            }
-            pills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-          });
-        });
-
-        let scrollDebounce;
-        board.addEventListener('scroll', () => {
-          clearTimeout(scrollDebounce);
-          scrollDebounce = setTimeout(() => {
-            const boardRect = board.getBoundingClientRect();
-            const centerX = boardRect.left + boardRect.width / 2;
-            const columns = document.querySelectorAll('.kanban-column');
-
-            let closestCol = null;
-            let minDistance = Infinity;
-
-            columns.forEach(col => {
-              const colRect = col.getBoundingClientRect();
-              const colCenter = colRect.left + colRect.width / 2;
-              const dist = Math.abs(centerX - colCenter);
-              if (dist < minDistance) {
-                minDistance = dist;
-                closestCol = col;
-              }
-            });
-
-            if (closestCol) {
-              const status = closestCol.getAttribute('data-status');
-              pills.forEach(p => {
-                if (p.getAttribute('data-stage') === status) {
-                  p.classList.add('active');
-                  p.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
-                } else {
-                  p.classList.remove('active');
-                }
-              });
-            }
-          }, 60);
-        }, { passive: true });
-      }
-
       // Render Kanban Board
       function renderKanban() {
         const columns = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
@@ -1519,7 +1385,6 @@
         columns.forEach(col => {
           const container = document.getElementById(`cards-${col}`);
           const countBadge = document.getElementById(`count-${col}`);
-          const pillBadge = document.getElementById(`pill-${col}`);
           if (!container) return;
 
           const colLeads = state.leads.filter(l => {
@@ -1528,7 +1393,6 @@
           });
 
           if (countBadge) countBadge.textContent = colLeads.length;
-          if (pillBadge) pillBadge.textContent = colLeads.length;
           container.innerHTML = '';
 
           if (colLeads.length === 0) {
@@ -1563,25 +1427,7 @@
                 ${rawPhone ? `<a href="sms:${rawPhone}" class="card-action-btn" title="SMS">💬 SMS</a>` : `<span class="card-action-btn" style="opacity:0.4;">💬</span>`}
                 ${rawEmail ? `<a href="mailto:${rawEmail}" class="card-action-btn" title="Email">✉️ Mail</a>` : `<span class="card-action-btn" style="opacity:0.4;">✉️</span>`}
               </div>
-              <div class="card-mobile-footer" onclick="event.stopPropagation()">
-                <select class="card-stage-quickselect" aria-label="Change stage">
-                  <option value="new" ${lead.status === 'new' ? 'selected' : ''}>⚡ Move: New Lead</option>
-                  <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>💬 Move: Contacted</option>
-                  <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>🎯 Move: Qualified</option>
-                  <option value="proposal" ${lead.status === 'proposal' ? 'selected' : ''}>📄 Move: Proposal</option>
-                  <option value="won" ${lead.status === 'won' ? 'selected' : ''}>🏆 Move: Deal Won</option>
-                  <option value="lost" ${lead.status === 'lost' || lead.status === 'spam' ? 'selected' : ''}>📁 Move: Lost</option>
-                </select>
-              </div>
             `;
-
-            const quickSelect = card.querySelector('.card-stage-quickselect');
-            if (quickSelect) {
-              quickSelect.addEventListener('change', (e) => {
-                e.stopPropagation();
-                updateLeadStage(lead.id, e.target.value);
-              });
-            }
 
             let isDragging = false;
 
@@ -1865,9 +1711,8 @@
         })[m]);
       }
 
-      // Initial check & DnD/Mobile setup
+      // Initial check & DnD setup
       setupKanbanDragAndDrop();
-      setupMobileStageBar();
       checkAuth();
     })();
   </script>
