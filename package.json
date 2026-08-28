@@ -7,7 +7,8 @@
     "build:sitemap": "node scripts/build-sitemap.js",
     "build": "npm run build:pseo && npm run build:sitemap",
     "fetch:gsc": "node scripts/fetch-gsc.js",
-    "test:dataforseo": "node scripts/test-dataforseo.js"
+    "test:dataforseo": "node scripts/test-dataforseo.js",
+    "submit:indexing": "node scripts/submit-indexing.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
