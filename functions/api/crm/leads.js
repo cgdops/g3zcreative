@@ -5,7 +5,7 @@
  */
 
 import { checkAuth } from './auth.js';
-import { normalizeDomain } from './enrich.js';
+import { normalizeDomain } from './_enrich.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

@@ -8,7 +8,7 @@
  */
 
 import { checkAuth } from '../../auth.js';
-import { enrichLead, normalizeDomain } from '../../enrich.js';
+import { enrichLead, normalizeDomain } from '../../_enrich.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
