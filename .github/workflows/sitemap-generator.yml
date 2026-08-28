@@ -29,16 +29,17 @@ jobs:
       - name: Build pSEO HTML
         run: npm run build
 
-      # ── Step 2: Clean up build artifacts before packaging ─────────────────
+      # ── Step 2: Generate sitemap ──────────────────────────────────────────
+      # Uses the in-repo generator so the sitemap has one source of truth.
+      # Must run before build-only files are stripped, since that removes
+      # scripts/. Needs full git history (fetch-depth: 0 above) to derive
+      # per-file lastmod dates.
+      - name: Generate Sitemap
+        run: npm run build:sitemap
+
+      # ── Step 3: Clean up build artifacts before packaging ─────────────────
       - name: Remove build-only files
         run: rm -rf node_modules scripts package.json package-lock.json
-
-      # ── Step 3: Generate sitemap ──────────────────────────────────────────
-      - name: Generate Sitemap
-        uses: cicirello/generate-sitemap@v1
-        with:
-          base-url-path: 'https://g3zcreative.com/'
-          path-to-root: '.'
 
       - name: Commit and Push Sitemap
         uses: EndBug/add-and-commit@v9
@@ -46,4 +47,4 @@ jobs:
           add: 'sitemap.xml'
           message: 'Docs: Auto-generated sitemap.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
+
