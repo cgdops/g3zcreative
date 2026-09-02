@@ -19,7 +19,7 @@ const TODAY = new Date().toISOString().split('T')[0];
 
 /* Directories never crawled: build inputs, assets, server code, partials. */
 const SKIP_DIRS = new Set([
-  '.git', '.github', '.wrangler', 'node_modules',
+  '.git', '.github', '.wrangler', '.claude', 'node_modules',
   'scripts', 'templates', 'migrations', 'functions', 'src',
   'css', 'js', 'images', 'videos', 'data', 'content-strategy'
 ]);
