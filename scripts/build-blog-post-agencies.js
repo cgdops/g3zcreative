@@ -493,6 +493,15 @@ console.log('Wrote ' + path.relative(ROOT, OUT) + ' (' + html.length + ' bytes)'
 /* Blog index — the nav already links to /blog/, so it needs a landing page. */
 const posts = [
   {
+    href: 'best-ai-seo-agencies-south-florida.html',
+    title: 'Best AI SEO Agencies in South Florida (2026)',
+    desc: 'An honest, data-backed comparison of the top AI SEO and Generative Engine Optimization (GEO) agencies serving South Florida — who each one is best for, pricing bands, and how to choose.',
+    date: '2026-09-02',
+    img: 'best-ai-seo-agencies-south-florida.jpg',
+    imgAlt: 'The Best AI SEO Agencies in South Florida, a 2026 buyer guide by G3Z Creative',
+    dateLabel: 'September 2, 2026'
+  },
+  {
     href: 'best-seo-agencies-pembroke-pines.html',
     title: TITLE,
     desc: DESC,
