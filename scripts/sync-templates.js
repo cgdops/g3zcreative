@@ -5,6 +5,7 @@ const { execSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
 const NAV_TEMPLATE_PATH = path.join(ROOT, 'templates', 'nav.html');
 const FOOTER_TEMPLATE_PATH = path.join(ROOT, 'templates', 'footer.html');
+const AUTHOR_TEMPLATE_PATH = path.join(ROOT, 'templates', 'author-bio.html');
 
 if (!fs.existsSync(NAV_TEMPLATE_PATH)) {
   console.error(`Error: Nav template not found at ${NAV_TEMPLATE_PATH}`);
@@ -21,6 +22,15 @@ if (!fs.existsSync(FOOTER_TEMPLATE_PATH)) {
 // on every build without any real change.
 const rawNavTemplate = fs.readFileSync(NAV_TEMPLATE_PATH, 'utf8').trim();
 const rawFooterTemplate = fs.readFileSync(FOOTER_TEMPLATE_PATH, 'utf8').trim();
+
+/* Author bio is opt-in rather than tag-matched: nav and footer exist on every
+   page and can be found by tag, but only some pages carry a byline. A page
+   opts in by including the marker pair below, and the region between the
+   markers is replaced on each sync. Pages without the markers are untouched. */
+const rawAuthorTemplate = fs.existsSync(AUTHOR_TEMPLATE_PATH)
+  ? fs.readFileSync(AUTHOR_TEMPLATE_PATH, 'utf8').trim()
+  : null;
+const AUTHOR_REGION = /<!-- AUTHOR-BIO:START -->[\s\S]*?<!-- AUTHOR-BIO:END -->/i;
 
 function getPrefix(filePath) {
   const rel = path.relative(ROOT, filePath);
@@ -49,6 +59,12 @@ function processHtmlFile(filePath) {
     content = content.replace(footerRegex, footerHtml);
   }
 
+  // Replace Author Bio (opt-in — only pages carrying the markers)
+  if (rawAuthorTemplate && AUTHOR_REGION.test(content)) {
+    const authorHtml = rawAuthorTemplate.replace(/\{\{prefix\}\}/g, prefix);
+    content = content.replace(AUTHOR_REGION, authorHtml);
+  }
+
   if (content !== original) {
     fs.writeFileSync(filePath, content, 'utf8');
     return true;
@@ -62,7 +78,7 @@ function scanAndSync(dir) {
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== 'templates') {
+      if (entry.name !== 'node_modules' && entry.name !== '.git' && entry.name !== '.claude' && entry.name !== 'templates') {
         count += scanAndSync(fullPath);
       }
     } else if (entry.isFile() && entry.name.endsWith('.html') && entry.name !== 'crm.html' && entry.name !== 'privacy-policy.html') {

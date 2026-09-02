@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1200px; height:630px; overflow:hidden;
+    background:#0f172a;
+    font-family:'Figtree', system-ui, sans-serif;
+    color:#fff;
+    position:relative;
+  }
+  /* soft crimson glow, bottom-right */
+  .glow {
+    position:absolute; width:820px; height:820px; right:-300px; bottom:-420px;
+    background:radial-gradient(circle, rgba(218,16,77,.42) 0%, rgba(218,16,77,0) 68%);
+  }
+  .glow-cyan {
+    position:absolute; width:600px; height:600px; left:-250px; top:-250px;
+    background:radial-gradient(circle, rgba(14,165,233,.22) 0%, rgba(14,165,233,0) 68%);
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(160deg, #000 10%, transparent 72%);
+    -webkit-mask-image:linear-gradient(160deg, #000 10%, transparent 72%);
+  }
+  .frame { position:relative; height:100%; padding:62px 68px; display:flex; flex-direction:column; }
+  .top { display:flex; align-items:center; justify-content:space-between; }
+  .brand { display:flex; align-items:center; gap:13px; }
+  .brand img { width:34px; height:34px; }
+  .brand span { font-size:21px; font-weight:600; letter-spacing:-.01em; }
+  .year {
+    font-size:13px; font-weight:700; letter-spacing:.16em;
+    border:1px solid rgba(255,255,255,.22); border-radius:999px;
+    padding:8px 17px; color:#e2e8f0;
+  }
+  .mid { flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .eyebrow {
+    font-size:14px; font-weight:700; letter-spacing:.19em;
+    color:#ff2d6f; margin-bottom:22px;
+  }
+  h1 {
+    font-family:'Young Serif', Georgia, serif;
+    font-size:71px; line-height:1.06; letter-spacing:-.021em;
+    font-weight:400; max-width:1020px;
+  }
+  h1 .hl { color:#ff2d6f; }
+  .rule { width:74px; height:4px; background:#da104d; border-radius:2px; margin:28px 0 20px; }
+  .cities { font-size:22px; color:#94a3b8; letter-spacing:.005em; }
+  .bottom { display:flex; align-items:center; justify-content:space-between; }
+  .ranks { display:flex; gap:9px; }
+  .ranks i {
+    width:38px; height:38px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:700; font-style:normal;
+    background:rgba(255,255,255,.07); color:#94a3b8;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .ranks i.on { background:#da104d; color:#fff; border-color:#da104d; }
+  .domain { font-size:18px; font-weight:500; color:#cbd5e1; letter-spacing:.005em; }
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="glow-cyan"></div>
+  <div class="grid"></div>
+  <div class="frame">
+    <div class="top">
+      <div class="brand">
+        <img src="../../images/g-brand-primary.svg" alt="">
+        <span>G3Z&nbsp;Creative</span>
+      </div>
+      <div class="year">2026 GUIDE</div>
+    </div>
+
+    <div class="mid">
+      <div class="eyebrow">AI SEARCH &amp; GEO GUIDE</div>
+      <h1>The <span class="hl">Best AI SEO</span> Agencies in<br>South Florida (2026)</h1>
+      <div class="rule"></div>
+      <div class="cities">An honest comparison &mdash; who each one is actually best for</div>
+    </div>
+
+    <div class="bottom">
+      <div class="ranks"><i class="on">1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i></div>
+      <div class="domain">g3zcreative.com</div>
+    </div>
+  </div>
+</body>
+</html>

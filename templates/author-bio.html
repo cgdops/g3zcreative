@@ -1,0 +1,62 @@
+<!-- AUTHOR-BIO:START -->
+<!--
+  Reusable author bio. Managed by scripts/sync-templates.js — edit this file,
+  not the copies. Any page that includes the AUTHOR-BIO:START/END marker pair
+  gets this block injected on the next sync.
+
+  Usage: paste the two marker comments where the bio should appear (end of a
+  post, or inside a sidebar column) and run `node scripts/sync-templates.js`.
+  Works in both placements: it is a single self-contained card that fills its
+  container, so a narrow sidebar column stacks it automatically.
+-->
+<aside class="card author-bio" aria-label="About the author" style="margin-top: 2.5rem;">
+  <div class="card-body">
+    <div class="eyebrow" style="color: var(--core-accent-color--accent-primary, #da104d); margin-bottom: 0.75rem;">About the Author</div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-start;">
+      <img src="{{prefix}}images/g-brand-primary.svg" alt="G3Z Creative" width="56" height="56" loading="lazy" style="flex: 0 0 auto; border-radius: 50%; background: #f1f5f9; padding: 10px;">
+      <div style="flex: 1 1 260px; min-width: 0;">
+        <h3 class="h4-heading" style="margin: 0 0 0.25rem 0;">Christian Gomez</h3>
+        <p class="paragraph-sm utility-text-secondary" style="margin: 0 0 0.75rem 0;">Technical SEO Lead &amp; Co-Founder, G3Z Creative</p>
+
+        <p class="paragraph-sm" style="margin-bottom: 0.75rem;">Christian has spent <strong>over 15 years in technical SEO</strong>, scaling search architectures across the full range &mdash; from micro local businesses to national enterprise platforms serving <strong>100M+ recurring monthly users</strong> across <strong>7M+ indexed pages</strong>. He led organic scaling operations for major programmatic SEO leaders in the EdTech and Employment verticals.</p>
+
+        <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 0.75rem;">He now runs G3Z Creative with his wife Leah &mdash; who brings two decades in sales and marketing &mdash; applying that enterprise discipline to South Florida businesses from their base in Miramar, FL. Enterprise engagements are under NDA and are not named; independent clients include Towing One FL, Oasis Medical Health Centers, HITEC Global, RememberMeSeries.com, and FajardoElite.com.</p>
+
+        <p class="paragraph-sm utility-text-secondary" style="margin-bottom: 0;">
+          <a href="{{prefix}}services/ai-seo.html">AI SEO</a> &middot;
+          <a href="{{prefix}}services/seo.html">Technical &amp; Programmatic SEO</a> &middot;
+          <a href="{{prefix}}services/local-marketing.html">Local SEO</a> &middot;
+          <a href="mailto:hello@g3zcreative.com?subject=Question%20from%20your%20site">Email</a> &middot;
+          <a href="https://linkedin.com/company/g3zcreative" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</aside>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://g3zcreative.com/#christian-gomez",
+  "name": "Christian Gomez",
+  "jobTitle": "Technical SEO Lead & Co-Founder",
+  "worksFor": {
+    "@type": "Organization",
+    "@id": "https://www.g3zcreative.com/#organization",
+    "name": "G3Z Creative",
+    "url": "https://www.g3zcreative.com/"
+  },
+  "knowsAbout": [
+    "Technical SEO",
+    "Programmatic SEO",
+    "Generative Engine Optimization",
+    "Schema.org structured data",
+    "Enterprise search architecture",
+    "Local SEO"
+  ],
+  "description": "Technical SEO practitioner with over 15 years of experience, having scaled search architectures from micro local businesses to national enterprise platforms serving more than 100 million recurring monthly users across more than 7 million indexed pages, including organic scaling operations for programmatic SEO leaders in the EdTech and Employment verticals.",
+  "sameAs": ["https://linkedin.com/company/g3zcreative"]
+}
+</script>
+<!-- AUTHOR-BIO:END -->
