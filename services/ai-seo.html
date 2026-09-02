@@ -195,8 +195,108 @@
   ]
 }
 </script>
+  <style>
+    /* ---------------------------------------------------------------
+       Page-scoped layout refinements for the AI SEO pillar.
+       Scoped to .ai-seo-page so nothing here can leak to other pages.
+
+       The centering fix exists because the global `.section-heading`
+       rule sets `max-width: 30ch` with no auto margins, so
+       `text-align: center` centers the text inside a box that is
+       itself flush left. Every section head on the site is affected;
+       this only corrects it here.
+       --------------------------------------------------------------- */
+
+    /* 1. Center the heading box itself, not just the text inside it. */
+    .ai-seo-page .section-head-content .section-heading {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 22ch;
+    }
+
+    /* 2. Give section-head subheadings a readable measure, centered. */
+    .ai-seo-page .section-head-content > .subheading {
+      max-width: 62ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 3. Tighten vertical rhythm. The global 128px top and bottom meant
+          256px between every section, which broke the page into
+          disconnected islands over its ~11,500px length. */
+    .ai-seo-page .section {
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
+    }
+    /* Alternating bands read as one unit, so drop the seam between a
+       band and the section that follows it. */
+    .ai-seo-page .section.secondary-section {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+    .ai-seo-page .intro-section {
+      padding-top: 3rem;
+      padding-bottom: 4.5rem;
+    }
+
+    /* 4. Consistent gap under every section head. */
+    .ai-seo-page .section-head {
+      margin-bottom: 2.75rem;
+    }
+
+    /* 5. Equal-height cards in every grid row. */
+    .ai-seo-page .grid-layout > .card {
+      height: 100%;
+    }
+    .ai-seo-page .card-body > *:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 6. The five trust questions were a 1,832px single-column wall.
+          Two columns halves the scroll; the last item spans so the row
+          does not end on an orphan. */
+    @media (min-width: 992px) {
+      .ai-seo-page .trust-grid { /* wide two-up */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        max-width: 1000px;
+        margin-inline: auto;
+      }
+      .ai-seo-page .trust-grid > .card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* 7. Hero: the H1 column was short against a tall answer column,
+          leaving a large void. Align both to the top of the type. */
+    .ai-seo-page .intro-section .heading-responsive-lg {
+      margin-top: 0;
+    }
+    .ai-seo-page .hero-answer {
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+
+    /* 8. Pricing note and closing lines read as asides, not body copy. */
+    .ai-seo-page .section-note {
+      max-width: 72ch;
+      margin-inline: auto;
+    }
+
+    @media (max-width: 767px) {
+      .ai-seo-page .section,
+      .ai-seo-page .section.secondary-section {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+      .ai-seo-page .section-head-content .section-heading {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="ai-seo-page">
   <div class="hidden w-embed w-script"><!--  Google tag (gtag.js)  -->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-3L9H02HJMV"></script>
     <script>
@@ -521,7 +621,7 @@
         </div>
       </div>
 
-      <div class="w-layout-grid grid-layout desktop-1-column grid-gap-sm" style="max-width: 860px; margin: 0 auto;">
+      <div class="trust-grid w-layout-grid grid-layout desktop-1-column grid-gap-sm" style="margin: 0 auto;">
 
         <div class="card">
           <div class="card-body">
@@ -576,7 +676,7 @@
         </div>
       </div>
 
-      <p class="paragraph-sm utility-text-secondary utility-text-align-center" style="max-width: 780px; margin: 0 auto 2.5rem auto;">For context on the market: AI SEO retainers generally run <strong>$2,500&ndash;$8,000/month</strong> for small and mid-sized businesses and <strong>$12,000+/month</strong> at enterprise scale. We sit at the lower end of that range because we are a small South Florida team without a national sales org to fund. Everything below is month-to-month with 15 days' notice to cancel.</p>
+      <p class="section-note paragraph-sm utility-text-secondary utility-text-align-center" style="margin: 0 auto 2.5rem auto;">For context on the market: AI SEO retainers generally run <strong>$2,500&ndash;$8,000/month</strong> for small and mid-sized businesses and <strong>$12,000+/month</strong> at enterprise scale. We sit at the lower end of that range because we are a small South Florida team without a national sales org to fund. Everything below is month-to-month with 15 days' notice to cancel.</p>
 
       <div class="w-layout-grid grid-layout desktop-3-column tablet-1-column grid-gap-md">
 
