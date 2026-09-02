@@ -518,10 +518,10 @@ const indexHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Blog | G3Z Creative &mdash; Local SEO &amp; Web Design Insights</title>
-  <meta content="Practical guides on local SEO, web design, and programmatic search for South Florida service businesses." name="description">
+  <title>Blog | G3Z Creative &mdash; Local SEO &amp; AI Search Insights</title>
+  <meta content="Practical guides on local SEO, AI search optimization (GEO), web design, and programmatic search for South Florida service businesses." name="description">
   <meta content="Blog | G3Z Creative" property="og:title">
-  <meta content="Practical guides on local SEO, web design, and programmatic search for South Florida service businesses." property="og:description">
+  <meta content="Practical guides on local SEO, AI search optimization (GEO), web design, and programmatic search for South Florida service businesses." property="og:description">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="https://g3zcreative.com/blog/" rel="canonical">
   <link href="${PREFIX}css/normalize.css" rel="stylesheet" type="text/css">
@@ -530,37 +530,186 @@ const indexHtml = `<!DOCTYPE html>
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
-  <script type="text/javascript">WebFont.load({  google: {    families: ["Figtree:regular","Young Serif:regular"]  }});</script>
+  <script type="text/javascript">WebFont.load({  google: {    families: ["Figtree:regular,500,600,700","Young Serif:regular"]  }});</script>
   <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
   <link href="${PREFIX}images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="${PREFIX}images/webclip.png" rel="apple-touch-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <style>
+    .blog-hero {
+      padding-top: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+    }
+    .blog-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #da104d;
+      margin-bottom: 0.75rem;
+    }
+    .blog-hero-title {
+      font-family: 'Young Serif', Georgia, serif;
+      font-size: clamp(2rem, 3.6vw, 3.1rem);
+      line-height: 1.18;
+      letter-spacing: -0.018em;
+      margin: 0 0 1rem 0;
+      color: #0f172a;
+      text-wrap: balance;
+    }
+    .blog-hero-sub {
+      font-size: clamp(1.05rem, 1.4vw, 1.18rem);
+      line-height: 1.62;
+      color: #64748b;
+      max-width: 680px;
+      margin: 0;
+    }
+    .blog-section {
+      padding-top: 2.75rem;
+      padding-bottom: 5rem;
+      background: #f8fafc;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+      align-items: stretch;
+    }
+    @media (max-width: 991px) {
+      .blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+    }
+    @media (max-width: 640px) {
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .blog-hero {
+        padding-top: 2.25rem;
+        padding-bottom: 1.5rem;
+      }
+    }
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .blog-card:hover {
+      transform: translateY(-3px);
+      border-color: #cbd5e1;
+      box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.09), 0 8px 12px -6px rgba(15, 23, 42, 0.04);
+    }
+    .blog-card-media {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1200 / 630;
+      overflow: hidden;
+      background: #0f172a;
+      position: relative;
+    }
+    .blog-card-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .blog-card:hover .blog-card-img {
+      transform: scale(1.03);
+    }
+    .blog-card-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .blog-card-date {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #da104d;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.65rem;
+    }
+    .blog-card-title {
+      font-family: 'Young Serif', Georgia, serif;
+      font-size: 1.24rem;
+      line-height: 1.34;
+      letter-spacing: -0.012em;
+      color: #0f172a;
+      margin: 0 0 0.75rem 0;
+      transition: color 0.15s ease;
+    }
+    .blog-card:hover .blog-card-title {
+      color: #da104d;
+    }
+    .blog-card-excerpt {
+      font-size: 0.92rem;
+      line-height: 1.62;
+      color: #64748b;
+      margin: 0 0 1.25rem 0;
+      flex-grow: 1;
+    }
+    .blog-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #da104d;
+      margin-top: auto;
+    }
+    .blog-card-action svg {
+      transition: transform 0.2s ease;
+    }
+    .blog-card:hover .blog-card-action svg {
+      transform: translateX(4px);
+    }
+  </style>
 </head>
 <body>
 ${nav}
-  <section class="intro-section section utility-overflow-hidden">
+  <header class="blog-hero">
     <div class="container utility-max-width-90">
-      <div class="utility-max-width-md">
-        <div class="eyebrow">Blog</div>
-        <h1 class="heading-responsive-lg utility-margin-bottom-1rem">Local SEO &amp; Web Design Insights</h1>
-        <p class="subheading">Practical guides for South Florida service businesses competing in local search.</p>
+      <div class="blog-eyebrow">Insights &amp; Guides</div>
+      <h1 class="blog-hero-title">Local SEO &amp; AI Search Insights</h1>
+      <p class="blog-hero-sub">Practical guides for South Florida service businesses competing in local search and generative AI answer engines.</p>
+    </div>
+  </header>
+  <main class="blog-section">
+    <div class="container utility-max-width-90">
+      <div class="blog-grid">
+${posts.map(p => `        <article>
+          <a href="${p.href}" class="blog-card">
+            <div class="blog-card-media">
+              <img src="${PREFIX}images/${p.img}" width="1200" height="630" alt="${p.imgAlt}" class="blog-card-img" loading="lazy" decoding="async">
+            </div>
+            <div class="blog-card-content">
+              <div class="blog-card-date"><time datetime="${p.date}">${p.dateLabel}</time></div>
+              <h2 class="blog-card-title">${p.title}</h2>
+              <p class="blog-card-excerpt">${p.desc}</p>
+              <div class="blog-card-action">
+                <span>Read Guide</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4-4-4-4"/></svg>
+              </div>
+            </div>
+          </a>
+        </article>`).join('\n')}
       </div>
     </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      <div class="utility-max-width-md">
-${posts.map(p => `        <div class="card utility-margin-bottom-1rem">
-          <a href="${p.href}" class="w-inline-block"><img src="${PREFIX}images/${p.img}" width="1200" height="630" alt="${p.imgAlt}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;aspect-ratio:1200/630;border-radius:8px 8px 0 0;"></a>
-          <div class="card-body">
-            <p class="paragraph-sm utility-text-secondary utility-margin-bottom-0-5rem"><time datetime="${p.date}">${p.dateLabel}</time></p>
-            <h2 class="h5-heading"><a href="${p.href}">${p.title}</a></h2>
-            <p class="paragraph-sm utility-margin-bottom-0">${p.desc}</p>
-          </div>
-        </div>`).join('\n')}
-      </div>
-    </div>
-  </section>
+  </main>
 ${footer}
 
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6837ae7e314e91dd48e1e240" type="text/javascript"></script>
