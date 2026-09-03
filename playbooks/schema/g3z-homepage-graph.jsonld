@@ -1,0 +1,115 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://g3zcreative.com/#website",
+      "url": "https://g3zcreative.com/",
+      "name": "G3Z Creative",
+      "publisher": { "@id": "https://g3zcreative.com/#organization" },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": "https://g3zcreative.com/#organization",
+      "name": "G3Z Creative",
+      "url": "https://g3zcreative.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://g3zcreative.com/#logo",
+        "url": "https://g3zcreative.com/images/Webclip-8.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": { "@id": "https://g3zcreative.com/#logo" },
+      "description": "G3Z Creative is a two-person web design, SEO, and AI search optimization studio in Miramar, Florida, serving Broward County and North Miami-Dade.",
+      "foundingDate": "2025-05",
+      "telephone": "+1-786-967-3699",
+      "email": "hello@g3zcreative.com",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2751 SW 116th Ave, Suite 308",
+        "addressLocality": "Miramar",
+        "addressRegion": "FL",
+        "postalCode": "33025",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.9860,
+        "longitude": -80.3036
+      },
+      "founder": [
+        { "@id": "https://g3zcreative.com/#christian-gomez" },
+        { "@id": "https://g3zcreative.com/#leah-gomez" }
+      ],
+      "employee": [
+        { "@id": "https://g3zcreative.com/#christian-gomez" },
+        { "@id": "https://g3zcreative.com/#leah-gomez" }
+      ],
+      "knowsAbout": [
+        "Technical SEO",
+        "Programmatic SEO",
+        "Generative Engine Optimization",
+        "AI search visibility",
+        "Schema.org structured data",
+        "Local SEO",
+        "Google Business Profile optimization",
+        "Web design"
+      ],
+      "areaServed": [
+        { "@type": "AdministrativeArea", "name": "Broward County, Florida" },
+        { "@type": "AdministrativeArea", "name": "Miami-Dade County, Florida" }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/g3zcreative",
+        "https://www.linkedin.com/company/g3zcreative",
+        "TODO_GOOGLE_BUSINESS_PROFILE_URL",
+        "TODO_FACEBOOK_PAGE_URL"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "@id": "https://g3zcreative.com/#services",
+        "name": "G3Z Creative Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://g3zcreative.com/services/ai-seo#service", "name": "AI SEO", "url": "https://g3zcreative.com/services/ai-seo", "provider": { "@id": "https://g3zcreative.com/#organization" } } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://g3zcreative.com/services/seo#service", "name": "Technical & Programmatic SEO", "url": "https://g3zcreative.com/services/seo", "provider": { "@id": "https://g3zcreative.com/#organization" } } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://g3zcreative.com/services/local-marketing#service", "name": "Local SEO & Google Business Profile", "url": "https://g3zcreative.com/services/local-marketing", "provider": { "@id": "https://g3zcreative.com/#organization" } } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://g3zcreative.com/services/small-business-web-design#service", "name": "Web Design & Development", "url": "https://g3zcreative.com/services/small-business-web-design", "provider": { "@id": "https://g3zcreative.com/#organization" } } }
+        ]
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://g3zcreative.com/#christian-gomez",
+      "name": "Christian Gomez",
+      "givenName": "Christian",
+      "familyName": "Gomez",
+      "jobTitle": "Technical SEO Lead & Co-Founder",
+      "worksFor": { "@id": "https://g3zcreative.com/#organization" },
+      "knowsAbout": [
+        "Technical SEO",
+        "Programmatic SEO",
+        "Generative Engine Optimization",
+        "Schema.org structured data",
+        "Enterprise search architecture",
+        "Local SEO"
+      ],
+      "description": "Technical SEO practitioner with over 15 years of experience, having scaled search architectures from micro local businesses to national enterprise platforms serving more than 100 million recurring monthly users across more than 7 million indexed pages, including organic scaling operations for programmatic SEO leaders in the EdTech and Employment verticals.",
+      "sameAs": ["TODO_PERSONAL_LINKEDIN_URL"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://g3zcreative.com/#leah-gomez",
+      "name": "Leah Gomez",
+      "givenName": "Leah",
+      "familyName": "Gomez",
+      "jobTitle": "Business Development & Client Strategy, Co-Founder",
+      "worksFor": { "@id": "https://g3zcreative.com/#organization" },
+      "knowsAbout": ["Sales strategy", "Marketing strategy", "Client strategy"],
+      "description": "Two decades in sales and marketing. Runs business development and client strategy at G3Z Creative.",
+      "sameAs": ["TODO_PERSONAL_LINKEDIN_URL"]
+    }
+  ]
+}
