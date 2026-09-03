@@ -3,3 +3,6 @@ node_modules/
 .credentials/
 .env
 content-strategy/
+
+# Raw AI baseline API responses (bulky, reproducible, third-party content)
+scratch/ai-baseline/raw/

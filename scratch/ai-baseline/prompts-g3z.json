@@ -1,0 +1,32 @@
+{
+  "client": "G3Z Creative",
+  "domain": "g3zcreative.com",
+  "brand_aliases": ["G3Z Creative", "G3Z", "g3zcreative"],
+  "location_code": 2840,
+  "language_code": "en",
+  "runs_per_prompt": 3,
+  "prompts": [
+    {"id": "D1", "bucket": "discovery", "text": "best AI SEO agency in Miramar FL"},
+    {"id": "D2", "bucket": "discovery", "text": "best SEO agency in Pembroke Pines FL"},
+    {"id": "D3", "bucket": "discovery", "text": "who does AI SEO in South Florida"},
+    {"id": "D4", "bucket": "discovery", "text": "best local SEO company in Broward County"},
+    {"id": "D5", "bucket": "discovery", "text": "AI search optimization agency near Fort Lauderdale"},
+    {"id": "D6", "bucket": "discovery", "text": "best web design agency in Miramar Florida"},
+    {"id": "D7", "bucket": "discovery", "text": "generative engine optimization agency South Florida"},
+    {"id": "C1", "bucket": "comparison", "text": "how do I choose an AI SEO agency"},
+    {"id": "C2", "bucket": "comparison", "text": "what should a small business pay for AI SEO per month"},
+    {"id": "C3", "bucket": "comparison", "text": "AI SEO agency vs traditional SEO agency which do I need"},
+    {"id": "C4", "bucket": "comparison", "text": "affordable SEO agency for small business in South Florida"},
+    {"id": "P1", "bucket": "problem", "text": "why is my business not showing up in ChatGPT"},
+    {"id": "P2", "bucket": "problem", "text": "how do I get my business cited in AI search results"},
+    {"id": "P3", "bucket": "problem", "text": "how to get my local business into Google AI Overviews"},
+    {"id": "P4", "bucket": "problem", "text": "how do I know if my SEO agency is actually doing AI SEO"},
+    {"id": "P5", "bucket": "problem", "text": "what is programmatic SEO for local businesses"},
+    {"id": "V1", "bucket": "vertical", "text": "best marketing agency for electricians in South Florida"},
+    {"id": "V2", "bucket": "vertical", "text": "SEO for HVAC companies in Broward County"},
+    {"id": "B1", "bucket": "branded", "text": "G3Z Creative"},
+    {"id": "B2", "bucket": "branded", "text": "is G3Z Creative a legitimate SEO agency"},
+    {"id": "B3", "bucket": "branded", "text": "who is Christian Gomez of G3Z Creative"},
+    {"id": "B4", "bucket": "branded", "text": "G3Z Creative reviews and pricing"}
+  ]
+}

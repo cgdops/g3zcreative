@@ -1,0 +1,1493 @@
+{
+  "client": "G3Z Creative",
+  "domain": "g3zcreative.com",
+  "run_at": "2026-09-02 20:20:40 UTC",
+  "prompts": 22,
+  "runs_per_prompt": 3,
+  "calls": 66,
+  "elapsed_sec": 323.0,
+  "spend": 0.264,
+  "records": [
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "anytimedigitalmarketing.com",
+        "sealglobalholdings.com"
+      ],
+      "brands_listed": [
+        "Seal Global",
+        "SEO Maven",
+        "Ninety Web Design",
+        "LogiqFish AI & SEO Marketing"
+      ],
+      "total_sources": 11,
+      "answer_chars": 4317,
+      "id": "D1",
+      "bucket": "discovery",
+      "prompt": "best AI SEO agency in Miramar FL",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": true,
+      "cited_urls": [
+        "https://g3zcreative.com",
+        "https://g3zcreative.com/"
+      ],
+      "source_domains": [
+        "agencies.semrush.com",
+        "bluetuskr.com",
+        "g3zcreative.com",
+        "sailorseo.com",
+        "sealglobalholdings.com"
+      ],
+      "brands_listed": [
+        "Seal Global Holdings",
+        "G3Z Creative",
+        "Smile More Business Solutions | South Florida Digital Marketing",
+        "Sky SEO Digital",
+        "Figment Design"
+      ],
+      "total_sources": 21,
+      "answer_chars": 2925,
+      "id": "D1",
+      "bucket": "discovery",
+      "prompt": "best AI SEO agency in Miramar FL",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "agencies.semrush.com",
+        "sealglobalholdings.com"
+      ],
+      "brands_listed": [
+        "Blue Restorarion Services",
+        "SEO Maven",
+        "Doc Digital SEM | Fort Lauderdale SEO, Web Design, & PPC",
+        "LogiqFish AI & SEO Marketing",
+        "Geeks360 | SEO, PR & Paid Ads Marketing Agency"
+      ],
+      "total_sources": 12,
+      "answer_chars": 4563,
+      "id": "D1",
+      "bucket": "discovery",
+      "prompt": "best AI SEO agency in Miramar FL",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "expertise.com",
+        "geografixx.com"
+      ],
+      "brands_listed": [
+        "Geografixx.com Web Designer & SEO",
+        "Hashtag Digital Marketing",
+        "Opulent Marketing Group",
+        "Global Presence Marketing",
+        "Lince Digital Marketing"
+      ],
+      "total_sources": 8,
+      "answer_chars": 4637,
+      "id": "D2",
+      "bucket": "discovery",
+      "prompt": "best SEO agency in Pembroke Pines FL",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "expertise.com",
+        "topseos.com"
+      ],
+      "brands_listed": [
+        "Lince Digital Marketing",
+        "Opulent Marketing Group",
+        "Hashtag Digital Marketing",
+        "Digital Mules",
+        "Global Presence Marketing",
+        "Lince Digital Marketing"
+      ],
+      "total_sources": 4,
+      "answer_chars": 3616,
+      "id": "D2",
+      "bucket": "discovery",
+      "prompt": "best SEO agency in Pembroke Pines FL",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "expertise.com",
+        "topseos.com"
+      ],
+      "brands_listed": [
+        "Lince Digital Marketing",
+        "Geografixx.com Web Designer & SEO",
+        "Hashtag Digital Marketing",
+        "Opulent Marketing Group",
+        "Global Presence Marketing"
+      ],
+      "total_sources": 6,
+      "answer_chars": 4267,
+      "id": "D2",
+      "bucket": "discovery",
+      "prompt": "best SEO agency in Pembroke Pines FL",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "adleafmiami.com",
+        "aeogeoai.net",
+        "bocadigitalagency.com",
+        "hub365.ai",
+        "mulder.agency",
+        "primeaxiom.ai",
+        "ramaiautomations.com",
+        "seobrand.com",
+        "southfloridawebdesignseoai.com"
+      ],
+      "brands_listed": [
+        "Miami GEO Pro - SEO"
+      ],
+      "total_sources": 29,
+      "answer_chars": 5020,
+      "id": "D3",
+      "bucket": "discovery",
+      "prompt": "who does AI SEO in South Florida",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bocadigitalagency.com",
+        "fullcontactaeo.com",
+        "harmonytec.net",
+        "scaler.marketing",
+        "seosmooth.com",
+        "southfloridawebdesignseoai.com"
+      ],
+      "brands_listed": [
+        "SEO Smooth",
+        "Sky SEO Digital",
+        "eMac Media Marketing Agency",
+        "Harmony Technologies",
+        "Doc Digital SEM | Fort Lauderdale SEO, Web Design, & PPC",
+        "FirmPilot"
+      ],
+      "total_sources": 14,
+      "answer_chars": 5002,
+      "id": "D3",
+      "bucket": "discovery",
+      "prompt": "who does AI SEO in South Florida",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "adleafmiami.com",
+        "aeogeoai.net",
+        "beaugust.co",
+        "cipionmarketing.com"
+      ],
+      "brands_listed": [
+        "Sky SEO Digital",
+        "Doc Digital SEM",
+        "SEO Smooth",
+        "Social Booster Marketing",
+        "Transformational Outsourcing Digital Marketing Agency",
+        "Adam Silva Consulting",
+        "LogiqFish AI & SEO Marketing"
+      ],
+      "total_sources": 13,
+      "answer_chars": 4230,
+      "id": "D3",
+      "bucket": "discovery",
+      "prompt": "who does AI SEO in South Florida",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "connecticallc.com",
+        "seofortlauderdale.co"
+      ],
+      "brands_listed": [
+        "Notch Solutions - Web Design, Marketing & SEO",
+        "Doc Digital SEM | Fort Lauderdale SEO, Web Design, & PPC",
+        "WEBDELO LLC",
+        "Boasting Biz SEO",
+        "Lince Digital Marketing"
+      ],
+      "total_sources": 6,
+      "answer_chars": 4388,
+      "id": "D4",
+      "bucket": "discovery",
+      "prompt": "best local SEO company in Broward County",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bullseyeinternet.com",
+        "clutch.co",
+        "xsquareseo.com"
+      ],
+      "brands_listed": [
+        "Notch Solutions - Web Design, Marketing & SEO",
+        "Lince Digital Marketing",
+        "Laloshi Marketing",
+        "BullsEye Internet Marketing",
+        "5 Star Visibility Digital Marketing Agency"
+      ],
+      "total_sources": 6,
+      "answer_chars": 4546,
+      "id": "D4",
+      "bucket": "discovery",
+      "prompt": "best local SEO company in Broward County",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bullseyeinternet.com",
+        "clickboxstudio.com",
+        "connecticallc.com"
+      ],
+      "brands_listed": [
+        "BullsEye Internet Marketing",
+        "Connectica",
+        "Lince Digital Marketing",
+        "SEO Maven",
+        "Notch Solutions",
+        "Clickbox Media Studio"
+      ],
+      "total_sources": 5,
+      "answer_chars": 2575,
+      "id": "D4",
+      "bucket": "discovery",
+      "prompt": "best local SEO company in Broward County",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "agencies.semrush.com",
+        "prowaydigital.com",
+        "wheelhouseonline.com"
+      ],
+      "brands_listed": [
+        "Doc Digital SEM | Fort Lauderdale SEO, Web Design, & PPC",
+        "BlckPanda Creative",
+        "StrouseHouse.io",
+        "SEO Smooth",
+        "BullsEye Internet Marketing"
+      ],
+      "total_sources": 7,
+      "answer_chars": 4826,
+      "id": "D5",
+      "bucket": "discovery",
+      "prompt": "AI search optimization agency near Fort Lauderdale",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "agencies.semrush.com",
+        "primeaxiom.ai",
+        "prowaydigital.com",
+        "wheelhouseonline.com"
+      ],
+      "brands_listed": [
+        "BullsEye Internet Marketing",
+        "BlckPanda Creative",
+        "Doc Digital SEM | Fort Lauderdale SEO, Web Design, & PPC",
+        "Blue Interactive Agency",
+        "Correct Digital"
+      ],
+      "total_sources": 12,
+      "answer_chars": 4976,
+      "id": "D5",
+      "bucket": "discovery",
+      "prompt": "AI search optimization agency near Fort Lauderdale",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "aimarketingagencyflorida.com",
+        "fisherdesignandadvertising.com",
+        "prowaydigital.com",
+        "webtonic.io",
+        "wheelhouseonline.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 15,
+      "answer_chars": 2379,
+      "id": "D5",
+      "bucket": "discovery",
+      "prompt": "AI search optimization agency near Fort Lauderdale",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "abovewebdesign.com",
+        "expertise.com"
+      ],
+      "brands_listed": [
+        "Figment Design",
+        "Above Web Design",
+        "Lince Digital Marketing",
+        "Ninety Web Design"
+      ],
+      "total_sources": 5,
+      "answer_chars": 3202,
+      "id": "D6",
+      "bucket": "discovery",
+      "prompt": "best web design agency in Miramar Florida",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "threebestrated.com",
+        "thriveagency.com"
+      ],
+      "brands_listed": [
+        "Pixel Pixie Designs",
+        "Figment Design",
+        "Network Strategics",
+        "BlckPanda Creative Davie"
+      ],
+      "total_sources": 5,
+      "answer_chars": 3852,
+      "id": "D6",
+      "bucket": "discovery",
+      "prompt": "best web design agency in Miramar Florida",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "threebestrated.com"
+      ],
+      "brands_listed": [
+        "Pixel Pixie Designs",
+        "Figment Design",
+        "Onset Media",
+        "Ninety Web Design"
+      ],
+      "total_sources": 7,
+      "answer_chars": 3498,
+      "id": "D6",
+      "bucket": "discovery",
+      "prompt": "best web design agency in Miramar Florida",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "1stmention.com",
+        "sealglobalholdings.com"
+      ],
+      "brands_listed": [
+        "Miami GEO Pro - SEO",
+        "SEO Needed",
+        "Geeks360 | SEO, PR & Paid Ads Marketing Agency",
+        "Transformational Outsourcing Digital Marketing Agency",
+        "Alphametic",
+        "eMac Media Marketing Agency"
+      ],
+      "total_sources": 10,
+      "answer_chars": 4946,
+      "id": "D7",
+      "bucket": "discovery",
+      "prompt": "generative engine optimization agency South Florida",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "1stmention.com",
+        "adleafmiami.com",
+        "fullcontactaeo.com",
+        "goodatmarketing.com",
+        "marketyourcorp.com",
+        "phoenixgrowthcollective.com"
+      ],
+      "brands_listed": [
+        "Phoenix Growth Collective",
+        "Miami GEO Pro - SEO",
+        "The AD Leaf Marketing Firm",
+        "Market Your Corp",
+        "Good At Marketing",
+        "Full Contact AEO"
+      ],
+      "total_sources": 14,
+      "answer_chars": 3627,
+      "id": "D7",
+      "bucket": "discovery",
+      "prompt": "generative engine optimization agency South Florida",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "1stmention.com",
+        "adleafmiami.com",
+        "beaugust.co",
+        "cipionmarketing.com",
+        "sealglobalholdings.com"
+      ],
+      "brands_listed": [
+        "Miami GEO Pro - SEO",
+        "Sky SEO Digital",
+        "Transformational Outsourcing Digital Marketing Agency",
+        "SEO Needed",
+        "Map Kings USA",
+        "Geeks360 | SEO, PR & Paid Ads Marketing Agency"
+      ],
+      "total_sources": 12,
+      "answer_chars": 4982,
+      "id": "D7",
+      "bucket": "discovery",
+      "prompt": "generative engine optimization agency South Florida",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "blog.contentforce.ai",
+        "citable.agency",
+        "citationpath.com",
+        "digitalpromenade.com",
+        "docs.writeworks.ai",
+        "enleaf.com",
+        "rankability.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 20,
+      "answer_chars": 5560,
+      "id": "C1",
+      "bucket": "comparison",
+      "prompt": "how do I choose an AI SEO agency",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "blog.google",
+        "developers.google.com",
+        "help.openai.com",
+        "ownerized.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 16,
+      "answer_chars": 6539,
+      "id": "C1",
+      "bucket": "comparison",
+      "prompt": "how do I choose an AI SEO agency",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com",
+        "frostbitemarketing.com",
+        "help.openai.com",
+        "loudface.co",
+        "ranktracker.com",
+        "stackmatix.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 13,
+      "answer_chars": 10708,
+      "id": "C1",
+      "bucket": "comparison",
+      "prompt": "how do I choose an AI SEO agency",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "stackmatix.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 6,
+      "answer_chars": 2466,
+      "id": "C2",
+      "bucket": "comparison",
+      "prompt": "what should a small business pay for AI SEO per month",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "enleaf.com",
+        "infinenetech.com",
+        "mshvglobal.com",
+        "nekkodigital.com",
+        "omnieclipse.ai",
+        "stackmatix.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 14,
+      "answer_chars": 2760,
+      "id": "C2",
+      "bucket": "comparison",
+      "prompt": "what should a small business pay for AI SEO per month",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "avitagroup.com",
+        "legalclarity.org",
+        "stackmatix.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 7,
+      "answer_chars": 2609,
+      "id": "C2",
+      "bucket": "comparison",
+      "prompt": "what should a small business pay for AI SEO per month",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "citable.agency",
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 7,
+      "answer_chars": 3566,
+      "id": "C3",
+      "bucket": "comparison",
+      "prompt": "AI SEO agency vs traditional SEO agency which do I need",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 6,
+      "answer_chars": 2627,
+      "id": "C3",
+      "bucket": "comparison",
+      "prompt": "AI SEO agency vs traditional SEO agency which do I need",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "citable.agency",
+        "moburst.com",
+        "semrush.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 9,
+      "answer_chars": 3014,
+      "id": "C3",
+      "bucket": "comparison",
+      "prompt": "AI SEO agency vs traditional SEO agency which do I need",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "clickboxstudio.com",
+        "lighthouseinternetmedia.com",
+        "logiqfish.com",
+        "palmwebmiami.com",
+        "suncore.digital",
+        "suncraftstudios.com"
+      ],
+      "brands_listed": [
+        "Suncraft Studios",
+        "Lighthouse Internet Media",
+        "Clickbox Media Studio",
+        "LogiqFish",
+        "Palm Web Miami"
+      ],
+      "total_sources": 6,
+      "answer_chars": 2681,
+      "id": "C4",
+      "bucket": "comparison",
+      "prompt": "affordable SEO agency for small business in South Florida",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "clickboxstudio.com",
+        "logiqfish.com",
+        "seocompanymia.com",
+        "surfsideppc.com",
+        "techandcapital.com",
+        "westpalmbeachwebdesigncompany.com"
+      ],
+      "brands_listed": [
+        "Local Management",
+        "Website Rescue SEO"
+      ],
+      "total_sources": 12,
+      "answer_chars": 3946,
+      "id": "C4",
+      "bucket": "comparison",
+      "prompt": "affordable SEO agency for small business in South Florida",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "clickboxstudio.com",
+        "logiqfish.com",
+        "palmwebmiami.com"
+      ],
+      "brands_listed": [
+        "Website Rescue SEO",
+        "iLocal SEO",
+        "Sky SEO Digital",
+        "Affordable Digital Marketing"
+      ],
+      "total_sources": 6,
+      "answer_chars": 3836,
+      "id": "C4",
+      "bucket": "comparison",
+      "prompt": "affordable SEO agency for small business in South Florida",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "help-lb.openai.com",
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 6,
+      "answer_chars": 2752,
+      "id": "P1",
+      "bucket": "problem",
+      "prompt": "why is my business not showing up in ChatGPT",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 7,
+      "answer_chars": 2154,
+      "id": "P1",
+      "bucket": "problem",
+      "prompt": "why is my business not showing up in ChatGPT",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 5,
+      "answer_chars": 1980,
+      "id": "P1",
+      "bucket": "problem",
+      "prompt": "why is my business not showing up in ChatGPT",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bing.com",
+        "blogs.bing.com",
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 11,
+      "answer_chars": 7147,
+      "id": "P2",
+      "bucket": "problem",
+      "prompt": "how do I get my business cited in AI search results",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bing.com",
+        "blogs.bing.com",
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 12,
+      "answer_chars": 6112,
+      "id": "P2",
+      "bucket": "problem",
+      "prompt": "how do I get my business cited in AI search results",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bing.com",
+        "blogs.bing.com",
+        "developers.google.com",
+        "help.openai.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 15,
+      "answer_chars": 7012,
+      "id": "P2",
+      "bucket": "problem",
+      "prompt": "how do I get my business cited in AI search results",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com",
+        "support.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 17,
+      "answer_chars": 9311,
+      "id": "P3",
+      "bucket": "problem",
+      "prompt": "how to get my local business into Google AI Overviews",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "support.google.com"
+      ],
+      "brands_listed": [
+        "Google Business Profile"
+      ],
+      "total_sources": 18,
+      "answer_chars": 10425,
+      "id": "P3",
+      "bucket": "problem",
+      "prompt": "how to get my local business into Google AI Overviews",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com",
+        "google.com",
+        "search.google.com",
+        "support.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 23,
+      "answer_chars": 8883,
+      "id": "P3",
+      "bucket": "problem",
+      "prompt": "how to get my local business into Google AI Overviews",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "blogs.bing.com",
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 9,
+      "answer_chars": 7776,
+      "id": "P4",
+      "bucket": "problem",
+      "prompt": "how do I know if my SEO agency is actually doing AI SEO",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "bing.com",
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 6,
+      "answer_chars": 2749,
+      "id": "P4",
+      "bucket": "problem",
+      "prompt": "how do I know if my SEO agency is actually doing AI SEO",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com",
+        "searchengineland.com",
+        "semrush.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 12,
+      "answer_chars": 4237,
+      "id": "P4",
+      "bucket": "problem",
+      "prompt": "how do I know if my SEO agency is actually doing AI SEO",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "ahrefs.com",
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 14,
+      "answer_chars": 6536,
+      "id": "P5",
+      "bucket": "problem",
+      "prompt": "what is programmatic SEO for local businesses",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "ahrefs.com",
+        "developers.google.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 9,
+      "answer_chars": 6234,
+      "id": "P5",
+      "bucket": "problem",
+      "prompt": "what is programmatic SEO for local businesses",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "developers.google.com",
+        "searchengineland.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 8,
+      "answer_chars": 4287,
+      "id": "P5",
+      "bucket": "problem",
+      "prompt": "what is programmatic SEO for local businesses",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "comradeweb.com",
+        "thryvmarketingsolutions.com",
+        "zeusmediateam.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 13,
+      "answer_chars": 4015,
+      "id": "V1",
+      "bucket": "vertical",
+      "prompt": "best marketing agency for electricians in South Florida",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "comradeweb.com",
+        "electricians.savogroup.com",
+        "opticvaultmarketing.com",
+        "thryvmarketingsolutions.com",
+        "zeusmediateam.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 18,
+      "answer_chars": 5274,
+      "id": "V1",
+      "bucket": "vertical",
+      "prompt": "best marketing agency for electricians in South Florida",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "comradeweb.com",
+        "opticvaultmarketing.com",
+        "silverbackstrategies.com",
+        "surfsideppc.com",
+        "thryvmarketingsolutions.com",
+        "zeusmediateam.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 18,
+      "answer_chars": 3809,
+      "id": "V1",
+      "bucket": "vertical",
+      "prompt": "best marketing agency for electricians in South Florida",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "abrahamac.com",
+        "airconditioningbroward.com",
+        "go2airconditioning.com",
+        "hivacair.com",
+        "kelvinairllc.com",
+        "seabreezeairconditioning.com",
+        "serviceprosofamerica.com"
+      ],
+      "brands_listed": [
+        "Air Condition Army",
+        "GreenTree Air Conditioning Inc."
+      ],
+      "total_sources": 17,
+      "answer_chars": 9758,
+      "id": "V2",
+      "bucket": "vertical",
+      "prompt": "SEO for HVAC companies in Broward County",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "mbadv.agency",
+        "mediapromotions.net",
+        "seo.com",
+        "seobrothers.com",
+        "websza.com"
+      ],
+      "brands_listed": [
+        "GreenTree Air Conditioning Inc.",
+        "License To Chill",
+        "Air Anytime",
+        "All Systems Air Conditioning Service"
+      ],
+      "total_sources": 10,
+      "answer_chars": 8801,
+      "id": "V2",
+      "bucket": "vertical",
+      "prompt": "SEO for HVAC companies in Broward County",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": false,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "ladigitalagency.com",
+        "rocketwebdesigner.com",
+        "seofortlauderdale.co",
+        "servicelinepro.com",
+        "thestacc.com"
+      ],
+      "brands_listed": [
+        "Google Business Profile",
+        "Air Anytime",
+        "After Hours Air Conditioning",
+        "License To Chill",
+        "GreenTree Air Conditioning Inc."
+      ],
+      "total_sources": 12,
+      "answer_chars": 9158,
+      "id": "V2",
+      "bucket": "vertical",
+      "prompt": "SEO for HVAC companies in Broward County",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo",
+        "https://g3zcreative.com/services/social-media-marketing",
+        "https://g3zcreative.com/services/website-development-miramar"
+      ],
+      "source_domains": [
+        "g3zcreative.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 11,
+      "answer_chars": 1052,
+      "id": "B1",
+      "bucket": "branded",
+      "prompt": "G3Z Creative",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/website-development-miramar"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "g3zcreative.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 8,
+      "answer_chars": 1151,
+      "id": "B1",
+      "bucket": "branded",
+      "prompt": "G3Z Creative",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "g3zcreative.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 8,
+      "answer_chars": 1003,
+      "id": "B1",
+      "bucket": "branded",
+      "prompt": "G3Z Creative",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": true,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "clutch.co",
+        "g3zcreative.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [
+        "G3Z Creative"
+      ],
+      "total_sources": 11,
+      "answer_chars": 2996,
+      "id": "B2",
+      "bucket": "branded",
+      "prompt": "is G3Z Creative a legitimate SEO agency",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": true,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "clutch.co",
+        "g3zcreative.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [
+        "G3Z Creative"
+      ],
+      "total_sources": 12,
+      "answer_chars": 2525,
+      "id": "B2",
+      "bucket": "branded",
+      "prompt": "is G3Z Creative a legitimate SEO agency",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "clutch.co",
+        "g3zcreative.com",
+        "govtribe.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 15,
+      "answer_chars": 2830,
+      "id": "B2",
+      "bucket": "branded",
+      "prompt": "is G3Z Creative a legitimate SEO agency",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/blog/local-seo-tips-miramar-small-businesses/",
+        "https://g3zcreative.com/services/website-development-miramar"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "g3zcreative.com",
+        "instagram.com",
+        "linkedin.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 18,
+      "answer_chars": 2358,
+      "id": "B3",
+      "bucket": "branded",
+      "prompt": "who is Christian Gomez of G3Z Creative",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/blog/local-seo-tips-miramar-small-businesses/",
+        "https://g3zcreative.com/marketing-for/roofers",
+        "https://g3zcreative.com/services/seo",
+        "https://g3zcreative.com/services/website-development-miramar"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "ca.linkedin.com",
+        "g3zcreative.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 17,
+      "answer_chars": 2281,
+      "id": "B3",
+      "bucket": "branded",
+      "prompt": "who is Christian Gomez of G3Z Creative",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": false,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [],
+      "source_domains": [
+        "instagram.com",
+        "linkedin.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 14,
+      "answer_chars": 2712,
+      "id": "B3",
+      "bucket": "branded",
+      "prompt": "who is Christian Gomez of G3Z Creative",
+      "run": 3
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": true,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo"
+      ],
+      "source_domains": [
+        "clutch.co",
+        "g3zcreative.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [
+        "G3Z Creative"
+      ],
+      "total_sources": 13,
+      "answer_chars": 2411,
+      "id": "B4",
+      "bucket": "branded",
+      "prompt": "G3Z Creative reviews and pricing",
+      "run": 1
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/social-media-marketing"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "clutch.co",
+        "g3zcreative.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [
+        "digital marketing agency in Miramar, Florida"
+      ],
+      "total_sources": 12,
+      "answer_chars": 3046,
+      "id": "B4",
+      "bucket": "branded",
+      "prompt": "G3Z Creative reviews and pricing",
+      "run": 2
+    },
+    {
+      "cost": 0.004,
+      "cited": true,
+      "mentioned": true,
+      "in_brand_entities": false,
+      "cited_urls": [
+        "https://g3zcreative.com/",
+        "https://g3zcreative.com/services/seo",
+        "https://g3zcreative.com/services/website-development-miramar"
+      ],
+      "source_domains": [
+        "bizprofile.net",
+        "clutch.co",
+        "g3zcreative.com",
+        "themanifest.com"
+      ],
+      "brands_listed": [],
+      "total_sources": 15,
+      "answer_chars": 2880,
+      "id": "B4",
+      "bucket": "branded",
+      "prompt": "G3Z Creative reviews and pricing",
+      "run": 3
+    }
+  ],
+  "cost_per_call": 0.004
+}
