@@ -1,2 +1,4 @@
 # Redirects for G3Z Creative
 # Format: <source> <destination> <status>
+
+/services.html /services/ 301
