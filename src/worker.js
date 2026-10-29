@@ -8,7 +8,11 @@ import * as authApi from '../functions/api/crm/auth.js';
 import * as crmLeadsApi from '../functions/api/crm/leads.js';
 import * as crmLeadDetailApi from '../functions/api/crm/leads/[id].js';
 import * as crmNotesApi from '../functions/api/crm/leads/[id]/notes.js';
+import * as crmEnrichApi from '../functions/api/crm/leads/[id]/enrich.js';
 import * as crmExportApi from '../functions/api/crm/export.js';
+import * as crmOutreachApi from '../functions/api/crm/outreach/index.js';
+import * as crmOutreachDetailApi from '../functions/api/crm/outreach/[id].js';
+import * as posthogConfigApi from '../functions/api/posthog-config.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -19,6 +23,11 @@ export default {
     // 1. Route API requests
     if (pathname.startsWith('/api/')) {
       const context = { request, env, ctx, params: {} };
+
+      // /api/posthog-config
+      if (pathname === '/api/posthog-config' || pathname === '/api/posthog-config/') {
+        if (method === 'GET') return posthogConfigApi.onRequestGet(context);
+      }
 
       // /api/leads
       if (pathname === '/api/leads' || pathname === '/api/leads/') {
@@ -38,6 +47,33 @@ export default {
         if (method === 'GET') return crmExportApi.onRequestGet(context);
       }
 
+      // /api/crm/outreach
+      if (pathname === '/api/crm/outreach' || pathname === '/api/crm/outreach/') {
+        if (method === 'OPTIONS') return crmOutreachApi.onRequestOptions(context);
+        if (method === 'GET') return crmOutreachApi.onRequestGet(context);
+        if (method === 'POST') return crmOutreachApi.onRequestPost(context);
+      }
+
+      // /api/crm/outreach/:id/:action
+      const outreachActionMatch = pathname.match(/^\/api\/crm\/outreach\/([^\/]+)\/([^\/]+)\/?$/);
+      if (outreachActionMatch) {
+        context.params.id = decodeURIComponent(outreachActionMatch[1]);
+        context.params.action = outreachActionMatch[2];
+        if (method === 'OPTIONS') return crmOutreachDetailApi.onRequestOptions(context);
+        if (method === 'POST') return crmOutreachDetailApi.onRequestPost(context);
+      }
+
+      // /api/crm/outreach/:id
+      const outreachMatch = pathname.match(/^\/api\/crm\/outreach\/([^\/]+)\/?$/);
+      if (outreachMatch) {
+        context.params.id = decodeURIComponent(outreachMatch[1]);
+        if (method === 'OPTIONS') return crmOutreachDetailApi.onRequestOptions(context);
+        if (method === 'GET') return crmOutreachDetailApi.onRequestGet(context);
+        if (method === 'POST') return crmOutreachDetailApi.onRequestPost(context);
+        if (method === 'PATCH') return crmOutreachDetailApi.onRequestPatch(context);
+        if (method === 'DELETE') return crmOutreachDetailApi.onRequestDelete(context);
+      }
+
       // /api/crm/leads
       if (pathname === '/api/crm/leads' || pathname === '/api/crm/leads/') {
         if (method === 'OPTIONS') return crmLeadsApi.onRequestOptions(context);
@@ -51,6 +87,14 @@ export default {
         context.params.id = notesMatch[1];
         if (method === 'OPTIONS') return crmNotesApi.onRequestOptions(context);
         if (method === 'POST') return crmNotesApi.onRequestPost(context);
+      }
+
+      // /api/crm/leads/:id/enrich
+      const enrichMatch = pathname.match(/^\/api\/crm\/leads\/([^\/]+)\/enrich\/?$/);
+      if (enrichMatch) {
+        context.params.id = enrichMatch[1];
+        if (method === 'OPTIONS') return crmEnrichApi.onRequestOptions(context);
+        if (method === 'POST') return crmEnrichApi.onRequestPost(context);
       }
 
       // /api/crm/leads/:id
@@ -71,7 +115,19 @@ export default {
 
     // 2. Delegate all other requests to static assets
     if (env.ASSETS) {
-      return env.ASSETS.fetch(request);
+      const assetResponse = await env.ASSETS.fetch(request);
+      const contentType = assetResponse.headers.get('content-type') || '';
+
+      if (!contentType.includes('text/html')) return assetResponse;
+
+      const html = await assetResponse.text();
+      const headers = new Headers(assetResponse.headers);
+      headers.delete('content-length');
+      return new Response(html.replace('<head>', '<head><script src="/js/posthog.js" defer></script>'), {
+        status: assetResponse.status,
+        statusText: assetResponse.statusText,
+        headers
+      });
     }
 
     return new Response('Not Found', { status: 404 });

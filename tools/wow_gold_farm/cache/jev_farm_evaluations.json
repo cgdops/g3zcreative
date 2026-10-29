@@ -1,0 +1,146 @@
+{
+  "3110": {
+    "npc_id": 3110,
+    "npc_name": "Razormane Scout",
+    "zone": "Durotar",
+    "trap_probability": 0.09,
+    "farmability_score": 1.66,
+    "is_trap_flagged": false
+  },
+  "1508": {
+    "npc_id": 1508,
+    "npc_name": "Ragged Scavenger",
+    "zone": "Tirisfal Glades",
+    "trap_probability": 0.12,
+    "farmability_score": 1.32,
+    "is_trap_flagged": false
+  },
+  "3241": {
+    "npc_id": 3241,
+    "npc_name": "Razormane Geomancer",
+    "zone": "The Barrens",
+    "trap_probability": 0.14,
+    "farmability_score": 1.36,
+    "is_trap_flagged": false
+  },
+  "3467": {
+    "npc_id": 3467,
+    "npc_name": "Kolkar Wrangler",
+    "zone": "The Barrens",
+    "trap_probability": 0.1,
+    "farmability_score": 1.29,
+    "is_trap_flagged": false
+  },
+  "2264": {
+    "npc_id": 2264,
+    "npc_name": "Hillsbrad Miner",
+    "zone": "Hillsbrad Foothills",
+    "trap_probability": 0.23,
+    "farmability_score": 1.08,
+    "is_trap_flagged": false
+  },
+  "2269": {
+    "npc_id": 2269,
+    "npc_name": "Syndicate Footpad",
+    "zone": "Hillsbrad Foothills",
+    "trap_probability": 0.18,
+    "farmability_score": 1.15,
+    "is_trap_flagged": false
+  },
+  "4120": {
+    "npc_id": 4120,
+    "npc_name": "Saltstone Basilisk",
+    "zone": "Thousand Needles",
+    "trap_probability": 0.17,
+    "farmability_score": 1.45,
+    "is_trap_flagged": false
+  },
+  "4130": {
+    "npc_id": 4130,
+    "npc_name": "Scorpid Hunter",
+    "zone": "Thousand Needles",
+    "trap_probability": 0.12,
+    "farmability_score": 1.57,
+    "is_trap_flagged": false
+  },
+  "2736": {
+    "npc_id": 2736,
+    "npc_name": "Lesser Rock Elemental",
+    "zone": "Badlands",
+    "trap_probability": 0.1,
+    "farmability_score": 1.65,
+    "is_trap_flagged": false
+  },
+  "2318": {
+    "npc_id": 2318,
+    "npc_name": "Argus Shadow Mage",
+    "zone": "Alterac Mountains",
+    "trap_probability": 0.22,
+    "farmability_score": 1.05,
+    "is_trap_flagged": false
+  },
+  "5616": {
+    "npc_id": 5616,
+    "npc_name": "Wastewander Shadow Mage",
+    "zone": "Tanaris",
+    "trap_probability": 0.13,
+    "farmability_score": 1.71,
+    "is_trap_flagged": false
+  },
+  "1557": {
+    "npc_id": 1557,
+    "npc_name": "Bloodsail Raider",
+    "zone": "Stranglethorn Vale",
+    "trap_probability": 0.17,
+    "farmability_score": 1.19,
+    "is_trap_flagged": false
+  },
+  "5357": {
+    "npc_id": 5357,
+    "npc_name": "Hatecrest Siren",
+    "zone": "Feralas",
+    "trap_probability": 0.21,
+    "farmability_score": 1.47,
+    "is_trap_flagged": false
+  },
+  "7040": {
+    "npc_id": 7040,
+    "npc_name": "Dark Iron Geologist",
+    "zone": "Searing Gorge",
+    "trap_probability": 0.13,
+    "farmability_score": 1.55,
+    "is_trap_flagged": false
+  },
+  "7156": {
+    "npc_id": 7156,
+    "npc_name": "Jadefire Felsworn",
+    "zone": "Felwood",
+    "trap_probability": 0.17,
+    "farmability_score": 1.6,
+    "is_trap_flagged": false
+  },
+  "7440": {
+    "npc_id": 7440,
+    "npc_name": "Winterfall Ursa",
+    "zone": "Winterspring",
+    "trap_probability": 0.15,
+    "farmability_score": 1.72,
+    "is_trap_flagged": false
+  },
+  "1836": {
+    "npc_id": 1836,
+    "npc_name": "Scarlet Spellbinder",
+    "zone": "Western Plaguelands",
+    "trap_probability": 0.2,
+    "farmability_score": 1.52,
+    "is_trap_flagged": false
+  },
+  "11736": {
+    "npc_id": 11736,
+    "npc_name": "Twilight Avenger",
+    "zone": "Silithus",
+    "trap_probability": 0.16,
+    "farmability_score": 1.35,
+    "is_trap_flagged": false
+  }
+}

@@ -1,0 +1,264 @@
+[
+  {
+    "id": 3110,
+    "name": "Razormane Scout",
+    "zone": "Durotar",
+    "minlevel": 6,
+    "maxlevel": 8,
+    "bracket": "Level 1-10",
+    "type": 7,
+    "notes": "Low level quillboar humanoid camp in Durotar. High respawn density, drops linen cloth and vendor junk.",
+    "drops": [
+      {"id": 2589, "name": "Linen Cloth", "quality": 1, "count": 2850, "outof": 10000},
+      {"id": 4865, "name": "Chipped Boar Tusk", "quality": 0, "count": 1800, "outof": 10000},
+      {"id": 117, "name": "Tough Jerky", "quality": 1, "count": 1200, "outof": 10000}
+    ]
+  },
+  {
+    "id": 1508,
+    "name": "Ragged Scavenger",
+    "zone": "Tirisfal Glades",
+    "minlevel": 7,
+    "maxlevel": 8,
+    "bracket": "Level 1-10",
+    "type": 1,
+    "notes": "Gnoll beast/humanoid in Garren's Haunt. Drops linen cloth and vendor grey weapons.",
+    "drops": [
+      {"id": 2589, "name": "Linen Cloth", "quality": 1, "count": 2200, "outof": 10000},
+      {"id": 1179, "name": "Ruined Pelt", "quality": 0, "count": 2400, "outof": 10000}
+    ]
+  },
+  {
+    "id": 3241,
+    "name": "Razormane Geomancer",
+    "zone": "The Barrens",
+    "minlevel": 14,
+    "maxlevel": 15,
+    "bracket": "Level 11-18",
+    "type": 7,
+    "notes": "Quillboar casters south of Crossroads. High humanoid coin drop, linen and wool cloth.",
+    "drops": [
+      {"id": 2589, "name": "Linen Cloth", "quality": 1, "count": 3400, "outof": 10000},
+      {"id": 2592, "name": "Wool Cloth", "quality": 1, "count": 1250, "outof": 10000},
+      {"id": 5056, "name": "Small Bloodstone", "quality": 0, "count": 1500, "outof": 10000}
+    ]
+  },
+  {
+    "id": 3467,
+    "name": "Kolkar Wrangler",
+    "zone": "The Barrens",
+    "minlevel": 14,
+    "maxlevel": 15,
+    "bracket": "Level 11-18",
+    "type": 7,
+    "notes": "Centaur camp around the Barrens oases. Fast respawn, drops wool cloth and light leather.",
+    "drops": [
+      {"id": 2589, "name": "Linen Cloth", "quality": 1, "count": 2900, "outof": 10000},
+      {"id": 2592, "name": "Wool Cloth", "quality": 1, "count": 1100, "outof": 10000}
+    ]
+  },
+  {
+    "id": 2264,
+    "name": "Hillsbrad Miner",
+    "zone": "Hillsbrad Foothills",
+    "minlevel": 22,
+    "maxlevel": 23,
+    "bracket": "Level 19-26",
+    "type": 7,
+    "notes": "Humanoid miners in Azurelode Mine near Tarren Mill. Clustered spawns, heavy wool and silk cloth drops, silver coins.",
+    "drops": [
+      {"id": 2592, "name": "Wool Cloth", "quality": 1, "count": 3800, "outof": 10000},
+      {"id": 4306, "name": "Silk Cloth", "quality": 1, "count": 1150, "outof": 10000},
+      {"id": 2835, "name": "Coarse Stone", "quality": 1, "count": 1400, "outof": 10000}
+    ]
+  },
+  {
+    "id": 2269,
+    "name": "Syndicate Footpad",
+    "zone": "Hillsbrad Foothills",
+    "minlevel": 20,
+    "maxlevel": 21,
+    "bracket": "Level 19-26",
+    "type": 7,
+    "notes": "Syndicate camps in Hillsbrad. Drops raw silver, lockboxes, and wool cloth.",
+    "drops": [
+      {"id": 2592, "name": "Wool Cloth", "quality": 1, "count": 3200, "outof": 10000},
+      {"id": 4636, "name": "Heavy Lockbox", "quality": 2, "count": 450, "outof": 10000}
+    ]
+  },
+  {
+    "id": 4120,
+    "name": "Saltstone Basilisk",
+    "zone": "Thousand Needles",
+    "minlevel": 30,
+    "maxlevel": 31,
+    "bracket": "Level 27-34",
+    "type": 1,
+    "notes": "Shimmering Flats basilisks. Exceptionally high vendor trash values (Intact Basilisk Eye vendors for over 1.5 silver each).",
+    "drops": [
+      {"id": 5867, "name": "Intact Basilisk Eye", "quality": 0, "count": 4200, "outof": 10000},
+      {"id": 5868, "name": "Heavy Basilisk Tail", "quality": 0, "count": 3800, "outof": 10000},
+      {"id": 4234, "name": "Heavy Leather", "quality": 1, "count": 1500, "outof": 10000}
+    ]
+  },
+  {
+    "id": 4130,
+    "name": "Scorpid Hunter",
+    "zone": "Thousand Needles",
+    "minlevel": 31,
+    "maxlevel": 32,
+    "bracket": "Level 27-34",
+    "type": 1,
+    "notes": "Shimmering Flats scorpids. Moderate vendor trash and venom sacs.",
+    "drops": [
+      {"id": 5865, "name": "Scorpid Tail", "quality": 0, "count": 3100, "outof": 10000},
+      {"id": 4234, "name": "Heavy Leather", "quality": 1, "count": 1100, "outof": 10000}
+    ]
+  },
+  {
+    "id": 2736,
+    "name": "Lesser Rock Elemental",
+    "zone": "Badlands",
+    "minlevel": 37,
+    "maxlevel": 38,
+    "bracket": "Level 35-40",
+    "type": 4,
+    "notes": "Badlands elementals. Drops Elemental Earth (~3.5g on AH) and Solid Stone. Highly contested by Alliance.",
+    "drops": [
+      {"id": 7067, "name": "Elemental Earth", "quality": 2, "count": 478, "outof": 10000},
+      {"id": 7912, "name": "Solid Stone", "quality": 1, "count": 2664, "outof": 10000},
+      {"id": 7076, "name": "Deeprock Salt", "quality": 1, "count": 2100, "outof": 10000}
+    ]
+  },
+  {
+    "id": 2318,
+    "name": "Argus Shadow Mage",
+    "zone": "Alterac Mountains",
+    "minlevel": 35,
+    "maxlevel": 36,
+    "bracket": "Level 35-40",
+    "type": 7,
+    "notes": "Syndicate humanoid camp in Alterac. Drops Silk Cloth, Mageweave Cloth, and silver.",
+    "drops": [
+      {"id": 4306, "name": "Silk Cloth", "quality": 1, "count": 4200, "outof": 10000},
+      {"id": 4338, "name": "Mageweave Cloth", "quality": 1, "count": 850, "outof": 10000}
+    ]
+  },
+  {
+    "id": 5616,
+    "name": "Wastewander Shadow Mage",
+    "zone": "Tanaris",
+    "minlevel": 43,
+    "maxlevel": 44,
+    "bracket": "Level 41-46",
+    "type": 7,
+    "notes": "Wastewander Bandit camps in Noonshade Ruins. Dense camps, heavy Mageweave Cloth, raw silver, and Wastewander Water Pouch.",
+    "drops": [
+      {"id": 4338, "name": "Mageweave Cloth", "quality": 1, "count": 4400, "outof": 10000},
+      {"id": 8766, "name": "Wastewander Water Pouch", "quality": 1, "count": 2800, "outof": 10000},
+      {"id": 4637, "name": "Sturdy Lockbox", "quality": 2, "count": 520, "outof": 10000}
+    ]
+  },
+  {
+    "id": 1557,
+    "name": "Bloodsail Raider",
+    "zone": "Stranglethorn Vale",
+    "minlevel": 42,
+    "maxlevel": 43,
+    "bracket": "Level 41-46",
+    "type": 7,
+    "notes": "Bloodsail pirate ships south of Booty Bay. High respawn rate, drops Mageweave, coin, and green armor.",
+    "drops": [
+      {"id": 4338, "name": "Mageweave Cloth", "quality": 1, "count": 3900, "outof": 10000},
+      {"id": 4637, "name": "Sturdy Lockbox", "quality": 2, "count": 480, "outof": 10000}
+    ]
+  },
+  {
+    "id": 5357,
+    "name": "Hatecrest Siren",
+    "zone": "Feralas",
+    "minlevel": 49,
+    "maxlevel": 50,
+    "bracket": "Level 47-52",
+    "type": 7,
+    "notes": "South Seas Isle in Feralas. Drops Big-Mouth Clams which contain Golden Pearls (~38g AH value) and heavy vendor clam meat.",
+    "drops": [
+      {"id": 13926, "name": "Golden Pearl", "quality": 4, "count": 75, "outof": 10000},
+      {"id": 4338, "name": "Mageweave Cloth", "quality": 1, "count": 3100, "outof": 10000},
+      {"id": 7974, "name": "Zesty Clam Meat", "quality": 1, "count": 4500, "outof": 10000}
+    ]
+  },
+  {
+    "id": 7040,
+    "name": "Dark Iron Geologist",
+    "zone": "Searing Gorge",
+    "minlevel": 48,
+    "maxlevel": 49,
+    "bracket": "Level 47-52",
+    "type": 7,
+    "notes": "Dark Iron dwarves in Searing Gorge slag pits. Mageweave, Dark Iron scraps, and solid vendor coins.",
+    "drops": [
+      {"id": 4338, "name": "Mageweave Cloth", "quality": 1, "count": 3800, "outof": 10000},
+      {"id": 11370, "name": "Dark Iron Residue", "quality": 1, "count": 2200, "outof": 10000}
+    ]
+  },
+  {
+    "id": 7156,
+    "name": "Jadefire Felsworn",
+    "zone": "Felwood",
+    "minlevel": 51,
+    "maxlevel": 52,
+    "bracket": "Level 53-57",
+    "type": 3,
+    "notes": "Satyr camps in northern Felwood. Drops Felcloth (~3g each), Runecloth, Demonic Runes, and high raw silver.",
+    "drops": [
+      {"id": 14342, "name": "Felcloth", "quality": 2, "count": 680, "outof": 10000},
+      {"id": 14047, "name": "Runecloth", "quality": 1, "count": 3400, "outof": 10000},
+      {"id": 12662, "name": "Demonic Rune", "quality": 2, "count": 820, "outof": 10000}
+    ]
+  },
+  {
+    "id": 7440,
+    "name": "Winterfall Ursa",
+    "zone": "Winterspring",
+    "minlevel": 54,
+    "maxlevel": 55,
+    "bracket": "Level 53-57",
+    "type": 7,
+    "notes": "Winterfall Furbolg village. Drops Winterfall Firewater (~2.2g) and Winterfall E'ko (~1g) used constantly by raiders.",
+    "drops": [
+      {"id": 12820, "name": "Winterfall Firewater", "quality": 2, "count": 750, "outof": 10000},
+      {"id": 12437, "name": "Winterfall E'ko", "quality": 1, "count": 1850, "outof": 10000},
+      {"id": 14047, "name": "Runecloth", "quality": 1, "count": 3100, "outof": 10000}
+    ]
+  },
+  {
+    "id": 1836,
+    "name": "Scarlet Spellbinder",
+    "zone": "Western Plaguelands",
+    "minlevel": 57,
+    "maxlevel": 58,
+    "bracket": "Level 58-60",
+    "type": 7,
+    "notes": "Hearthglen camp in Western Plaguelands. Drops Formula: Enchant Weapon - Crusader (worth 250g+ on AH), Runecloth, and heavy silver coin.",
+    "drops": [
+      {"id": 16252, "name": "Formula: Enchant Weapon - Crusader", "quality": 3, "count": 18, "outof": 10000},
+      {"id": 14047, "name": "Runecloth", "quality": 1, "count": 3800, "outof": 10000},
+      {"id": 16885, "name": "Scarlet Armband", "quality": 1, "count": 2200, "outof": 10000}
+    ]
+  },
+  {
+    "id": 11736,
+    "name": "Twilight Avenger",
+    "zone": "Silithus",
+    "minlevel": 58,
+    "maxlevel": 60,
+    "bracket": "Level 58-60",
+    "type": 7,
+    "notes": "Twilight camps in Silithus. Drops Encrypted Twilight Texts (~80s each), Twilight set pieces, and Runecloth.",
+    "drops": [
+      {"id": 20404, "name": "Encrypted Twilight Text", "quality": 1, "count": 2800, "outof": 10000},
+      {"id": 14047, "name": "Runecloth", "quality": 1, "count": 3500, "outof": 10000}
+    ]
+  }
+]

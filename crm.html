@@ -20,7 +20,7 @@
     :root {
       --primary: #da104d;
       --primary-hover: #b90b3f;
-      --primary-subtle: rgba(218, 16, 77, 0.1);
+      --primary-subtle: rgba(218, 16, 77, 0.12);
       --bg: #0f172a;
       --surface: #1e293b;
       --surface-hover: #334155;
@@ -129,6 +129,10 @@
       background: var(--surface-hover);
       border-color: #64748b;
     }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     .btn-primary {
       background: var(--primary);
       border-color: var(--primary);
@@ -142,6 +146,11 @@
       padding: 0.35rem 0.65rem;
       font-size: 0.78rem;
       border-radius: 6px;
+    }
+    .btn-xs {
+      padding: 0.22rem 0.5rem;
+      font-size: 0.72rem;
+      border-radius: 5px;
     }
 
     /* Main Container */
@@ -201,6 +210,12 @@
       padding: 0.85rem 1.25rem;
       border-radius: 12px;
     }
+    .toolbar-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
     .search-box {
       position: relative;
       flex: 1;
@@ -217,7 +232,17 @@
       font-size: 0.88rem;
       font-family: inherit;
     }
-    .search-input:focus {
+    .form-input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: white;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+    }
+    .search-input:focus, .form-input:focus {
       outline: none;
       border-color: var(--primary);
     }
@@ -235,21 +260,35 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 3px;
+      gap: 2px;
     }
     .view-btn {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 0.4rem 0.8rem;
+      padding: 0.4rem 0.85rem;
       border-radius: 6px;
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
     }
     .view-btn.active {
       background: var(--surface);
       color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .view-badge {
+      background: var(--primary);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
     }
 
     /* Kanban Board */
@@ -370,7 +409,7 @@
     .card-service {
       display: inline-block;
       background: var(--primary-subtle);
-      color: var(--primary);
+      color: #ff4d82;
       font-size: 0.72rem;
       font-weight: 700;
       padding: 2px 8px;
@@ -425,8 +464,8 @@
       color: white;
     }
 
-    /* List View Table */
-    .list-view {
+    /* List View & Outreach Table */
+    .list-view, .outreach-view {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -449,42 +488,118 @@
       color: var(--text-muted);
       border-bottom: 1px solid var(--border);
       text-transform: uppercase;
-      font-size: 0.75rem;
+      font-size: 0.73rem;
       letter-spacing: 0.05em;
     }
     td {
-      padding: 0.95rem 1rem;
+      padding: 0.9rem 1rem;
       border-bottom: 1px solid rgba(51, 65, 85, 0.5);
       color: var(--text);
+      vertical-align: top;
     }
     tr:hover td {
-      background: rgba(51, 65, 85, 0.3);
-      cursor: pointer;
+      background: rgba(51, 65, 85, 0.25);
     }
     .status-badge {
       display: inline-block;
       padding: 3px 8px;
       border-radius: 999px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: capitalize;
     }
-    .status-new { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-    .status-contacted { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-    .status-qualified { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+    .status-new, .status-uncontacted { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .status-contacted, .status-emailed { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .status-qualified, .status-promoted { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
     .status-proposal { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
     .status-won { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
-    .status-lost { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
+    .status-lost, .status-dismissed { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
     .status-spam { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
-    /* Modal Overlay (Used for Manual Lead Form) */
+    /* Outreach Specific Components */
+    .outreach-banner {
+      background: linear-gradient(90deg, rgba(218, 16, 77, 0.14) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .score-high { background: rgba(34, 197, 94, 0.16); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .score-med { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); }
+    .inline-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .inline-contact-input {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      width: 195px;
+      font-family: inherit;
+      transition: border-color 0.15s ease;
+    }
+    .inline-contact-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .osint-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 5px;
+    }
+    .osint-pill {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #94a3b8;
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .osint-pill:hover {
+      color: white;
+      border-color: var(--info);
+      background: rgba(56, 189, 248, 0.12);
+    }
+    .doc-link {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-decoration: none;
+      font-family: monospace;
+    }
+    .doc-link:hover {
+      color: var(--info);
+      text-decoration: underline;
+    }
+
+    /* Modal Overlay */
     .drawer-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.78);
       backdrop-filter: blur(6px);
       z-index: 1000;
       display: flex;
@@ -492,7 +607,7 @@
       align-items: center;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       padding: 1rem;
     }
     .drawer-overlay.active {
@@ -515,6 +630,30 @@
     .drawer-close:hover {
       background: var(--primary);
       color: white;
+    }
+
+    /* Toast Notification */
+    .crm-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      border: 1px solid var(--primary);
+      color: white;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.45);
+      font-size: 0.85rem;
+      font-weight: 600;
+      z-index: 3000;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+    .crm-toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Login Modal */
@@ -554,9 +693,6 @@
       letter-spacing: 0.2em;
     }
 
-    .drawer-pull-bar {
-      display: none;
-    }
     .btn-text-hide {
       display: inline;
     }
@@ -630,15 +766,21 @@
       }
       .toolbar-controls {
         display: flex;
+        flex-wrap: wrap;
         gap: 6px;
         width: 100%;
       }
       .toolbar-controls select {
         flex: 1;
-        font-size: 16px;
+        font-size: 14px;
       }
       .view-toggle {
-        flex-shrink: 0;
+        width: 100%;
+        justify-content: space-between;
+      }
+      .view-btn {
+        flex: 1;
+        justify-content: center;
       }
       .kanban-board {
         grid-template-columns: repeat(6, 85vw);
@@ -652,25 +794,11 @@
         scroll-margin: 1rem;
         max-height: calc(100vh - 270px);
       }
-      .card-actions {
-        padding-top: 0.5rem;
-        gap: 6px;
-      }
-      .card-action-btn {
-        padding: 0.5rem 0.35rem;
-        font-size: 0.78rem;
-        min-height: 38px;
-      }
       .modal-card {
-        margin: 0.75rem;
+        margin: 0.5rem;
         padding: 1.25rem !important;
-        max-height: 90vh;
+        max-height: 92vh;
         overflow-y: auto;
-      }
-      .modal-card input,
-      .modal-card select,
-      .modal-card textarea {
-        font-size: 16px !important;
       }
     }
 
@@ -709,6 +837,7 @@
       </div>
     </div>
     <div class="nav-actions">
+      <button class="btn btn-sm" id="openSunbizImportBtn" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">🏛️ <span class="btn-text-hide">Sunbiz </span>Sync</button>
       <button class="btn btn-primary btn-sm" id="newLeadBtn">+ <span class="btn-text-hide">New </span>Lead</button>
       <a href="/api/crm/export" class="btn btn-sm" id="exportBtn" title="Export leads to CSV"><span class="btn-text-hide">📥 </span>Export<span class="btn-text-hide"> CSV</span></a>
       <button class="btn btn-sm" id="refreshBtn" title="Refresh">🔄</button>
@@ -718,8 +847,8 @@
 
   <!-- Main Dashboard -->
   <main>
-    <!-- Top KPI Metrics -->
-    <div class="metrics-grid">
+    <!-- Top KPI Metrics (Dynamic based on Pipeline vs. Outreach view) -->
+    <div class="metrics-grid" id="pipelineMetricsGrid">
       <div class="metric-card">
         <div class="metric-label">New Leads Today</div>
         <div class="metric-value" id="kpiNewLeads" style="color: var(--info);">0</div>
@@ -742,15 +871,40 @@
       </div>
     </div>
 
+    <!-- Outreach KPI Metrics (Shown when Outreach tab is active) -->
+    <div class="metrics-grid" id="outreachMetricsGrid" style="display: none;">
+      <div class="metric-card">
+        <div class="metric-label">Uncontacted Sunbiz Filings</div>
+        <div class="metric-value" id="kpiOutreachUncontacted" style="color: var(--info);">0</div>
+        <div class="metric-sub">South FL operating businesses</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">High-Priority Niches</div>
+        <div class="metric-value" id="kpiOutreachHighPriority" style="color: #f472b6;">0</div>
+        <div class="metric-sub">Score 80+ (Trades, Clinics, Studios)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Enriched Contacts</div>
+        <div class="metric-value" id="kpiOutreachEnriched" style="color: var(--success);">0</div>
+        <div class="metric-sub" id="kpiOutreachPhoneSub">0 with phone numbers</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Emailed & Promoted</div>
+        <div class="metric-value" id="kpiOutreachEmailed" style="color: var(--warning);">0</div>
+        <div class="metric-sub">Moved to Contacted on Kanban</div>
+      </div>
+    </div>
+
     <!-- Filter & View Controls -->
     <div class="toolbar">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by name, company, phone, service...">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by business, founder, city, niche, phone...">
       </div>
 
       <div class="toolbar-controls">
-        <select id="statusFilter" class="btn" style="background: #0f172a; padding: 0.55rem 0.85rem;">
+        <!-- Pipeline Stage Filter -->
+        <select id="statusFilter" class="btn" style="background: #0f172a; padding: 0.5rem 0.75rem;">
           <option value="all">All Stages</option>
           <option value="new">New Leads</option>
           <option value="contacted">Contacted</option>
@@ -761,9 +915,37 @@
           <option value="spam">Spam / Archived</option>
         </select>
 
+        <!-- Outreach-Specific Filters (Shown when Outreach tab is active) -->
+        <select id="outreachNicheFilter" class="btn" style="background: #0f172a; padding: 0.5rem 0.75rem; display: none;">
+          <option value="all">All Niches</option>
+        </select>
+
+        <select id="outreachCityFilter" class="btn" style="background: #0f172a; padding: 0.5rem 0.75rem; display: none;">
+          <option value="all">All South FL Cities</option>
+        </select>
+
+        <select id="outreachContactFilter" class="btn" style="background: #0f172a; padding: 0.5rem 0.75rem; display: none;">
+          <option value="all">All Contact States</option>
+          <option value="has_email">✉️ Has Email</option>
+          <option value="has_phone">📞 Has Phone</option>
+          <option value="has_any">⚡ Has Email or Phone</option>
+          <option value="needs_enrichment">🔍 Needs Enrichment</option>
+        </select>
+
+        <select id="outreachStatusFilter" class="btn" style="background: #0f172a; padding: 0.5rem 0.75rem; display: none;">
+          <option value="active">Active Candidates</option>
+          <option value="uncontacted">Uncontacted Only</option>
+          <option value="emailed">Emailed</option>
+          <option value="promoted">Promoted to Pipeline</option>
+          <option value="dismissed">Dismissed</option>
+        </select>
+
         <div class="view-toggle">
           <button class="view-btn active" id="kanbanToggleBtn">Kanban</button>
           <button class="view-btn" id="listToggleBtn">List</button>
+          <button class="view-btn" id="outreachToggleBtn">
+            🚀 Outreach <span class="view-badge" id="outreachTabBadge">0</span>
+          </button>
         </div>
       </div>
     </div>
@@ -844,10 +1026,45 @@
         </table>
       </div>
     </div>
+
+    <!-- Sunbiz Outreach View -->
+    <div class="outreach-view" id="outreachView">
+      <div class="outreach-banner">
+        <div>
+          <div style="font-weight: 700; font-size: 0.95rem; color: white; display: flex; align-items: center; gap: 8px;">
+            <span>🏛️ Florida Sunbiz New Business Outreach</span>
+            <span style="font-size: 0.72rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 999px;">Broward & Miami-Dade Filtered</span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+            Offer: <strong style="color: #f8fafc;">Free Custom Homepage Mockup + Florida GBP "No-Suspension" Launch Checklist</strong> &bull; Sending an email auto-promotes the founder to <strong style="color: #f59e0b;">Contacted</strong> on your Kanban board.
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button class="btn btn-sm" id="batchEnrichBtn" title="Run waterfall enrichment on top 5 unenriched candidates">✨ Enrich Top 5</button>
+          <button class="btn btn-sm" id="importSunbizBtn" style="border-color: rgba(56,189,248,0.4); color: #38bdf8;">📥 Import / Sync Sunbiz</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Business & Sunbiz Filing</th>
+              <th>Founder & Location</th>
+              <th>Niche & Priority</th>
+              <th>Email & Phone (Inline Edit / Enrich)</th>
+              <th>Stage</th>
+              <th>Outreach Actions</th>
+            </tr>
+          </thead>
+          <tbody id="outreachTableBody"></tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
   <!-- Manual New Lead Modal -->
-  <div class="drawer-overlay" id="manualModalOverlay" style="justify-content: center; align-items: center;">
+  <div class="drawer-overlay" id="manualModalOverlay">
     <div class="modal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 500px; padding: 2rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
         <h3 style="font-family: 'Young Serif', serif; font-size: 1.4rem;">Add Manual Lead</h3>
@@ -856,24 +1073,24 @@
       <form id="manualLeadForm">
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Name *</label>
-          <input type="text" name="name" class="search-input" required placeholder="John Doe">
+          <input type="text" name="name" class="form-input" required placeholder="John Doe">
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Phone or Email</label>
-          <input type="text" name="contact_info" class="search-input" placeholder="(305) 555-0100 or john@example.com">
+          <input type="text" name="contact_info" class="form-input" placeholder="(305) 555-0100 or john@example.com">
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Company / Niche</label>
-          <input type="text" name="company" class="search-input" placeholder="Miami Electricians LLC">
+          <input type="text" name="company" class="form-input" placeholder="Miami Electricians LLC">
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Company Domain</label>
-          <input type="text" name="company_domain" class="search-input" placeholder="hollandamerica.com">
+          <input type="text" name="company_domain" class="form-input" placeholder="hollandamerica.com">
           <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Needed to enrich. Enter this or contact info &mdash; first and last name both required for lookup.</div>
         </div>
         <div style="margin-bottom: 0.85rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Stage</label>
-          <select name="status" class="search-input">
+          <select name="status" class="form-input">
             <option value="new">New Lead</option>
             <option value="contacted">Contacted</option>
             <option value="qualified">Qualified</option>
@@ -883,22 +1100,156 @@
         </div>
         <div style="margin-bottom: 1.25rem;">
           <label style="display:block; font-size: 0.8rem; margin-bottom: 4px; color: var(--text-muted);">Notes / Context</label>
-          <textarea name="message" class="search-input" style="min-height: 70px;" placeholder="Referral from networking call..."></textarea>
+          <textarea name="message" class="form-input" style="min-height: 70px;" placeholder="Referral from networking call..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Create Lead</button>
       </form>
     </div>
   </div>
 
+  <!-- CRO Outreach Email Composer Modal -->
+  <div class="drawer-overlay" id="outreachEmailModalOverlay">
+    <div class="modal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 720px; padding: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="font-family: 'Young Serif', serif; font-size: 1.3rem;" id="composerBusinessTitle">Compose Outreach Email</h3>
+            <span class="score-pill score-high" id="composerNicheBadge">Local Business</span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;" id="composerSubtitle">
+            Founder: —
+          </div>
+        </div>
+        <button class="drawer-close" id="closeComposerModalBtn">&times;</button>
+      </div>
+
+      <form id="outreachEmailForm">
+        <input type="hidden" id="composerCandidateId">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+          <div>
+            <label style="display:block; font-size: 0.76rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">To (Founder Email) *</label>
+            <input type="email" id="composerToInput" class="form-input" required placeholder="founder@domain.com">
+          </div>
+          <div>
+            <label style="display:block; font-size: 0.76rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">CRO Offer Template Angle</label>
+            <select id="composerTemplateSelect" class="form-input">
+              <option value="launchpad_mockup">🔥 Default: Free Homepage Mockup + GBP "No-Suspension" Checklist</option>
+              <option value="local_demand_snapshot">📊 Angle 2: Local Search Demand Snapshot + Fast Launch</option>
+              <option value="short_neighbor">⚡ Angle 3: Short 4-Sentence Neighbor Intro</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.85rem;">
+          <label style="display:block; font-size: 0.76rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">Subject Line *</label>
+          <input type="text" id="composerSubjectInput" class="form-input" required>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 0.76rem; font-weight: 600; color: var(--text-muted);">Personalized Outreach Message *</label>
+            <span style="font-size: 0.7rem; color: var(--text-muted);">Supports <code>**bold**</code> formatting</span>
+          </div>
+          <textarea id="composerBodyInput" class="form-input" rows="13" style="line-height: 1.55; resize: vertical;" required></textarea>
+        </div>
+
+        <div id="composerErrorBox" style="display:none; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 0.9rem;"></div>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--border); padding-top: 1rem;">
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn btn-sm" id="composerCopyBtn" title="Copy Subject & Body to clipboard">📋 Copy Text</button>
+            <button type="button" class="btn btn-sm" id="composerMailtoBtn" style="border-color: rgba(56,189,248,0.4); color: #38bdf8;" title="Open in default Mail client and promote candidate to Contacted">
+              📬 Open in Mail App & Mark Contacted
+            </button>
+          </div>
+          <button type="submit" class="btn btn-primary" id="composerSendBtn" style="padding: 0.65rem 1.25rem;">
+            🚀 Send Now & Move to Contacted
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sunbiz Import / Sync Modal -->
+  <div class="drawer-overlay" id="sunbizImportModalOverlay">
+    <div class="modal-card" style="background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 660px; padding: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <h3 style="font-family: 'Young Serif', serif; font-size: 1.35rem;">🏛️ Sync / Import Sunbiz Businesses</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+            Auto-filters to Broward & Miami-Dade operating businesses, strips holding shells, and scores niches.
+          </p>
+        </div>
+        <button class="drawer-close" id="closeSunbizImportBtn">&times;</button>
+      </div>
+
+      <!-- Quick Starter & CLI Info Box -->
+      <div style="background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
+        <div>
+          <div style="font-size: 0.82rem; font-weight: 700; color: white;">⚡ Automated Official Sunbiz SFTP Sync</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
+            Run <code style="color: #38bdf8;">npm run sync:sunbiz</code> locally or via GitHub Actions to pull today's Florida DOS SFTP feed.
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm" id="loadSampleSunbizBtn" style="border-color: var(--primary); color: #ff4d82;">
+          🚀 Load South FL Sample Batch
+        </button>
+      </div>
+
+      <!-- Tabbed Import: Bulk File/Text vs. Single Sunbiz Filing -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display:block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: var(--text-muted);">
+          Option 1: Upload Sunbiz Daily File (<code>.txt</code> fixed-width or <code>.csv</code>)
+        </label>
+        <input type="file" id="sunbizFileInput" accept=".txt,.csv,.dat" class="form-input" style="padding: 0.45rem;">
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <label style="display:block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">
+          Option 2: Paste Raw Sunbiz Fixed-Width Lines or CSV Rows
+        </label>
+        <textarea id="sunbizRawTextInput" class="form-input" rows="5" placeholder="doc_number,business_name,founder_name,founder_title,principal_address,city,zip,email,phone&#10;L26000194821,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,MGR,14200 SW 27TH ST,MIRAMAR,33027,,"></textarea>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="checkbox" id="requireSouthFlCheckbox" checked>
+          Only keep South Florida cities (Broward / Miami-Dade / Palm Beach)
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="checkbox" id="autoEnrichTopCheckbox" checked>
+          Smart Hybrid: Auto-enrich top niches (Score 80+)
+        </label>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn" id="cancelSunbizImportBtn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="submitSunbizImportBtn">📥 Parse & Import Candidates</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="crm-toast" id="crmToast"></div>
+
   <script>
     (function () {
       let state = {
         leads: [],
         counts: {},
+        outreachCandidates: [],
+        outreachCounts: {},
+        outreachTemplates: {},
         currentLead: null,
-        activeView: 'kanban',
+        currentOutreachCandidate: null,
+        activeView: 'kanban', // 'kanban' | 'list' | 'outreach'
         searchQuery: '',
-        statusFilter: 'all'
+        statusFilter: 'all',
+        outreachNicheFilter: 'all',
+        outreachCityFilter: 'all',
+        outreachContactFilter: 'all',
+        outreachStatusFilter: 'active'
       };
 
       // DOM Elements
@@ -907,12 +1258,25 @@
       const passcodeInput = document.getElementById('passcodeInput');
       const loginError = document.getElementById('loginError');
 
+      const pipelineMetricsGrid = document.getElementById('pipelineMetricsGrid');
+      const outreachMetricsGrid = document.getElementById('outreachMetricsGrid');
+
       const kanbanBoard = document.getElementById('kanbanBoard');
       const listView = document.getElementById('listView');
+      const outreachView = document.getElementById('outreachView');
+
       const kanbanToggleBtn = document.getElementById('kanbanToggleBtn');
       const listToggleBtn = document.getElementById('listToggleBtn');
+      const outreachToggleBtn = document.getElementById('outreachToggleBtn');
+      const outreachTabBadge = document.getElementById('outreachTabBadge');
+
       const searchInput = document.getElementById('searchInput');
       const statusFilter = document.getElementById('statusFilter');
+      const outreachNicheFilter = document.getElementById('outreachNicheFilter');
+      const outreachCityFilter = document.getElementById('outreachCityFilter');
+      const outreachContactFilter = document.getElementById('outreachContactFilter');
+      const outreachStatusFilter = document.getElementById('outreachStatusFilter');
+
       const refreshBtn = document.getElementById('refreshBtn');
       const logoutBtn = document.getElementById('logoutBtn');
 
@@ -921,11 +1285,51 @@
       const closeManualModalBtn = document.getElementById('closeManualModalBtn');
       const manualLeadForm = document.getElementById('manualLeadForm');
 
+      // Outreach Composer Modal Elements
+      const outreachEmailModalOverlay = document.getElementById('outreachEmailModalOverlay');
+      const closeComposerModalBtn = document.getElementById('closeComposerModalBtn');
+      const outreachEmailForm = document.getElementById('outreachEmailForm');
+      const composerCandidateId = document.getElementById('composerCandidateId');
+      const composerBusinessTitle = document.getElementById('composerBusinessTitle');
+      const composerNicheBadge = document.getElementById('composerNicheBadge');
+      const composerSubtitle = document.getElementById('composerSubtitle');
+      const composerToInput = document.getElementById('composerToInput');
+      const composerTemplateSelect = document.getElementById('composerTemplateSelect');
+      const composerSubjectInput = document.getElementById('composerSubjectInput');
+      const composerBodyInput = document.getElementById('composerBodyInput');
+      const composerErrorBox = document.getElementById('composerErrorBox');
+      const composerCopyBtn = document.getElementById('composerCopyBtn');
+      const composerMailtoBtn = document.getElementById('composerMailtoBtn');
+      const composerSendBtn = document.getElementById('composerSendBtn');
+
+      // Sunbiz Import Modal Elements
+      const sunbizImportModalOverlay = document.getElementById('sunbizImportModalOverlay');
+      const openSunbizImportBtn = document.getElementById('openSunbizImportBtn');
+      const importSunbizBtn = document.getElementById('importSunbizBtn');
+      const closeSunbizImportBtn = document.getElementById('closeSunbizImportBtn');
+      const cancelSunbizImportBtn = document.getElementById('cancelSunbizImportBtn');
+      const sunbizFileInput = document.getElementById('sunbizFileInput');
+      const sunbizRawTextInput = document.getElementById('sunbizRawTextInput');
+      const requireSouthFlCheckbox = document.getElementById('requireSouthFlCheckbox');
+      const autoEnrichTopCheckbox = document.getElementById('autoEnrichTopCheckbox');
+      const submitSunbizImportBtn = document.getElementById('submitSunbizImportBtn');
+      const loadSampleSunbizBtn = document.getElementById('loadSampleSunbizBtn');
+      const batchEnrichBtn = document.getElementById('batchEnrichBtn');
+
+      const crmToast = document.getElementById('crmToast');
+      let toastTimer;
+      function showToast(msg) {
+        crmToast.textContent = msg;
+        crmToast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => crmToast.classList.remove('show'), 3800);
+      }
+
       // Helper: time ago formatter
       function timeAgo(dateString) {
         if (!dateString) return '';
         const now = new Date();
-        const date = new Date(dateString.replace(' ', 'T') + 'Z');
+        const date = new Date(dateString.replace(' ', 'T') + (dateString.includes('Z') ? '' : 'Z'));
         const seconds = Math.floor((now - date) / 1000);
         if (seconds < 60) return 'Just now';
         const minutes = Math.floor(seconds / 60);
@@ -937,14 +1341,39 @@
         return date.toLocaleDateString();
       }
 
+      function withPostHog(callback) {
+        if (window.posthog) {
+          callback(window.posthog);
+          return;
+        }
+
+        document.addEventListener('posthog:ready', (event) => callback(event.detail), { once: true });
+      }
+
+      function identifyCrmUser(auth) {
+        const usesCloudflareAccessIdentity = auth.method === 'cf-access' && auth.user;
+        const distinctId = usesCloudflareAccessIdentity ? auth.user : 'crm-shared-admin';
+        const personProperties = usesCloudflareAccessIdentity
+          ? { email: auth.user, crm_access_method: auth.method }
+          : { crm_access_method: auth.method };
+
+        withPostHog((posthog) => posthog.identify(distinctId, personProperties));
+      }
+
+      function captureCrmEvent(event, properties) {
+        withPostHog((posthog) => posthog.capture(event, properties));
+      }
+
       // Check Authentication
       async function checkAuth() {
         try {
           const res = await fetch('/api/crm/auth');
           const data = await res.json();
           if (data.authenticated) {
+            identifyCrmUser(data);
             loginModal.style.display = 'none';
             fetchLeads();
+            fetchOutreach();
           } else {
             loginModal.style.display = 'flex';
           }
@@ -965,8 +1394,11 @@
           });
           const data = await res.json();
           if (data.authenticated) {
+            identifyCrmUser(data);
+            captureCrmEvent('crm_authenticated', { crm_access_method: data.method || 'unknown' });
             loginModal.style.display = 'none';
             fetchLeads();
+            fetchOutreach();
           } else {
             loginError.textContent = data.error || 'Invalid passcode.';
             loginError.style.display = 'block';
@@ -979,6 +1411,7 @@
 
       // Logout handler
       logoutBtn.addEventListener('click', () => {
+        withPostHog((posthog) => posthog.reset());
         document.cookie = 'g3z_crm_auth=; Max-Age=0; path=/;';
         window.location.reload();
       });
@@ -1004,7 +1437,45 @@
         }
       }
 
-      // Render KPIs
+      // Fetch Sunbiz Outreach Candidates
+      async function fetchOutreach() {
+        try {
+          const params = new URLSearchParams({
+            q: state.searchQuery,
+            niche: state.outreachNicheFilter,
+            city: state.outreachCityFilter,
+            contact: state.outreachContactFilter,
+            status: state.outreachStatusFilter
+          });
+          const res = await fetch(`/api/crm/outreach?${params.toString()}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          state.outreachCandidates = data.candidates || [];
+          state.outreachCounts = data.counts || {};
+          if (data.templates) state.outreachTemplates = data.templates;
+
+          populateOutreachFacets(data.facets || {});
+          renderOutreachMetrics();
+          renderOutreachTable();
+        } catch (err) {
+          console.error('Failed to load outreach candidates:', err);
+        }
+      }
+
+      function populateOutreachFacets(facets) {
+        if (Array.isArray(facets.niches)) {
+          const currentNiche = state.outreachNicheFilter;
+          outreachNicheFilter.innerHTML = `<option value="all">All Niches</option>` +
+            facets.niches.map(n => `<option value="${escapeHtml(n)}" ${n === currentNiche ? 'selected' : ''}>${escapeHtml(n)}</option>`).join('');
+        }
+        if (Array.isArray(facets.cities)) {
+          const currentCity = state.outreachCityFilter;
+          outreachCityFilter.innerHTML = `<option value="all">All South FL Cities</option>` +
+            facets.cities.map(c => `<option value="${escapeHtml(c)}" ${c === currentCity ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+        }
+      }
+
+      // Render Pipeline KPIs
       function renderMetrics() {
         document.getElementById('kpiNewLeads').textContent = state.counts.new || 0;
         document.getElementById('kpiTotalLeads').textContent = state.counts.total || 0;
@@ -1013,6 +1484,17 @@
         document.getElementById('kpiActivePipeline').textContent = active;
         const val = state.counts.pipelineValue || 0;
         document.getElementById('kpiPipelineVal').textContent = `$${val.toLocaleString()} Pipeline Val`;
+      }
+
+      // Render Outreach KPIs
+      function renderOutreachMetrics() {
+        const c = state.outreachCounts || {};
+        document.getElementById('kpiOutreachUncontacted').textContent = c.uncontacted || 0;
+        document.getElementById('kpiOutreachHighPriority').textContent = c.high_priority || 0;
+        document.getElementById('kpiOutreachEnriched').textContent = c.has_email || 0;
+        document.getElementById('kpiOutreachPhoneSub').textContent = `${c.has_phone || 0} with phone numbers`;
+        document.getElementById('kpiOutreachEmailed').textContent = c.emailed || 0;
+        outreachTabBadge.textContent = c.uncontacted || 0;
       }
 
       // Update Lead Stage (Used by Drag & Drop and Drawer)
@@ -1024,7 +1506,6 @@
         const oldStatus = lead.status;
         if (oldStatus === newStatus) return;
 
-        // Optimistic UI update
         lead.status = newStatus;
         if (state.counts[oldStatus] !== undefined) {
           state.counts[oldStatus] = Math.max(0, state.counts[oldStatus] - 1);
@@ -1044,14 +1525,17 @@
             body: JSON.stringify({ status: newStatus })
           });
           if (!res.ok) {
-            // Rollback on server error
             lead.status = oldStatus;
             renderMetrics();
             renderKanban();
             renderList();
+          } else {
+            captureCrmEvent('lead_stage_updated', {
+              previous_status: oldStatus,
+              new_status: newStatus
+            });
           }
         } catch (err) {
-          console.error('Failed to update stage:', err);
           lead.status = oldStatus;
           renderMetrics();
           renderKanban();
@@ -1120,7 +1604,7 @@
             card.dataset.leadId = lead.id;
             
             const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
-            const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
+            const rawEmail = lead.email || ((lead.contact_info || '').includes('@') ? lead.contact_info : '');
 
             card.innerHTML = `
               <div class="card-top">
@@ -1158,7 +1642,7 @@
               document.querySelectorAll('.column-cards').forEach(c => c.classList.remove('drag-over'));
             });
 
-            card.addEventListener('click', (e) => {
+            card.addEventListener('click', () => {
               if (isDragging) return;
               window.location.href = `/lead?id=${encodeURIComponent(lead.id)}`;
             });
@@ -1181,7 +1665,7 @@
         state.leads.forEach(lead => {
           const tr = document.createElement('tr');
           const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
-          const rawEmail = lead.email || (lead.contact_info.includes('@') ? lead.contact_info : '');
+          const rawEmail = lead.email || ((lead.contact_info || '').includes('@') ? lead.contact_info : '');
 
           tr.innerHTML = `
             <td>
@@ -1217,21 +1701,621 @@
         });
       }
 
-      // View Toggles
-      kanbanToggleBtn.addEventListener('click', () => {
-        state.activeView = 'kanban';
-        kanbanToggleBtn.classList.add('active');
-        listToggleBtn.classList.remove('active');
-        kanbanBoard.style.display = 'grid';
-        listView.style.display = 'none';
+      // Render Sunbiz Outreach Table
+      function renderOutreachTable() {
+        const tbody = document.getElementById('outreachTableBody');
+        tbody.innerHTML = '';
+
+        if (state.outreachCandidates.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align:center; padding: 3rem 1.5rem;">
+                <div style="font-size: 1.05rem; font-weight: 700; color: white; margin-bottom: 0.4rem;">No Sunbiz Outreach Candidates Yet</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.1rem;">
+                  Import a daily Sunbiz filing file, run <code>npm run sync:sunbiz</code>, or load the South Florida starter batch to begin outreach.
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" id="emptyStateImportBtn">🏛️ Load / Import Sunbiz Businesses</button>
+              </td>
+            </tr>
+          `;
+          const emptyBtn = document.getElementById('emptyStateImportBtn');
+          if (emptyBtn) {
+            emptyBtn.addEventListener('click', () => sunbizImportModalOverlay.classList.add('active'));
+          }
+          return;
+        }
+
+        state.outreachCandidates.forEach(cand => {
+          const tr = document.createElement('tr');
+          const cleanPhone = (cand.phone || '').replace(/[^0-9+]/g, '');
+          const scoreClass = cand.score >= 80 ? 'score-high' : 'score-med';
+          const scoreIcon = cand.score >= 85 ? '🔥' : '⚡';
+
+          // Pre-built OSINT 1-click research URLs
+          const googleQuery = encodeURIComponent(`"${cand.founder_name}" "${cand.city}" FL email OR phone OR "${cand.business_name_clean}"`);
+          const linkedinQuery = encodeURIComponent(`${cand.founder_name} ${cand.city} Florida`);
+          const peopleSearchSlug = encodeURIComponent(`${cand.founder_name} ${cand.city} FL ${cand.zip || ''}`);
+          const sunbizSearchUrl = `https://search.sunbiz.org/Inquiry/CorporationSearch/ByDocumentNumber`;
+
+          tr.innerHTML = `
+            <td style="min-width: 230px;">
+              <div style="font-weight: 700; color: white; font-size: 0.95rem;">${escapeHtml(cand.business_name_clean)}</div>
+              <div style="font-size: 0.73rem; color: var(--text-muted); margin-top: 2px;">${escapeHtml(cand.business_name)}</div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 5px;">
+                <a href="${sunbizSearchUrl}" target="_blank" rel="noopener" class="doc-link" title="Sunbiz Doc # (Click to verify on Sunbiz)">#${escapeHtml(cand.doc_number)}</a>
+                <span style="font-size: 0.7rem; color: #94a3b8;">&bull; Filed ${escapeHtml(cand.filing_date || 'Recent')}</span>
+              </div>
+            </td>
+
+            <td style="min-width: 210px;">
+              <div style="font-weight: 700; color: #38bdf8; font-size: 0.9rem;">
+                👤 ${escapeHtml(cand.founder_name)}
+                <span style="font-size: 0.68rem; color: var(--text-muted); font-weight: 600; background: #0f172a; padding: 1px 5px; border-radius: 4px; margin-left: 4px;">${escapeHtml(cand.founder_title || 'MGR')}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #e2e8f0; margin-top: 3px;">
+                📍 ${escapeHtml(cand.city || 'South FL')}, FL ${escapeHtml(cand.zip || '')}
+              </div>
+              ${cand.principal_address ? `<div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">${escapeHtml(cand.principal_address)}</div>` : ''}
+            </td>
+
+            <td style="min-width: 155px;">
+              <div><span class="card-service" style="margin-bottom: 5px;">${escapeHtml(cand.niche || 'Local Business')}</span></div>
+              <div>
+                <span class="score-pill ${scoreClass}">${scoreIcon} Score ${cand.score || 70}</span>
+              </div>
+            </td>
+
+            <td style="min-width: 265px;">
+              <div class="inline-contact-row">
+                <span title="Email" style="font-size: 0.8rem;">✉️</span>
+                <input type="email" class="inline-contact-input" data-field="email" data-id="${escapeHtml(cand.id)}" value="${escapeHtml(cand.email || '')}" placeholder="+ Add or enrich email...">
+                ${cand.enrichment_source ? `<span style="font-size: 0.65rem; color: #4ade80; background: rgba(34,197,94,0.12); padding: 2px 5px; border-radius: 4px;">${escapeHtml(cand.enrichment_source)}</span>` : ''}
+              </div>
+              <div class="inline-contact-row">
+                <span title="Phone" style="font-size: 0.8rem;">📞</span>
+                <input type="text" class="inline-contact-input" data-field="phone" data-id="${escapeHtml(cand.id)}" value="${escapeHtml(cand.phone || '')}" placeholder="+ Add or enrich phone...">
+              </div>
+              <div class="osint-links">
+                <a href="https://www.google.com/search?q=${googleQuery}" target="_blank" rel="noopener" class="osint-pill" title="Search Founder + City on Google">🔍 Google</a>
+                <a href="https://www.linkedin.com/search/results/people/?keywords=${linkedinQuery}" target="_blank" rel="noopener" class="osint-pill" title="Find Founder on LinkedIn">💼 LinkedIn</a>
+                <a href="https://www.fastpeoplesearch.com/name/${ encodeURIComponent((cand.founder_name || '').toLowerCase().replace(/\s+/g, '-')) }_${ encodeURIComponent((cand.city || 'fl').toLowerCase().replace(/\s+/g, '-')) }-fl" target="_blank" rel="noopener" class="osint-pill" title="Lookup Phone & Email by Name + FL City">📒 PeopleLookup</a>
+              </div>
+            </td>
+
+            <td>
+              <span class="status-badge status-${cand.outreach_status || 'uncontacted'}">${escapeHtml(cand.outreach_status || 'uncontacted')}</span>
+              ${cand.emailed_at ? `<div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 4px;">Sent ${timeAgo(cand.emailed_at)}</div>` : ''}
+              ${cand.lead_id ? `<div style="margin-top: 4px;"><a href="/lead?id=${encodeURIComponent(cand.lead_id)}" style="font-size: 0.72rem; color: #38bdf8; text-decoration: none;">👉 View in Pipeline</a></div>` : ''}
+            </td>
+
+            <td style="min-width: 210px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                <button type="button" class="btn btn-primary btn-sm outreach-email-btn" data-id="${escapeHtml(cand.id)}" title="Compose personalized CRO outreach email">
+                  ✉️ Email
+                </button>
+                <button type="button" class="btn btn-sm outreach-enrich-btn" data-id="${escapeHtml(cand.id)}" title="Run automated enrichment waterfall (DataForSEO / Hunter / Apollo / PDL)">
+                  ✨ Enrich
+                </button>
+                ${cleanPhone ? `<a href="tel:${cleanPhone}" class="btn btn-sm" title="Call ${escapeHtml(cand.phone)}">📞</a>` : ''}
+                ${cleanPhone ? `<a href="sms:${cleanPhone}" class="btn btn-sm" title="Text ${escapeHtml(cand.phone)}">💬</a>` : ''}
+                ${!cand.lead_id ? `<button type="button" class="btn btn-sm outreach-promote-btn" data-id="${escapeHtml(cand.id)}" title="Add directly to Contacted on Kanban">+ Pipeline</button>` : ''}
+                <button type="button" class="btn btn-sm outreach-dismiss-btn" data-id="${escapeHtml(cand.id)}" style="color: #94a3b8;" title="Dismiss candidate">&times;</button>
+              </div>
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+
+        // Attach inline edit listeners for email & phone
+        tbody.querySelectorAll('.inline-contact-input').forEach(input => {
+          input.addEventListener('change', async (e) => {
+            const id = e.target.getAttribute('data-id');
+            const field = e.target.getAttribute('data-field');
+            const value = e.target.value.trim();
+            await patchOutreachCandidate(id, { [field]: value });
+          });
+        });
+
+        // Attach Email Composer button listeners
+        tbody.querySelectorAll('.outreach-email-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            openOutreachEmailComposer(id);
+          });
+        });
+
+        // Attach Enrich button listeners
+        tbody.querySelectorAll('.outreach-enrich-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            await triggerSingleEnrich(id, btn);
+          });
+        });
+
+        // Attach Promote button listeners
+        tbody.querySelectorAll('.outreach-promote-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            await promoteOutreachCandidate(id, btn);
+          });
+        });
+
+        // Attach Dismiss button listeners
+        tbody.querySelectorAll('.outreach-dismiss-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            await patchOutreachCandidate(id, { outreach_status: 'dismissed' });
+            fetchOutreach();
+          });
+        });
+      }
+
+      async function patchOutreachCandidate(id, payload) {
+        try {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            const data = await res.json();
+            const idx = state.outreachCandidates.findIndex(c => c.id === id);
+            if (idx !== -1 && data.candidate) {
+              state.outreachCandidates[idx] = data.candidate;
+            }
+            showToast('Saved contact update');
+          }
+        } catch (err) {
+          console.error('Failed to update candidate:', err);
+        }
+      }
+
+      async function triggerSingleEnrich(id, btnEl) {
+        const originalText = btnEl ? btnEl.innerHTML : '✨ Enrich';
+        if (btnEl) {
+          btnEl.disabled = true;
+          btnEl.innerHTML = '⏳...';
+        }
+        try {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}/enrich`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'enrich' })
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            showToast(data.error || 'Enrichment requires an API key or manual OSINT lookup.');
+          } else if (data.candidate?.email || data.candidate?.phone) {
+            captureCrmEvent('outreach_enrichment_completed', { contact_found: true });
+            showToast(`Found contact info via ${data.enrichment?.source || 'enrichment'}!`);
+            fetchOutreach();
+          } else {
+            captureCrmEvent('outreach_enrichment_completed', { contact_found: false });
+            showToast('No public email/phone found via API — try the 1-click Google/PeopleLookup pills!');
+            fetchOutreach();
+          }
+        } catch (err) {
+          showToast('Enrichment request failed.');
+        } finally {
+          if (btnEl) {
+            btnEl.disabled = false;
+            btnEl.innerHTML = originalText;
+          }
+        }
+      }
+
+      async function promoteOutreachCandidate(id, btnEl) {
+        if (btnEl) btnEl.disabled = true;
+        try {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}/promote`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'promote', status: 'contacted' })
+          });
+          if (res.ok) {
+            captureCrmEvent('outreach_candidate_promoted', { target_status: 'contacted' });
+            showToast('Promoted to Contacted on your Kanban board!');
+            fetchOutreach();
+            fetchLeads();
+          }
+        } catch (err) {
+          showToast('Failed to promote candidate.');
+        } finally {
+          if (btnEl) btnEl.disabled = false;
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // CRO Outreach Email Composer Modal Logic
+      // -----------------------------------------------------------------------
+      function interpolateClientTemplate(templateKey, cand) {
+        const tpl = (state.outreachTemplates && state.outreachTemplates[templateKey]) || {
+          subject: 'Congrats on {{business_name_clean}} ({{city}}) — built a quick homepage concept for you',
+          body: `Hi {{first_name}},\n\nCongrats on officially registering {{business_name_clean}} here in {{city}}!`
+        };
+        const firstName = cand.founder_first_name || (cand.founder_name || 'there').split(' ')[0];
+        const businessClean = cand.business_name_clean || cand.business_name || 'your business';
+        const city = cand.city || 'South Florida';
+        const county = cand.county || 'South Florida';
+        const niche = cand.niche || 'Local Business';
+        const nicheLower = niche === 'Local Business' ? 'local services' : niche.toLowerCase();
+
+        const map = {
+          first_name: firstName,
+          founder_name: cand.founder_name || firstName,
+          business_name: cand.business_name || businessClean,
+          business_name_clean: businessClean,
+          city,
+          county,
+          niche,
+          niche_lower: nicheLower,
+          doc_number: cand.doc_number || ''
+        };
+
+        const rep = (s) => String(s || '').replace(/\{\{(\w+)\}\}/g, (_, k) => map[k] !== undefined ? map[k] : '');
+        return {
+          subject: rep(tpl.subject),
+          body: rep(tpl.body)
+        };
+      }
+
+      function openOutreachEmailComposer(candidateId) {
+        const cand = state.outreachCandidates.find(c => c.id === candidateId);
+        if (!cand) return;
+
+        state.currentOutreachCandidate = cand;
+        composerCandidateId.value = cand.id;
+        composerBusinessTitle.textContent = cand.business_name_clean;
+        composerNicheBadge.textContent = `${cand.niche || 'Local Business'} • ${cand.city || 'FL'}`;
+        composerSubtitle.textContent = `Founder: ${cand.founder_name} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number}`;
+        composerToInput.value = cand.email || '';
+        composerErrorBox.style.display = 'none';
+
+        composerTemplateSelect.value = 'launchpad_mockup';
+        const rendered = interpolateClientTemplate('launchpad_mockup', cand);
+        composerSubjectInput.value = rendered.subject;
+        composerBodyInput.value = rendered.body;
+
+        outreachEmailModalOverlay.classList.add('active');
+        if (!cand.email) {
+          composerToInput.focus();
+        }
+      }
+
+      composerTemplateSelect.addEventListener('change', () => {
+        if (!state.currentOutreachCandidate) return;
+        const rendered = interpolateClientTemplate(composerTemplateSelect.value, state.currentOutreachCandidate);
+        composerSubjectInput.value = rendered.subject;
+        composerBodyInput.value = rendered.body;
       });
 
-      listToggleBtn.addEventListener('click', () => {
-        state.activeView = 'list';
-        listToggleBtn.classList.add('active');
-        kanbanToggleBtn.classList.remove('active');
-        kanbanBoard.style.display = 'none';
-        listView.style.display = 'block';
+      closeComposerModalBtn.addEventListener('click', () => outreachEmailModalOverlay.classList.remove('active'));
+      outreachEmailModalOverlay.addEventListener('click', (e) => {
+        if (e.target === outreachEmailModalOverlay) outreachEmailModalOverlay.classList.remove('active');
+      });
+
+      // Copy Subject + Body
+      composerCopyBtn.addEventListener('click', async () => {
+        const text = `Subject: ${composerSubjectInput.value}\n\n${composerBodyInput.value}`;
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast('Copied outreach email to clipboard!');
+        } catch (err) {
+          showToast('Could not copy to clipboard.');
+        }
+      });
+
+      // Open in Mail App (mailto:) + Log & Promote to Contacted
+      composerMailtoBtn.addEventListener('click', async () => {
+        const cand = state.currentOutreachCandidate;
+        if (!cand) return;
+        const to = composerToInput.value.trim();
+        const subject = composerSubjectInput.value.trim();
+        const plainBody = composerBodyInput.value.trim().replace(/\*\*(.+?)\*\*/g, '$1');
+
+        const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
+        window.open(mailtoUrl, '_blank');
+
+        if (to && to.includes('@')) {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}/send_email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'send_email',
+              mode: 'log_only',
+              to,
+              subject,
+              body: plainBody
+            })
+          });
+          if (res.ok) captureCrmEvent('outreach_email_logged', { delivery_method: 'mail_app' });
+          outreachEmailModalOverlay.classList.remove('active');
+          showToast(`Logged email & promoted ${cand.business_name_clean} to Contacted!`);
+          fetchOutreach();
+          fetchLeads();
+        }
+      });
+
+      // Direct Send via CRM API
+      outreachEmailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const cand = state.currentOutreachCandidate;
+        if (!cand) return;
+
+        composerErrorBox.style.display = 'none';
+        composerSendBtn.disabled = true;
+        composerSendBtn.textContent = 'Sending...';
+
+        try {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}/send_email`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'send_email',
+              mode: 'send',
+              to: composerToInput.value.trim(),
+              subject: composerSubjectInput.value.trim(),
+              body: composerBodyInput.value.trim()
+            })
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            composerErrorBox.textContent = data.error || 'Could not send email.';
+            composerErrorBox.style.display = 'block';
+          } else {
+            captureCrmEvent('outreach_email_sent', { delivery_method: 'crm' });
+            outreachEmailModalOverlay.classList.remove('active');
+            showToast(`🚀 Email sent to ${cand.founder_name} & promoted to Contacted!`);
+            fetchOutreach();
+            fetchLeads();
+          }
+        } catch (err) {
+          composerErrorBox.textContent = 'Network error while sending email.';
+          composerErrorBox.style.display = 'block';
+        } finally {
+          composerSendBtn.disabled = false;
+          composerSendBtn.textContent = '🚀 Send Now & Move to Contacted';
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // Sunbiz Import / Sync Modal Logic
+      // -----------------------------------------------------------------------
+      function openSunbizImportModal() {
+        sunbizImportModalOverlay.classList.add('active');
+      }
+      openSunbizImportBtn.addEventListener('click', openSunbizImportModal);
+      importSunbizBtn.addEventListener('click', openSunbizImportModal);
+      closeSunbizImportBtn.addEventListener('click', () => sunbizImportModalOverlay.classList.remove('active'));
+      cancelSunbizImportBtn.addEventListener('click', () => sunbizImportModalOverlay.classList.remove('active'));
+      sunbizImportModalOverlay.addEventListener('click', (e) => {
+        if (e.target === sunbizImportModalOverlay) sunbizImportModalOverlay.classList.remove('active');
+      });
+
+      sunbizFileInput.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          sunbizRawTextInput.value = String(ev.target?.result || '');
+        };
+        reader.readAsText(file);
+      });
+
+      submitSunbizImportBtn.addEventListener('click', async () => {
+        const rawText = sunbizRawTextInput.value.trim();
+        if (!rawText) {
+          showToast('Please select a file or paste Sunbiz lines first.');
+          return;
+        }
+        submitSunbizImportBtn.disabled = true;
+        submitSunbizImportBtn.textContent = 'Importing & Scoring...';
+
+        try {
+          const res = await fetch('/api/crm/outreach', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              raw_text: rawText,
+              require_south_fl: requireSouthFlCheckbox.checked,
+              auto_enrich_top: autoEnrichTopCheckbox.checked
+            })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            captureCrmEvent('outreach_candidates_imported', {
+              parsed_count: data.parsed || 0,
+              inserted_count: data.inserted || 0,
+              auto_enriched_count: data.auto_enriched || 0
+            });
+            sunbizRawTextInput.value = '';
+            sunbizFileInput.value = '';
+            sunbizImportModalOverlay.classList.remove('active');
+            switchView('outreach');
+            fetchOutreach();
+            showToast(`Imported ${data.inserted} new South FL filings (${data.auto_enriched || 0} auto-enriched)!`);
+          } else {
+            showToast(data.error || 'Import failed.');
+          }
+        } catch (err) {
+          showToast('Failed to import Sunbiz data.');
+        } finally {
+          submitSunbizImportBtn.disabled = false;
+          submitSunbizImportBtn.textContent = '📥 Parse & Import Candidates';
+        }
+      });
+
+      // Load realistic South Florida Sunbiz Starter Batch
+      loadSampleSunbizBtn.addEventListener('click', async () => {
+        loadSampleSunbizBtn.disabled = true;
+        loadSampleSunbizBtn.textContent = 'Loading...';
+        const today = new Date().toISOString().slice(0, 10);
+        const starterCandidates = [
+          {
+            doc_number: 'L26000418902',
+            business_name: 'PINES APEX ROOFING & SOLAR LLC',
+            filing_date: today,
+            founder_name: 'Carlos M. Mendoza',
+            founder_title: 'MGR',
+            principal_address: '11402 Pines Blvd Suite 204',
+            city: 'Pembroke Pines',
+            state: 'FL',
+            zip: '33026',
+            email: 'carlos@pinesapexroofing.com',
+            phone: '(954) 612-8840'
+          },
+          {
+            doc_number: 'L26000418945',
+            business_name: 'MIRAMAR BREEZE AIR CONDITIONING & HVAC LLC',
+            filing_date: today,
+            founder_name: 'David R. Castellanos',
+            founder_title: 'AMBR',
+            principal_address: '14850 SW 29th St',
+            city: 'Miramar',
+            state: 'FL',
+            zip: '33027',
+            email: 'david@miramarbreezehvac.com',
+            phone: '(786) 493-2109'
+          },
+          {
+            doc_number: 'L26000419011',
+            business_name: 'BROWARD ELITE DENTAL & AESTHETICS PLLC',
+            filing_date: today,
+            founder_name: 'Elena V. Navarro',
+            founder_title: 'MGR',
+            principal_address: '3900 Hollywood Blvd Suite 102',
+            city: 'Hollywood',
+            state: 'FL',
+            zip: '33021',
+            email: 'dr.navarro@browardelitedental.com',
+            phone: '(954) 881-3490'
+          },
+          {
+            doc_number: 'L26000419088',
+            business_name: 'DAVIE PRECISION PLUMBING & DRAIN SERVICES LLC',
+            filing_date: today,
+            founder_name: 'Marcus J. Vance',
+            founder_title: 'MGR',
+            principal_address: '6420 Griffin Rd',
+            city: 'Davie',
+            state: 'FL',
+            zip: '33314',
+            email: '',
+            phone: '(954) 709-4412'
+          },
+          {
+            doc_number: 'L26000419134',
+            business_name: 'WESTON RHYTHM & MOTION DANCE STUDIO LLC',
+            filing_date: today,
+            founder_name: 'Sofia L. Delgado',
+            founder_title: 'MGR',
+            principal_address: '1675 Market St',
+            city: 'Weston',
+            state: 'FL',
+            zip: '33326',
+            email: 'sofia@westonrhythmdance.com',
+            phone: '(954) 389-7721'
+          },
+          {
+            doc_number: 'L26000419205',
+            business_name: 'LAS OLAS MASTER ELECTRICIANS & GENERATOR PROS LLC',
+            filing_date: today,
+            founder_name: 'Anthony G. Russo',
+            founder_title: 'MGR',
+            principal_address: '800 E Broward Blvd',
+            city: 'Fort Lauderdale',
+            state: 'FL',
+            zip: '33301',
+            email: '',
+            phone: ''
+          },
+          {
+            doc_number: 'L26000419279',
+            business_name: 'DORAL TROPICAL LANDSCAPE DESIGN & PAVERS LLC',
+            filing_date: today,
+            founder_name: 'Jorge A. Morales',
+            founder_title: 'AMBR',
+            principal_address: '8400 NW 36th St',
+            city: 'Doral',
+            state: 'FL',
+            zip: '33166',
+            email: 'jorge@doraltropicallandscape.com',
+            phone: '(305) 592-6388'
+          }
+        ];
+
+        try {
+          const res = await fetch('/api/crm/outreach', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              candidates: starterCandidates,
+              require_south_fl: true,
+              auto_enrich_top: false
+            })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            sunbizImportModalOverlay.classList.remove('active');
+            switchView('outreach');
+            fetchOutreach();
+            showToast(`Loaded ${data.inserted} South Florida Sunbiz candidates!`);
+          }
+        } catch (err) {
+          showToast('Failed to load starter batch.');
+        } finally {
+          loadSampleSunbizBtn.disabled = false;
+          loadSampleSunbizBtn.textContent = '🚀 Load South FL Sample Batch';
+        }
+      });
+
+      // Batch Enrich Top 5 Button
+      batchEnrichBtn.addEventListener('click', async () => {
+        const unenriched = state.outreachCandidates
+          .filter(c => !c.email && c.outreach_status === 'uncontacted')
+          .slice(0, 5);
+        if (unenriched.length === 0) {
+          showToast('All top uncontacted candidates already have emails!');
+          return;
+        }
+        batchEnrichBtn.disabled = true;
+        batchEnrichBtn.textContent = `⏳ Enriching ${unenriched.length}...`;
+        for (const cand of unenriched) {
+          await triggerSingleEnrich(cand.id, null);
+        }
+        batchEnrichBtn.disabled = false;
+        batchEnrichBtn.textContent = '✨ Enrich Top 5';
+        fetchOutreach();
+      });
+
+      // View Toggles
+      function switchView(view) {
+        state.activeView = view;
+        kanbanToggleBtn.classList.toggle('active', view === 'kanban');
+        listToggleBtn.classList.toggle('active', view === 'list');
+        outreachToggleBtn.classList.toggle('active', view === 'outreach');
+
+        kanbanBoard.style.display = view === 'kanban' ? 'grid' : 'none';
+        listView.style.display = view === 'list' ? 'block' : 'none';
+        outreachView.style.display = view === 'outreach' ? 'block' : 'none';
+
+        const isOutreach = view === 'outreach';
+        pipelineMetricsGrid.style.display = isOutreach ? 'none' : 'grid';
+        outreachMetricsGrid.style.display = isOutreach ? 'grid' : 'none';
+
+        statusFilter.style.display = isOutreach ? 'none' : 'inline-flex';
+        outreachNicheFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        outreachCityFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        outreachContactFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        outreachStatusFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+      }
+
+      kanbanToggleBtn.addEventListener('click', () => switchView('kanban'));
+      listToggleBtn.addEventListener('click', () => switchView('list'));
+      outreachToggleBtn.addEventListener('click', () => {
+        switchView('outreach');
+        fetchOutreach();
       });
 
       // Search & Filters
@@ -1240,7 +2324,11 @@
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
           state.searchQuery = e.target.value;
-          fetchLeads();
+          if (state.activeView === 'outreach') {
+            fetchOutreach();
+          } else {
+            fetchLeads();
+          }
         }, 250);
       });
 
@@ -1249,7 +2337,30 @@
         fetchLeads();
       });
 
-      refreshBtn.addEventListener('click', fetchLeads);
+      outreachNicheFilter.addEventListener('change', (e) => {
+        state.outreachNicheFilter = e.target.value;
+        fetchOutreach();
+      });
+
+      outreachCityFilter.addEventListener('change', (e) => {
+        state.outreachCityFilter = e.target.value;
+        fetchOutreach();
+      });
+
+      outreachContactFilter.addEventListener('change', (e) => {
+        state.outreachContactFilter = e.target.value;
+        fetchOutreach();
+      });
+
+      outreachStatusFilter.addEventListener('change', (e) => {
+        state.outreachStatusFilter = e.target.value;
+        fetchOutreach();
+      });
+
+      refreshBtn.addEventListener('click', () => {
+        fetchLeads();
+        fetchOutreach();
+      });
 
       // Manual Lead Modal
       newLeadBtn.addEventListener('click', () => manualModalOverlay.classList.add('active'));
@@ -1276,6 +2387,7 @@
             body: JSON.stringify(payload)
           });
           if (res.ok) {
+            captureCrmEvent('crm_lead_created', { initial_status: payload.status || 'new' });
             manualLeadForm.reset();
             manualModalOverlay.classList.remove('active');
             fetchLeads();
@@ -1293,6 +2405,11 @@
         return String(str).replace(/[&<>"']/g, m => ({
           '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
         })[m]);
+      }
+
+      // Check URL hash or query param to open Outreach directly if requested
+      if (window.location.hash === '#outreach' || new URLSearchParams(window.location.search).get('tab') === 'outreach') {
+        switchView('outreach');
       }
 
       // Initial check & DnD setup
