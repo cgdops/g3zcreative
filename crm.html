@@ -1878,7 +1878,7 @@
           btnEl.innerHTML = '⏳...';
         }
         try {
-          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}/enrich`, {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'enrich' })
@@ -1908,7 +1908,7 @@
       async function promoteOutreachCandidate(id, btnEl) {
         if (btnEl) btnEl.disabled = true;
         try {
-          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}/promote`, {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'promote', status: 'contacted' })
@@ -2018,7 +2018,7 @@
         window.open(mailtoUrl, '_blank');
 
         if (to && to.includes('@')) {
-          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}/send_email`, {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -2048,7 +2048,7 @@
         composerSendBtn.textContent = 'Sending...';
 
         try {
-          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}/send_email`, {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
