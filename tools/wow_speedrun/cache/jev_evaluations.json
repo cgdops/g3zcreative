@@ -1,0 +1,354 @@
+{
+  "hunt_begins_hunter": {
+    "quest_id": "hunt_begins",
+    "quest_name": "The Hunt Begins",
+    "player_class": "Hunter",
+    "trap_probability": 0.1,
+    "friction_score": 0.04,
+    "is_trap_flagged": false
+  },
+  "simple_note_hunter": {
+    "quest_id": "simple_note",
+    "quest_name": "A Simple Note (Class Starter)",
+    "player_class": "Hunter",
+    "trap_probability": 0.08,
+    "friction_score": 0.01,
+    "is_trap_flagged": false
+  },
+  "hunt_continues_hunter": {
+    "quest_id": "hunt_continues",
+    "quest_name": "The Hunt Continues",
+    "player_class": "Hunter",
+    "trap_probability": 0.09,
+    "friction_score": 0.8,
+    "is_trap_flagged": false
+  },
+  "battleboars_hunter": {
+    "quest_id": "battleboars",
+    "quest_name": "The Battleboars",
+    "player_class": "Hunter",
+    "trap_probability": 0.09,
+    "friction_score": 1.1,
+    "is_trap_flagged": false
+  },
+  "attack_camp_narache_hunter": {
+    "quest_id": "attack_camp_narache",
+    "quest_name": "Attack on Camp Narache",
+    "player_class": "Hunter",
+    "trap_probability": 0.08,
+    "friction_score": 0.86,
+    "is_trap_flagged": false
+  },
+  "break_sharptusk_hunter": {
+    "quest_id": "break_sharptusk",
+    "quest_name": "Break Sharptusk!",
+    "player_class": "Hunter",
+    "trap_probability": 0.21,
+    "friction_score": 1.72,
+    "is_trap_flagged": false
+  },
+  "rites_earthmother_1_hunter": {
+    "quest_id": "rites_earthmother_1",
+    "quest_name": "Rites of the Earthmother (Part 1)",
+    "player_class": "Hunter",
+    "trap_probability": 0.14,
+    "friction_score": 0.09,
+    "is_trap_flagged": false
+  },
+  "sharing_the_land_hunter": {
+    "quest_id": "sharing_the_land",
+    "quest_name": "Sharing the Land",
+    "player_class": "Hunter",
+    "trap_probability": 0.19,
+    "friction_score": 1.22,
+    "is_trap_flagged": false
+  },
+  "dwarven_digging_hunter": {
+    "quest_id": "dwarven_digging",
+    "quest_name": "Dwarven Digging",
+    "player_class": "Hunter",
+    "trap_probability": 0.35,
+    "friction_score": 1.51,
+    "is_trap_flagged": false
+  },
+  "dangers_windfury_hunter": {
+    "quest_id": "dangers_windfury",
+    "quest_name": "Dangers of the Windfury",
+    "player_class": "Hunter",
+    "trap_probability": 0.12,
+    "friction_score": 1.28,
+    "is_trap_flagged": false
+  },
+  "swoop_hunting_hunter": {
+    "quest_id": "swoop_hunting",
+    "quest_name": "Swoop Hunting",
+    "player_class": "Hunter",
+    "trap_probability": 0.92,
+    "friction_score": 1.01,
+    "is_trap_flagged": true
+  },
+  "mazzranache_hunter": {
+    "quest_id": "mazzranache",
+    "quest_name": "Mazzranache",
+    "player_class": "Hunter",
+    "trap_probability": 0.91,
+    "friction_score": 1.38,
+    "is_trap_flagged": true
+  },
+  "demon_scarred_cloak_hunter": {
+    "quest_id": "demon_scarred_cloak",
+    "quest_name": "The Demon-Scarred Cloak",
+    "player_class": "Hunter",
+    "trap_probability": 0.9,
+    "friction_score": 1.78,
+    "is_trap_flagged": true
+  },
+  "ravaged_caravan_hunter": {
+    "quest_id": "ravaged_caravan",
+    "quest_name": "The Ravaged Caravan",
+    "player_class": "Hunter",
+    "trap_probability": 0.17,
+    "friction_score": 0.13,
+    "is_trap_flagged": false
+  },
+  "winterhoof_cleansing_hunter": {
+    "quest_id": "winterhoof_cleansing",
+    "quest_name": "Winterhoof Cleansing",
+    "player_class": "Hunter",
+    "trap_probability": 0.15,
+    "friction_score": 0.24,
+    "is_trap_flagged": false
+  },
+  "thunderhorn_totem_hunter": {
+    "quest_id": "thunderhorn_totem",
+    "quest_name": "Thunderhorn Totem",
+    "player_class": "Hunter",
+    "trap_probability": 0.09,
+    "friction_score": 0.99,
+    "is_trap_flagged": false
+  },
+  "rite_of_vision_hunter": {
+    "quest_id": "rite_of_vision",
+    "quest_name": "Rite of Vision",
+    "player_class": "Hunter",
+    "trap_probability": 0.31,
+    "friction_score": 0.02,
+    "is_trap_flagged": false
+  },
+  "rite_of_wisdom_hunter": {
+    "quest_id": "rite_of_wisdom",
+    "quest_name": "Rite of Wisdom",
+    "player_class": "Hunter",
+    "trap_probability": 0.25,
+    "friction_score": 0.44,
+    "is_trap_flagged": false
+  },
+  "venture_co_hunter": {
+    "quest_id": "venture_co",
+    "quest_name": "The Venture Co.",
+    "player_class": "Hunter",
+    "trap_probability": 0.16,
+    "friction_score": 1.27,
+    "is_trap_flagged": false
+  },
+  "supervisor_fizsprocket_hunter": {
+    "quest_id": "supervisor_fizsprocket",
+    "quest_name": "Supervisor Fizsprocket",
+    "player_class": "Hunter",
+    "trap_probability": 0.44,
+    "friction_score": 1.98,
+    "is_trap_flagged": false
+  },
+  "preparing_for_journey_hunter": {
+    "quest_id": "preparing_for_journey",
+    "quest_name": "Preparing for the Journey",
+    "player_class": "Hunter",
+    "trap_probability": 0.24,
+    "friction_score": 0.38,
+    "is_trap_flagged": false
+  },
+  "barrens_outpost_hunter": {
+    "quest_id": "barrens_outpost",
+    "quest_name": "The Barrens Ountpost",
+    "player_class": "Hunter",
+    "trap_probability": 0.32,
+    "friction_score": 1.15,
+    "is_trap_flagged": false
+  },
+  "crossroads_conscription_hunter": {
+    "quest_id": "crossroads_conscription",
+    "quest_name": "Crossroads Conscription",
+    "player_class": "Hunter",
+    "trap_probability": 0.15,
+    "friction_score": 0.18,
+    "is_trap_flagged": false
+  },
+  "plainstrider_menace_hunter": {
+    "quest_id": "plainstrider_menace",
+    "quest_name": "Plainstrider Menace",
+    "player_class": "Hunter",
+    "trap_probability": 0.07,
+    "friction_score": 0.28,
+    "is_trap_flagged": false
+  },
+  "zhevra_hooves_hunter": {
+    "quest_id": "zhevra_hooves",
+    "quest_name": "The Zhevra Hooves",
+    "player_class": "Hunter",
+    "trap_probability": 0.93,
+    "friction_score": 1.11,
+    "is_trap_flagged": true
+  },
+  "raptor_horns_hunter": {
+    "quest_id": "raptor_horns",
+    "quest_name": "The Raptor Horns",
+    "player_class": "Hunter",
+    "trap_probability": 0.9,
+    "friction_score": 1.77,
+    "is_trap_flagged": true
+  },
+  "disrupt_attacks_hunter": {
+    "quest_id": "disrupt_attacks",
+    "quest_name": "Disrupt the Attacks",
+    "player_class": "Hunter",
+    "trap_probability": 0.1,
+    "friction_score": 0.97,
+    "is_trap_flagged": false
+  },
+  "forgotten_pools_hunter": {
+    "quest_id": "forgotten_pools",
+    "quest_name": "The Forgotten Pools",
+    "player_class": "Hunter",
+    "trap_probability": 0.22,
+    "friction_score": 0.87,
+    "is_trap_flagged": false
+  },
+  "stagnant_oasis_hunter": {
+    "quest_id": "stagnant_oasis",
+    "quest_name": "The Stagnant Oasis",
+    "player_class": "Hunter",
+    "trap_probability": 0.43,
+    "friction_score": 1.35,
+    "is_trap_flagged": false
+  },
+  "altered_beasts_hunter": {
+    "quest_id": "altered_beasts",
+    "quest_name": "Altered Beasts",
+    "player_class": "Hunter",
+    "trap_probability": 0.12,
+    "friction_score": 1.1,
+    "is_trap_flagged": false
+  },
+  "harpy_raiders_hunter": {
+    "quest_id": "harpy_raiders",
+    "quest_name": "Harpy Raiders",
+    "player_class": "Hunter",
+    "trap_probability": 0.1,
+    "friction_score": 0.95,
+    "is_trap_flagged": false
+  },
+  "harpy_lieutenants_hunter": {
+    "quest_id": "harpy_lieutenants",
+    "quest_name": "Harpy Lieutenants",
+    "player_class": "Hunter",
+    "trap_probability": 0.35,
+    "friction_score": 1.59,
+    "is_trap_flagged": false
+  },
+  "serena_bloodfeather_hunter": {
+    "quest_id": "serena_bloodfeather",
+    "quest_name": "Serena Bloodfeather",
+    "player_class": "Hunter",
+    "trap_probability": 0.62,
+    "friction_score": 2.97,
+    "is_trap_flagged": true
+  },
+  "centaur_bracers_hunter": {
+    "quest_id": "centaur_bracers",
+    "quest_name": "Centaur Bracers",
+    "player_class": "Hunter",
+    "trap_probability": 0.1,
+    "friction_score": 1.11,
+    "is_trap_flagged": false
+  },
+  "samophlange_hunter": {
+    "quest_id": "samophlange",
+    "quest_name": "The Samophlange",
+    "player_class": "Hunter",
+    "trap_probability": 0.26,
+    "friction_score": 1.31,
+    "is_trap_flagged": false
+  },
+  "escape_silverwing_hunter": {
+    "quest_id": "escape_silverwing",
+    "quest_name": "Escape from the Silverwing",
+    "player_class": "Hunter",
+    "trap_probability": 0.93,
+    "friction_score": 2.25,
+    "is_trap_flagged": true
+  },
+  "fungus_rock_hunter": {
+    "quest_id": "fungus_rock",
+    "quest_name": "Fungus Rock",
+    "player_class": "Hunter",
+    "trap_probability": 0.37,
+    "friction_score": 1.46,
+    "is_trap_flagged": false
+  },
+  "tribes_at_war_hunter": {
+    "quest_id": "tribes_at_war",
+    "quest_name": "Tribes at War",
+    "player_class": "Hunter",
+    "trap_probability": 0.15,
+    "friction_score": 1.27,
+    "is_trap_flagged": false
+  },
+  "verog_the_dervish_hunter": {
+    "quest_id": "verog_the_dervish",
+    "quest_name": "Verog the Dervish",
+    "player_class": "Hunter",
+    "trap_probability": 0.28,
+    "friction_score": 1.7,
+    "is_trap_flagged": false
+  },
+  "hezrul_bloodmark_hunter": {
+    "quest_id": "hezrul_bloodmark",
+    "quest_name": "Hezrul Bloodmark",
+    "player_class": "Hunter",
+    "trap_probability": 0.54,
+    "friction_score": 2.98,
+    "is_trap_flagged": false
+  },
+  "southsea_freebooters_hunter": {
+    "quest_id": "southsea_freebooters",
+    "quest_name": "Southsea Freebooters",
+    "player_class": "Hunter",
+    "trap_probability": 0.23,
+    "friction_score": 1.17,
+    "is_trap_flagged": false
+  },
+  "stolen_silver_hunter": {
+    "quest_id": "stolen_silver",
+    "quest_name": "The Stolen Silver",
+    "player_class": "Hunter",
+    "trap_probability": 0.22,
+    "friction_score": 0.73,
+    "is_trap_flagged": false
+  },
+  "in_defense_far_watch_hunter": {
+    "quest_id": "in_defense_far_watch",
+    "quest_name": "In Defense of Far Watch",
+    "player_class": "Hunter",
+    "trap_probability": 0.34,
+    "friction_score": 0.63,
+    "is_trap_flagged": false
+  },
+  "miners_fortune_hunter": {
+    "quest_id": "miners_fortune",
+    "quest_name": "Miner's Fortune",
+    "player_class": "Hunter",
+    "trap_probability": 0.87,
+    "friction_score": 2.48,
+    "is_trap_flagged": true
+  }
+}

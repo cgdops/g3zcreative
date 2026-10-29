@@ -4,8 +4,10 @@ const path = require('path');
 const http = require('http');
 const url = require('url');
 const { execSync } = require('child_process');
+const { randomUUID } = require('crypto');
 const { google } = require('googleapis');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { PostHog } = require('posthog-node');
 const nodemailer = require('nodemailer');
 
 const ROOT = path.join(__dirname, '..');
@@ -19,6 +21,54 @@ const SITE_URL = process.env.GSC_SITE_URL || 'sc-domain:g3zcreative.com';
 
 const PORT = 3000;
 const REDIRECT_URI = `http://localhost:${PORT}/oauth2callback`;
+const aiSessionId = `gsc-run-${randomUUID()}`;
+const posthog = createPostHogClient();
+
+function createPostHogClient() {
+  const posthogKey = process.env.POSTHOG_KEY;
+  const posthogHost = process.env.POSTHOG_HOST;
+
+  if (!posthogKey || !posthogHost) {
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG) {
+      const missingVariable = posthogKey ? 'POSTHOG_HOST' : 'POSTHOG_KEY';
+      throw new Error(`${missingVariable} variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once ${missingVariable} is configured`);
+    }
+    return null;
+  }
+
+  return new PostHog(posthogKey, {
+    host: posthogHost,
+    privacyMode: false,
+    enableExceptionAutocapture: true,
+    flushAt: 1,
+    flushInterval: 0,
+    isServer: false
+  });
+}
+
+function captureGeminiGeneration({ traceId, prompt, response, responseText, latencyMs, error }) {
+  if (!posthog) return;
+
+  const usage = response?.usageMetadata;
+  posthog.capture({
+    distinctId: aiSessionId,
+    event: '$ai_generation',
+    properties: {
+      $process_person_profile: false,
+      $ai_session_id: aiSessionId,
+      $ai_trace_id: traceId,
+      $ai_model: 'gemini-2.5-flash',
+      $ai_provider: 'google',
+      $ai_input: [{ role: 'user', content: prompt }],
+      $ai_output_choices: responseText ? [{ role: 'assistant', content: responseText }] : undefined,
+      $ai_input_tokens: usage?.promptTokenCount,
+      $ai_output_tokens: usage?.candidatesTokenCount,
+      $ai_total_tokens: usage?.totalTokenCount,
+      $ai_latency: latencyMs / 1000,
+      $ai_error: error?.name
+    }
+  });
+}
 
 async function main() {
   const isDryRun = process.argv.includes('--dry-run');
@@ -312,9 +362,20 @@ Format the response EXACTLY as a JSON array of objects like this:
 If no high-intent content gaps are found, return an empty array: []
 `;
 
+  const traceId = randomUUID();
+  const generationStartedAt = Date.now();
+
   try {
     const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const response = result.response;
+    const responseText = response.text();
+    captureGeminiGeneration({
+      traceId,
+      prompt,
+      response,
+      responseText,
+      latencyMs: Date.now() - generationStartedAt
+    });
     const recommendations = JSON.parse(responseText);
 
     const generatedPages = [];
@@ -360,6 +421,12 @@ If no high-intent content gaps are found, return an empty array: []
     return generatedPages;
 
   } catch (err) {
+    captureGeminiGeneration({
+      traceId,
+      prompt,
+      latencyMs: Date.now() - generationStartedAt,
+      error: err
+    });
     console.error('Error generating gaps with Gemini:', err.message);
     return [];
   }
@@ -583,4 +650,10 @@ async function sendEmailSummary(report, newPages, gitSuccess, isDryRun) {
   }
 }
 
-main().catch(console.error);
+main()
+  .catch(console.error)
+  .finally(async () => {
+    if (posthog) {
+      await posthog.shutdown().catch((err) => console.error('PostHog shutdown failed:', err.message));
+    }
+  });

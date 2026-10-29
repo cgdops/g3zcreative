@@ -499,6 +499,24 @@
     const pills = document.querySelectorAll('#qcServicePills .qc-pill');
     const floatingBtn = document.getElementById('qcFloatingBtn');
 
+    function captureLeadEvent(event, properties) {
+      const capture = (posthog) => posthog.capture(event, properties);
+      if (window.posthog) {
+        capture(window.posthog);
+        return;
+      }
+      document.addEventListener('posthog:ready', (readyEvent) => capture(readyEvent.detail), { once: true });
+    }
+
+    function logLeadSubmission(level, message, properties) {
+      const log = (posthog) => posthog.logger[level](message, properties);
+      if (window.posthog) {
+        log(window.posthog);
+        return;
+      }
+      document.addEventListener('posthog:ready', (readyEvent) => log(readyEvent.detail), { once: true });
+    }
+
     // Service pill toggle
     pills.forEach(pill => {
       pill.addEventListener('click', function () {
@@ -602,13 +620,35 @@
         const data = await res.json().catch(() => ({}));
 
         if (res.ok && data.success) {
+          const logProperties = {
+            component: 'quick_connect',
+            service_interest: serviceInput.value,
+            source_page: window.location.pathname
+          };
+          captureLeadEvent('lead_inquiry_submitted', logProperties);
+          logLeadSubmission('info', 'Lead inquiry submission completed', {
+            ...logProperties,
+            outcome: 'success'
+          });
           formView.style.display = 'none';
           successView.style.display = 'block';
           form.reset();
         } else {
+          logLeadSubmission('warn', 'Lead inquiry submission completed', {
+            component: 'quick_connect',
+            outcome: 'rejected',
+            service_interest: serviceInput.value,
+            source_page: window.location.pathname
+          });
           alert(data.error || 'Could not submit your inquiry. Please call or text +1 (786) 967-3699 directly!');
         }
       } catch (err) {
+        logLeadSubmission('warn', 'Lead inquiry submission completed', {
+          component: 'quick_connect',
+          outcome: 'request_failed',
+          service_interest: serviceInput.value,
+          source_page: window.location.pathname
+        });
         console.error('Submission error:', err);
         // Fallback friendly alert
         alert('Thank you for reaching out! If your submission does not go through, feel free to call or text Christian at +1 (786) 967-3699.');

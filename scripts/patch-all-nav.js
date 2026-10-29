@@ -97,8 +97,16 @@ function getHeaderNavDropdown(prefix) {
                               <li class="utility-margin-bottom-0">
                                 <a href="${prefix}services/website-development-miramar.html" class="mega-nav-link-item w-inline-block">
                                   <div>
-                                    <div><strong>Website Development</strong></div>
-                                    <div class="paragraph-sm utility-text-secondary">Fast, high-converting digital assets.</div>
+                                    <div><strong>Web Design Miramar</strong></div>
+                                    <div class="paragraph-sm utility-text-secondary">Fast, 100/100 Lighthouse digital assets.</div>
+                                  </div>
+                                </a>
+                              </li>
+                              <li class="utility-margin-bottom-0">
+                                <a href="${prefix}services/web-design-pembroke-pines.html" class="mega-nav-link-item w-inline-block">
+                                  <div>
+                                    <div><strong>Web Design Pembroke Pines</strong></div>
+                                    <div class="paragraph-sm utility-text-secondary">Custom &amp; WordPress local site builds.</div>
                                   </div>
                                 </a>
                               </li>
@@ -153,7 +161,12 @@ function getFooterColumns(prefix) {
           </li>
           <li>
             <a href="${prefix}services/website-development-miramar.html" class="footer-link w-inline-block">
-              <div>Website Development</div>
+              <div>Web Design Miramar</div>
+            </a>
+          </li>
+          <li>
+            <a href="${prefix}services/web-design-pembroke-pines.html" class="footer-link w-inline-block">
+              <div>Web Design Pembroke Pines</div>
             </a>
           </li>
           <li>

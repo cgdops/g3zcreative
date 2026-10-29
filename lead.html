@@ -577,11 +577,34 @@
         });
       }
 
+      function withPostHog(callback) {
+        if (window.posthog) {
+          callback(window.posthog);
+          return;
+        }
+        document.addEventListener('posthog:ready', (readyEvent) => callback(readyEvent.detail), { once: true });
+      }
+
+      function identifyCrmUser(auth) {
+        const usesCloudflareAccessIdentity = auth.method === 'cf-access' && auth.user;
+        const distinctId = usesCloudflareAccessIdentity ? auth.user : 'crm-shared-admin';
+        const personProperties = usesCloudflareAccessIdentity
+          ? { email: auth.user, crm_access_method: auth.method }
+          : { crm_access_method: auth.method };
+
+        withPostHog((posthog) => posthog.identify(distinctId, personProperties));
+      }
+
+      function captureLeadEvent(event, properties) {
+        withPostHog((posthog) => posthog.capture(event, properties));
+      }
+
       async function checkAuth() {
         try {
           const res = await fetch('/api/crm/auth');
           const data = await res.json();
           if (data.authenticated) {
+            identifyCrmUser(data);
             loginModal.style.display = 'none';
             fetchLeadDetails();
           } else {
@@ -603,6 +626,7 @@
           });
           const data = await res.json();
           if (data.authenticated) {
+            identifyCrmUser(data);
             loginModal.style.display = 'none';
             fetchLeadDetails();
           } else {
@@ -616,6 +640,7 @@
       });
 
       logoutBtn.addEventListener('click', async () => {
+        withPostHog((posthog) => posthog.reset());
         await fetch('/api/crm/auth', { method: 'DELETE' });
         window.location.href = '/crm';
       });
@@ -798,6 +823,9 @@
               + escapeHtml(data.error || 'Enrichment failed.') + '</span>';
             return;
           }
+          captureLeadEvent('lead_enrichment_completed', {
+            enrichment_found: data.enrichment?.status === 'found'
+          });
           renderEnrichmentResult(data.enrichment);
         } catch (err) {
           enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">Enrichment request failed.</span>';
@@ -821,6 +849,7 @@
             body: JSON.stringify(payload)
           });
           if (res.ok) {
+            captureLeadEvent('lead_details_updated', { status: payload.status });
             leadStatusBadge.textContent = payload.status;
             leadStatusBadge.className = 'status-badge status-' + payload.status;
             saveToast.style.display = 'block';
@@ -845,6 +874,7 @@
             body: JSON.stringify({ content: content, author: 'Chris' })
           });
           if (res.ok) {
+            captureLeadEvent('lead_note_added', { note_type: 'manual' });
             noteInput.value = '';
             fetchLeadDetails();
           }
@@ -861,6 +891,7 @@
         try {
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { method: 'DELETE' });
           if (res.ok) {
+            captureLeadEvent('lead_deleted');
             window.location.href = '/crm';
           }
         } catch (err) {

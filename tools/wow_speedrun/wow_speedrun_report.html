@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WoW Classic 1-20 Speedrun Optimizer · TypeSafe Jev</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #f59e0b;
+      --accent-blue: #38bdf8;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 32px 24px;
+    }
+    .container { max-width: 1280px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    h1 { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+    .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .badge-action {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .zone-tag {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .kpi-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .kpi-value { font-size: 32px; font-weight: 800; color: #fff; margin-top: 6px; }
+    .kpi-delta { font-size: 13px; font-weight: 600; margin-top: 4px; }
+    .kpi-delta.pos { color: var(--success); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    h2 { font-size: 18px; font-weight: 700; color: #fff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      vertical-align: middle;
+    }
+    .text-muted { color: var(--text-muted); }
+    .text-mono { font-family: monospace; font-size: 12px; color: #cbd5e1; }
+    .text-accent { color: var(--accent); font-weight: 600; }
+    .badge-status {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-pruned {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .status-approved {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .notes-col { max-width: 440px; color: #cbd5e1; }
+    .callout {
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>WoW Classic 1-20 Speedrun Optimizer</h1>
+        <div class="subtitle">Mulgore Start &rarr; The Barrens Transition &middot; Class: <strong>Tauren Hunter</strong> &middot; Target: <strong>Level 20</strong></div>
+      </div>
+      <div>
+        <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #38bdf844; padding: 6px 12px; font-size: 12px;">
+          TypeSafe System One (Jev) Enabled
+        </span>
+      </div>
+    </header>
+
+    <div class="callout">
+      <strong>Cybernetic Speedrun Design:</strong> Code controls the deterministic graph (coordinates, Euclidean run physics at 7 yd/s, XP formulas, and DAG prereqs). <strong>Jev (TypeSafe System One)</strong> evaluates qualitative player notes to calculate exact trap probabilities (<span class="text-mono">Noul</span>) and combat friction (<span class="text-mono">Score</span>), automatically pruning time sinks.
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Optimized Time to 20</div>
+        <div class="kpi-value" style="color: #4ade80;">4.64 hrs</div>
+        <div class="kpi-delta pos">&darr; 109.8 mins saved vs naive (28.3% faster)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Optimized XP / Hour</div>
+        <div class="kpi-value">34,325</div>
+        <div class="kpi-delta pos">&uarr; +9,699 XP/hr advantage</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Quests Pruned by Jev</div>
+        <div class="kpi-value" style="color: #f87171;">8</div>
+        <div class="kpi-delta text-muted">Eliminated low-drop RNG &amp; escorts</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Total XP Earned</div>
+        <div class="kpi-value">159,400</div>
+        <div class="kpi-delta text-muted">36 quests + mob kills</div>
+      </div>
+    </div>
+
+    <!-- Jev Semantic Audit Table -->
+    <div class="card" style="margin-bottom: 32px;">
+      <div class="card-header">
+        <h2>Jev Semantic Intelligence Audit (Noul &amp; Score)</h2>
+        <span class="text-muted" style="font-size: 12px;">Pruning Threshold: <strong>P(trap) &ge; 0.55</strong></span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Quest &amp; Hub</th>
+            <th>Trap Prob (Noul)</th>
+            <th>Friction (Score)</th>
+            <th>Decision</th>
+            <th>Community Context (Wowhead)</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr>
+          <td><strong>The Zhevra Hooves</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.93</span></td>
+          <td>1.11</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>The most legendary meme drop rate in World of Warcraft history. 'Do Zhevras not have hooves?!' Drop rate is roughly 15-20%. Players routinely kill 25-30 Zhevras across a vast savanna. Speedrunners ALWAYS skip this.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Escape from the Silverwing</strong><br><small class="text-muted">The Barrens · Req Lvl 14</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.93</span></td>
+          <td>2.25</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Painfully slow escort quest. The NPC crawls at 50% walking speed, stops to speak every 30 yards, and 3 waves of pirates spawn. If another player walks near, they can pull extra mobs and kill him, forcing a 15-minute wait. Massive speedrun trap!</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Swoop Hunting</strong><br><small class="text-muted">Mulgore · Req Lvl 6</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.92</span></td>
+          <td>1.01</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Notorious bad drop rate! Swoops are sparse, wander high in the air, and have about a 20% gizzard drop rate. Players report killing 30+ birds to get 8 gizzards. Huge waste of time for speedrunners.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Mazzranache</strong><br><small class="text-muted">Mulgore · Req Lvl 6</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.91</span></td>
+          <td>1.38</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Absolute trap quest. Requires hunting 4 distinct animal species scattered across the entire zone. Prairie Wolf paws and Swoop gizzards have abysmal drop rates. Takes 25-35 minutes of random wandering.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Demon-Scarred Cloak</strong><br><small class="text-muted">Mulgore · Req Lvl 8</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.90</span></td>
+          <td>1.78</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>The Prowler is a rare spawn that wanders an enormous patrol path across western Mulgore. 6-8 hour respawn timer. Finding him while leveling is pure lottery luck; never wait or search for him.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Raptor Horns</strong><br><small class="text-muted">The Barrens · Req Lvl 12</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.90</span></td>
+          <td>1.77</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Another infamous drop rate trap. Raptors call for help when low health, inflicting stacking bleeds. Intact horn drop rate is around 18-20%. Skip for speedrunning.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Miner's Fortune</strong><br><small class="text-muted">The Barrens · Req Lvl 16</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.87</span></td>
+          <td>2.48</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Massive travel distance. Located in the extreme southern edge of the Barrens (Bael Modan). Running there on foot at level 16 takes 10+ minutes one-way through level 24+ hostile mobs. Extreme speedrun time sink.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Serena Bloodfeather</strong><br><small class="text-muted">The Barrens · Req Lvl 15</small></td>
+          <td><span class="trap-score" style="color: #ef4444; font-weight: 700;">0.62</span></td>
+          <td>2.97</td>
+          <td><span class="badge-status status-pruned">PRUNED (TRAP)</span></td>
+          <td class="notes-col"><small>Level 20 harpy leader surrounded by 2 elite bodyguards on a wooden platform at the summit. Extremely difficult for solo players at level 15-16. Usually requires a group or kiting tactics.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Hezrul Bloodmark</strong><br><small class="text-muted">The Barrens · Req Lvl 16</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.54</span></td>
+          <td>2.98</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Level 21 elite centaur warlord flanked by 2 guards. For solo players under level 19, this is suicidal without high-level help or specific CC.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Supervisor Fizsprocket</strong><br><small class="text-muted">Mulgore · Req Lvl 9</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.44</span></td>
+          <td>1.98</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Located deep at the bottom of the twisting Venture Co mine cavern. Fast respawning mobs inside narrow tunnels. If you die, it's a 4-minute corpse run from Bloodhoof graveyard. Moderate solo danger.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Stagnant Oasis</strong><br><small class="text-muted">The Barrens · Req Lvl 12</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.43</span></td>
+          <td>1.35</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Same mechanic: swim to bottom of oasis pool and inspect fissure. Great when combined with Kolkar Centaur hunting.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Fungus Rock</strong><br><small class="text-muted">The Barrens · Req Lvl 15</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.37</span></td>
+          <td>1.46</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Fungus spores grow on the cave walls and surrounding rocks. Spiders in the cave poison and web. Moderately fast if you stay outside the cave.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Dwarven Digging</strong><br><small class="text-muted">Mulgore · Req Lvl 7</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.35</span></td>
+          <td>1.51</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Bael'dun excavation site in western Mulgore. The mining tools are on the ground near the machines. Some aggressive dwarf mobs.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Harpy Lieutenants</strong><br><small class="text-muted">The Barrens · Req Lvl 14</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.35</span></td>
+          <td>1.59</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Higher up in the hills. Windcallers cast lightning bolt and silence; casters need to interrupt. Fast kills for hunters and rogues.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>In Defense of Far Watch</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.34</span></td>
+          <td>0.63</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Scouts are along the road east of Crossroads towards Durotar border. Low health, zero drop RNG, quick clear.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Barrens Ountpost</strong><br><small class="text-muted">Mulgore · Req Lvl 10</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.32</span></td>
+          <td>1.15</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Zone transition quest! Take the flight path from Thunder Bluff or run through the east pass into The Barrens. Delivers you straight to the Crossroads.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Rite of Vision</strong><br><small class="text-muted">Mulgore · Req Lvl 7</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.31</span></td>
+          <td>0.02</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Drink the potion next to the cauldron, wait for wolf to spawn, follow him to the cave entrance just north of town. Auto-walks, zero combat, easy XP.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Verog the Dervish</strong><br><small class="text-muted">The Barrens · Req Lvl 15</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.28</span></td>
+          <td>1.70</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Wave summon event. Kill ~10 centaurs until a horn sounds and Verog spawns from a tent. He hits reasonably hard. High XP reward.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Samophlange</strong><br><small class="text-muted">The Barrens · Req Lvl 14</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.26</span></td>
+          <td>1.31</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Sludge Fen engineering hub. Click 3 valves in sequence (Shutoff valve 1, 2, 3), fight off 1 mechanical guardian, loot the control manual. Big XP.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Rite of Wisdom</strong><br><small class="text-muted">Mulgore · Req Lvl 8</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.25</span></td>
+          <td>0.44</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Red Rocks is east of Bloodhoof. Click the stone marker, then head directly north up the elevator into Thunder Bluff to turn in to Cairne Bloodhoof. Essential milestone quest.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Preparing for the Journey</strong><br><small class="text-muted">Mulgore · Req Lvl 9</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.24</span></td>
+          <td>0.38</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Herbs can be picked by herbalists or bought directly from vendors / auction house. Easy turn-in if you have them ready.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Southsea Freebooters</strong><br><small class="text-muted">The Barrens · Req Lvl 13</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.23</span></td>
+          <td>1.17</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Pirate camps right along Merchant Coast. Packed with humanoids who drop cloth, silver, and easy kill credits.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Forgotten Pools</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.22</span></td>
+          <td>0.87</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Just dive to the bottom of the oasis bubble pool. Click the glowing bubble vent. Takes 45 seconds once at the oasis. Fantastic speedrun pickup.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Stolen Silver</strong><br><small class="text-muted">The Barrens · Req Lvl 14</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.22</span></td>
+          <td>0.73</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Lockbox sits inside a nest mound near the raptors. You can mount/run past or pull 1 mob, click chest, and leave.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Break Sharptusk!</strong><br><small class="text-muted">Mulgore · Req Lvl 4</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.21</span></td>
+          <td>1.72</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Deep inside the dirt mound hut at the south end of Red Cloud Mesa. Has 2 bodyguards; pull carefully or burst down. Huge XP chunk.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Sharing the Land</strong><br><small class="text-muted">Mulgore · Req Lvl 6</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.19</span></td>
+          <td>1.22</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Gnolls are just west of Bloodhoof Village along the lake shore. Dense spawns, fast respawns, 100% kill count.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Ravaged Caravan</strong><br><small class="text-muted">Mulgore · Req Lvl 7</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.17</span></td>
+          <td>0.13</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Just click the wrecked wagon crates. Directly on the path toward Thunder Bluff and Venture Co. Fast, zero combat needed.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Venture Co.</strong><br><small class="text-muted">Mulgore · Req Lvl 8</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.16</span></td>
+          <td>1.27</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Venture Co. mine is east of Thunder Bluff. Very high mob density outside the mine entrance. Super fast kill grinding.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Winterhoof Cleansing</strong><br><small class="text-muted">Mulgore · Req Lvl 6</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.15</span></td>
+          <td>0.24</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>The well is just southeast of Bloodhoof Village. Surrounded by a few gnolls you can easily bypass. Click totem at well, done in 90 seconds.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Crossroads Conscription</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.15</span></td>
+          <td>0.18</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Instant dialogue turn-in inside Crossroads. Grabs flight path and sets your hearthstone here.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Tribes at War</strong><br><small class="text-muted">The Barrens · Req Lvl 14</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.15</span></td>
+          <td>1.27</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Straightforward combat quest in the mid-Barrens. High centaur spawn density, minimal running.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Rites of the Earthmother (Part 1)</strong><br><small class="text-muted">Mulgore · Req Lvl 5</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.14</span></td>
+          <td>0.09</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Transition quest. You walk down the path out of Red Cloud Mesa directly into Bloodhoof Village. Free XP on arrival.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Dangers of the Windfury</strong><br><small class="text-muted">Mulgore · Req Lvl 7</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.12</span></td>
+          <td>1.28</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Harpies at the Windfury Ridge northeast of Bloodhoof. Drop rate is roughly 65-70%. Harpies flee at low HP, pull carefully.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Altered Beasts</strong><br><small class="text-muted">The Barrens · Req Lvl 13</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.12</span></td>
+          <td>1.10</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Turtles have high armor and shell shield, but drop rate is ~80%. Right along the banks of the oasis.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Hunt Begins</strong><br><small class="text-muted">Mulgore · Req Lvl 1</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.10</span></td>
+          <td>0.04</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Plainstriders are everywhere within 50 yards of the camp. They are neutral and die in 2-3 hits. 100% completion in 2 minutes.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Disrupt the Attacks</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.10</span></td>
+          <td>0.97</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Quillboar camps north and west of Crossroads. Excellent mob density, predictable spawns, 100% kill credit without drop RNG.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Harpy Raiders</strong><br><small class="text-muted">The Barrens · Req Lvl 13</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.10</span></td>
+          <td>0.95</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Harpies at Dry Hills northwest corner. Good pack density, drop rate ~70%. Easy chain with Harpy Lieutenants.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Centaur Bracers</strong><br><small class="text-muted">The Barrens · Req Lvl 13</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.10</span></td>
+          <td>1.11</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Kolkar camps near Forgotten Pools. Every centaur drops 1-2 bracers. You finish in 10-12 kills. Excellent XP efficiency.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Hunt Continues</strong><br><small class="text-muted">Mulgore · Req Lvl 2</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.09</span></td>
+          <td>0.80</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Cougars are located slightly south and east along the mesa foothills. Drop rate is roughly 80%. Very easy to bundle with Boars.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>The Battleboars</strong><br><small class="text-muted">Mulgore · Req Lvl 2</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.09</span></td>
+          <td>1.10</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Battleboars roam in the same clearing as the Mountain Cougars. High drop rate (around 85%), excellent XP density when done together.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Thunderhorn Totem</strong><br><small class="text-muted">Mulgore · Req Lvl 7</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.09</span></td>
+          <td>0.99</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Northwest of Bloodhoof. High density of Prairie Stalkers and Flatland Cougars. Drop rates are ~75%. Pairs great with Wildmane Cleansing.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>A Simple Note (Class Starter)</strong><br><small class="text-muted">Mulgore · Req Lvl 1</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.08</span></td>
+          <td>0.01</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Instant free XP right inside the starter camp. Also unlocks your first spell/ability.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Attack on Camp Narache</strong><br><small class="text-muted">Mulgore · Req Lvl 3</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.08</span></td>
+          <td>0.86</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Bristleback camp to the south. Mobs are aggressive level 3-4 quillboars. Drop rate is ~75%. Quick pull loops.</small></td>
+        </tr>
+        
+        <tr>
+          <td><strong>Plainstrider Menace</strong><br><small class="text-muted">The Barrens · Req Lvl 11</small></td>
+          <td><span class="trap-score" style="color: #22c55e; font-weight: 700;">0.07</span></td>
+          <td>0.28</td>
+          <td><span class="badge-status status-approved">APPROVED ROUTE</span></td>
+          <td class="notes-col"><small>Plainstriders roam right outside the north gate of Crossroads. Very high drop rate (~85%), low mob HP. Fast XP burst.</small></td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Step-by-Step Route Timeline -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Optimized Level 1-20 Step-by-Step Itinerary</h2>
+        <span class="text-muted" style="font-size: 12px;">Generated via Clustered Lookahead TSP</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Action</th>
+            <th>Location / Target</th>
+            <th>Zone</th>
+            <th>Coords</th>
+            <th>XP Gain</th>
+            <th>Level</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        <tr class="timeline-row">
+          <td class="text-muted">#1</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Hunt Begins</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 1</strong></td>
+          <td class="text-mono">0.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#2</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Hunt Begins</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.0, 78.5)</td>
+          <td class="text-accent">+350 XP</td>
+          <td><strong>Lvl 1</strong></td>
+          <td class="text-mono">3.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#3</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Hunt Begins</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+520 XP</td>
+          <td><strong>Lvl 2</strong></td>
+          <td class="text-mono">3.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#4</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Battleboars</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.5, 76.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 2</strong></td>
+          <td class="text-mono">3.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#5</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Battleboars</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.5, 78.0)</td>
+          <td class="text-accent">+400 XP</td>
+          <td><strong>Lvl 2</strong></td>
+          <td class="text-mono">8.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#6</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Battleboars</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.5, 76.0)</td>
+          <td class="text-accent">+850 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">8.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#7</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Attack on Camp Narache</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">8.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#8</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Attack on Camp Narache</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(42.0, 82.0)</td>
+          <td class="text-accent">+720 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">14.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#9</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Attack on Camp Narache</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+1,170 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">14.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#10</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Hunt Continues</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 0.8
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">14.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#11</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Hunt Continues</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 0.8
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.0, 80.0)</td>
+          <td class="text-accent">+450 XP</td>
+          <td><strong>Lvl 3</strong></td>
+          <td class="text-mono">19.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#12</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Hunt Continues</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 0.8
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+700 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">19.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#13</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Break Sharptusk!</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.21 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">19.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#14</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Break Sharptusk!</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.21 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(41.5, 84.0)</td>
+          <td class="text-accent">+300 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">24.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#15</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Break Sharptusk!</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.21 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+975 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">25.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#16</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>A Simple Note (Class Starter)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">25.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#17</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>A Simple Note (Class Starter)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.5, 76.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">26.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#18</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>A Simple Note (Class Starter)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.08 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.5, 76.5)</td>
+          <td class="text-accent">+40 XP</td>
+          <td><strong>Lvl 4</strong></td>
+          <td class="text-mono">26.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#19</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.5, 76.5)</td>
+          <td class="text-accent">+545 XP</td>
+          <td><strong>Lvl 5</strong></td>
+          <td class="text-mono">26.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#20</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Rites of the Earthmother (Part 1)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.14 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.2, 77.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 5</strong></td>
+          <td class="text-mono">26.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#21</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Rites of the Earthmother (Part 1)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.14 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 5</strong></td>
+          <td class="text-mono">29.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#22</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Rites of the Earthmother (Part 1)</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.14 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+380 XP</td>
+          <td><strong>Lvl 5</strong></td>
+          <td class="text-mono">29.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#23</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+2,420 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">29.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#24</td>
+          <td><span class="badge-action" style="background: #a855f722; color: #a855f7; border: 1px solid #a855f755;">HEARTH_BIND</span></td>
+          <td><strong>Set Hearthstone</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(48.5, 60.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">29.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#25</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Winterhoof Cleansing</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(48.5, 60.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">29.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#26</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Winterhoof Cleansing</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(53.5, 64.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">31.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#27</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Winterhoof Cleansing</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(48.5, 60.5)</td>
+          <td class="text-accent">+775 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">32.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#28</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Sharing the Land</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.19 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">32.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#29</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Sharing the Land</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.19 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(44.0, 62.0)</td>
+          <td class="text-accent">+800 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">37.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#30</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Sharing the Land</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.19 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+1,475 XP</td>
+          <td><strong>Lvl 6</strong></td>
+          <td class="text-mono">38.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#31</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+1,350 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">38.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#32</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Rite of Vision</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.31 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 57.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">38.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#33</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Rite of Vision</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.31 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 57.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">39.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#34</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Rite of Vision</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.31 | Fric: 0.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 57.0)</td>
+          <td class="text-accent">+775 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">39.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#35</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Thunderhorn Totem</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(48.5, 60.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">39.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#36</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Thunderhorn Totem</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.0, 52.0)</td>
+          <td class="text-accent">+1,080 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">45.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#37</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Thunderhorn Totem</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.09 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(48.5, 60.5)</td>
+          <td class="text-accent">+1,855 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">46.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#38</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Dangers of the Windfury</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.0, 62.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">46.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#39</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Dangers of the Windfury</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(54.0, 52.0)</td>
+          <td class="text-accent">+720 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">52.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#40</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Dangers of the Windfury</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.0, 62.0)</td>
+          <td class="text-accent">+1,395 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">53.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#41</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Dwarven Digging</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">53.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#42</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Dwarven Digging</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(31.5, 50.0)</td>
+          <td class="text-accent">+475 XP</td>
+          <td><strong>Lvl 7</strong></td>
+          <td class="text-mono">60.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#43</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Dwarven Digging</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 60.0)</td>
+          <td class="text-accent">+1,150 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">61.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#44</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Venture Co.</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.16 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 52.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">63.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#45</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Venture Co.</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.16 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(63.0, 43.0)</td>
+          <td class="text-accent">+1,400 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">69.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#46</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Venture Co.</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.16 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 52.0)</td>
+          <td class="text-accent">+2,450 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">70.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#47</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Rite of Wisdom</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.25 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(47.5, 57.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">71.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#48</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Rite of Wisdom</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.25 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 68.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">75.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#49</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Rite of Wisdom</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.25 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 51.5)</td>
+          <td class="text-accent">+875 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">76.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#50</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Ravaged Caravan</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.17 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.8, 60.2)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">78.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#51</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Ravaged Caravan</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.17 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(53.5, 48.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">80.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#52</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Ravaged Caravan</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.17 | Fric: 0.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.8, 60.2)</td>
+          <td class="text-accent">+450 XP</td>
+          <td><strong>Lvl 8</strong></td>
+          <td class="text-mono">81.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#53</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(46.8, 60.2)</td>
+          <td class="text-accent">+950 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">81.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#54</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Supervisor Fizsprocket</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.44 | Fric: 2.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 52.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">83.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#55</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Supervisor Fizsprocket</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.44 | Fric: 2.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(64.5, 42.0)</td>
+          <td class="text-accent">+660 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">89.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#56</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Supervisor Fizsprocket</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.44 | Fric: 2.0
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 52.0)</td>
+          <td class="text-accent">+1,810 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">90.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#57</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Preparing for the Journey</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.24 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(78.0, 28.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">93.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#58</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Preparing for the Journey</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.24 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(55.0, 35.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">97.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#59</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Preparing for the Journey</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.24 | Fric: 0.4
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(78.0, 28.0)</td>
+          <td class="text-accent">+675 XP</td>
+          <td><strong>Lvl 9</strong></td>
+          <td class="text-mono">99.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#60</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(78.0, 28.0)</td>
+          <td class="text-accent">+4,015 XP</td>
+          <td><strong>Lvl 10</strong></td>
+          <td class="text-mono">99.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#61</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Barrens Ountpost</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.32 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(60.0, 52.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 10</strong></td>
+          <td class="text-mono">102.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#62</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Barrens Ountpost</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.32 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(52.0, 30.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 10</strong></td>
+          <td class="text-mono">107.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#63</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Barrens Ountpost</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.32 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(52.0, 30.0)</td>
+          <td class="text-accent">+550 XP</td>
+          <td><strong>Lvl 10</strong></td>
+          <td class="text-mono">107.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#64</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">Mulgore</span></td>
+          <td class="text-mono">(52.0, 30.0)</td>
+          <td class="text-accent">+7,050 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">108.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#65</td>
+          <td><span class="badge-action" style="background: #a855f722; color: #a855f7; border: 1px solid #a855f755;">HEARTH_BIND</span></td>
+          <td><strong>Set Hearthstone</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">110.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#66</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Plainstrider Menace</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.07 | Fric: 0.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">110.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#67</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Plainstrider Menace</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.07 | Fric: 0.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(54.0, 28.0)</td>
+          <td class="text-accent">+990 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">114.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#68</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Plainstrider Menace</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.07 | Fric: 0.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.0)</td>
+          <td class="text-accent">+1,865 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">115.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#69</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Crossroads Conscription</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">115.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#70</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Crossroads Conscription</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">116.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#71</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Crossroads Conscription</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 0.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+450 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">116.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#72</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Disrupt the Attacks</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">116.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#73</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Disrupt the Attacks</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(49.0, 25.0)</td>
+          <td class="text-accent">+1,920 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">123.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#74</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Disrupt the Attacks</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+2,970 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">124.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#75</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>In Defense of Far Watch</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.34 | Fric: 0.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">124.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#76</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>In Defense of Far Watch</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.34 | Fric: 0.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(59.0, 24.0)</td>
+          <td class="text-accent">+1,150 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">130.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#77</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>In Defense of Far Watch</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.34 | Fric: 0.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(51.5, 30.5)</td>
+          <td class="text-accent">+2,100 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">131.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#78</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Forgotten Pools</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">132.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#79</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Forgotten Pools</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.0, 22.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">136.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#80</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Forgotten Pools</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+875 XP</td>
+          <td><strong>Lvl 11</strong></td>
+          <td class="text-mono">138.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#81</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+440 XP</td>
+          <td><strong>Lvl 12</strong></td>
+          <td class="text-mono">138.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#82</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Stagnant Oasis</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.43 | Fric: 1.4
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 12</strong></td>
+          <td class="text-mono">138.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#83</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Stagnant Oasis</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.43 | Fric: 1.4
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(55.5, 42.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 12</strong></td>
+          <td class="text-mono">142.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#84</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Stagnant Oasis</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.43 | Fric: 1.4
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+950 XP</td>
+          <td><strong>Lvl 12</strong></td>
+          <td class="text-mono">144.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#85</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+8,850 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">145.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#86</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Centaur Bracers</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">146.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#87</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Centaur Bracers</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(43.0, 24.0)</td>
+          <td class="text-accent">+2,700 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">154.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#88</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Centaur Bracers</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+3,850 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">155.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#89</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Altered Beasts</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">156.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#90</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Altered Beasts</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(55.0, 41.0)</td>
+          <td class="text-accent">+1,400 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">162.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#91</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Altered Beasts</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.12 | Fric: 1.1
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+2,450 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">164.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#92</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Southsea Freebooters</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.23 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(62.5, 36.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">165.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#93</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Southsea Freebooters</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.23 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(63.5, 48.0)</td>
+          <td class="text-accent">+1,920 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">173.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#94</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Southsea Freebooters</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.23 | Fric: 1.2
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(62.5, 36.0)</td>
+          <td class="text-accent">+3,070 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">174.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#95</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Harpy Raiders</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">176.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#96</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Harpy Raiders</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(38.0, 16.0)</td>
+          <td class="text-accent">+1,800 XP</td>
+          <td><strong>Lvl 13</strong></td>
+          <td class="text-mono">184.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#97</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Harpy Raiders</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.10 | Fric: 0.9
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+2,950 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">188.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#98</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Tribes at War</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">189.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#99</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Tribes at War</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(44.0, 36.0)</td>
+          <td class="text-accent">+2,380 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">196.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#100</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Tribes at War</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.15 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+3,730 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">197.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#101</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Harpy Lieutenants</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">198.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#102</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Harpy Lieutenants</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(38.0, 15.0)</td>
+          <td class="text-accent">+1,700 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">207.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#103</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Harpy Lieutenants</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.35 | Fric: 1.6
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+3,050 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">211.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#104</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Samophlange</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.26 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(62.0, 37.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">212.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#105</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Samophlange</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.26 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(56.0, 8.0)</td>
+          <td class="text-accent">+680 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">221.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#106</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Samophlange</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.26 | Fric: 1.3
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(62.0, 37.0)</td>
+          <td class="text-accent">+2,030 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">225.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#107</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>The Stolen Silver</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">227.6m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#108</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>The Stolen Silver</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(58.0, 54.0)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">233.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#109</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>The Stolen Silver</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.22 | Fric: 0.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+1,250 XP</td>
+          <td><strong>Lvl 14</strong></td>
+          <td class="text-mono">236.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#110</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.0, 31.5)</td>
+          <td class="text-accent">+920 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">237.0m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#111</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Verog the Dervish</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.28 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">238.1m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#112</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Verog the Dervish</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.28 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(44.0, 38.0)</td>
+          <td class="text-accent">+1,600 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">244.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#113</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Verog the Dervish</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.28 | Fric: 1.7
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+3,150 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">246.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#114</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Fungus Rock</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.37 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">247.5m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#115</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Fungus Rock</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.37 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(53.0, 44.0)</td>
+          <td class="text-accent">+1,800 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">254.8m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#116</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Fungus Rock</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.37 | Fric: 1.5
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+3,050 XP</td>
+          <td><strong>Lvl 15</strong></td>
+          <td class="text-mono">256.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#117</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(52.2, 31.8)</td>
+          <td class="text-accent">+7,400 XP</td>
+          <td><strong>Lvl 16</strong></td>
+          <td class="text-mono">257.7m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#118</td>
+          <td><span class="badge-action" style="background: #3b82f622; color: #3b82f6; border: 1px solid #3b82f655;">PICKUP</span></td>
+          <td><strong>Hezrul Bloodmark</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.54 | Fric: 3.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+0 XP</td>
+          <td><strong>Lvl 16</strong></td>
+          <td class="text-mono">258.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#119</td>
+          <td><span class="badge-action" style="background: #eab30822; color: #eab308; border: 1px solid #eab30855;">OBJECTIVE</span></td>
+          <td><strong>Hezrul Bloodmark</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.54 | Fric: 3.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(46.0, 42.0)</td>
+          <td class="text-accent">+880 XP</td>
+          <td><strong>Lvl 16</strong></td>
+          <td class="text-mono">267.3m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#120</td>
+          <td><span class="badge-action" style="background: #22c55e22; color: #22c55e; border: 1px solid #22c55e55;">TURNIN</span></td>
+          <td><strong>Hezrul Bloodmark</strong> 
+            <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+              Jev Trap: 0.54 | Fric: 3.0
+            </span>
+            </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+2,530 XP</td>
+          <td><strong>Lvl 16</strong></td>
+          <td class="text-mono">269.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#121</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+12,470 XP</td>
+          <td><strong>Lvl 17</strong></td>
+          <td class="text-mono">271.2m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#122</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+16,400 XP</td>
+          <td><strong>Lvl 18</strong></td>
+          <td class="text-mono">273.4m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#123</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+17,900 XP</td>
+          <td><strong>Lvl 19</strong></td>
+          <td class="text-mono">275.9m</td>
+        </tr>
+        
+        <tr class="timeline-row">
+          <td class="text-muted">#124</td>
+          <td><span class="badge-action" style="background: #f9731622; color: #f97316; border: 1px solid #f9731655;">GRIND</span></td>
+          <td><strong>Mob Grinding (Grind Gap)</strong> </td>
+          <td><span class="zone-tag">The Barrens</span></td>
+          <td class="text-mono">(45.5, 28.5)</td>
+          <td class="text-accent">+19,500 XP</td>
+          <td><strong>Lvl 20</strong></td>
+          <td class="text-mono">278.6m</td>
+        </tr>
+        
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

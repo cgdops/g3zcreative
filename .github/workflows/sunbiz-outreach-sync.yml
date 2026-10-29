@@ -1,0 +1,46 @@
+name: Daily Sunbiz South Florida Outreach Sync
+
+on:
+  schedule:
+    # Runs every weekday morning at 12:30 UTC (8:30 AM EDT) after Sunbiz posts daily filings
+    - cron: '30 12 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      filing_date:
+        description: 'Optional YYYYMMDD date to sync (leave blank for latest weekday)'
+        required: false
+        default: ''
+
+jobs:
+  sync-sunbiz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install sshpass for Sunbiz Public SFTP
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Sunbiz SFTP Sync & Smart Enrichment into Cloudflare D1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DATAFORSEO_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
+          DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+          ENRICHMENT_API_KEY: ${{ secrets.ENRICHMENT_API_KEY }}
+          APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+          PDL_API_KEY: ${{ secrets.PDL_API_KEY }}
+        run: |
+          if [ -n "${{ github.event.inputs.filing_date }}" ]; then
+            npm run sync:sunbiz -- --date=${{ github.event.inputs.filing_date }}
+          else
+            npm run sync:sunbiz
+          fi
