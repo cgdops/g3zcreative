@@ -194,9 +194,12 @@ export async function onRequestPost(context) {
 
     await env.DB.prepare(`
       UPDATE outreach_candidates
-      SET email = COALESCE(?, email),
+      SET founder_name = COALESCE(?, founder_name),
+          founder_first_name = COALESCE(?, founder_first_name),
+          founder_last_name = COALESCE(?, founder_last_name),
+          email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
           phone = COALESCE(?, phone),
-          website = COALESCE(?, website),
+          website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
           enrichment_status = ?,
           enrichment_source = ?,
           enrichment_confidence = ?,
@@ -205,6 +208,9 @@ export async function onRequestPost(context) {
           updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `).bind(
+      enr.resolvedFounder?.fullName || null,
+      enr.resolvedFounder?.firstName || null,
+      enr.resolvedFounder?.lastName || null,
       enr.email, enr.phone, enr.website,
       enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
       candidateId

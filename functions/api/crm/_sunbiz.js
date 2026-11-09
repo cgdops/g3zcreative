@@ -9,7 +9,7 @@
  * 5. CRO Outreach Email Templates ("Free Custom Homepage Mockup + GBP No-Suspension Checklist")
  */
 
-import { enrichLead, normalizeDomain, splitName } from './_enrich.js';
+import { enrichLead, isValidCompanyDomain, normalizeDomain, splitName } from './_enrich.js';
 
 // ---------------------------------------------------------------------------
 // 1. South Florida Target Cities (Synchronized with data/cities.json)
@@ -472,6 +472,7 @@ export function parseSunbizFixedWidthLine(line) {
   // Registered Agent Name (545, len 42) => slice(544, 586), RA Type (587, len 1) => slice(586, 587)
   // RA Address (588, len 42) => slice(587, 629), RA City (630, len 28) => slice(629, 657)
   const registeredAgent = toTitleCase(line.slice(544, 586).trim());
+  const raType = line.slice(586, 587).trim().toUpperCase(); // 'P' = Person, 'C' = Corporation
   const raCity = line.slice(629, 657).trim();
   const raState = line.slice(657, 659).trim();
   const raZip = line.slice(659, 668).trim();
@@ -501,29 +502,45 @@ export function parseSunbizFixedWidthLine(line) {
     });
   }
 
-  // Fallback to Registered Agent if it looks like an individual human (not a corporate agent mill)
+  // Fallback to Registered Agent if it is an individual person (not a corporate/law-firm RA)
+  const nonHumanRaPattern = /\b(LLC|L\.L\.C|INC|CORP|CORPORATION|COMPANY|PA|P\.A|PLLC|P\.L\.L\.C|LLP|L\.L\.P|PL|P\.L|LP|L\.P|LAW GROUP|LAW FIRM|ATTORNEYS|ASSOCIATES|ACCOUNTING|CPA|TRUST|SERVICES|SOLUTIONS|MANAGEMENT|AGENCY)\b/i;
   let primaryFounder = officers[0] || null;
-  if (!primaryFounder && registeredAgent && !CORPORATE_AGENT_PATTERNS.test(registeredAgent) && !/\b(LLC|INC|CORP|PA|PLLC)\b/i.test(registeredAgent)) {
-    let formattedRa = registeredAgent;
-    if (formattedRa.includes(',')) {
-      const [last, first] = formattedRa.split(',').map(s => s.trim());
-      formattedRa = [first, last].filter(Boolean).join(' ');
-    } else {
-      // Sunbiz 42-char RA Name is also often fixed-width: Last (20 chars) + First (14 chars) + Middle (8 chars)
-      const raLast = line.slice(544, 564).trim();
-      const raFirst = line.slice(564, 578).trim();
-      if (raLast && raFirst && !raLast.includes(' ')) {
-        formattedRa = `${raFirst} ${raLast}`;
-      }
-    }
-    const split = splitName(formattedRa);
-    if (split.ok) {
+  if (
+    !primaryFounder &&
+    raType !== 'C' &&
+    registeredAgent &&
+    !CORPORATE_AGENT_PATTERNS.test(registeredAgent) &&
+    !nonHumanRaPattern.test(registeredAgent)
+  ) {
+    const rawRaLastField = line.slice(544, 564);
+    const raLast = rawRaLastField.trim();
+    const raFirst = line.slice(564, 578).trim();
+    const raMiddle = line.slice(578, 586).trim();
+    // Sunbiz 42-char RA Name is fixed-width (Last 20 + First 14 + Middle 8) when 544..564 has trailing column padding
+    const isFixedWidthRa = Boolean(raLast && raFirst && /\s{2,}$/.test(rawRaLastField));
+
+    if (isFixedWidthRa) {
       primaryFounder = {
         title: 'RA / Founder',
-        firstName: toTitleCase(split.firstName),
-        lastName: toTitleCase(split.lastName),
-        fullName: toTitleCase(formattedRa)
+        firstName: toTitleCase(raFirst.split(/\s+/)[0]),
+        lastName: toTitleCase(raLast),
+        fullName: toTitleCase([raFirst, raMiddle, raLast].filter(Boolean).join(' '))
       };
+    } else {
+      let formattedRa = registeredAgent;
+      if (formattedRa.includes(',')) {
+        const [last, first] = formattedRa.split(',').map(s => s.trim());
+        formattedRa = [first, last].filter(Boolean).join(' ');
+      }
+      const split = splitName(formattedRa);
+      if (split.ok) {
+        primaryFounder = {
+          title: 'RA / Founder',
+          firstName: toTitleCase(split.firstName),
+          lastName: toTitleCase(split.lastName),
+          fullName: toTitleCase(formattedRa)
+        };
+      }
     }
   }
 
@@ -588,7 +605,8 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
 
   const email = String(raw.email || '').trim().toLowerCase() || null;
   const phone = String(raw.phone || '').trim() || null;
-  const website = normalizeDomain(raw.website || raw.company_domain || '') || null;
+  const rawWebsite = normalizeDomain(raw.website || raw.company_domain || '');
+  const website = isValidCompanyDomain(rawWebsite) ? rawWebsite : null;
 
   let enrichmentStatus = raw.enrichment_status || 'unattempted';
   if (email && phone) enrichmentStatus = 'found';
@@ -770,53 +788,179 @@ export async function verifyEmailDomainDns(emailOrDomain) {
   }
 }
 
+const GENERIC_BUSINESS_STOPWORDS = new Set([
+  'llc', 'inc', 'corp', 'corporation', 'company', 'co', 'group', 'services', 'service',
+  'solutions', 'enterprises', 'enterprise', 'management', 'holdings', 'holding', 'partners',
+  'associates', 'consulting', 'consultants', 'florida', 'south', 'north', 'east', 'west',
+  'central', 'coastal', 'miami', 'broward', 'palm', 'beach', 'fort', 'lauderdale', 'weston',
+  'doral', 'hollywood', 'pompano', 'davie', 'miramar', 'pembroke', 'pines', 'coral', 'springs',
+  'gables', 'plantation', 'sunrise', 'boca', 'raton', 'delray', 'aventura', 'hialeah', 'kendall',
+  'homestead', 'tamarac', 'margate', 'deerfield', 'hallandale', 'dania', 'parkland', 'coconut',
+  'creek', 'lauderhill', 'oakland', 'wilton', 'manors', 'sweetwater', 'gardens', 'lakes', 'isles',
+  'the', 'and', 'for', 'with', 'from', 'center', 'care', 'pro', 'pros', 'all', 'best', 'prime',
+  'elite', 'premier', 'first', 'new', 'usa', 'america', 'american', 'global', 'national', 'local'
+]);
+
+function extractBusinessKeywords(businessNameClean) {
+  const words = String(businessNameClean || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length >= 3 && !GENERIC_BUSINESS_STOPWORDS.has(w));
+  return words;
+}
+
+function doesOrgMatchCandidate(orgNameInput, businessNameClean) {
+  const orgLower = String(orgNameInput || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim();
+  const candLower = String(businessNameClean || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').trim();
+  if (!orgLower || !candLower) return false;
+  if (orgLower.includes(candLower) || candLower.includes(orgLower)) return true;
+
+  const keywords = extractBusinessKeywords(businessNameClean);
+  if (keywords.length === 0) return false;
+
+  const brandWord = keywords[0];
+  const matchedKeywords = keywords.filter(w => w.length >= 4 && orgLower.includes(w));
+
+  // Match if the primary distinctive brand word (>=3 chars as whole word or >=4 chars substring) is in the org name,
+  // or if at least 2 distinctive keywords match (e.g. "windows" + "doors").
+  if (brandWord && brandWord.length >= 4 && orgLower.includes(brandWord)) return true;
+  if (brandWord && brandWord.length === 3 && new RegExp(`\\b${brandWord}\\b`, 'i').test(orgLower)) return true;
+  if (matchedKeywords.length >= 2) return true;
+  return false;
+}
+
+/**
+ * Fix legacy or inverted fixed-width RA names (e.g. "Novo Martinez Gabriela" -> first: "Gabriela", last: "Novo Martinez")
+ */
+export function resolveFounderNameParts(candidate) {
+  let firstName = String(candidate.founder_first_name || '').trim();
+  let lastName = String(candidate.founder_last_name || '').trim();
+  let fullName = String(candidate.founder_name || '').trim();
+
+  // Detect unflipped 3+ word RA names where first + last skipped middle tokens (e.g. "Novo Martinez Gabriela" with first="Novo", last="Gabriela")
+  const tokens = fullName.split(/\s+/).filter(Boolean);
+  if (
+    tokens.length >= 3 &&
+    String(candidate.founder_title || '').includes('RA') &&
+    firstName === tokens[0] &&
+    lastName === tokens[tokens.length - 1]
+  ) {
+    firstName = tokens[tokens.length - 1];
+    lastName = tokens.slice(0, tokens.length - 1).join(' ');
+    fullName = `${firstName} ${lastName}`;
+  } else if (!firstName || !lastName) {
+    const split = splitName(fullName);
+    if (split.ok) {
+      firstName = firstName || split.firstName;
+      lastName = lastName || split.lastName;
+    }
+  }
+
+  return { firstName, lastName, fullName };
+}
+
 export async function enrichOutreachCandidate(candidate, env) {
-  let email = candidate.email || null;
+  let email = (candidate.email && !/@google\.com$/i.test(candidate.email)) ? candidate.email : null;
   let phone = candidate.phone || null;
-  let website = normalizeDomain(candidate.website || '');
+  const initialDomain = normalizeDomain(candidate.website || '');
+  let website = isValidCompanyDomain(initialDomain) ? initialDomain : '';
   let confidence = candidate.enrichment_confidence || null;
   let source = candidate.enrichment_source || null;
+
+  const resolvedNames = resolveFounderNameParts(candidate);
+  const effectiveCandidate = {
+    ...candidate,
+    founder_name: resolvedNames.fullName,
+    founder_first_name: resolvedNames.firstName,
+    founder_last_name: resolvedNames.lastName
+  };
+
+  // Pre-populate calibrated county/niche search volume immediately without a blocking live API call
+  const calibratedMeta = getNicheOutreachMeta(effectiveCandidate.niche, effectiveCandidate.county);
   const meta = {
     attempts: [],
     linkedin_url: null,
-    job_title: candidate.founder_title || 'Founder',
-    verification: null
+    job_title: effectiveCandidate.founder_title || 'Founder',
+    verification: null,
+    live_search_volume: calibratedMeta.searchersCount
   };
 
-  // Stage 1: DataForSEO SERP / Maps Lookup + Local Search Volume (if configured)
+  // Stage 1: DataForSEO Organic SERP Lookup (resolves verified company website + phone)
   if (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD) {
     try {
       if (!website || !phone) {
-        const dfs = await lookupViaDataForSeo(candidate, env);
+        const dfs = await lookupViaDataForSeo(effectiveCandidate, env);
         meta.attempts.push({ provider: 'dataforseo_serp', foundWebsite: dfs.website, foundPhone: dfs.phone });
         if (dfs.website && !website) website = dfs.website;
         if (dfs.phone && !phone) {
           phone = dfs.phone;
           source = source || 'dataforseo';
         }
-      }
-      if (!env.SKIP_LIVE_VOLUME_IN_BULK) {
-        const vol = await lookupSearchDemandViaDataForSeo(candidate, env);
-        if (vol > 0) {
-          meta.live_search_volume = vol;
+        if (dfs.linkedinUrl && !meta.linkedin_url) {
+          meta.linkedin_url = dfs.linkedinUrl;
         }
+      }
+      if (env.FORCE_LIVE_VOLUME === true) {
+        const vol = await lookupSearchDemandViaDataForSeo(effectiveCandidate, env);
+        if (vol > 0) meta.live_search_volume = vol;
       }
     } catch (err) {
       meta.attempts.push({ provider: 'dataforseo', error: err.message });
     }
   }
 
-  // Stage 2: Hunter.io Domain + Email Finder (if ENRICHMENT_API_KEY is configured)
+  // Stage 2: People Data Labs Person Enrich (runs BEFORE Hunter & Apollo so PDL's LinkedIn URL / company website can bridge into Apollo & Hunter)
+  let pdlHints = null;
+  const pdlKey = env.PDL_API_KEY || env.PDL_API;
+  if ((!email || !phone) && pdlKey) {
+    try {
+      const pdlRes = await lookupViaPdl(effectiveCandidate, pdlKey);
+      pdlHints = pdlRes;
+      meta.attempts.push({
+        provider: 'pdl',
+        status: pdlRes.found ? 'found' : (pdlRes.personMatched ? 'matched_masked_on_free_tier' : 'not_found'),
+        matchedCompany: pdlRes.jobCompanyName || null,
+        matchedDomain: pdlRes.jobCompanyWebsite || null
+      });
+      if (pdlRes.email && !email) {
+        email = pdlRes.email;
+        confidence = pdlRes.likelihood ? pdlRes.likelihood * 10 : 85;
+        source = 'pdl';
+      }
+      if (pdlRes.phone && !phone) {
+        phone = pdlRes.phone;
+        source = source || 'pdl';
+      }
+      if (pdlRes.linkedinUrl) meta.linkedin_url = pdlRes.linkedinUrl;
+      if (
+        pdlRes.jobCompanyWebsite &&
+        !website &&
+        isValidCompanyDomain(pdlRes.jobCompanyWebsite) &&
+        doesOrgMatchCandidate(pdlRes.jobCompanyName, effectiveCandidate.business_name_clean)
+      ) {
+        website = normalizeDomain(pdlRes.jobCompanyWebsite);
+      }
+    } catch (err) {
+      meta.attempts.push({ provider: 'pdl', error: err.message });
+    }
+  }
+
+  // Stage 3: Hunter.io Domain + Email Finder (if ENRICHMENT_API_KEY / HUNTER_API_KEY is configured)
   const hunterKey = env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API;
   if (!email && hunterKey) {
     try {
       const hunterRes = await enrichLead({
-        name: candidate.founder_name,
-        company: candidate.business_name_clean,
-        companyDomain: website
+        name: effectiveCandidate.founder_name,
+        firstName: effectiveCandidate.founder_first_name,
+        lastName: effectiveCandidate.founder_last_name,
+        company: effectiveCandidate.business_name_clean,
+        companyDomain: isValidCompanyDomain(website) ? website : ''
       }, { ...env, ENRICHMENT_API_KEY: hunterKey });
       meta.attempts.push({ provider: 'hunter', status: hunterRes.status, domain: hunterRes.domain });
-      if (hunterRes.domain && !website) website = hunterRes.domain;
+      if (hunterRes.domain && isValidCompanyDomain(hunterRes.domain) && !website) {
+        website = hunterRes.domain;
+      }
       if (hunterRes.email) {
         email = hunterRes.email;
         confidence = hunterRes.confidence || 80;
@@ -829,45 +973,30 @@ export async function enrichOutreachCandidate(candidate, env) {
     }
   }
 
-  // Stage 3: People Data Labs Person Enrich (Founder Name + Principal Street Address + City, FL + Zip)
-  // PDL is checked before Apollo for new Sunbiz filings because PDL matches exact street address + zip.
-  const pdlKey = env.PDL_API_KEY || env.PDL_API;
-  if ((!email || !phone) && pdlKey) {
-    try {
-      const pdlRes = await lookupViaPdl(candidate, pdlKey);
-      meta.attempts.push({ provider: 'pdl', status: pdlRes.found ? 'found' : 'not_found' });
-      if (pdlRes.email && !email) {
-        email = pdlRes.email;
-        confidence = pdlRes.likelihood ? pdlRes.likelihood * 10 : 85;
-        source = 'pdl';
-      }
-      if (pdlRes.phone && !phone) {
-        phone = pdlRes.phone;
-        source = source || 'pdl';
-      }
-      if (pdlRes.linkedinUrl) meta.linkedin_url = pdlRes.linkedinUrl;
-    } catch (err) {
-      meta.attempts.push({ provider: 'pdl', error: err.message });
-    }
-  }
-
-  // Stage 4: Apollo.io People Match (Founder First/Last + City, FL + Business Name)
+  // Stage 4: Apollo.io People Match + South FL API Search (with PDL LinkedIn/Employer bridge & strict anti-collision guards)
   const apolloKey = env.APOLLO_API_KEY || env.APOLLO_API;
   if ((!email || !phone) && apolloKey) {
     try {
-      const apolloRes = await lookupViaApollo(candidate, website, apolloKey);
-      meta.attempts.push({ provider: 'apollo', status: apolloRes.found ? 'found' : 'not_found' });
+      const apolloRes = await lookupViaApollo(effectiveCandidate, website, pdlHints, apolloKey);
+      meta.attempts.push({
+        provider: 'apollo',
+        status: apolloRes.found ? 'found' : 'not_found',
+        matchedOrg: apolloRes.matchedOrg || null,
+        matchConfidence: apolloRes.matchConfidence || null
+      });
       if (apolloRes.email && !email) {
         email = apolloRes.email;
-        confidence = 88;
+        confidence = apolloRes.matchConfidence === 'high' ? 92 : 85;
         source = 'apollo';
       }
       if (apolloRes.phone && !phone) {
         phone = apolloRes.phone;
         source = source || 'apollo';
       }
-      if (apolloRes.linkedinUrl) meta.linkedin_url = apolloRes.linkedinUrl;
-      if (apolloRes.website && !website) website = apolloRes.website;
+      if (apolloRes.linkedinUrl && !meta.linkedin_url) meta.linkedin_url = apolloRes.linkedinUrl;
+      if (apolloRes.website && isValidCompanyDomain(apolloRes.website) && !website) {
+        website = apolloRes.website;
+      }
     } catch (err) {
       meta.attempts.push({ provider: 'apollo', error: err.message });
     }
@@ -891,11 +1020,12 @@ export async function enrichOutreachCandidate(candidate, env) {
 
   return {
     status,
-    email,
-    phone,
-    website: website || null,
-    confidence,
-    source: source || (meta.attempts.length > 0 ? meta.attempts[0].provider : 'none'),
+    email: email || null,
+    phone: phone || null,
+    website: (website && isValidCompanyDomain(website)) ? website : null,
+    confidence: confidence || null,
+    source: (email || phone) ? (source || 'enrichment') : (meta.attempts.length > 0 ? meta.attempts[0].provider : 'none'),
+    resolvedFounder: resolvedNames,
     meta
   };
 }
@@ -913,30 +1043,70 @@ async function lookupViaDataForSeo(candidate, env) {
       keyword: query,
       location_code: 2840,
       language_code: 'en',
-      depth: 5
+      depth: 8
     }])
   });
 
-  if (!res.ok) return { website: null, phone: null };
+  if (!res.ok) return { website: null, phone: null, linkedinUrl: null };
   const data = await res.json().catch(() => ({}));
   const items = data?.tasks?.[0]?.result?.[0]?.items || [];
 
-  const directoryDomains = /(sunbiz\.org|bizprofile|opencorporates|yelp\.com|facebook\.com|instagram\.com|linkedin\.com|bbb\.org|yellowpages|mapquest|nextdoor|thumbtack|angi\.com|homeadvisor|dnb\.com|buzzfile)/i;
+  const candLower = String(candidate.business_name_clean || '').toLowerCase().trim();
+  const keywords = extractBusinessKeywords(candidate.business_name_clean);
+  const primaryBrandWord = keywords[0] || '';
+  const founderLastLower = String(candidate.founder_last_name || '').toLowerCase().trim();
+
   let website = null;
   let phone = null;
+  let linkedinUrl = null;
 
   for (const item of items) {
-    if (item.domain && !directoryDomains.test(item.domain) && !website) {
-      website = normalizeDomain(item.domain);
+    if (item.type && item.type !== 'organic' && item.type !== 'local_pack' && item.type !== 'knowledge_graph') {
+      continue;
     }
-    const text = `${item.title || ''} ${item.description || ''}`;
-    const phoneMatch = text.match(/\(?(305|786|954|754|561)\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
-    if (phoneMatch && !phone) {
-      phone = phoneMatch[0];
+
+    const titleLower = String(item.title || '').toLowerCase();
+    const descLower = String(item.description || '').toLowerCase();
+    const combinedText = `${titleLower} ${descLower}`;
+    const itemUrl = String(item.url || '');
+
+    // Capture founder LinkedIn profile if surfaced in organic results
+    if (!linkedinUrl && /linkedin\.com\/in\//i.test(itemUrl) && founderLastLower && combinedText.includes(founderLastLower)) {
+      linkedinUrl = itemUrl.split('?')[0];
+    }
+
+    // Require the SERP snippet/title to actually reference the candidate's distinctive brand keyword
+    // so Google fallback results for generic city+niche terms don't pollute website or phone.
+    const matchesExactName = candLower.length >= 4 && combinedText.includes(candLower);
+    const matchedKeywordCount = keywords.filter(w => combinedText.includes(w)).length;
+    const hasBrandWord = primaryBrandWord.length >= 3 && (
+      combinedText.includes(primaryBrandWord) ||
+      String(item.domain || '').toLowerCase().includes(primaryBrandWord)
+    );
+    const isRelevantResult = matchesExactName || (hasBrandWord && (matchedKeywordCount >= 2 || keywords.length === 1));
+
+    if (!isRelevantResult) continue;
+
+    if (item.type === 'organic' && item.domain && !website) {
+      const candidateDomain = normalizeDomain(item.domain);
+      if (isValidCompanyDomain(candidateDomain)) {
+        const domainNoTld = candidateDomain.split('.')[0].replace(/[^a-z0-9]/g, '');
+        const domainHasKeyword = keywords.some(w => w.length >= 4 && domainNoTld.includes(w));
+        if (domainHasKeyword || matchesExactName) {
+          website = candidateDomain;
+        }
+      }
+    }
+
+    if (!phone) {
+      const phoneMatch = `${item.title || ''} ${item.description || ''}`.match(/\(?(305|786|954|754|561)\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+      if (phoneMatch) {
+        phone = phoneMatch[0];
+      }
     }
   }
 
-  return { website, phone };
+  return { website, phone, linkedinUrl };
 }
 
 export async function lookupSearchDemandViaDataForSeo(candidate, env) {
@@ -973,104 +1143,182 @@ export async function lookupSearchDemandViaDataForSeo(candidate, env) {
   return sum > 0 ? sum : nicheMeta.searchersCount;
 }
 
-async function lookupViaApollo(candidate, domain, apiKey) {
-  const res = await fetch('https://api.apollo.io/api/v1/people/match', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Api-Key': apiKey
-    },
-    body: JSON.stringify({
-      first_name: candidate.founder_first_name,
-      last_name: candidate.founder_last_name,
-      organization_name: candidate.business_name_clean,
-      domain: domain || undefined,
-      city: candidate.city,
-      state: 'Florida',
-      country: 'United States',
-      reveal_personal_emails: true
-    })
+async function lookupViaApollo(candidate, domain, pdlHints, apiKey) {
+  const validDomain = isValidCompanyDomain(domain) ? normalizeDomain(domain) : '';
+  const pdlMatchedCompany = (pdlHints?.jobCompanyName && doesOrgMatchCandidate(pdlHints.jobCompanyName, candidate.business_name_clean))
+    ? pdlHints.jobCompanyName
+    : null;
+  const pdlMatchedDomain = (pdlMatchedCompany && pdlHints?.jobCompanyWebsite && isValidCompanyDomain(pdlHints.jobCompanyWebsite))
+    ? normalizeDomain(pdlHints.jobCompanyWebsite)
+    : '';
+
+  const effectiveDomain = validDomain || pdlMatchedDomain || undefined;
+  const effectiveOrgName = pdlMatchedCompany || candidate.business_name_clean;
+
+  const callPeopleMatch = async (payload) => {
+    const res = await fetch('https://api.apollo.io/api/v1/people/match', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': apiKey
+      },
+      body: JSON.stringify({
+        reveal_personal_emails: true,
+        ...payload
+      })
+    });
+    if (!res.ok) throw new Error(`Apollo HTTP ${res.status}`);
+    const body = await res.json().catch(() => ({}));
+    return body?.person || null;
+  };
+
+  let person = await callPeopleMatch({
+    first_name: candidate.founder_first_name,
+    last_name: candidate.founder_last_name,
+    organization_name: effectiveOrgName,
+    domain: effectiveDomain,
+    linkedin_url: pdlHints?.linkedinUrl || undefined,
+    city: candidate.city,
+    state: 'Florida',
+    country: 'United States'
   });
 
-  if (!res.ok) {
-    throw new Error(`Apollo HTTP ${res.status}`);
+  // Fallback: If brand-new LLC name didn't match in Apollo (or returned a low-confidence nationwide guess),
+  // search Apollo's free /v1/mixed_people/api_search in the candidate's South Florida city.
+  if (!person || person.result !== 'Matched' || person.match_confidence === 'low') {
+    try {
+      const searchRes = await fetch('https://api.apollo.io/api/v1/mixed_people/api_search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Api-Key': apiKey
+        },
+        body: JSON.stringify({
+          q_person_name: `${candidate.founder_first_name} ${candidate.founder_last_name}`.trim(),
+          person_locations: [`${candidate.city}, Florida`],
+          per_page: 5
+        })
+      });
+      if (searchRes.ok) {
+        const searchData = await searchRes.json().catch(() => ({}));
+        const people = Array.isArray(searchData?.people) ? searchData.people : [];
+        const matchingCandidate = people.find(p =>
+          p.id &&
+          (p.has_email || p.has_direct_phone === 'Yes') &&
+          doesOrgMatchCandidate(p.organization?.name, candidate.business_name_clean)
+        );
+        if (matchingCandidate) {
+          const unlocked = await callPeopleMatch({ id: matchingCandidate.id });
+          if (unlocked) person = unlocked;
+        }
+      }
+    } catch (_) {
+      // ignore fallback search errors
+    }
   }
 
-  const body = await res.json().catch(() => ({}));
-  const person = body?.person;
-  if (!person) return { found: false };
+  if (!person || person.result === 'N/A') return { found: false };
 
-  // Guard against false-positive nationwide name collisions:
-  // If we did not pass a verified domain, require the matched person's state to be Florida
-  // OR their organization name to share a keyword with our candidate business name.
-  const personState = String(person.state || '').toLowerCase();
-  const orgName = String(person.organization?.name || '').toLowerCase();
-  const candWords = String(candidate.business_name_clean || '')
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(w => w.length >= 4 && !['florida', 'miami', 'broward', 'palm', 'south', 'group', 'services', 'service', 'solutions'].includes(w));
-  const orgMatchesCandidate = candWords.some(w => orgName.includes(w));
-  const isFloridaPerson = !personState || personState === 'florida' || personState === 'fl';
+  const personState = String(person.state || '').trim().toLowerCase();
+  const personCity = String(person.city || '').trim().toLowerCase();
+  const candCity = String(candidate.city || '').trim().toLowerCase();
+  const orgName = String(person.organization?.name || '').trim();
+  const orgMatchesCandidate = doesOrgMatchCandidate(orgName, candidate.business_name_clean);
+  const isFloridaPerson = personState === 'florida' || personState === 'fl';
+  const matchConfidence = String(person.match_confidence || '').toLowerCase();
 
-  if (!domain && !isFloridaPerson && !orgMatchesCandidate) {
-    return { found: false };
+  // Reject low-confidence nationwide guesses that lack verified Florida location or matching organization
+  if (matchConfidence === 'low' && !orgMatchesCandidate && (!isFloridaPerson || (candCity && personCity !== candCity))) {
+    return { found: false, matchConfidence };
+  }
+
+  if (!effectiveDomain && !isFloridaPerson && !orgMatchesCandidate) {
+    return { found: false, matchConfidence };
   }
 
   let email = (typeof person.email === 'string' && person.email.includes('@'))
-    ? person.email
-    : (Array.isArray(person.personal_emails) && typeof person.personal_emails[0] === 'string' ? person.personal_emails[0] : null);
+    ? person.email.trim().toLowerCase()
+    : (Array.isArray(person.personal_emails) && typeof person.personal_emails[0] === 'string'
+      ? person.personal_emails[0].trim().toLowerCase()
+      : null);
   if (email && /^email_not_unlocked@/i.test(email)) email = null;
 
   // If the matched person's organization doesn't match the newly filed Sunbiz LLC,
-  // never use a corporate email from an unrelated employer (e.g., @google.com); only allow personal email domains if city matches.
-  if (email && !domain && !orgMatchesCandidate) {
+  // never use a corporate email from an unrelated employer; only allow personal email providers
+  // when the person is confirmed in the exact same Florida city with medium/high confidence.
+  if (email && !orgMatchesCandidate) {
     const emailDomain = email.split('@')[1]?.toLowerCase() || '';
-    const isPersonalProvider = ['gmail.com', 'yahoo.com', 'icloud.com', 'outlook.com', 'hotmail.com', 'aol.com', 'comcast.net', 'att.net', 'msn.com', 'live.com', 'me.com'].includes(emailDomain);
-    const personCity = String(person.city || '').toLowerCase();
-    const candCity = String(candidate.city || '').toLowerCase();
-    if (!isPersonalProvider || (personCity && candCity && personCity !== candCity)) {
+    const isPersonalProvider = [
+      'gmail.com', 'yahoo.com', 'icloud.com', 'outlook.com', 'hotmail.com',
+      'aol.com', 'comcast.net', 'att.net', 'msn.com', 'live.com', 'me.com'
+    ].includes(emailDomain);
+    const sameFloridaCity = isFloridaPerson && (!candCity || personCity === candCity);
+    if (!isPersonalProvider || !sameFloridaCity || matchConfidence === 'low') {
       email = null;
     }
   }
 
-  // Only keep organization HQ phone if the organization actually matches the candidate
+  // Only keep organization HQ phone/website if the organization actually matches the candidate
   const rawPersonalPhone = person.phone_numbers?.[0]?.sanitized_number;
-  const personalPhone = (typeof rawPersonalPhone === 'string' && /\d{7,}/.test(rawPersonalPhone)) ? rawPersonalPhone : null;
+  const personalPhone = (typeof rawPersonalPhone === 'string' && /\d{7,}/.test(rawPersonalPhone) && (isFloridaPerson || orgMatchesCandidate))
+    ? rawPersonalPhone
+    : null;
   const rawOrgPhone = orgMatchesCandidate ? person.organization?.primary_phone?.sanitized_number : null;
   const orgPhone = (typeof rawOrgPhone === 'string' && /\d{7,}/.test(rawOrgPhone)) ? rawOrgPhone : null;
   const phone = personalPhone || orgPhone;
-  const website = orgMatchesCandidate ? normalizeDomain(person.organization?.website_url || '') : '';
+  const rawOrgWebsite = orgMatchesCandidate ? normalizeDomain(person.organization?.website_url || '') : '';
+  const website = isValidCompanyDomain(rawOrgWebsite) ? rawOrgWebsite : '';
 
   return {
     found: Boolean(email || phone),
     email,
     phone,
     website,
+    matchedOrg: orgName || null,
+    matchConfidence: matchConfidence || null,
     linkedinUrl: typeof person.linkedin_url === 'string' ? person.linkedin_url : null
   };
 }
 
 async function lookupViaPdl(candidate, apiKey) {
-  const params = new URLSearchParams({
+  const baseParams = {
     first_name: candidate.founder_first_name || '',
     last_name: candidate.founder_last_name || '',
     locality: candidate.city || '',
     region: 'florida',
     country: 'united states',
     min_likelihood: '6'
-  });
-  if (candidate.principal_address) params.set('street_address', candidate.principal_address);
-  if (candidate.zip) params.set('postal_code', candidate.zip);
+  };
 
-  const res = await fetch(`https://api.peopledatalabs.com/v5/person/enrich?${params.toString()}`, {
-    method: 'GET',
-    headers: {
-      'X-Api-Key': apiKey,
-      'Accept': 'application/json'
-    }
-  });
+  const queryPdl = async (extraParams = {}) => {
+    const params = new URLSearchParams({ ...baseParams, ...extraParams });
+    return fetch(`https://api.peopledatalabs.com/v5/person/enrich?${params.toString()}`, {
+      method: 'GET',
+      headers: {
+        'X-Api-Key': apiKey,
+        'Accept': 'application/json'
+      }
+    });
+  };
 
-  if (res.status === 404) return { found: false };
+  // Strip apartment/unit/suite numbers so residential unit formatting doesn't cause false 404s
+  const cleanStreet = String(candidate.principal_address || '')
+    .replace(/\s+\b(apt|apartment|unit|ste|suite|bldg|building|fl|floor|rm|room|#)\b.*$/i, '')
+    .replace(/\s+\d{3,5}$/, '')
+    .trim();
+
+  let res = await queryPdl(
+    cleanStreet
+      ? { street_address: cleanStreet, ...(candidate.zip ? { postal_code: candidate.zip } : {}) }
+      : {}
+  );
+
+  // If street_address caused a 404 (person's home street address not indexed in PDL), retry with locality + region
+  if (res.status === 404 && cleanStreet) {
+    res = await queryPdl({});
+  }
+
+  if (res.status === 404) return { found: false, personMatched: false };
   if (!res.ok) throw new Error(`PDL HTTP ${res.status}`);
 
   const body = await res.json().catch(() => ({}));
@@ -1095,9 +1343,12 @@ async function lookupViaPdl(candidate, apiKey) {
 
   return {
     found: Boolean(email || phone),
+    personMatched: true,
     email,
     phone,
     likelihood: body?.likelihood || null,
+    jobCompanyName: typeof data?.job_company_name === 'string' ? data.job_company_name : null,
+    jobCompanyWebsite: typeof data?.job_company_website === 'string' ? data.job_company_website : null,
     linkedinUrl: typeof data?.linkedin_url === 'string' ? `https://${data.linkedin_url.replace(/^https?:\/\//, '')}` : null
   };
 }

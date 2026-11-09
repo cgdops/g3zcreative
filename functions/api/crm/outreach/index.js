@@ -92,7 +92,7 @@ export async function onRequestGet(context) {
   try {
     await ensureOutreachSchema(env.DB);
 
-    // Automatically scrub any legacy fake sample-batch emails or masked boolean strings from D1
+    // Automatically scrub any legacy fake sample-batch emails, google.com SERP pollution, or masked boolean strings from D1
     await env.DB.prepare(`
       UPDATE outreach_candidates
       SET email = CASE WHEN email IN (
@@ -102,10 +102,15 @@ export async function onRequestGet(context) {
             'sofia@westonrhythmdance.com',
             'jorge@doraltropicallandscape.com',
             'paul.silva@google.com',
+            'lazarob@google.com',
+            'davidezekiel@google.com',
+            'bryan.sanchez@innovativesys.com',
+            'paul2uman@yahoo.com',
             'true',
             'false'
-          ) THEN NULL ELSE email END,
-          phone = CASE WHEN phone IN ('true', 'false', '+14154206461') THEN NULL ELSE phone END
+          ) OR email LIKE '%@google.com' THEN NULL ELSE email END,
+          phone = CASE WHEN phone IN ('true', 'false', '+14154206461') THEN NULL ELSE phone END,
+          website = CASE WHEN website = 'google.com' THEN NULL ELSE website END
       WHERE email IN (
         'carlos@pinesapexroofing.com',
         'david@miramarbreezehvac.com',
@@ -113,9 +118,13 @@ export async function onRequestGet(context) {
         'sofia@westonrhythmdance.com',
         'jorge@doraltropicallandscape.com',
         'paul.silva@google.com',
+        'lazarob@google.com',
+        'davidezekiel@google.com',
+        'bryan.sanchez@innovativesys.com',
+        'paul2uman@yahoo.com',
         'true',
         'false'
-      ) OR phone IN ('true', 'false', '+14154206461')
+      ) OR email LIKE '%@google.com' OR phone IN ('true', 'false', '+14154206461') OR website = 'google.com'
     `).run();
 
     const url = new URL(request.url);
