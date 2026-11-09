@@ -188,6 +188,46 @@ async function main() {
     return;
   }
 
+  if (!args.local) {
+    const crmApiUrl = (process.env.CRM_API_URL || 'https://g3zcreative.com').replace(/\/+$/, '');
+    const crmKey = process.env.CRM_PASSCODE || 'g3z2026';
+    const batchSize = 100;
+    let totalInserted = 0;
+    let totalUpdated = 0;
+
+    console.log(`[Sunbiz Sync] Uploading ${candidates.length} South Florida candidates to ${crmApiUrl}/api/crm/outreach in batches of ${batchSize}...`);
+
+    for (let i = 0; i < candidates.length; i += batchSize) {
+      const batch = candidates.slice(i, i + batchSize);
+      const res = await fetch(`${crmApiUrl}/api/crm/outreach`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CRM-Key': crmKey
+        },
+        body: JSON.stringify({
+          candidates: batch,
+          require_south_fl: true,
+          exclude_shells: true,
+          auto_enrich_top: false
+        })
+      });
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        throw new Error(`CRM API batch upload failed (${res.status}): ${errText.slice(0, 200)}`);
+      }
+
+      const data = await res.json();
+      totalInserted += Number(data.inserted || 0);
+      totalUpdated += Number(data.updated || 0);
+      console.log(`  -> Batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(candidates.length / batchSize)}: +${data.inserted || 0} inserted, ${data.updated || 0} updated`);
+    }
+
+    console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to production D1 (${totalInserted} new, ${totalUpdated} updated)!`);
+    return;
+  }
+
   const sqlStatements = [
     `CREATE TABLE IF NOT EXISTS outreach_candidates (
       id TEXT PRIMARY KEY, doc_number TEXT UNIQUE, business_name TEXT NOT NULL, business_name_clean TEXT NOT NULL,
@@ -231,16 +271,15 @@ async function main() {
   const tmpSqlPath = path.join(os.tmpdir(), `sunbiz_sync_${Date.now()}.sql`);
   fs.writeFileSync(tmpSqlPath, sqlStatements.join('\n'), 'utf8');
 
-  const d1Flag = args.local ? '--local' : '--remote';
-  console.log(`[Sunbiz Sync] Executing D1 batch import (${d1Flag}) for ${candidates.length} candidates...`);
+  console.log(`[Sunbiz Sync] Executing local D1 batch import (--local) for ${candidates.length} candidates...`);
 
   try {
     execFileSync(
       process.platform === 'win32' ? 'npx.cmd' : 'npx',
-      ['wrangler', 'd1', 'execute', 'g3zcreative-crm', d1Flag, `--file=${tmpSqlPath}`],
+      ['wrangler', 'd1', 'execute', 'g3zcreative-crm', '--local', `--file=${tmpSqlPath}`],
       { stdio: 'inherit' }
     );
-    console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to D1!`);
+    console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to local D1!`);
   } finally {
     if (fs.existsSync(tmpSqlPath)) fs.unlinkSync(tmpSqlPath);
   }

@@ -268,9 +268,20 @@ export async function onRequestPost(context) {
           SET email = COALESCE(?, email),
               phone = COALESCE(?, phone),
               website = COALESCE(?, website),
+              enrichment_status = CASE WHEN ? != 'unattempted' THEN ? ELSE enrichment_status END,
+              enrichment_source = COALESCE(?, enrichment_source),
+              enrichment_confidence = COALESCE(?, enrichment_confidence),
+              enrichment_meta = CASE WHEN ? IS NOT NULL AND ? != '{}' THEN ? ELSE enrichment_meta END,
               updated_at = CURRENT_TIMESTAMP
           WHERE id = ?
-        `).bind(rec.email, rec.phone, rec.website, existing.id).run();
+        `).bind(
+          rec.email, rec.phone, rec.website,
+          rec.enrichment_status, rec.enrichment_status,
+          rec.enrichment_source,
+          rec.enrichment_confidence,
+          rec.enrichment_meta, rec.enrichment_meta, rec.enrichment_meta,
+          existing.id
+        ).run();
         updated++;
         continue;
       }

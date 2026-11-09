@@ -37,7 +37,9 @@ jobs:
           DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
           ENRICHMENT_API_KEY: ${{ secrets.ENRICHMENT_API_KEY }}
           APOLLO_API_KEY: ${{ secrets.APOLLO_API_KEY }}
+          APOLLO_API: ${{ secrets.APOLLO_API_KEY }}
           PDL_API_KEY: ${{ secrets.PDL_API_KEY }}
+          PDL_API: ${{ secrets.PDL_API_KEY }}
         run: |
           if [ -n "${{ github.event.inputs.filing_date }}" ]; then
             npm run sync:sunbiz -- --date=${{ github.event.inputs.filing_date }}

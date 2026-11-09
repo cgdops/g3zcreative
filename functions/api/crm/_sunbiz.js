@@ -605,7 +605,7 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
     founder_first_name: firstName,
     founder_last_name: lastName,
     founder_title: String(raw.founder_title || 'MGR').toUpperCase(),
-    secondary_officers: JSON.stringify(raw.secondary_officers || []),
+    secondary_officers: typeof raw.secondary_officers === 'string' ? raw.secondary_officers : JSON.stringify(raw.secondary_officers || []),
     registered_agent: toTitleCase(raw.registered_agent || founderName),
     principal_address: toTitleCase(raw.principal_address || raw.address || ''),
     mailing_address: toTitleCase(raw.mailing_address || ''),
@@ -829,7 +829,29 @@ export async function enrichOutreachCandidate(candidate, env) {
     }
   }
 
-  // Stage 3: Apollo.io People Match (Founder First/Last + City, FL + Business Name)
+  // Stage 3: People Data Labs Person Enrich (Founder Name + Principal Street Address + City, FL + Zip)
+  // PDL is checked before Apollo for new Sunbiz filings because PDL matches exact street address + zip.
+  const pdlKey = env.PDL_API_KEY || env.PDL_API;
+  if ((!email || !phone) && pdlKey) {
+    try {
+      const pdlRes = await lookupViaPdl(candidate, pdlKey);
+      meta.attempts.push({ provider: 'pdl', status: pdlRes.found ? 'found' : 'not_found' });
+      if (pdlRes.email && !email) {
+        email = pdlRes.email;
+        confidence = pdlRes.likelihood ? pdlRes.likelihood * 10 : 85;
+        source = 'pdl';
+      }
+      if (pdlRes.phone && !phone) {
+        phone = pdlRes.phone;
+        source = source || 'pdl';
+      }
+      if (pdlRes.linkedinUrl) meta.linkedin_url = pdlRes.linkedinUrl;
+    } catch (err) {
+      meta.attempts.push({ provider: 'pdl', error: err.message });
+    }
+  }
+
+  // Stage 4: Apollo.io People Match (Founder First/Last + City, FL + Business Name)
   const apolloKey = env.APOLLO_API_KEY || env.APOLLO_API;
   if ((!email || !phone) && apolloKey) {
     try {
@@ -848,27 +870,6 @@ export async function enrichOutreachCandidate(candidate, env) {
       if (apolloRes.website && !website) website = apolloRes.website;
     } catch (err) {
       meta.attempts.push({ provider: 'apollo', error: err.message });
-    }
-  }
-
-  // Stage 4: People Data Labs Person Enrich (Founder Name + Principal Street Address + City, FL + Zip)
-  const pdlKey = env.PDL_API_KEY || env.PDL_API;
-  if ((!email || !phone) && pdlKey) {
-    try {
-      const pdlRes = await lookupViaPdl(candidate, pdlKey);
-      meta.attempts.push({ provider: 'pdl', status: pdlRes.found ? 'found' : 'not_found' });
-      if (pdlRes.email && !email) {
-        email = pdlRes.email;
-        confidence = pdlRes.likelihood ? pdlRes.likelihood * 10 : 85;
-        source = 'pdl';
-      }
-      if (pdlRes.phone && !phone) {
-        phone = pdlRes.phone;
-        source = source || 'pdl';
-      }
-      if (pdlRes.linkedinUrl) meta.linkedin_url = pdlRes.linkedinUrl;
-    } catch (err) {
-      meta.attempts.push({ provider: 'pdl', error: err.message });
     }
   }
 
@@ -999,9 +1000,30 @@ async function lookupViaApollo(candidate, domain, apiKey) {
   const person = body?.person;
   if (!person) return { found: false };
 
-  const email = person.email || (Array.isArray(person.personal_emails) ? person.personal_emails[0] : null) || null;
-  const phone = person.phone_numbers?.[0]?.sanitized_number || person.organization?.primary_phone?.sanitized_number || null;
-  const website = normalizeDomain(person.organization?.website_url || '');
+  // Guard against false-positive nationwide name collisions:
+  // If we did not pass a verified domain, require the matched person's state to be Florida
+  // OR their organization name to share a keyword with our candidate business name.
+  const personState = String(person.state || '').toLowerCase();
+  const orgName = String(person.organization?.name || '').toLowerCase();
+  const candWords = String(candidate.business_name_clean || '')
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(w => w.length >= 4 && !['florida', 'miami', 'broward', 'palm', 'south', 'group', 'services', 'service', 'solutions'].includes(w));
+  const orgMatchesCandidate = candWords.some(w => orgName.includes(w));
+  const isFloridaPerson = !personState || personState === 'florida' || personState === 'fl';
+
+  if (!domain && !isFloridaPerson && !orgMatchesCandidate) {
+    return { found: false };
+  }
+
+  let email = person.email || (Array.isArray(person.personal_emails) ? person.personal_emails[0] : null) || null;
+  if (email && /^email_not_unlocked@/i.test(email)) email = null;
+
+  // Only keep organization HQ phone if the organization actually matches the candidate
+  const personalPhone = person.phone_numbers?.[0]?.sanitized_number || null;
+  const orgPhone = orgMatchesCandidate ? (person.organization?.primary_phone?.sanitized_number || null) : null;
+  const phone = personalPhone || orgPhone;
+  const website = orgMatchesCandidate ? normalizeDomain(person.organization?.website_url || '') : '';
 
   return {
     found: Boolean(email || phone),
