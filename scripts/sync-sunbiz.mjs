@@ -188,46 +188,6 @@ async function main() {
     return;
   }
 
-  if (!args.local) {
-    const crmApiUrl = (process.env.CRM_API_URL || 'https://g3zcreative.com').replace(/\/+$/, '');
-    const crmKey = process.env.CRM_PASSCODE || 'g3z2026';
-    const batchSize = 100;
-    let totalInserted = 0;
-    let totalUpdated = 0;
-
-    console.log(`[Sunbiz Sync] Uploading ${candidates.length} South Florida candidates to ${crmApiUrl}/api/crm/outreach in batches of ${batchSize}...`);
-
-    for (let i = 0; i < candidates.length; i += batchSize) {
-      const batch = candidates.slice(i, i + batchSize);
-      const res = await fetch(`${crmApiUrl}/api/crm/outreach`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CRM-Key': crmKey
-        },
-        body: JSON.stringify({
-          candidates: batch,
-          require_south_fl: true,
-          exclude_shells: true,
-          auto_enrich_top: false
-        })
-      });
-
-      if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        throw new Error(`CRM API batch upload failed (${res.status}): ${errText.slice(0, 200)}`);
-      }
-
-      const data = await res.json();
-      totalInserted += Number(data.inserted || 0);
-      totalUpdated += Number(data.updated || 0);
-      console.log(`  -> Batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(candidates.length / batchSize)}: +${data.inserted || 0} inserted, ${data.updated || 0} updated`);
-    }
-
-    console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to production D1 (${totalInserted} new, ${totalUpdated} updated)!`);
-    return;
-  }
-
   const sqlStatements = [
     `CREATE TABLE IF NOT EXISTS outreach_candidates (
       id TEXT PRIMARY KEY, doc_number TEXT UNIQUE, business_name TEXT NOT NULL, business_name_clean TEXT NOT NULL,
@@ -264,25 +224,83 @@ async function main() {
         email = COALESCE(excluded.email, outreach_candidates.email),
         phone = COALESCE(excluded.phone, outreach_candidates.phone),
         website = COALESCE(excluded.website, outreach_candidates.website),
+        enrichment_status = CASE WHEN excluded.enrichment_status != 'unattempted' THEN excluded.enrichment_status ELSE outreach_candidates.enrichment_status END,
+        enrichment_source = COALESCE(excluded.enrichment_source, outreach_candidates.enrichment_source),
+        enrichment_confidence = COALESCE(excluded.enrichment_confidence, outreach_candidates.enrichment_confidence),
+        enrichment_meta = CASE WHEN excluded.enrichment_meta IS NOT NULL AND excluded.enrichment_meta != '{}' THEN excluded.enrichment_meta ELSE outreach_candidates.enrichment_meta END,
         updated_at = CURRENT_TIMESTAMP;
     `);
   }
 
-  const tmpSqlPath = path.join(os.tmpdir(), `sunbiz_sync_${Date.now()}.sql`);
-  fs.writeFileSync(tmpSqlPath, sqlStatements.join('\n'), 'utf8');
+  const cfToken = process.env.CLOUDFLARE_API_TOKEN || process.env.CLOUDFLARE_GITHUB_API;
+  const cfAccountId = process.env.CLOUDFLARE_ACCOUNT_ID;
 
-  console.log(`[Sunbiz Sync] Executing local D1 batch import (--local) for ${candidates.length} candidates...`);
+  if (args.local || (cfToken && cfAccountId)) {
+    const tmpSqlPath = path.join(os.tmpdir(), `sunbiz_sync_${Date.now()}.sql`);
+    fs.writeFileSync(tmpSqlPath, sqlStatements.join('\n'), 'utf8');
+    const d1Flag = args.local ? '--local' : '--remote';
+    console.log(`[Sunbiz Sync] Executing Wrangler D1 batch import (${d1Flag}) for ${candidates.length} candidates...`);
 
-  try {
-    execFileSync(
-      process.platform === 'win32' ? 'npx.cmd' : 'npx',
-      ['wrangler', 'd1', 'execute', 'g3zcreative-crm', '--local', `--file=${tmpSqlPath}`],
-      { stdio: 'inherit' }
-    );
-    console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to local D1!`);
-  } finally {
-    if (fs.existsSync(tmpSqlPath)) fs.unlinkSync(tmpSqlPath);
+    try {
+      execFileSync(
+        'npx',
+        ['wrangler', 'd1', 'execute', 'g3zcreative-crm', d1Flag, `--file=${tmpSqlPath}`],
+        {
+          stdio: 'inherit',
+          shell: process.platform === 'win32',
+          env: {
+            ...process.env,
+            CLOUDFLARE_API_TOKEN: cfToken || process.env.CLOUDFLARE_API_TOKEN
+          }
+        }
+      );
+      console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to D1 (${d1Flag})!`);
+      return;
+    } catch (d1Err) {
+      if (args.local) throw d1Err;
+      console.warn(`[Sunbiz Sync] Wrangler D1 CLI returned an error (${d1Err.message}); falling back to CRM Worker API...`);
+    } finally {
+      if (fs.existsSync(tmpSqlPath)) fs.unlinkSync(tmpSqlPath);
+    }
   }
+
+  // Fallback remote upload via authenticated CRM API
+  const crmApiUrl = (process.env.CRM_API_URL || 'https://g3zcreative.com').replace(/\/+$/, '');
+  const crmKey = process.env.CRM_PASSCODE || 'g3z2026';
+  const batchSize = 100;
+  let totalInserted = 0;
+  let totalUpdated = 0;
+
+  console.log(`[Sunbiz Sync] Uploading ${candidates.length} South Florida candidates to ${crmApiUrl}/api/crm/outreach in batches of ${batchSize}...`);
+
+  for (let i = 0; i < candidates.length; i += batchSize) {
+    const batch = candidates.slice(i, i + batchSize);
+    const res = await fetch(`${crmApiUrl}/api/crm/outreach`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CRM-Key': crmKey
+      },
+      body: JSON.stringify({
+        candidates: batch,
+        require_south_fl: true,
+        exclude_shells: true,
+        auto_enrich_top: false
+      })
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      throw new Error(`CRM API batch upload failed (${res.status}): ${errText.slice(0, 200)}`);
+    }
+
+    const data = await res.json();
+    totalInserted += Number(data.inserted || 0);
+    totalUpdated += Number(data.updated || 0);
+    console.log(`  -> Batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(candidates.length / batchSize)}: +${data.inserted || 0} inserted, ${data.updated || 0} updated`);
+  }
+
+  console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to production D1 (${totalInserted} new, ${totalUpdated} updated)!`);
 }
 
 main().catch(err => {
