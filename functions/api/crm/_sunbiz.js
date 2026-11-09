@@ -435,32 +435,46 @@ export function parseSunbizFixedWidthLine(line) {
   const status = line.slice(204, 205).trim();
   const filingType = line.slice(205, 220).trim();
 
-  // Only active new Florida entities (DOMP = Domestic Profit, FLAL = Florida LLC, DOMNP = Non-Profit)
+  // Only active Florida entities (DOMP = Domestic Profit, FLAL = Florida LLC, DOMNP = Non-Profit)
   if (status && status !== 'A') return null;
   if (!docNumber || !rawBusinessName) return null;
 
-  const principalAddress = toTitleCase(line.slice(220, 324).trim().replace(/\s+/g, ' '));
-  const principalCity = line.slice(324, 352).trim();
-  const principalState = line.slice(352, 354).trim() || 'FL';
-  const principalZip = line.slice(354, 364).trim();
+  // Official Sunbiz 1440-byte Corporate Data File offsets (1-indexed -> 0-indexed):
+  // Principal Address 1 (221, len 42) + Address 2 (263, len 42) => slice(220, 304)
+  // Principal City (305, len 28) => slice(304, 332)
+  // Principal State (333, len 2) => slice(332, 334)
+  // Principal Zip (335, len 10) => slice(334, 344)
+  const principalAddress = toTitleCase(line.slice(220, 304).trim().replace(/\s+/g, ' '));
+  const principalCity = line.slice(304, 332).trim();
+  const principalState = line.slice(332, 334).trim() || 'FL';
+  const principalZip = line.slice(334, 344).trim();
 
-  const mailingAddress = toTitleCase(line.slice(364, 468).trim().replace(/\s+/g, ' '));
-  const mailingCity = line.slice(468, 496).trim();
-  const mailingState = line.slice(496, 498).trim();
-  const mailingZip = line.slice(498, 508).trim();
+  // Mailing Address 1 (347, len 42) + Address 2 (389, len 42) => slice(346, 430)
+  // Mailing City (431, len 28) => slice(430, 458)
+  // Mailing State (459, len 2) => slice(458, 460)
+  // Mailing Zip (461, len 10) => slice(460, 470)
+  const mailingAddress = toTitleCase(line.slice(346, 430).trim().replace(/\s+/g, ' '));
+  const mailingCity = line.slice(430, 458).trim();
+  const mailingState = line.slice(458, 460).trim();
+  const mailingZip = line.slice(460, 470).trim();
 
-  // Filing date (MMDDYYYY or YYYYMMDD around offset 508-516)
-  const rawDate = line.slice(508, 516).trim();
+  // File Date (473, len 8) => slice(472, 480)
+  const rawDate = line.slice(472, 480).trim();
   let filingDate = new Date().toISOString().slice(0, 10);
   if (/^\d{8}$/.test(rawDate)) {
-    if (rawDate.startsWith('202')) {
+    if (rawDate.startsWith('20') || rawDate.startsWith('19')) {
       filingDate = `${rawDate.slice(0, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`;
     } else {
       filingDate = `${rawDate.slice(4, 8)}-${rawDate.slice(0, 2)}-${rawDate.slice(2, 4)}`;
     }
   }
 
+  // Registered Agent Name (545, len 42) => slice(544, 586), RA Type (587, len 1) => slice(586, 587)
+  // RA Address (588, len 42) => slice(587, 629), RA City (630, len 28) => slice(629, 657)
   const registeredAgent = toTitleCase(line.slice(544, 586).trim());
+  const raCity = line.slice(629, 657).trim();
+  const raState = line.slice(657, 659).trim();
+  const raZip = line.slice(659, 668).trim();
 
   // Parse up to 6 Officer / Authorized Person / Manager blocks (starting at offset 668, 128 chars each)
   const officers = [];
@@ -490,11 +504,17 @@ export function parseSunbizFixedWidthLine(line) {
   // Fallback to Registered Agent if it looks like an individual human (not a corporate agent mill)
   let primaryFounder = officers[0] || null;
   if (!primaryFounder && registeredAgent && !CORPORATE_AGENT_PATTERNS.test(registeredAgent) && !/\b(LLC|INC|CORP|PA|PLLC)\b/i.test(registeredAgent)) {
-    // Sunbiz sometimes formats RA name as "LAST, FIRST" or "FIRST LAST"
     let formattedRa = registeredAgent;
     if (formattedRa.includes(',')) {
       const [last, first] = formattedRa.split(',').map(s => s.trim());
       formattedRa = [first, last].filter(Boolean).join(' ');
+    } else {
+      // Sunbiz 42-char RA Name is also often fixed-width: Last (20 chars) + First (14 chars) + Middle (8 chars)
+      const raLast = line.slice(544, 564).trim();
+      const raFirst = line.slice(564, 578).trim();
+      if (raLast && raFirst && !raLast.includes(' ')) {
+        formattedRa = `${raFirst} ${raLast}`;
+      }
     }
     const split = splitName(formattedRa);
     if (split.ok) {
@@ -509,9 +529,9 @@ export function parseSunbizFixedWidthLine(line) {
 
   if (!primaryFounder) return null;
 
-  const effectiveCity = principalCity || mailingCity;
-  const effectiveZip = principalZip || mailingZip;
-  const effectiveState = principalState || mailingState || 'FL';
+  const effectiveCity = principalCity || mailingCity || raCity;
+  const effectiveZip = principalZip || mailingZip || raZip;
+  const effectiveState = principalState || mailingState || raState || 'FL';
 
   return buildCandidateRecord({
     doc_number: docNumber,
@@ -775,9 +795,11 @@ export async function enrichOutreachCandidate(candidate, env) {
           source = source || 'dataforseo';
         }
       }
-      const vol = await lookupSearchDemandViaDataForSeo(candidate, env);
-      if (vol > 0) {
-        meta.live_search_volume = vol;
+      if (!env.SKIP_LIVE_VOLUME_IN_BULK) {
+        const vol = await lookupSearchDemandViaDataForSeo(candidate, env);
+        if (vol > 0) {
+          meta.live_search_volume = vol;
+        }
       }
     } catch (err) {
       meta.attempts.push({ provider: 'dataforseo', error: err.message });

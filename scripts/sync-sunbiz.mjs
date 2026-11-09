@@ -157,7 +157,8 @@ async function main() {
     console.log(`[Sunbiz Sync] Running Smart Hybrid Enrichment on top ${toEnrich.length} high-priority candidates...`);
     for (const cand of toEnrich) {
       try {
-        const enr = await enrichOutreachCandidate(cand, env);
+        // Use pre-calibrated DataForSEO county/niche search volume during bulk sync
+        const enr = await enrichOutreachCandidate(cand, { ...env, SKIP_LIVE_VOLUME_IN_BULK: true });
         if (enr.email) cand.email = enr.email;
         if (enr.phone) cand.phone = enr.phone;
         if (enr.website) cand.website = enr.website;
@@ -165,7 +166,7 @@ async function main() {
         cand.enrichment_source = enr.source;
         cand.enrichment_confidence = enr.confidence;
         cand.enrichment_meta = JSON.stringify(enr.meta || {});
-        console.log(`  -> ${cand.business_name_clean} (${cand.founder_name}): ${enr.status} [email=${cand.email || 'none'}, phone=${cand.phone || 'none'}]`);
+        console.log(`  -> ${cand.business_name_clean} (${cand.founder_name}, ${cand.city}): ${enr.status} [email=${cand.email || 'none'}, phone=${cand.phone || 'none'}, src=${cand.enrichment_source || 'none'}]`);
       } catch (err) {
         console.warn(`  -> Enrichment error for ${cand.business_name_clean}: ${err.message}`);
       }
