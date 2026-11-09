@@ -1016,12 +1016,28 @@ async function lookupViaApollo(candidate, domain, apiKey) {
     return { found: false };
   }
 
-  let email = person.email || (Array.isArray(person.personal_emails) ? person.personal_emails[0] : null) || null;
+  let email = (typeof person.email === 'string' && person.email.includes('@'))
+    ? person.email
+    : (Array.isArray(person.personal_emails) && typeof person.personal_emails[0] === 'string' ? person.personal_emails[0] : null);
   if (email && /^email_not_unlocked@/i.test(email)) email = null;
 
+  // If the matched person's organization doesn't match the newly filed Sunbiz LLC,
+  // never use a corporate email from an unrelated employer (e.g., @google.com); only allow personal email domains if city matches.
+  if (email && !domain && !orgMatchesCandidate) {
+    const emailDomain = email.split('@')[1]?.toLowerCase() || '';
+    const isPersonalProvider = ['gmail.com', 'yahoo.com', 'icloud.com', 'outlook.com', 'hotmail.com', 'aol.com', 'comcast.net', 'att.net', 'msn.com', 'live.com', 'me.com'].includes(emailDomain);
+    const personCity = String(person.city || '').toLowerCase();
+    const candCity = String(candidate.city || '').toLowerCase();
+    if (!isPersonalProvider || (personCity && candCity && personCity !== candCity)) {
+      email = null;
+    }
+  }
+
   // Only keep organization HQ phone if the organization actually matches the candidate
-  const personalPhone = person.phone_numbers?.[0]?.sanitized_number || null;
-  const orgPhone = orgMatchesCandidate ? (person.organization?.primary_phone?.sanitized_number || null) : null;
+  const rawPersonalPhone = person.phone_numbers?.[0]?.sanitized_number;
+  const personalPhone = (typeof rawPersonalPhone === 'string' && /\d{7,}/.test(rawPersonalPhone)) ? rawPersonalPhone : null;
+  const rawOrgPhone = orgMatchesCandidate ? person.organization?.primary_phone?.sanitized_number : null;
+  const orgPhone = (typeof rawOrgPhone === 'string' && /\d{7,}/.test(rawOrgPhone)) ? rawOrgPhone : null;
   const phone = personalPhone || orgPhone;
   const website = orgMatchesCandidate ? normalizeDomain(person.organization?.website_url || '') : '';
 
@@ -1030,7 +1046,7 @@ async function lookupViaApollo(candidate, domain, apiKey) {
     email,
     phone,
     website,
-    linkedinUrl: person.linkedin_url || null
+    linkedinUrl: typeof person.linkedin_url === 'string' ? person.linkedin_url : null
   };
 }
 
@@ -1059,15 +1075,30 @@ async function lookupViaPdl(candidate, apiKey) {
 
   const body = await res.json().catch(() => ({}));
   const data = body?.data || body;
-  const email = data?.work_email || data?.recommended_personal_email || (Array.isArray(data?.personal_emails) ? data.personal_emails[0] : null) || null;
-  const phone = data?.mobile_phone || (Array.isArray(data?.phone_numbers) ? data.phone_numbers[0] : null) || null;
+
+  // Note: PDL free/starter tiers return boolean `true` when a field exists but is masked.
+  // Only accept actual string values containing '@' (for email) or >=7 digits (for phone).
+  const candidateEmails = [
+    data?.work_email,
+    data?.recommended_personal_email,
+    ...(Array.isArray(data?.personal_emails) ? data.personal_emails : []),
+    ...(Array.isArray(data?.emails) ? data.emails.map(e => e?.address || e) : [])
+  ];
+  const email = candidateEmails.find(e => typeof e === 'string' && e.includes('@')) || null;
+
+  const candidatePhones = [
+    data?.mobile_phone,
+    ...(Array.isArray(data?.phone_numbers) ? data.phone_numbers : []),
+    ...(Array.isArray(data?.phones) ? data.phones.map(p => p?.number || p) : [])
+  ];
+  const phone = candidatePhones.find(p => typeof p === 'string' && /\d{7,}/.test(p)) || null;
 
   return {
     found: Boolean(email || phone),
     email,
     phone,
     likelihood: body?.likelihood || null,
-    linkedinUrl: data?.linkedin_url ? `https://${data.linkedin_url.replace(/^https?:\/\//, '')}` : null
+    linkedinUrl: typeof data?.linkedin_url === 'string' ? `https://${data.linkedin_url.replace(/^https?:\/\//, '')}` : null
   };
 }
 
