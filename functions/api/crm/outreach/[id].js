@@ -173,7 +173,10 @@ export async function onRequestPost(context) {
   // -------------------------------------------------------------------------
   if (action === 'enrich') {
     const hasProvider = Boolean(
-      env.ENRICHMENT_API_KEY || env.APOLLO_API_KEY || env.PDL_API_KEY || (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
+      env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API ||
+      env.APOLLO_API_KEY || env.APOLLO_API ||
+      env.PDL_API_KEY || env.PDL_API ||
+      (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
     );
 
     if (!hasProvider) {

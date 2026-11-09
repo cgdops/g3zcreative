@@ -142,10 +142,10 @@ async function main() {
   const env = {
     DATAFORSEO_LOGIN: process.env.DATAFORSEO_LOGIN,
     DATAFORSEO_PASSWORD: process.env.DATAFORSEO_PASSWORD,
-    ENRICHMENT_API_KEY: process.env.ENRICHMENT_API_KEY,
+    ENRICHMENT_API_KEY: process.env.ENRICHMENT_API_KEY || process.env.HUNTER_API_KEY || process.env.HUNTER_API,
     ENRICHMENT_PROVIDER: process.env.ENRICHMENT_PROVIDER || 'hunter',
-    APOLLO_API_KEY: process.env.APOLLO_API_KEY,
-    PDL_API_KEY: process.env.PDL_API_KEY
+    APOLLO_API_KEY: process.env.APOLLO_API_KEY || process.env.APOLLO_API,
+    PDL_API_KEY: process.env.PDL_API_KEY || process.env.PDL_API
   };
 
   const hasEnrichment = Boolean(

@@ -785,13 +785,14 @@ export async function enrichOutreachCandidate(candidate, env) {
   }
 
   // Stage 2: Hunter.io Domain + Email Finder (if ENRICHMENT_API_KEY is configured)
-  if (!email && env.ENRICHMENT_API_KEY) {
+  const hunterKey = env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API;
+  if (!email && hunterKey) {
     try {
       const hunterRes = await enrichLead({
         name: candidate.founder_name,
         company: candidate.business_name_clean,
         companyDomain: website
-      }, env);
+      }, { ...env, ENRICHMENT_API_KEY: hunterKey });
       meta.attempts.push({ provider: 'hunter', status: hunterRes.status, domain: hunterRes.domain });
       if (hunterRes.domain && !website) website = hunterRes.domain;
       if (hunterRes.email) {
@@ -807,9 +808,10 @@ export async function enrichOutreachCandidate(candidate, env) {
   }
 
   // Stage 3: Apollo.io People Match (Founder First/Last + City, FL + Business Name)
-  if ((!email || !phone) && env.APOLLO_API_KEY) {
+  const apolloKey = env.APOLLO_API_KEY || env.APOLLO_API;
+  if ((!email || !phone) && apolloKey) {
     try {
-      const apolloRes = await lookupViaApollo(candidate, website, env.APOLLO_API_KEY);
+      const apolloRes = await lookupViaApollo(candidate, website, apolloKey);
       meta.attempts.push({ provider: 'apollo', status: apolloRes.found ? 'found' : 'not_found' });
       if (apolloRes.email && !email) {
         email = apolloRes.email;
@@ -828,9 +830,10 @@ export async function enrichOutreachCandidate(candidate, env) {
   }
 
   // Stage 4: People Data Labs Person Enrich (Founder Name + Principal Street Address + City, FL + Zip)
-  if ((!email || !phone) && env.PDL_API_KEY) {
+  const pdlKey = env.PDL_API_KEY || env.PDL_API;
+  if ((!email || !phone) && pdlKey) {
     try {
-      const pdlRes = await lookupViaPdl(candidate, env.PDL_API_KEY);
+      const pdlRes = await lookupViaPdl(candidate, pdlKey);
       meta.attempts.push({ provider: 'pdl', status: pdlRes.found ? 'found' : 'not_found' });
       if (pdlRes.email && !email) {
         email = pdlRes.email;

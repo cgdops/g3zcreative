@@ -299,7 +299,10 @@ export async function onRequestPost(context) {
     // Smart Hybrid Enrichment: Auto-enrich top-scoring niches (score >= 80) up to 5 per synchronous batch
     // so Worker subrequest limits are respected; remaining can be enriched on-click or via batch button.
     const hasAnyEnrichmentProvider = Boolean(
-      env.ENRICHMENT_API_KEY || env.APOLLO_API_KEY || env.PDL_API_KEY || (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
+      env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API ||
+      env.APOLLO_API_KEY || env.APOLLO_API ||
+      env.PDL_API_KEY || env.PDL_API ||
+      (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
     );
 
     if (autoEnrichTop && hasAnyEnrichmentProvider && insertedRecords.length > 0) {
