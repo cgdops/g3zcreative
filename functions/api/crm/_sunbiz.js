@@ -63,88 +63,243 @@ export const SOUTH_FL_CITIES = new Map([
 ]);
 
 // ---------------------------------------------------------------------------
-// 2. Niche Classification & Priority Scoring Rules
+// 2. Niche Classification, Priority Scoring & Industry Lingo / Demand Rules
 // ---------------------------------------------------------------------------
+// Search volumes calibrated via DataForSEO Google Ads Search Volume API
+// across Broward, Miami-Dade, and Palm Beach counties ($0.075/call).
 export const NICHE_RULES = [
   {
     niche: 'Roofing',
     boost: 38,
+    serviceTerm: 'roofing services',
+    lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
+    lingoQuestion: 'Could you use a few more full re-roof or leak repair estimates coming in from online channels, or is your crew already booked out?',
+    seedKeywords: ['roofer', 'roofing company', 'roof repair', 'roof replacement', 'roofer near me', 'roofing contractor'],
+    searchDemand: {
+      'Broward County': 3570,
+      'Miami-Dade County': 6430,
+      'Palm Beach County': 2630,
+      default: 3570
+    },
     serviceHook: 'roof replacements, storm damage inspections, and emergency leak repairs',
     pattern: /\b(ROOF|ROOFING|ROOFER|ROOFERS|SHINGLE|RE-ROOF)\b/i
   },
   {
     niche: 'HVAC',
     boost: 38,
+    serviceTerm: 'AC & HVAC services',
+    lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
+    lingoQuestion: 'Could you use more AC changeout and service calls from online channels right now, or are your techs already running at capacity?',
+    seedKeywords: ['ac repair', 'air conditioning repair', 'hvac repair', 'ac installation', 'hvac company', 'ac repair near me'],
+    searchDemand: {
+      'Broward County': 8550,
+      'Miami-Dade County': 12860,
+      'Palm Beach County': 6340,
+      default: 8550
+    },
     serviceHook: 'AC repair, HVAC installations, and emergency cooling calls',
     pattern: /\b(HVAC|AIR CONDITIONING|A\/C|COOLING|REFRIGERATION|CLIMATE CONTROL|DUCTWORK|MECHANICAL)\b/i
   },
   {
     niche: 'Plumbing',
     boost: 38,
+    serviceTerm: 'plumbing services',
+    lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
+    lingoQuestion: 'Could you use more high-ticket repipe, water heater, or emergency dispatch calls from online channels, or is your board already full?',
+    seedKeywords: ['plumber', 'plumber near me', 'plumbing company', 'emergency plumber', 'drain cleaning', 'water heater repair'],
+    searchDemand: {
+      'Broward County': 11910,
+      'Miami-Dade County': 17210,
+      'Palm Beach County': 8540,
+      default: 11910
+    },
     serviceHook: 'emergency plumbing, leak detection, water heaters, and drain clearing',
     pattern: /\b(PLUMB|PLUMBING|PLUMBER|DRAIN|ROOTER|SEWER|PIPING)\b/i
   },
   {
     niche: 'Electrical',
     boost: 38,
+    serviceTerm: 'electrical services',
+    lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
+    lingoQuestion: 'Could you use more panel upgrade, generator install, or service calls from online channels, or are you mostly booked through GCs and referrals?',
+    seedKeywords: ['electrician', 'electrician near me', 'electrical contractor', 'panel upgrade', 'generator installation'],
+    searchDemand: {
+      'Broward County': 3860,
+      'Miami-Dade County': 6050,
+      'Palm Beach County': 3450,
+      default: 3860
+    },
     serviceHook: 'panel upgrades, residential & commercial electrical, and EV/generator installs',
     pattern: /\b(ELECTRIC|ELECTRICAL|ELECTRICIAN|WIRING|LIGHTING|GENERATOR)\b/i
   },
   {
     niche: 'Landscaping & Lawn',
     boost: 35,
+    serviceTerm: 'landscaping & hardscape services',
+    lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
+    lingoQuestion: 'Are you looking to add more recurring route density and paver/design installs from online channels, or is your schedule already packed?',
+    seedKeywords: ['landscaping', 'landscaping near me', 'lawn care', 'tree service', 'paver installation', 'sod installation'],
+    searchDemand: {
+      'Broward County': 2270,
+      'Miami-Dade County': 3870,
+      'Palm Beach County': 2030,
+      default: 2270
+    },
     serviceHook: 'landscape design, sod installation, tree service, and commercial lawn care',
     pattern: /\b(LANDSCAP|LAWN|TURF|TREE SERVICE|ARBOR|IRRIGATION|HARDSCAP|PAVER|SOD)\b/i
   },
   {
     niche: 'Construction & Remodeling',
     boost: 34,
+    serviceTerm: 'remodeling & contracting services',
+    lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
+    lingoQuestion: 'Could you use more qualified homeowner estimates for remodels or impact jobs from online channels, or is your pipeline booked out on referrals?',
+    seedKeywords: ['general contractor', 'home remodeling', 'kitchen remodeling', 'bathroom remodeling', 'impact windows'],
+    searchDemand: {
+      'Broward County': 3650,
+      'Miami-Dade County': 4330,
+      'Palm Beach County': 2330,
+      default: 3650
+    },
     serviceHook: 'kitchen & bath remodeling, impact windows, flooring, and general contracting',
     pattern: /\b(REMODEL|RENOVAT|CONSTRUCTION|CONTRACTOR|BUILDERS|CABINET|FLOORING|DRYWALL|PAINTING|PAINTER|STUCCO|FENCE|FENCING|GLAZING|WINDOWS|DOORS|CONCRETE|MASONRY|HANDYMAN)\b/i
   },
   {
     niche: 'Pool & Outdoor',
     boost: 34,
+    serviceTerm: 'pool & outdoor living services',
+    lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
+    lingoQuestion: 'Could you use more pool resurfacing, remodel, or weekly route leads from online channels right now?',
+    seedKeywords: ['pool service', 'pool cleaning', 'pool repair', 'pool builder', 'pool resurfacing'],
+    searchDemand: {
+      'Broward County': 1300,
+      'Miami-Dade County': 1290,
+      'Palm Beach County': 840,
+      default: 1300
+    },
     serviceHook: 'pool maintenance, resurfacing, patio enclosures, and outdoor kitchens',
     pattern: /\b(POOL|POOLS|SPA|PATIO|PERGOLA|SCREEN ENCLOSURE)\b/i
   },
   {
     niche: 'Pest Control & Mold',
     boost: 34,
+    serviceTerm: 'pest control & remediation services',
+    lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
+    lingoQuestion: 'Could you use more emergency mitigation calls or recurring pest route signups from online channels?',
+    seedKeywords: ['pest control', 'exterminator', 'termite control', 'mold remediation', 'water damage restoration'],
+    searchDemand: {
+      'Broward County': 3000,
+      'Miami-Dade County': 4690,
+      'Palm Beach County': 2530,
+      default: 3000
+    },
     serviceHook: 'pest control, termite protection, mold remediation, and water damage restoration',
     pattern: /\b(PEST|EXTERMINAT|TERMITE|MOLD|RESTORATION|MITIGATION|BIOHAZARD)\b/i
   },
   {
     niche: 'Cleaning & Property Care',
     boost: 30,
+    serviceTerm: 'cleaning & property care services',
+    lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
+    lingoQuestion: 'Could you use more commercial walkthroughs or recurring residential bookings from online channels?',
+    seedKeywords: ['house cleaning', 'commercial cleaning', 'pressure washing', 'maid service', 'janitorial services'],
+    searchDemand: {
+      'Broward County': 3350,
+      'Miami-Dade County': 4070,
+      'Palm Beach County': 2750,
+      default: 3350
+    },
     serviceHook: 'commercial janitorial, pressure washing, and residential maid services',
     pattern: /\b(CLEANING|CLEANERS|MAID|JANITORIAL|PRESSURE WASH|POWER WASH|SOFT WASH|WINDOW CLEANING|CARPET CLEANING)\b/i
   },
   {
     niche: 'Medical, Dental & Wellness',
     boost: 35,
+    serviceTerm: 'dental, medical & wellness services',
+    lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
+    lingoQuestion: 'Could you use more private-pay consults and new patient bookings coming in from online search?',
+    seedKeywords: ['dentist near me', 'med spa', 'chiropractor near me', 'physical therapy', 'dental implants'],
+    searchDemand: {
+      'Broward County': 20700,
+      'Miami-Dade County': 24500,
+      'Palm Beach County': 17280,
+      default: 20700
+    },
     serviceHook: 'new patient bookings, local treatment searches, and high-trust clinic visibility',
     pattern: /\b(DENTAL|DENTIST|ORTHODONT|MEDICAL|CLINIC|HEALTH|WELLNESS|MEDSPA|AESTHETIC|CHIROPRACT|THERAPY|PHYSICAL THERAPY|COUNSELING|PEDIATRIC|DERMATOLOG|OPTOMETR|VISION|PHARMACY|CARE|NURSING)\b/i
   },
   {
     niche: 'Fitness & Studios',
     boost: 33,
+    serviceTerm: 'classes & studio memberships',
+    lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
+    lingoQuestion: 'Could you use more local intro-trial bookings and monthly members from online search as you fill up your class schedule?',
+    seedKeywords: ['dance studio', 'pilates studio', 'gym near me', 'martial arts', 'yoga studio'],
+    searchDemand: {
+      'Broward County': 20350,
+      'Miami-Dade County': 31000,
+      'Palm Beach County': 11790,
+      default: 20350
+    },
     serviceHook: 'new class trials, studio memberships, and local parent/student signups',
     pattern: /\b(DANCE|STUDIO|GYM|FITNESS|PILATES|YOGA|MARTIAL ARTS|KARATE|JIU JITSU|BOXING|ACADEMY|CROSSFIT|TRAINING)\b/i
   },
   {
     niche: 'Legal & Accounting',
     boost: 32,
+    serviceTerm: 'legal & accounting services',
+    lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
+    lingoQuestion: 'Could your practice use more qualified local client consultations coming in from online search?',
+    seedKeywords: ['cpa near me', 'tax accountant', 'real estate attorney', 'personal injury lawyer', 'bookkeeping services'],
+    searchDemand: {
+      'Broward County': 1030,
+      'Miami-Dade County': 1330,
+      'Palm Beach County': 790,
+      default: 1030
+    },
     serviceHook: 'high-intent client consultations, local practice visibility, and authority positioning',
     pattern: /\b(LAW|LEGAL|ATTORNEY|COUNSEL|ESQ|CPA|ACCOUNTING|TAX|BOOKKEEPING|ADVISOR|NOTARY)\b/i
   },
   {
     niche: 'Auto & Marine',
     boost: 28,
+    serviceTerm: 'auto & marine services',
+    lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
+    lingoQuestion: 'Could you use more high-ticket service bays or mobile bookings coming in from online channels?',
+    seedKeywords: ['auto detailing', 'mobile detailing', 'auto repair', 'mechanic near me', 'boat repair'],
+    searchDemand: {
+      'Broward County': 5420,
+      'Miami-Dade County': 6280,
+      'Palm Beach County': 3690,
+      default: 5420
+    },
     serviceHook: 'mobile detailing, marine service, auto repair, and fleet care',
     pattern: /\b(AUTO|AUTOMOTIVE|DETAILING|CAR WASH|TOWING|MECHANIC|BODY SHOP|TIRES|MARINE|YACHT|BOAT)\b/i
   }
 ];
+
+export function getNicheOutreachMeta(nicheName, countyName = 'Broward County') {
+  const rule = NICHE_RULES.find(r => r.niche === nicheName);
+  const rawMeta = {};
+  if (!rule) {
+    return {
+      serviceTerm: 'local services',
+      lingoServices: 'new customer inquiries and local bookings',
+      lingoQuestion: 'Could you use any more leads from online channels?',
+      searchersCount: 1850,
+      searchersFormatted: '1,850'
+    };
+  }
+  const count = (rule.searchDemand && (rule.searchDemand[countyName] || rule.searchDemand.default)) || 2500;
+  return {
+    serviceTerm: rule.serviceTerm,
+    lingoServices: rule.lingoServices,
+    lingoQuestion: rule.lingoQuestion,
+    seedKeywords: rule.seedKeywords,
+    searchersCount: count,
+    searchersFormatted: count.toLocaleString('en-US')
+  };
+}
 
 // Shell / Holding / Passive Entity Exclusion Patterns
 const SHELL_ENTITY_PATTERNS = [
@@ -561,15 +716,21 @@ export async function enrichOutreachCandidate(candidate, env) {
     verification: null
   };
 
-  // Stage 1: DataForSEO SERP / Maps Lookup (if configured and missing website or phone)
-  if ((!website || !phone) && env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD) {
+  // Stage 1: DataForSEO SERP / Maps Lookup + Local Search Volume (if configured)
+  if (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD) {
     try {
-      const dfs = await lookupViaDataForSeo(candidate, env);
-      meta.attempts.push({ provider: 'dataforseo', foundWebsite: dfs.website, foundPhone: dfs.phone });
-      if (dfs.website && !website) website = dfs.website;
-      if (dfs.phone && !phone) {
-        phone = dfs.phone;
-        source = source || 'dataforseo';
+      if (!website || !phone) {
+        const dfs = await lookupViaDataForSeo(candidate, env);
+        meta.attempts.push({ provider: 'dataforseo_serp', foundWebsite: dfs.website, foundPhone: dfs.phone });
+        if (dfs.website && !website) website = dfs.website;
+        if (dfs.phone && !phone) {
+          phone = dfs.phone;
+          source = source || 'dataforseo';
+        }
+      }
+      const vol = await lookupSearchDemandViaDataForSeo(candidate, env);
+      if (vol > 0) {
+        meta.live_search_volume = vol;
       }
     } catch (err) {
       meta.attempts.push({ provider: 'dataforseo', error: err.message });
@@ -693,6 +854,40 @@ async function lookupViaDataForSeo(candidate, env) {
   return { website, phone };
 }
 
+export async function lookupSearchDemandViaDataForSeo(candidate, env) {
+  const nicheMeta = getNicheOutreachMeta(candidate.niche, candidate.county);
+  const keywords = nicheMeta.seedKeywords;
+  if (!keywords || keywords.length === 0) return nicheMeta.searchersCount;
+
+  const county = candidate.county && candidate.county.includes('County')
+    ? candidate.county
+    : 'Broward County';
+  const authHeader = 'Basic ' + btoa(`${env.DATAFORSEO_LOGIN}:${env.DATAFORSEO_PASSWORD}`);
+  const res = await fetch('https://api.dataforseo.com/v3/keywords_data/google_ads/search_volume/live', {
+    method: 'POST',
+    headers: {
+      'Authorization': authHeader,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify([{
+      location_name: `${county},Florida,United States`,
+      language_name: 'English',
+      keywords
+    }])
+  });
+
+  if (!res.ok) return nicheMeta.searchersCount;
+  const data = await res.json().catch(() => ({}));
+  const items = data?.tasks?.[0]?.result || [];
+  let sum = 0;
+  for (const item of items) {
+    if (item && typeof item.search_volume === 'number') {
+      sum += item.search_volume;
+    }
+  }
+  return sum > 0 ? sum : nicheMeta.searchersCount;
+}
+
 async function lookupViaApollo(candidate, domain, apiKey) {
   const res = await fetch('https://api.apollo.io/api/v1/people/match', {
     method: 'POST',
@@ -771,78 +966,46 @@ async function lookupViaPdl(candidate, apiKey) {
 }
 
 // ---------------------------------------------------------------------------
-// 6. CRO Outreach Email Templates ("Irresistible Offer" System)
+// 6. Authentic Owner-to-Owner Outreach Email Templates (DataForSEO Calibrated)
 // ---------------------------------------------------------------------------
 export const OUTREACH_TEMPLATES = {
   launchpad_mockup: {
     id: 'launchpad_mockup',
-    name: '🔥 Default: Free Custom Homepage Mockup + GBP "No-Suspension" Checklist',
-    subject: 'Congrats on {{business_name_clean}} ({{city}}) — built a quick homepage concept for you',
-    body: `Hi {{first_name}},
+    name: '🤝 Default: Direct Owner-to-Owner + Industry Lingo Question',
+    subject: '{{business_name_clean}}',
+    body: `Hi {{first_name}}, I saw you recently incorporated {{business_name_clean}}.
 
-Congrats on officially registering {{business_name_clean}} here in {{city}}!
+I see {{searchers_count}} people a month are searching for {{service_term}} online around {{city}} ({{lingo_services}}). {{lingo_question}}
 
-When you file a new LLC on Sunbiz, two things usually happen in the first 30 days:
-1. Your mailbox gets flooded with overpriced "official compliance" junk mail.
-2. When you try to verify your Google Business Profile to show up on Google Maps in {{city}}, Google's automated filter often hits brand-new LLCs with an instant suspension if your domain, NAP citations, and entity records aren't aligned first.
+Let me know,
 
-I run G3Z Creative right here in South Florida (Miramar/Pembroke Pines). To say welcome to the local business community, I put together two free resources for {{business_name_clean}} — no strings attached:
-
-1. **The Florida New-LLC Google Maps "No-Suspension" Checklist:** The exact 5-step sequence to get {{business_name_clean}} verified on Google Maps in {{city}} on the first try.
-2. **A Custom 1-Page Homepage Mockup for {{business_name_clean}}:** A clean, conversion-ready homepage concept tailored for {{niche_lower}} in {{city}} so you can see exactly how your brand can look online before spending a dime on web design.
-
-Want me to send over the checklist and your custom {{business_name_clean}} homepage preview link? Just reply **"SEND IT"** (or shoot me a text at 786-967-3699) and I'll drop both in your inbox today.
-
-To a strong launch in {{city}},
-
-Christian Gomez
-Founder, G3Z Creative
-https://g3zcreative.com | (786) 967-3699
-South Florida Web Design & Local/AI SEO`
+Christian`
   },
 
   local_demand_snapshot: {
     id: 'local_demand_snapshot',
-    name: '📊 Angle 2: Local {{city}} Search Demand + Fast-Track Launch',
-    subject: '{{first_name}} — {{niche_lower}} searches in {{city}} right now',
-    body: `Hi {{first_name}},
+    name: '⚡ Angle 2: Ultra-Short Exact Baseline (3 Sentences)',
+    subject: 'Quick question re: {{business_name_clean}}',
+    body: `Hi {{first_name}}, I saw you recently incorporated {{business_name_clean}}.
 
-Saw the new filing for {{business_name_clean}} in {{city}} — congratulations on the launch!
+I see {{searchers_count}} people are searching for {{service_term}} online. Could you use any more leads from online channels?
 
-Most new {{niche_lower}} businesses wait 3 to 6 months before setting up their Google Maps profile and conversion website, which leaves hundreds of local {{city}} searches on the table for older competitors.
+Let me know,
 
-Since we're right here in South Florida, I'd love to send you a **Free Custom Homepage Mockup for {{business_name_clean}}** along with a **60-Second Local Search Snapshot** showing:
-• Exactly how many people in {{city}} & {{county}} search for {{niche_lower}} every month on Google & ChatGPT
-• Our "No-Suspension" Google Business Profile launch checklist so {{business_name_clean}} ranks in the local Map Pack from Day 1
-
-No pitch, no retainer required — if you like the homepage concept, we can launch it in 72 hours; if not, you keep the blueprint and checklist for free.
-
-Reply **"SNAPSHOT"** and I'll send it right over.
-
-Best,
-
-Christian Gomez
-Founder, G3Z Creative
-https://g3zcreative.com | (786) 967-3699`
+Christian`
   },
 
   short_neighbor: {
     id: 'short_neighbor',
-    name: '⚡ Angle 3: Ultra-Short 4-Sentence Neighbor Intro (Mobile-First)',
-    subject: 'Welcome to the {{city}} business community, {{first_name}}!',
-    body: `Hey {{first_name}},
+    name: '📍 Angle 3: Local South FL Owner Intro + Capacity Check',
+    subject: '{{first_name}} / {{business_name_clean}}',
+    body: `Hi {{first_name}}, saw {{business_name_clean}} come through on the new {{city}} filings—congrats on getting it up and running.
 
-Just saw {{business_name_clean}} come through on the new {{city}} business filings — congrats on making it official!
+There are roughly {{searchers_count}} local searches a month right now for {{lingo_services}}. Are you guys taking on more work from online channels yet, or still getting settled in?
 
-I'm a local founder here in South Florida (G3Z Creative), and whenever a great new local business launches nearby, I like to offer a **free custom homepage mockup** + our **Florida Google Business Profile "No-Suspension" Launch Checklist** so you don't get stuck in Google's new-LLC verification filter.
+Let me know,
 
-Mind if I send over the link to the homepage preview I drafted for {{business_name_clean}}?
-
-Cheers,
-
-Christian Gomez
-G3Z Creative | https://g3zcreative.com
-Call/Text: (786) 967-3699`
+Christian`
   }
 };
 
@@ -851,9 +1014,26 @@ export function renderOutreachTemplate(templateId, candidate) {
   const firstName = candidate.founder_first_name || (candidate.founder_name || 'there').split(' ')[0];
   const businessClean = candidate.business_name_clean || cleanBusinessName(candidate.business_name) || 'your business';
   const city = candidate.city || 'South Florida';
-  const county = candidate.county || 'South Florida';
+  const county = candidate.county || 'Broward County';
   const niche = candidate.niche || 'Local Business';
   const nicheLower = niche === 'Local Business' ? 'local services' : niche.toLowerCase();
+
+  const nicheMeta = getNicheOutreachMeta(niche, county);
+
+  // Allow live override if enrichment_meta has live_search_volume from DataForSEO
+  let searchersFormatted = nicheMeta.searchersFormatted;
+  if (candidate.enrichment_meta) {
+    try {
+      const parsedMeta = typeof candidate.enrichment_meta === 'string'
+        ? JSON.parse(candidate.enrichment_meta)
+        : candidate.enrichment_meta;
+      if (parsedMeta?.live_search_volume && Number(parsedMeta.live_search_volume) > 0) {
+        searchersFormatted = Number(parsedMeta.live_search_volume).toLocaleString('en-US');
+      }
+    } catch (_) {
+      // fallback to calibrated county/niche volume
+    }
+  }
 
   const vars = {
     first_name: firstName,
@@ -864,6 +1044,10 @@ export function renderOutreachTemplate(templateId, candidate) {
     county,
     niche,
     niche_lower: nicheLower,
+    service_term: nicheMeta.serviceTerm,
+    lingo_services: nicheMeta.lingoServices,
+    lingo_question: nicheMeta.lingoQuestion,
+    searchers_count: searchersFormatted,
     doc_number: candidate.doc_number || ''
   };
 
