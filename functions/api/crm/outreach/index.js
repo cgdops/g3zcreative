@@ -92,6 +92,21 @@ export async function onRequestGet(context) {
   try {
     await ensureOutreachSchema(env.DB);
 
+    // Automatically scrub any legacy fake sample-batch emails from D1 so they can't cause bounces
+    await env.DB.prepare(`
+      UPDATE outreach_candidates
+      SET email = NULL,
+          enrichment_status = CASE WHEN phone IS NOT NULL AND phone != '' THEN 'partial' ELSE 'unattempted' END,
+          enrichment_source = NULL
+      WHERE email IN (
+        'carlos@pinesapexroofing.com',
+        'david@miramarbreezehvac.com',
+        'dr.navarro@browardelitedental.com',
+        'sofia@westonrhythmdance.com',
+        'jorge@doraltropicallandscape.com'
+      )
+    `).run();
+
     const url = new URL(request.url);
     const search = (url.searchParams.get('q') || '').trim();
     const status = (url.searchParams.get('status') || 'active').trim(); // 'active' = uncontacted, or 'all', 'uncontacted', 'emailed', 'promoted', 'dismissed'

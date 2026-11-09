@@ -1159,12 +1159,12 @@
         <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--border); padding-top: 1rem;">
           <div style="display: flex; gap: 8px;">
             <button type="button" class="btn btn-sm" id="composerCopyBtn" title="Copy Subject & Body to clipboard">📋 Copy Text</button>
-            <button type="button" class="btn btn-sm" id="composerMailtoBtn" style="border-color: rgba(56,189,248,0.4); color: #38bdf8;" title="Open in default Mail client and promote candidate to Contacted">
-              📬 Open in Mail App & Mark Contacted
+            <button type="button" class="btn btn-sm" id="composerSendBtn" style="color: var(--text-muted);" title="Optional direct API send (requires Resend/Postmark/SendGrid key)">
+              ⚡ API Send
             </button>
           </div>
-          <button type="submit" class="btn btn-primary" id="composerSendBtn" style="padding: 0.65rem 1.25rem;">
-            🚀 Send Now & Move to Contacted
+          <button type="submit" class="btn btn-primary" id="composerMailtoBtn" style="padding: 0.65rem 1.25rem;" title="Verify recipient domain, open in your default Mail client, and promote candidate to Contacted">
+            📬 Open in Mail App & Mark Contacted
           </button>
         </div>
       </form>
@@ -2126,18 +2126,21 @@
         }
       });
 
-      // Open in Mail App (mailto:) + Log & Promote to Contacted
-      composerMailtoBtn.addEventListener('click', async () => {
+      // Default Primary Action: Verify Domain DNS -> Open in Mail App (mailto:) + Log & Promote to Contacted
+      outreachEmailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
+
         const to = composerToInput.value.trim();
         const subject = composerSubjectInput.value.trim();
         const plainBody = composerBodyInput.value.trim().replace(/\*\*(.+?)\*\*/g, '$1');
 
-        const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
-        window.open(mailtoUrl, '_blank');
+        composerErrorBox.style.display = 'none';
+        composerMailtoBtn.disabled = true;
+        composerMailtoBtn.textContent = '⏳ Checking domain & logging...';
 
-        if (to && to.includes('@')) {
+        try {
           const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2149,17 +2152,32 @@
               body: plainBody
             })
           });
-          if (res.ok) captureCrmEvent('outreach_email_logged', { delivery_method: 'mail_app' });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            composerErrorBox.textContent = data.error || 'Could not validate recipient email.';
+            composerErrorBox.style.display = 'block';
+            return;
+          }
+
+          captureCrmEvent('outreach_email_logged', { delivery_method: 'mail_app' });
+          const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
+          window.location.href = mailtoUrl;
+
           outreachEmailModalOverlay.classList.remove('active');
-          showToast(`Logged email & promoted ${cand.business_name_clean} to Contacted!`);
+          showToast(`📬 Opened in Mail App & moved ${cand.business_name_clean} to Contacted!`);
           fetchOutreach();
           fetchLeads();
+        } catch (err) {
+          composerErrorBox.textContent = 'Network error while verifying recipient email.';
+          composerErrorBox.style.display = 'block';
+        } finally {
+          composerMailtoBtn.disabled = false;
+          composerMailtoBtn.textContent = '📬 Open in Mail App & Mark Contacted';
         }
       });
 
-      // Direct Send via CRM API
-      outreachEmailForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      // Secondary Optional Action: Direct Send via CRM API
+      composerSendBtn.addEventListener('click', async () => {
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
@@ -2195,7 +2213,7 @@
           composerErrorBox.style.display = 'block';
         } finally {
           composerSendBtn.disabled = false;
-          composerSendBtn.textContent = '🚀 Send Now & Move to Contacted';
+          composerSendBtn.textContent = '⚡ API Send';
         }
       });
 
@@ -2282,7 +2300,7 @@
             city: 'Pembroke Pines',
             state: 'FL',
             zip: '33026',
-            email: 'carlos@pinesapexroofing.com',
+            email: '',
             phone: '(954) 612-8840'
           },
           {
@@ -2295,7 +2313,7 @@
             city: 'Miramar',
             state: 'FL',
             zip: '33027',
-            email: 'david@miramarbreezehvac.com',
+            email: '',
             phone: '(786) 493-2109'
           },
           {
@@ -2308,7 +2326,7 @@
             city: 'Hollywood',
             state: 'FL',
             zip: '33021',
-            email: 'dr.navarro@browardelitedental.com',
+            email: '',
             phone: '(954) 881-3490'
           },
           {
@@ -2334,7 +2352,7 @@
             city: 'Weston',
             state: 'FL',
             zip: '33326',
-            email: 'sofia@westonrhythmdance.com',
+            email: '',
             phone: '(954) 389-7721'
           },
           {
@@ -2360,7 +2378,7 @@
             city: 'Doral',
             state: 'FL',
             zip: '33166',
-            email: 'jorge@doraltropicallandscape.com',
+            email: '',
             phone: '(305) 592-6388'
           }
         ];

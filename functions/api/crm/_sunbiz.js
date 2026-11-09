@@ -703,6 +703,53 @@ function parseCsvLines(lines) {
  *   3. Apollo.io People Match (Founder Name + South FL Location + Business Name -> Email & Phone)
  *   4. People Data Labs Person Enrich (Founder Name + Principal Address + City/Zip -> Personal/Work Email & Mobile Phone)
  */
+/**
+ * Verify that an email address's domain actually exists in DNS and has MX or A records
+ * using Cloudflare DNS-over-HTTPS (1.1.1.1). Prevents sending to nonexistent domains
+ * (550 5.4.310 InfoDomainNonexistent bounces).
+ */
+export async function verifyEmailDomainDns(emailOrDomain) {
+  const domain = normalizeDomain(emailOrDomain);
+  if (!domain) {
+    return { valid: false, domain: '', reason: 'Invalid domain format' };
+  }
+
+  try {
+    const mxRes = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=MX`, {
+      headers: { 'Accept': 'application/dns-json' }
+    });
+    if (mxRes.ok) {
+      const mxData = await mxRes.json().catch(() => ({}));
+      // Status 3 = NXDOMAIN (domain does not exist in DNS)
+      if (mxData.Status === 3) {
+        return { valid: false, domain, reason: `Domain "${domain}" does not exist in DNS (NXDOMAIN)` };
+      }
+      if (Array.isArray(mxData.Answer) && mxData.Answer.length > 0) {
+        return { valid: true, domain, hasMx: true };
+      }
+    }
+
+    // Fallback check for A record (RFC 5321 allows mail delivery to A record if no MX is present, though rare)
+    const aRes = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`, {
+      headers: { 'Accept': 'application/dns-json' }
+    });
+    if (aRes.ok) {
+      const aData = await aRes.json().catch(() => ({}));
+      if (aData.Status === 3) {
+        return { valid: false, domain, reason: `Domain "${domain}" does not exist in DNS (NXDOMAIN)` };
+      }
+      if (Array.isArray(aData.Answer) && aData.Answer.length > 0) {
+        return { valid: false, domain, reason: `Domain "${domain}" has no mail server (MX) records configured` };
+      }
+    }
+
+    return { valid: false, domain, reason: `Domain "${domain}" has no DNS or mail server records` };
+  } catch (err) {
+    // If DNS query fails due to network issue, don't block unnecessarily
+    return { valid: true, domain, warning: err.message };
+  }
+}
+
 export async function enrichOutreachCandidate(candidate, env) {
   let email = candidate.email || null;
   let phone = candidate.phone || null;
@@ -797,6 +844,18 @@ export async function enrichOutreachCandidate(candidate, env) {
       if (pdlRes.linkedinUrl) meta.linkedin_url = pdlRes.linkedinUrl;
     } catch (err) {
       meta.attempts.push({ provider: 'pdl', error: err.message });
+    }
+  }
+
+  // Stage 5: Verify DNS MX records on any discovered email so we never store a nonexistent domain
+  if (email) {
+    const dnsCheck = await verifyEmailDomainDns(email);
+    meta.dns_mx_valid = dnsCheck.valid;
+    if (!dnsCheck.valid) {
+      meta.rejected_unroutable_email = email;
+      meta.rejected_reason = dnsCheck.reason;
+      email = null;
+      confidence = null;
     }
   }
 

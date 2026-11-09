@@ -10,6 +10,7 @@ import { checkAuth } from '../auth.js';
 import {
   enrichOutreachCandidate,
   renderOutreachTemplate,
+  verifyEmailDomainDns,
   OUTREACH_TEMPLATES
 } from '../_sunbiz.js';
 import { ensureOutreachSchema } from './index.js';
@@ -247,6 +248,17 @@ export async function onRequestPost(context) {
     }
     if (!subject || !emailBody) {
       return json({ error: 'Subject and email body are required.' }, 400);
+    }
+
+    // Verify recipient domain exists in DNS and has MX records before sending/logging
+    if (!body.skip_dns_check) {
+      const dnsCheck = await verifyEmailDomainDns(toEmail);
+      if (!dnsCheck.valid) {
+        return json({
+          error: `Bounce protection: ${dnsCheck.reason}. This newly filed LLC likely hasn't set up their domain/email yet — try calling/texting or use the PeopleLookup pill to find the founder's personal Gmail/iCloud/Yahoo address.`,
+          dnsInvalid: true
+        }, 400);
+      }
     }
 
     // Save email onto candidate if Christian typed/updated it directly in the composer
