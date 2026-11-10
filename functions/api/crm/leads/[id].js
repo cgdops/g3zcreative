@@ -101,6 +101,9 @@ export async function onRequestPatch(context) {
     }
 
     const body = await request.json().catch(() => ({}));
+    if (body.deal_value !== undefined && body.estimated_value === undefined) {
+      body.estimated_value = body.deal_value;
+    }
     const updates = [];
     const values = [];
 

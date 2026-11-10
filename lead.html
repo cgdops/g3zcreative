@@ -107,12 +107,60 @@
       font-weight: 700;
     }
 
-    main {
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .playbook-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-subtle);
+      border: 1px solid rgba(218, 16, 77, 0.45);
+      color: #ff6b96;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .playbook-toggle-btn:hover {
+      background: rgba(218, 16, 77, 0.25);
+      color: #ffffff;
+    }
+    .playbook-toggle-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(218, 16, 77, 0.3);
+    }
+
+    /* Two-Column Workspace: Lead Detail (Left) + Call Playbook (Right) */
+    .lead-workspace {
       flex: 1;
       width: 100%;
-      max-width: 860px;
+      max-width: 1480px;
       margin: 0 auto;
-      padding: 1.5rem 1rem 3rem;
+      padding: 1.5rem 1.25rem 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 520px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .lead-workspace.playbook-hidden {
+      max-width: 860px;
+      grid-template-columns: 1fr;
+    }
+    .lead-workspace.playbook-hidden .playbook-sidebar {
+      display: none;
+    }
+
+    main {
+      width: 100%;
+      min-width: 0;
     }
 
     .lead-hero {
@@ -367,10 +415,504 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
+    /* Right-Hand Outreach Call Playbook Sidebar */
+    .playbook-sidebar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: sticky;
+      top: 4.5rem;
+      max-height: calc(100vh - 5.5rem);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+    .playbook-header {
+      padding: 1rem 1.25rem 0.85rem;
+      background: linear-gradient(135deg, rgba(218, 16, 77, 0.16) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .playbook-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 0.35rem;
+    }
+    .playbook-title {
+      font-family: 'Young Serif', serif;
+      font-size: 1.15rem;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .playbook-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+    }
+    .playbook-context-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 0.75rem;
+    }
+    .playbook-context-select,
+    .playbook-context-input {
+      background: #0b0f17;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-family: inherit;
+      width: 100%;
+    }
+    .playbook-context-select:focus,
+    .playbook-context-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .playbook-demand-pill {
+      grid-column: span 2;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: #38bdf8;
+      padding: 0.38rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .playbook-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      background: #0b0f17;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+    .playbook-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.38rem 0.25rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .playbook-tab-btn:hover {
+      color: #ffffff;
+    }
+    .playbook-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .playbook-body {
+      padding: 1rem 1.15rem;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .playbook-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .playbook-section.hidden-section {
+      display: none;
+    }
+    .playbook-sec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .playbook-sec-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .playbook-reset-btn {
+      background: transparent;
+      border: 1px solid #334155;
+      color: var(--text-muted);
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .playbook-reset-btn:hover {
+      color: white;
+      border-color: #64748b;
+    }
+
+    /* Yes/No Gate Cards */
+    .gate-card {
+      background: #0b0f17;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 0.85rem;
+      transition: all 0.18s ease;
+    }
+    .gate-card.active-gate {
+      border-color: var(--info);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.25), 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+    .gate-card.answered-yes {
+      border-color: rgba(34, 197, 94, 0.55);
+      background: rgba(34, 197, 94, 0.05);
+    }
+    .gate-card.answered-no {
+      border-color: rgba(239, 68, 68, 0.55);
+      background: rgba(239, 68, 68, 0.05);
+    }
+    .gate-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 0.45rem;
+    }
+    .gate-step-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.14);
+      color: #38bdf8;
+    }
+    .gate-goal {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .gate-script {
+      font-size: 0.88rem;
+      color: #f8fafc;
+      line-height: 1.48;
+      background: rgba(30, 41, 59, 0.55);
+      border-left: 3px solid var(--info);
+      padding: 0.6rem 0.75rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 0.65rem;
+    }
+    .gate-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 6px;
+    }
+    .gate-btn {
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .gate-btn-yes {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+    }
+    .gate-btn-yes:hover,
+    .gate-btn-yes.selected {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: #052e16;
+    }
+    .gate-btn-no {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+    .gate-btn-no:hover,
+    .gate-btn-no.selected {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+    .gate-btn-copy {
+      background: #131b2e;
+      border-color: #334155;
+      color: #cbd5e1;
+      padding: 0.45rem 0.55rem;
+    }
+    .gate-btn-copy:hover {
+      border-color: #64748b;
+      color: #ffffff;
+    }
+    .gate-outcome-box {
+      margin-top: 0.6rem;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      display: none;
+    }
+    .gate-outcome-box.show {
+      display: block;
+    }
+    .gate-outcome-no {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fecaca;
+    }
+    .gate-outcome-yes {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #bbf7d0;
+    }
+    .gate-quick-action-btn {
+      margin-top: 0.5rem;
+      width: 100%;
+      padding: 0.48rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .gate-quick-action-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Pricing Cards in Playbook */
+    .pricing-tier-card {
+      background: #0b0f17;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .pricing-tier-card.recommended {
+      border-color: rgba(218, 16, 77, 0.55);
+      background: linear-gradient(180deg, rgba(218, 16, 77, 0.07) 0%, #0b0f17 100%);
+    }
+    .pricing-tier-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .pricing-tier-name {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+    .pricing-tier-price {
+      font-family: 'Young Serif', serif;
+      font-size: 1.05rem;
+      color: #4ade80;
+      white-space: nowrap;
+    }
+    .pricing-tier-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .pricing-tier-pitch {
+      font-size: 0.81rem;
+      color: #e2e8f0;
+      line-height: 1.42;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 0.5rem 0.65rem;
+      border-radius: 6px;
+      border-left: 2px solid var(--primary);
+    }
+    .pricing-tier-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      margin-top: 0.2rem;
+    }
+
+    /* Objections Accordion (<details> + <summary>) */
+    .objection-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .objection-item {
+      background: #0b0f17;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .objection-item[open] {
+      border-color: #475569;
+    }
+    .objection-summary {
+      padding: 0.65rem 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #f8fafc;
+      cursor: pointer;
+      background: rgba(30, 41, 59, 0.35);
+      transition: background 0.15s ease;
+    }
+    .objection-summary:hover {
+      background: rgba(30, 41, 59, 0.7);
+    }
+    .objection-content {
+      padding: 0.7rem 0.8rem;
+      border-top: 1px solid #1e293b;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .objection-pivot {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 2px solid var(--info);
+      padding: 0.45rem 0.6rem;
+      border-radius: 0 6px 6px 0;
+      color: #bae6fd;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    /* Next Steps Card */
+    .next-step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .next-step-item {
+      background: #0b0f17;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.81rem;
+      line-height: 1.42;
+      color: #e2e8f0;
+    }
+    .next-step-num {
+      font-weight: 800;
+      color: var(--primary);
+      margin-right: 4px;
+    }
+
+    /* Sticky Playbook Footer Outcome Bar */
+    .playbook-footer {
+      padding: 0.75rem 1rem;
+      background: #0b0f17;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .playbook-footer-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .playbook-outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .outcome-pill-btn {
+      padding: 0.45rem 0.35rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      border: 1px solid #334155;
+      background: #131b2e;
+      color: #e2e8f0;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .outcome-pill-btn:hover {
+      border-color: #64748b;
+      background: #1c2742;
+      color: #ffffff;
+    }
+    .outcome-pill-lost {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+    .outcome-pill-lost:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+    }
+    .outcome-pill-qualified {
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+    .outcome-pill-qualified:hover {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: #052e16;
+    }
+
+    @media (max-width: 1120px) {
+      .lead-workspace {
+        grid-template-columns: 1fr;
+      }
+      .playbook-sidebar {
+        position: static;
+        max-height: none;
+      }
+    }
+
     @media (max-width: 768px) {
       input, select, textarea { font-size: 16px !important; }
       header { padding: 0.75rem 1rem; }
-      main { padding: 1rem 0.85rem 3rem; }
+      .lead-workspace { padding: 1rem 0.85rem 3rem; }
       .lead-hero { padding: 1.25rem 1rem; }
       .lead-name { font-size: 1.45rem; }
       .direct-actions-grid { grid-template-columns: 1fr; gap: 8px; }
@@ -380,6 +922,7 @@
       .full-width-item { grid-column: span 1; }
       .note-form { flex-direction: column; }
       .danger-zone { flex-direction: column; gap: 10px; text-align: center; }
+      .playbook-outcome-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -403,15 +946,20 @@
   <header>
     <div class="brand-group">
       <a href="/crm" class="back-btn">&larr; Pipeline</a>
-      <img src="/images/favicon.png" width="28" height="28" style="border-radius: 6px;">
+      <a href="/crm#outreach" class="back-btn" title="Back to Sunbiz Outreach">&larr; Outreach</a>
+      <img src="/images/favicon.png" width="28" height="28" style="border-radius: 6px;" alt="">
       <div style="font-weight: 700; font-size: 1.05rem;">G3Z <span class="crm-badge">CRM</span></div>
     </div>
-    <div>
-      <button id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Lock</button>
+    <div class="header-actions">
+      <button type="button" id="togglePlaybookBtn" class="playbook-toggle-btn active" aria-expanded="true" aria-controls="playbookSidebar">
+        📖 Call Playbook
+      </button>
+      <button type="button" id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Lock</button>
     </div>
   </header>
 
-  <!-- Main Content -->
+  <div class="lead-workspace" id="leadWorkspace">
+  <!-- Main Content (Left Column) -->
   <main id="mainContainer">
     <!-- Hero Lead Summary -->
     <div class="lead-hero">
@@ -505,9 +1053,334 @@
         <div style="font-weight: 700; font-size: 0.95rem; color: #f87171;">Delete Lead</div>
         <div style="font-size: 0.8rem; color: var(--text-muted);">Permanently remove this contact and activity history.</div>
       </div>
-      <button class="btn-danger" id="deleteBtn">🗑️ Delete Lead</button>
+      <button type="button" class="btn-danger" id="deleteBtn">🗑️ Delete Lead</button>
     </div>
   </main>
+
+  <!-- Right Column: Yes/No Outreach Call Playbook -->
+  <aside id="playbookSidebar" class="playbook-sidebar" aria-label="Outreach Call Playbook">
+    <div class="playbook-header">
+      <div class="playbook-title-row">
+        <div class="playbook-title">
+          <span>⚡ Yes/No Call Playbook</span>
+        </div>
+        <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn" title="Reset Yes/No question flow">↺ Reset Flow</button>
+      </div>
+      <div class="playbook-subtitle">
+        Ask simple Yes/No questions to disqualify non-buyers in 15s or pivot straight to flat-rate pricing.
+      </div>
+
+      <!-- Live Niche & City Calibration -->
+      <div class="playbook-context-bar">
+        <select id="playbookNicheSelect" class="playbook-context-select" aria-label="Target Niche">
+          <option value="Roofing">Roofing</option>
+          <option value="HVAC">HVAC &amp; AC</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Landscaping & Lawn">Landscaping &amp; Pavers</option>
+          <option value="Construction & Remodeling">Remodeling &amp; Impact</option>
+          <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
+          <option value="Pest Control & Mold">Pest &amp; Remediation</option>
+          <option value="Cleaning & Property Care">Cleaning &amp; Janitorial</option>
+          <option value="Medical, Dental & Wellness">Medical / Dental / MedSpa</option>
+          <option value="Fitness & Studios">Fitness &amp; Studios</option>
+          <option value="Legal & Accounting">Legal &amp; CPA</option>
+          <option value="Auto & Marine">Auto &amp; Marine</option>
+          <option value="Local Business" selected>General Local Business</option>
+        </select>
+        <input type="text" id="playbookCityInput" class="playbook-context-input" placeholder="City (e.g. Miramar)" value="South Florida" aria-label="Target City">
+        <div class="playbook-demand-pill" id="playbookDemandPill">
+          <span id="playbookDemandText">📈 ~1,850 local searches/mo</span>
+          <span id="playbookCopyToast" style="color: #4ade80; display: none;">&check; Copied!</span>
+        </div>
+      </div>
+
+      <!-- Quick Filter Tabs -->
+      <div class="playbook-tabs" role="tablist" aria-label="Playbook sections">
+        <button type="button" class="playbook-tab-btn active" data-tab="all">All</button>
+        <button type="button" class="playbook-tab-btn" data-tab="gates">1. Yes/No</button>
+        <button type="button" class="playbook-tab-btn" data-tab="pricing">2. Pricing</button>
+        <button type="button" class="playbook-tab-btn" data-tab="objections">3. Objections</button>
+        <button type="button" class="playbook-tab-btn" data-tab="nextsteps">4. Close</button>
+      </div>
+    </div>
+
+    <div class="playbook-body" id="playbookBody">
+      <!-- SECTION 1: 4 Simple Yes/No Qualification Gates -->
+      <section class="playbook-section" id="pbSecGates" data-section="gates" aria-label="Yes or No Qualification Questions">
+        <div class="playbook-sec-header">
+          <div class="playbook-sec-label">🎯 Step 1: Yes / No Filter Questions</div>
+          <span style="font-size: 0.68rem; color: var(--text-muted);">Goal: Fast Yes or Fast No</span>
+        </div>
+
+        <!-- Gate 1 -->
+        <div class="gate-card active-gate" id="gateCard1" data-gate="1">
+          <div class="gate-top">
+            <span class="gate-step-badge">Q1 &bull; Owner Check</span>
+            <span class="gate-goal">5 sec</span>
+          </div>
+          <div class="gate-script" id="gateScript1"></div>
+          <div class="gate-btn-row">
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="1" data-answer="yes">&check; YES (Go to Q2)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="1" data-answer="no">&times; NO (Not Owner)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" title="Copy question for SMS/Email">📋</button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-no" id="gateOutcome1No">
+            <strong>Ask Gatekeeper:</strong> "No problem — is there a direct number or email for <span class="pb-var-first">the owner</span>, or should I cross you guys off my list?"
+            <button type="button" class="gate-quick-action-btn" data-quick-status="contacted" data-quick-note="Call: Spoke to gatekeeper, owner unavailable.">
+              💬 Log Gatekeeper Note &amp; Mark Contacted
+            </button>
+          </div>
+        </div>
+
+        <!-- Gate 2 -->
+        <div class="gate-card" id="gateCard2" data-gate="2">
+          <div class="gate-top">
+            <span class="gate-step-badge">Q2 &bull; Capacity &amp; Demand</span>
+            <span class="gate-goal">10 sec</span>
+          </div>
+          <div class="gate-script" id="gateScript2"></div>
+          <div class="gate-btn-row">
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes">&check; YES (Wants Work)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no">&times; NO (Booked Out)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" title="Copy question for SMS/Email">📋</button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-no" id="gateOutcome2No">
+            <strong>Fast Disqualify Exit:</strong> "Glad to hear your board is full! I won't take up another second of your day—I'll cross you off my list. Best of luck with <span class="pb-var-company">the business</span>!"
+            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on Q2 (No): Already at capacity / not looking for more leads.">
+              ⚡ Mark Lost (No Capacity) &amp; Log Call
+            </button>
+          </div>
+        </div>
+
+        <!-- Gate 3 -->
+        <div class="gate-card" id="gateCard3" data-gate="3">
+          <div class="gate-top">
+            <span class="gate-step-badge">Q3 &bull; Partner Filter</span>
+            <span class="gate-goal">10 sec</span>
+          </div>
+          <div class="gate-script" id="gateScript3"></div>
+          <div class="gate-btn-row">
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes">&check; YES (Open to Partner)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no">&times; NO (In-House / No Help)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" title="Copy question for SMS/Email">📋</button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-no" id="gateOutcome3No">
+            <strong>Fast Disqualify Exit:</strong> "Totally respect that—I only want to talk to owners who want someone handling online lead capture for them, so I'll get out of your hair. Appreciate the straight answer!"
+            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on Q3 (No): Does not want to work with an outside partner.">
+              ⚡ Mark Lost (Doesn't Want Partner) &amp; Log Call
+            </button>
+          </div>
+        </div>
+
+        <!-- Gate 4 -->
+        <div class="gate-card" id="gateCard4" data-gate="4">
+          <div class="gate-top">
+            <span class="gate-step-badge">Q4 &bull; Flat-Rate Pitch Check</span>
+            <span class="gate-goal">15 sec</span>
+          </div>
+          <div class="gate-script" id="gateScript4"></div>
+          <div class="gate-btn-row">
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="4" data-answer="yes">&check; YES (Pitch Pricing)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="4" data-answer="no">&times; NO (Send by Text/Email)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" title="Copy question for SMS/Email">📋</button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-yes" id="gateOutcome4Yes">
+            <strong>🔥 Green Light — Read Pricing Below!</strong> They want more business, are open to a partner, and want to hear the flat-rate options.
+            <button type="button" class="gate-quick-action-btn" data-quick-status="qualified" data-quick-value="1500" data-quick-note="Qualified on Call (4x YES): Open to partner and reviewing flat-rate packages.">
+              🎯 Mark Qualified ($1,500 Est.) &amp; Log
+            </button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-no" id="gateOutcome4No">
+            <strong>Quick Pivot:</strong> "Fair enough—is this number best for a quick text with the 3 flat prices ($500 Pilot, $3k Platform, $2.5k/mo Growth), or should I send it to your email?"
+            <button type="button" class="gate-quick-action-btn" id="copyPricingSummaryFromGateBtn">
+              📋 Copy 3-Tier Pricing Summary for SMS/Email
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Prepared for YES — Flat-Rate Pricing & ROI -->
+      <section class="playbook-section" id="pbSecPricing" data-section="pricing" aria-label="Flat-rate pricing options">
+        <div class="playbook-sec-header">
+          <div class="playbook-sec-label">💰 Step 2: Prepared for "YES" — Pricing</div>
+          <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">50% Upfront / 50% on Launch</span>
+        </div>
+
+        <!-- Tier 1: $500 Pilot -->
+        <div class="pricing-tier-card">
+          <div class="pricing-tier-top">
+            <span class="pricing-tier-name">01 / Pilot: Static Launchpad</span>
+            <span class="pricing-tier-price">$500 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">one-time</span></span>
+          </div>
+          <div class="pricing-tier-sub">$250 deposit to start, $250 when live &bull; +$99–$199/mo managed hosting</div>
+          <div class="pricing-tier-pitch" id="pitchTier1"></div>
+          <div class="pricing-tier-actions">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Pilot Static Landing Page ($500)" data-tier-value="500">
+              &check; Pitch &amp; Set $500 Proposal
+            </button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" title="Copy Tier 1 Pitch">📋</button>
+          </div>
+        </div>
+
+        <!-- Tier 2: $3,000 Dynamic Web Platform -->
+        <div class="pricing-tier-card recommended">
+          <div class="pricing-tier-top">
+            <span class="pricing-tier-name">02 / Scale: Dynamic Web + CRM ⭐</span>
+            <span class="pricing-tier-price">$3,000 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">one-time</span></span>
+          </div>
+          <div class="pricing-tier-sub">$1,500 deposit, $1,500 on launch &bull; Built-in CRM, CMS &amp; Local SEO Schema</div>
+          <div class="pricing-tier-pitch" id="pitchTier2"></div>
+          <div class="pricing-tier-actions">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Dynamic Web Platform + CRM ($3,000)" data-tier-value="3000">
+              &check; Pitch &amp; Set $3,000 Proposal
+            </button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" title="Copy Tier 2 Pitch">📋</button>
+          </div>
+        </div>
+
+        <!-- Tier 3: $2,500/mo Growth Retainer -->
+        <div class="pricing-tier-card">
+          <div class="pricing-tier-top">
+            <span class="pricing-tier-name">03 / Turbo: AI &amp; Local SEO Retainer</span>
+            <span class="pricing-tier-price">$2,500<span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">/mo</span></span>
+          </div>
+          <div class="pricing-tier-sub">Month-to-month (cancel w/ 15-day notice) &bull; Free Managed Hosting Included</div>
+          <div class="pricing-tier-pitch" id="pitchTier3"></div>
+          <div class="pricing-tier-actions">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Growth & AI SEO Retainer ($2,500/mo)" data-tier-value="2500">
+              &check; Pitch &amp; Set $2,500 Proposal
+            </button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" title="Copy Tier 3 Pitch">📋</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Quick & Simple Answers to Most Objections -->
+      <section class="playbook-section" id="pbSecObjections" data-section="objections" aria-label="Common call objections">
+        <div class="playbook-sec-header">
+          <div class="playbook-sec-label">🛡️ Step 3: Quick Answers to Objections</div>
+          <span style="font-size: 0.68rem; color: var(--text-muted);">1-Sentence + Yes/No Pivot</span>
+        </div>
+
+        <div class="objection-list">
+          <details class="objection-item" name="playbook-objection" open>
+            <summary class="objection-summary">💵 "How much does this cost?"</summary>
+            <div class="objection-content" id="objText1">
+              <div>"We don't bill hourly. A 1–5 page Pilot site is <strong>$500 flat</strong> ($250 deposit), a full CRM Web Platform is <strong>$3,000 flat</strong>, and monthly local SEO is <strong>$2,500/mo</strong> with no contract."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "Does starting with the $500 Pilot to capture immediate local calls make sense, yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText1">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">⏳ "We just filed / aren't ready yet"</summary>
+            <div class="objection-content" id="objText2">
+              <div>"That's actually why I reached out—Google takes 30 to 60 days to index a new domain and verify your Map Pack profile."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "If we get the $500 Pilot live in 48 hours so Google starts aging it now, will you be ready for calls in 30 days—yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText2">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">🤝 "We get all our business from referrals"</summary>
+            <div class="objection-content" id="objText3">
+              <div>"Referrals are the best leads—but the first thing a referral does is Google your company name, and if nothing credible pops up, they call a competitor."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "Is it worth a one-time $500 Pilot so you never lose a referral who Googles you—yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText3">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">🧑‍💻 "I already have a website / marketing guy"</summary>
+            <div class="objection-content" id="objText4">
+              <div>"Awesome, you're ahead of 90% of new filings. I only step in if there's a gap in local Map Pack or AI search."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "Are you already ranking top 3 in <span class="pb-var-city">your city</span> for <span class="pb-var-service">your services</span>, or would you be open to a free 2-minute side-by-side check—yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText4">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">🔒 "I don't want to sign a long contract"</summary>
+            <div class="objection-content" id="objText5">
+              <div>"Neither do I. Builds are 50% upfront and 50% only after you approve the live site, and retainers are month-to-month—cancel anytime with 15 days notice."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "With zero long-term lock-in, are you open to kicking off the $500 Pilot this week—yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText5">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">📉 "Too expensive / no budget right now"</summary>
+            <div class="objection-content" id="objText6">
+              <div>"Totally get it—cash flow comes first. That's why the Pilot is just $250 today and $250 when finished, and one average job pays it back 3x over."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "Does $250 down to get a 100/100 converting site live work for your budget right now—yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText6">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">📧 "Just send me an email / let me think about it"</summary>
+            <div class="objection-content" id="objText7">
+              <div>"Happy to send the 3-bullet breakdown right now so you have the exact numbers."</div>
+              <div class="objection-pivot">👉 Yes/No Pivot: "Just so I don't chase you if it's a no—are you genuinely looking to add more <span class="pb-var-service">local jobs</span> in the next 30 days (Yes), or should I check back in 6 months (No)?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText7">📋 Copy Answer</button>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- SECTION 4: Next Steps When They Say YES -->
+      <section class="playbook-section" id="pbSecNextSteps" data-section="nextsteps" aria-label="Next steps to close">
+        <div class="playbook-sec-header">
+          <div class="playbook-sec-label">🚀 Step 4: Next Steps on a "YES"</div>
+          <span style="font-size: 0.68rem; color: var(--info);">48–72h Turnaround</span>
+        </div>
+
+        <ol class="next-step-list">
+          <li class="next-step-item">
+            <span class="next-step-num">1. Lock Package &amp; Email:</span>
+            "I'll send the 1-page scope and 50% deposit link (<strong>$250</strong> for Pilot / <strong>$1,500</strong> for Platform) to <strong class="pb-var-email">your email</strong> right after we hang up."
+          </li>
+          <li class="next-step-item">
+            <span class="next-step-num">2. 3-Item Reply Intake:</span>
+            "Just reply to that email with: (1) the phone number for customer calls, (2) your top 3 services/cities, and (3) your logo if you have one."
+          </li>
+          <li class="next-step-item">
+            <span class="next-step-num">3. Set 48-Hour Review:</span>
+            "I'll text you the live staging link within 48 hours so we can review it together before launch. Sound good?"
+          </li>
+        </ol>
+
+        <div id="recapTemplateHidden" style="display:none;"></div>
+        <button type="button" class="gate-quick-action-btn" id="copyFullRecapBtn" style="margin-top:0.2rem;">
+          📋 Copy Full "Yes" Next-Steps &amp; Pricing Recap (SMS / Email)
+        </button>
+      </section>
+    </div>
+
+    <!-- Sticky Footer: 1-Click Call Outcome Logger -->
+    <div class="playbook-footer">
+      <div class="playbook-footer-label">
+        <span>⚡ 1-Click Call Outcome &amp; Auto-Log</span>
+        <span id="playbookQuickStatusMsg" style="color: var(--success);"></span>
+      </div>
+      <div class="playbook-outcome-grid">
+        <button type="button" class="outcome-pill-btn outcome-pill-lost" data-quick-status="lost" data-quick-note="Call Outcome: Said NO / Not interested in capturing more business.">
+          🚫 Said No (Lost)
+        </button>
+        <button type="button" class="outcome-pill-btn" data-quick-status="contacted" data-quick-note="Call Outcome: Left voicemail / sent Yes-or-No text follow-up.">
+          📞 Left VM / SMS
+        </button>
+        <button type="button" class="outcome-pill-btn outcome-pill-qualified" data-quick-status="qualified" data-quick-value="1500" data-quick-note="Call Outcome: Said YES to capturing more leads. Qualified.">
+          🎯 Said Yes (Qual)
+        </button>
+        <button type="button" class="outcome-pill-btn" data-quick-status="proposal" data-quick-value="500" data-quick-note="Call Outcome: Pitched flat-rate package & sending proposal/deposit link.">
+          📄 Sent Proposal
+        </button>
+      </div>
+    </div>
+  </aside>
+  </div><!-- /.lead-workspace -->
 
   <script>
     (function() {
@@ -674,10 +1547,15 @@
         leadReceivedTime.textContent = 'Received: ' + (lead.created_at ? new Date(lead.created_at.replace(' ', 'T') + 'Z').toLocaleString() : 'Just now') + ' (' + timeAgo(lead.created_at) + ')';
 
         stageSelect.value = lead.status || 'new';
-        valueInput.value = lead.deal_value || '';
+        valueInput.value = (lead.estimated_value !== undefined && lead.estimated_value !== null)
+          ? lead.estimated_value
+          : (lead.deal_value || '');
 
         const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
-        const rawEmail = lead.email || (lead.contact_info && lead.contact_info.includes('@') ? lead.contact_info : '');
+        const candidateContactEmail = (lead.contact_info && lead.contact_info.includes('@') && !/@google\.com$/i.test(lead.contact_info))
+          ? lead.contact_info
+          : '';
+        const rawEmail = (lead.email && !/@google\.com$/i.test(lead.email)) ? lead.email : candidateContactEmail;
 
         if (rawPhone) {
           btnCall.href = 'tel:' + rawPhone;
@@ -714,6 +1592,7 @@
         detailMessage.textContent = lead.message || 'No additional message provided.';
 
         renderTimeline(notes, lead);
+        syncPlaybookFromLead(lead);
       }
 
       function renderTimeline(notes, lead) {
@@ -732,18 +1611,83 @@
         });
       }
 
+      function buildOsintAndManualEmailHtml(lead, statusText) {
+        const name = (lead && lead.name) ? lead.name : '';
+        const company = (lead && lead.company) ? lead.company : '';
+        const msg = (lead && lead.message) ? lead.message : '';
+        const cityMatch = msg.match(/Address:\s*[^,|]+,\s*([^,|]+),\s*FL/i) || msg.match(/City:\s*([^,|]+),\s*FL/i);
+        const city = cityMatch ? cityMatch[1].trim() : 'Miami';
+
+        const googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent('"' + company + '" "' + city + '" FL phone OR email');
+        const peopleUrl = 'https://www.google.com/search?q=' + encodeURIComponent('"' + name + '" "' + city + '" FL email OR phone');
+        const linkedinUrl = 'https://www.google.com/search?q=' + encodeURIComponent('site:linkedin.com/in "' + name + '" "' + city + '"');
+
+        return (statusText ? '<div style="color:var(--text-muted); margin-bottom:6px;">' + statusText + '</div>' : '')
+          + '<div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">'
+          + '<a href="' + googleUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">🔍 Google</a>'
+          + '<a href="' + peopleUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">👤 PeopleLookup</a>'
+          + '<a href="' + linkedinUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">💼 LinkedIn</a>'
+          + '</div>'
+          + '<div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">'
+          + '<input type="email" id="manualLeadEmailInput" class="search-input" placeholder="Paste found email (e.g. founder@gmail.com)" value="' + escapeHtml((lead && lead.email && !/@google\.com$/i.test(lead.email)) ? lead.email : '') + '" style="flex:1; min-width:160px; font-size:0.78rem; padding:4px 8px;">'
+          + '<button type="button" class="btn btn-sm" id="saveManualEmailBtn">Save Email</button>'
+          + '</div>';
+      }
+
+      function bindManualEmailSave() {
+        const btn = document.getElementById('saveManualEmailBtn');
+        const input = document.getElementById('manualLeadEmailInput');
+        if (!btn || !input) return;
+        btn.addEventListener('click', async () => {
+          const val = input.value.trim();
+          if (!val || !val.includes('@')) {
+            alert('Please enter a valid email address.');
+            return;
+          }
+          btn.disabled = true;
+          btn.textContent = 'Saving...';
+          try {
+            const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: val, contact_info: val })
+            });
+            if (res.ok) {
+              enrichResult.innerHTML = '<span style="color:var(--success, #22c55e);">&check; Email saved to lead.</span>';
+              fetchLeadDetails();
+            } else {
+              alert('Could not save email.');
+            }
+          } catch (_) {
+            alert('Could not save email.');
+          } finally {
+            btn.disabled = false;
+            btn.textContent = 'Save Email';
+          }
+        });
+      }
+
       // Enrichment — shows the last known state without spending a lookup.
       function renderEnrichmentState(lead) {
         if (!lead.enrichment_status || lead.enrichment_status === 'pending') {
-          enrichResult.innerHTML = '';
+          enrichResult.innerHTML = buildOsintAndManualEmailHtml(lead, '');
+          bindManualEmailSave();
           return;
         }
         if (lead.enrichment_status === 'not_found') {
-          enrichResult.innerHTML = '<span style="color:var(--text-muted);">No email found at this domain.</span>';
+          enrichResult.innerHTML = buildOsintAndManualEmailHtml(
+            lead,
+            'Checked DataForSEO, PDL, Hunter &amp; Apollo &mdash; no public email indexed yet for this newly filed LLC.'
+          );
+          bindManualEmailSave();
           return;
         }
         if (lead.enrichment_status === 'failed') {
-          enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">Last lookup failed. Try again.</span>';
+          enrichResult.innerHTML = buildOsintAndManualEmailHtml(
+            lead,
+            'No public email found automatically &mdash; click Find Email to retry or use 1-click lookup:'
+          );
+          bindManualEmailSave();
           return;
         }
         if (lead.enrichment_status === 'found') {
@@ -760,8 +1704,17 @@
         }
 
         if (enrichment.status !== 'found' || !enrichment.email) {
-          enrichResult.innerHTML = '<span style="color:var(--text-muted);">No email found at '
-            + escapeHtml(enrichment.company_domain || 'that domain') + '.</span>';
+          const domainNote = enrichment.company_domain
+            ? 'at ' + escapeHtml(enrichment.company_domain)
+            : 'across DataForSEO, PDL, Hunter &amp; Apollo (newly filed LLC has no public domain/email indexed yet)';
+          enrichResult.innerHTML = buildOsintAndManualEmailHtml(
+            currentLead,
+            'No public email found ' + domainNote + '.'
+          );
+          bindManualEmailSave();
+          if (enrichment.phone && currentLead && !currentLead.phone) {
+            fetchLeadDetails();
+          }
           return;
         }
 
@@ -839,9 +1792,11 @@
       stageForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         try {
+          const numericVal = valueInput.value ? parseFloat(valueInput.value) : 0;
           const payload = {
             status: stageSelect.value,
-            deal_value: valueInput.value ? parseFloat(valueInput.value) : 0
+            estimated_value: numericVal,
+            deal_value: numericVal
           };
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
             method: 'PATCH',
@@ -899,6 +1854,359 @@
         }
       });
 
+      // -----------------------------------------------------------------------
+      // Right-Hand Yes/No Outreach Call Playbook Logic
+      // -----------------------------------------------------------------------
+      const PLAYBOOK_NICHE_META = {
+        'Roofing': {
+          serviceTerm: 'roofing services',
+          lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
+          searchers: '3,570',
+          pattern: /\b(roof|roofing|roofer|shingle)\b/i
+        },
+        'HVAC': {
+          serviceTerm: 'AC & HVAC services',
+          lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
+          searchers: '8,550',
+          pattern: /\b(hvac|air conditioning|a\/c|cooling|refrigeration|mechanical)\b/i
+        },
+        'Plumbing': {
+          serviceTerm: 'plumbing services',
+          lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
+          searchers: '11,910',
+          pattern: /\b(plumb|plumbing|plumber|drain|rooter|sewer|piping)\b/i
+        },
+        'Electrical': {
+          serviceTerm: 'electrical services',
+          lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
+          searchers: '3,860',
+          pattern: /\b(electric|electrical|electrician|wiring|lighting|generator)\b/i
+        },
+        'Landscaping & Lawn': {
+          serviceTerm: 'landscaping & hardscape services',
+          lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
+          searchers: '2,270',
+          pattern: /\b(landscap|lawn|turf|tree|paver|sod|hardscap)\b/i
+        },
+        'Construction & Remodeling': {
+          serviceTerm: 'remodeling & contracting services',
+          lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
+          searchers: '3,650',
+          pattern: /\b(remodel|renovat|construction|contractor|builder|cabinet|flooring|window|door|concrete|stucco|fence|painting|handyman)\b/i
+        },
+        'Pool & Outdoor': {
+          serviceTerm: 'pool & outdoor living services',
+          lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
+          searchers: '1,300',
+          pattern: /\b(pool|spa|patio|pergola|enclosure)\b/i
+        },
+        'Pest Control & Mold': {
+          serviceTerm: 'pest control & remediation services',
+          lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
+          searchers: '3,000',
+          pattern: /\b(pest|exterminat|termite|mold|restoration|mitigation)\b/i
+        },
+        'Cleaning & Property Care': {
+          serviceTerm: 'cleaning & property care services',
+          lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
+          searchers: '3,350',
+          pattern: /\b(clean|cleaning|maid|janitorial|pressure wash|soft wash)\b/i
+        },
+        'Medical, Dental & Wellness': {
+          serviceTerm: 'dental, medical & wellness services',
+          lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
+          searchers: '20,700',
+          pattern: /\b(dental|dentist|medical|clinic|health|wellness|medspa|aesthetic|chiropract|therapy)\b/i
+        },
+        'Fitness & Studios': {
+          serviceTerm: 'classes & studio memberships',
+          lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
+          searchers: '20,350',
+          pattern: /\b(dance|studio|gym|fitness|pilates|yoga|martial|karate|boxing)\b/i
+        },
+        'Legal & Accounting': {
+          serviceTerm: 'legal & accounting services',
+          lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
+          searchers: '1,030',
+          pattern: /\b(law|legal|attorney|cpa|accounting|tax|bookkeeping)\b/i
+        },
+        'Auto & Marine': {
+          serviceTerm: 'auto & marine services',
+          lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
+          searchers: '5,420',
+          pattern: /\b(auto|detailing|car wash|towing|mechanic|marine|yacht|boat)\b/i
+        },
+        'Local Business': {
+          serviceTerm: 'local services',
+          lingoServices: 'new customer inquiries, local quotes, and online bookings',
+          searchers: '1,850',
+          pattern: /.*/
+        }
+      };
+
+      const leadWorkspace = document.getElementById('leadWorkspace');
+      const togglePlaybookBtn = document.getElementById('togglePlaybookBtn');
+      const playbookNicheSelect = document.getElementById('playbookNicheSelect');
+      const playbookCityInput = document.getElementById('playbookCityInput');
+      const playbookDemandText = document.getElementById('playbookDemandText');
+      const playbookCopyToast = document.getElementById('playbookCopyToast');
+      const playbookResetGatesBtn = document.getElementById('playbookResetGatesBtn');
+      const playbookQuickStatusMsg = document.getElementById('playbookQuickStatusMsg');
+
+      // Toggle Playbook Open / Closed
+      if (localStorage.getItem('g3z_playbook_hidden') === '1' && params.get('playbook') !== '1') {
+        leadWorkspace.classList.add('playbook-hidden');
+        togglePlaybookBtn.classList.remove('active');
+        togglePlaybookBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      togglePlaybookBtn.addEventListener('click', () => {
+        const isHidden = leadWorkspace.classList.toggle('playbook-hidden');
+        togglePlaybookBtn.classList.toggle('active', !isHidden);
+        togglePlaybookBtn.setAttribute('aria-expanded', String(!isHidden));
+        localStorage.setItem('g3z_playbook_hidden', isHidden ? '1' : '0');
+      });
+
+      function detectLeadNiche(lead) {
+        const combined = [lead.service_interest, lead.company, lead.message].filter(Boolean).join(' ');
+        for (const key of Object.keys(PLAYBOOK_NICHE_META)) {
+          if (key === 'Local Business') continue;
+          if (combined.toLowerCase().includes(key.toLowerCase()) || PLAYBOOK_NICHE_META[key].pattern.test(combined)) {
+            return key;
+          }
+        }
+        return 'Local Business';
+      }
+
+      function detectLeadCity(lead) {
+        const msg = String(lead.message || '') + ' ' + String(lead.contact_info || '');
+        const addressMatch = msg.match(/Address:\s*[^,|]+,\s*([^,|]+),\s*FL/i) || msg.match(/City:\s*([^,|]+),\s*FL/i);
+        if (addressMatch && addressMatch[1]) return addressMatch[1].trim();
+        const parenMatch = msg.match(/Filed\s+\S+\s+in\s+([^).]+)/i);
+        if (parenMatch && parenMatch[1]) return parenMatch[1].trim();
+        return 'Miramar & Broward';
+      }
+
+      function syncPlaybookFromLead(lead) {
+        if (!lead) return;
+        const detectedNiche = detectLeadNiche(lead);
+        playbookNicheSelect.value = detectedNiche;
+        playbookCityInput.value = detectLeadCity(lead);
+        renderPlaybookScripts();
+      }
+
+      function renderPlaybookScripts() {
+        const lead = currentLead || {};
+        const fullName = (lead.name || 'there').trim();
+        const firstName = fullName.split(/\s+/)[0] || 'there';
+        const company = (lead.company || 'your business').trim();
+        const city = (playbookCityInput.value || 'South Florida').trim();
+        const niche = playbookNicheSelect.value || 'Local Business';
+        const meta = PLAYBOOK_NICHE_META[niche] || PLAYBOOK_NICHE_META['Local Business'];
+        const emailDisplay = (lead.email && !/@google\.com$/i.test(lead.email))
+          ? lead.email
+          : ((lead.contact_info && lead.contact_info.includes('@')) ? lead.contact_info : 'your email');
+
+        playbookDemandText.textContent = `📈 ~${meta.searchers} searches/mo in ${city} for ${meta.serviceTerm}`;
+
+        // Populate inline spans
+        document.querySelectorAll('.pb-var-first').forEach(el => { el.textContent = firstName; });
+        document.querySelectorAll('.pb-var-company').forEach(el => { el.textContent = company; });
+        document.querySelectorAll('.pb-var-city').forEach(el => { el.textContent = city; });
+        document.querySelectorAll('.pb-var-service').forEach(el => { el.textContent = meta.serviceTerm; });
+        document.querySelectorAll('.pb-var-email').forEach(el => { el.textContent = emailDisplay; });
+
+        // 4 Simple Yes/No Gate Questions
+        document.getElementById('gateScript1').textContent =
+          `"Hi ${firstName}, this is Christian in Miramar. Quick question—are you the owner handling new business for ${company}?"`;
+
+        document.getElementById('gateScript2').textContent =
+          `"I'll be super brief—just looking for a quick yes or no so I don't waste your time. There are ~${meta.searchers} people a month searching online around ${city} for ${meta.lingoServices}. Do you have capacity to take on more ${meta.serviceTerm} right now?"`;
+
+        document.getElementById('gateScript3').textContent =
+          `"Are you open to working with someone locally to capture those ${city} searches for ${company}, or are you strictly keeping everything word-of-mouth?"`;
+
+        document.getElementById('gateScript4').textContent =
+          `"Awesome. I don't do hourly billing or long contracts—everything is flat-rate so you know the exact cost upfront. Do you have 30 seconds for me to give you our flat numbers and how we launch in 48 hours?"`;
+
+        // 3 Pricing Tier Pitches
+        document.getElementById('pitchTier1').textContent =
+          `"For $500 flat ($250 deposit today, $250 only after you approve the live site), we build a 1–5 page, 100/100 speed site tailored to ${company} in ${city} so you convert local calls immediately. Since one job pays for this right away, does starting with the $500 Pilot make the most sense—yes or no?"`;
+
+        document.getElementById('pitchTier2').textContent =
+          `"For $3,000 flat ($1,500 to start, $1,500 on launch), we build our full Dynamic Web Platform for ${company} with a built-in CRM, automated lead tracking, easy CMS, and local SEO schema. Would you rather start with the $500 Pilot or go straight to the full $3,000 CRM platform?"`;
+
+        document.getElementById('pitchTier3').textContent =
+          `"To dominate Google Maps and AI search across ${city} for ${meta.lingoServices}, our Growth Retainer is $2,500/mo—strictly month-to-month, cancel anytime with 15 days notice, and managed hosting is included free. Want to pair that now or start with the one-time build first?"`;
+
+        // Full Recap Text for SMS / Email
+        document.getElementById('recapTemplateHidden').textContent =
+          `Hi ${firstName}, great speaking with you about ${company}!\n\nHere are the flat-rate options we discussed to capture the ~${meta.searchers} monthly searches around ${city} for ${meta.lingoServices}:\n\n1) Pilot Static Launchpad: $500 one-time ($250 deposit / $250 on launch) + $99-$199/mo hosting — 1-5 page 100/100 speed site built in 48-72h.\n2) Dynamic Web Platform + CRM (Recommended): $3,000 one-time ($1,500 deposit / $1,500 on launch) — Custom site + built-in CRM, lead tracking & local SEO schema.\n3) Growth & AI SEO Retainer: $2,500/mo (month-to-month, free hosting included) — Full local Map Pack & programmatic SEO.\n\nNext Steps: Reply with which tier you want to launch (1, 2, or 3) + the best phone number for customer calls, and I'll send over the 50% deposit link and have your live preview ready in 48 hours.\n\n— Christian Gomez | G3Z Creative (786-967-3699)`;
+      }
+
+      playbookNicheSelect.addEventListener('change', renderPlaybookScripts);
+      playbookCityInput.addEventListener('input', renderPlaybookScripts);
+
+      // Section Filter Tabs (All | 1. Yes/No | 2. Pricing | 3. Objections | 4. Close)
+      document.querySelectorAll('.playbook-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.playbook-tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const tab = btn.getAttribute('data-tab');
+          document.querySelectorAll('.playbook-section').forEach(sec => {
+            if (tab === 'all' || sec.getAttribute('data-section') === tab) {
+              sec.classList.remove('hidden-section');
+            } else {
+              sec.classList.add('hidden-section');
+            }
+          });
+        });
+      });
+
+      // Yes / No Gate Button Interactions
+      document.querySelectorAll('.gate-btn[data-gate]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const gateNum = parseInt(btn.getAttribute('data-gate'), 10);
+          const answer = btn.getAttribute('data-answer');
+          const card = document.getElementById('gateCard' + gateNum);
+          if (!card) return;
+
+          // Update button selected state
+          card.querySelectorAll('.gate-btn[data-gate]').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+
+          card.classList.remove('active-gate', 'answered-yes', 'answered-no');
+          card.classList.add(answer === 'yes' ? 'answered-yes' : 'answered-no');
+
+          const noBox = document.getElementById('gateOutcome' + gateNum + 'No');
+          const yesBox = document.getElementById('gateOutcome' + gateNum + 'Yes');
+          if (noBox) noBox.classList.toggle('show', answer === 'no');
+          if (yesBox) yesBox.classList.toggle('show', answer === 'yes');
+
+          if (answer === 'yes') {
+            const nextCard = document.getElementById('gateCard' + (gateNum + 1));
+            if (nextCard) {
+              nextCard.classList.add('active-gate');
+              nextCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else if (gateNum === 4) {
+              const pricingSec = document.getElementById('pbSecPricing');
+              if (pricingSec) {
+                pricingSec.classList.remove('hidden-section');
+                pricingSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }
+          }
+        });
+      });
+
+      // Reset Flow
+      playbookResetGatesBtn.addEventListener('click', () => {
+        document.querySelectorAll('.gate-card').forEach((card, idx) => {
+          card.classList.remove('active-gate', 'answered-yes', 'answered-no');
+          if (idx === 0) card.classList.add('active-gate');
+          card.querySelectorAll('.gate-btn').forEach(b => b.classList.remove('selected'));
+          card.querySelectorAll('.gate-outcome-box').forEach(box => box.classList.remove('show'));
+        });
+      });
+
+      // Copy Buttons inside Playbook
+      let copyTimer;
+      function showPlaybookCopied(msg) {
+        playbookCopyToast.textContent = msg || '✓ Copied!';
+        playbookCopyToast.style.display = 'inline';
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(() => { playbookCopyToast.style.display = 'none'; }, 2400);
+      }
+
+      document.querySelectorAll('[data-copy-target]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const targetId = btn.getAttribute('data-copy-target');
+          const el = document.getElementById(targetId);
+          if (!el) return;
+          const cleanText = el.innerText.replace(/📋\s*Copy Answer/g, '').replace(/^"|"$/g, '').trim();
+          try {
+            await navigator.clipboard.writeText(cleanText);
+            showPlaybookCopied('✓ Script copied!');
+          } catch (_) {}
+        });
+      });
+
+      const copyPricingSummaryFromGateBtn = document.getElementById('copyPricingSummaryFromGateBtn');
+      const copyFullRecapBtn = document.getElementById('copyFullRecapBtn');
+      [copyPricingSummaryFromGateBtn, copyFullRecapBtn].forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('click', async () => {
+          const text = document.getElementById('recapTemplateHidden').textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            showPlaybookCopied('✓ Pricing recap copied!');
+          } catch (_) {}
+        });
+      });
+
+      // Helper: One-Click Update Stage + Value + Log Call Note
+      async function executePlaybookQuickOutcome({ status, value, note }) {
+        try {
+          playbookQuickStatusMsg.textContent = 'Saving...';
+          const patchPayload = { status };
+          if (value !== undefined && value !== null) {
+            const num = parseFloat(value);
+            patchPayload.estimated_value = num;
+            patchPayload.deal_value = num;
+            valueInput.value = num;
+          }
+          stageSelect.value = status;
+
+          await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(patchPayload)
+          });
+
+          if (note) {
+            await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                author: 'Chris',
+                type: 'call',
+                content: note
+              })
+            });
+          }
+
+          captureLeadEvent('playbook_outcome_logged', { status, value: value || 0 });
+          playbookQuickStatusMsg.textContent = '✓ Logged (' + status.toUpperCase() + ')';
+          setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3000);
+          fetchLeadDetails();
+        } catch (err) {
+          playbookQuickStatusMsg.textContent = 'Error saving';
+        }
+      }
+
+      document.querySelectorAll('[data-quick-status]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          executePlaybookQuickOutcome({
+            status: btn.getAttribute('data-quick-status'),
+            value: btn.getAttribute('data-quick-value'),
+            note: btn.getAttribute('data-quick-note')
+          });
+        });
+      });
+
+      document.querySelectorAll('[data-select-tier]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tierName = btn.getAttribute('data-select-tier');
+          const tierVal = btn.getAttribute('data-tier-value');
+          executePlaybookQuickOutcome({
+            status: 'proposal',
+            value: tierVal,
+            note: `Playbook Pitch Selected: ${tierName}. Moved to Proposal ($${Number(tierVal).toLocaleString()}).`
+          });
+        });
+      });
+
+      renderPlaybookScripts();
       checkAuth();
     })();
   </script>

@@ -1134,9 +1134,9 @@
           <div>
             <label style="display:block; font-size: 0.76rem; font-weight: 600; margin-bottom: 4px; color: var(--text-muted);">Owner-to-Owner Outreach Angle</label>
             <select id="composerTemplateSelect" class="form-input">
-              <option value="launchpad_mockup">🤝 Default: Direct Owner-to-Owner + Industry Lingo Question</option>
-              <option value="local_demand_snapshot">⚡ Angle 2: Ultra-Short Exact Baseline (3 Sentences)</option>
-              <option value="short_neighbor">📍 Angle 3: Local South FL Owner Intro + Capacity Check</option>
+              <option value="launchpad_mockup">⚡ Default: No-Fluff Search Demand (Direct)</option>
+              <option value="local_demand_snapshot">📍 Angle 2: No-Fluff Search Demand + City</option>
+              <option value="short_neighbor">🤝 Angle 3: Owner-to-Owner + Industry Lingo</option>
             </select>
           </div>
         </div>
@@ -1796,6 +1796,9 @@
                 <button type="button" class="btn btn-primary btn-sm outreach-email-btn" data-id="${escapeHtml(cand.id)}" title="Compose personalized CRO outreach email">
                   ✉️ Email
                 </button>
+                <button type="button" class="btn btn-sm outreach-playbook-btn" data-id="${escapeHtml(cand.id)}" data-lead-id="${escapeHtml(cand.lead_id || '')}" style="border-color: rgba(218, 16, 77, 0.45); color: #ff6b96;" title="Open Lead Detail & Yes/No Call Playbook">
+                  📖 Playbook
+                </button>
                 <button type="button" class="btn btn-sm outreach-enrich-btn" data-id="${escapeHtml(cand.id)}" title="Run automated enrichment waterfall (DataForSEO / Hunter / Apollo / PDL)">
                   ✨ Enrich
                 </button>
@@ -1833,6 +1836,39 @@
           btn.addEventListener('click', async () => {
             const id = btn.getAttribute('data-id');
             await triggerSingleEnrich(id, btn);
+          });
+        });
+
+        // Attach Playbook button listeners
+        tbody.querySelectorAll('.outreach-playbook-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-id');
+            const existingLeadId = btn.getAttribute('data-lead-id');
+            if (existingLeadId) {
+              window.location.href = `/lead?id=${encodeURIComponent(existingLeadId)}&playbook=1`;
+              return;
+            }
+            btn.disabled = true;
+            btn.textContent = '⏳...';
+            try {
+              const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'promote', status: 'new' })
+              });
+              const data = await res.json();
+              if (res.ok && data.lead_id) {
+                window.location.href = `/lead?id=${encodeURIComponent(data.lead_id)}&playbook=1`;
+              } else {
+                showToast('Could not open Playbook.');
+                btn.disabled = false;
+                btn.textContent = '📖 Playbook';
+              }
+            } catch (err) {
+              showToast('Could not open Playbook.');
+              btn.disabled = false;
+              btn.textContent = '📖 Playbook';
+            }
           });
         });
 
@@ -1935,78 +1971,91 @@
       const CLIENT_NICHE_META = {
         'Roofing': {
           serviceTerm: 'roofing services',
+          topServiceQueries: 'roof repair, roof replacement, and local roofers',
           lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
           lingoQuestion: 'Could you use a few more full re-roof or leak repair estimates coming in from online channels, or is your crew already booked out?',
           searchDemand: { 'Broward County': 3570, 'Miami-Dade County': 6430, 'Palm Beach County': 2630, default: 3570 }
         },
         'HVAC': {
           serviceTerm: 'AC & HVAC services',
+          topServiceQueries: 'AC repair, HVAC installation, and emergency AC service',
           lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
           lingoQuestion: 'Could you use more AC changeout and service calls from online channels right now, or are your techs already running at capacity?',
           searchDemand: { 'Broward County': 8550, 'Miami-Dade County': 12860, 'Palm Beach County': 6340, default: 8550 }
         },
         'Plumbing': {
           serviceTerm: 'plumbing services',
+          topServiceQueries: 'emergency plumbers, drain cleaning, leak repair, and water heaters',
           lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
           lingoQuestion: 'Could you use more high-ticket repipe, water heater, or emergency dispatch calls from online channels, or is your board already full?',
           searchDemand: { 'Broward County': 11910, 'Miami-Dade County': 17210, 'Palm Beach County': 8540, default: 11910 }
         },
         'Electrical': {
           serviceTerm: 'electrical services',
+          topServiceQueries: 'local electricians, panel upgrades, and generator installation',
           lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
           lingoQuestion: 'Could you use more panel upgrade, generator install, or service calls from online channels, or are you mostly booked through GCs and referrals?',
           searchDemand: { 'Broward County': 3860, 'Miami-Dade County': 6050, 'Palm Beach County': 3450, default: 3860 }
         },
         'Landscaping & Lawn': {
           serviceTerm: 'landscaping & hardscape services',
+          topServiceQueries: 'landscaping, lawn care, tree service, and paver installation',
           lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
           lingoQuestion: 'Are you looking to add more recurring route density and paver/design installs from online channels, or is your schedule already packed?',
           searchDemand: { 'Broward County': 2270, 'Miami-Dade County': 3870, 'Palm Beach County': 2030, default: 2270 }
         },
         'Construction & Remodeling': {
           serviceTerm: 'remodeling & contracting services',
+          topServiceQueries: 'kitchen & bath remodeling, impact windows, and general contractors',
           lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
           lingoQuestion: 'Could you use more qualified homeowner estimates for remodels or impact jobs from online channels, or is your pipeline booked out on referrals?',
           searchDemand: { 'Broward County': 3650, 'Miami-Dade County': 4330, 'Palm Beach County': 2330, default: 3650 }
         },
         'Pool & Outdoor': {
           serviceTerm: 'pool & outdoor living services',
+          topServiceQueries: 'pool cleaning, pool repair, resurfacing, and custom pool builders',
           lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
           lingoQuestion: 'Could you use more pool resurfacing, remodel, or weekly route leads from online channels right now?',
           searchDemand: { 'Broward County': 1300, 'Miami-Dade County': 1290, 'Palm Beach County': 840, default: 1300 }
         },
         'Pest Control & Mold': {
           serviceTerm: 'pest control & remediation services',
+          topServiceQueries: 'pest control, termite treatment, mold remediation, and water damage restoration',
           lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
           lingoQuestion: 'Could you use more emergency mitigation calls or recurring pest route signups from online channels?',
           searchDemand: { 'Broward County': 3000, 'Miami-Dade County': 4690, 'Palm Beach County': 2530, default: 3000 }
         },
         'Cleaning & Property Care': {
           serviceTerm: 'cleaning & property care services',
+          topServiceQueries: 'house cleaning, commercial janitorial, and pressure washing',
           lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
           lingoQuestion: 'Could you use more commercial walkthroughs or recurring residential bookings from online channels?',
           searchDemand: { 'Broward County': 3350, 'Miami-Dade County': 4070, 'Palm Beach County': 2750, default: 3350 }
         },
         'Medical, Dental & Wellness': {
           serviceTerm: 'dental, medical & wellness services',
+          topServiceQueries: 'local dentists, dental implants, med spas, and chiropractors',
           lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
           lingoQuestion: 'Could you use more private-pay consults and new patient bookings coming in from online search?',
           searchDemand: { 'Broward County': 20700, 'Miami-Dade County': 24500, 'Palm Beach County': 17280, default: 20700 }
         },
         'Fitness & Studios': {
           serviceTerm: 'classes & studio memberships',
+          topServiceQueries: 'local gyms, pilates & yoga studios, dance classes, and martial arts',
           lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
           lingoQuestion: 'Could you use more local intro-trial bookings and monthly members from online search as you fill up your class schedule?',
           searchDemand: { 'Broward County': 20350, 'Miami-Dade County': 31000, 'Palm Beach County': 11790, default: 20350 }
         },
         'Legal & Accounting': {
           serviceTerm: 'legal & accounting services',
+          topServiceQueries: 'local CPAs, tax accountants, bookkeeping, and attorneys',
           lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
           lingoQuestion: 'Could your practice use more qualified local client consultations coming in from online search?',
           searchDemand: { 'Broward County': 1030, 'Miami-Dade County': 1330, 'Palm Beach County': 790, default: 1030 }
         },
         'Auto & Marine': {
           serviceTerm: 'auto & marine services',
+          topServiceQueries: 'auto repair, mobile detailing, mechanics, and boat repair',
           lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
           lingoQuestion: 'Could you use more high-ticket service bays or mobile bookings coming in from online channels?',
           searchDemand: { 'Broward County': 5420, 'Miami-Dade County': 6280, 'Palm Beach County': 3690, default: 5420 }
@@ -2018,6 +2067,7 @@
         if (!rule) {
           return {
             serviceTerm: 'local services',
+            topServiceQueries: 'local services in your area',
             lingoServices: 'new customer inquiries and local bookings',
             lingoQuestion: 'Could you use any more leads from online channels?',
             searchersFormatted: '1,850'
@@ -2026,6 +2076,7 @@
         const count = (rule.searchDemand && (rule.searchDemand[county] || rule.searchDemand.default)) || 2500;
         return {
           serviceTerm: rule.serviceTerm,
+          topServiceQueries: rule.topServiceQueries || rule.serviceTerm,
           lingoServices: rule.lingoServices,
           lingoQuestion: rule.lingoQuestion,
           searchersFormatted: count.toLocaleString('en-US')
@@ -2035,7 +2086,7 @@
       function interpolateClientTemplate(templateKey, cand) {
         const tpl = (state.outreachTemplates && state.outreachTemplates[templateKey]) || {
           subject: '{{business_name_clean}}',
-          body: `Hi {{first_name}}, I saw you recently incorporated {{business_name_clean}}.\n\nI see {{searchers_count}} people a month are searching for {{service_term}} online around {{city}} ({{lingo_services}}). {{lingo_question}}\n\nLet me know,\n\nChristian`
+          body: `Hi {{first_name}}\n\nThere are {{searchers_count}} searches for {{top_service_queries}}.\n\nAre you interested in capturing some of this business?\n\nChristian\n(786) 967-3699`
         };
         const firstName = cand.founder_first_name || (cand.founder_name || 'there').split(' ')[0];
         const businessClean = cand.business_name_clean || cand.business_name || 'your business';
@@ -2067,6 +2118,7 @@
           niche,
           niche_lower: nicheLower,
           service_term: nicheMeta.serviceTerm,
+          top_service_queries: nicheMeta.topServiceQueries,
           lingo_services: nicheMeta.lingoServices,
           lingo_question: nicheMeta.lingoQuestion,
           searchers_count: searchersFormatted,

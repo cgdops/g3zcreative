@@ -72,6 +72,7 @@ export const NICHE_RULES = [
     niche: 'Roofing',
     boost: 38,
     serviceTerm: 'roofing services',
+    topServiceQueries: 'roof repair, roof replacement, and local roofers',
     lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
     lingoQuestion: 'Could you use a few more full re-roof or leak repair estimates coming in from online channels, or is your crew already booked out?',
     seedKeywords: ['roofer', 'roofing company', 'roof repair', 'roof replacement', 'roofer near me', 'roofing contractor'],
@@ -88,6 +89,7 @@ export const NICHE_RULES = [
     niche: 'HVAC',
     boost: 38,
     serviceTerm: 'AC & HVAC services',
+    topServiceQueries: 'AC repair, HVAC installation, and emergency AC service',
     lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
     lingoQuestion: 'Could you use more AC changeout and service calls from online channels right now, or are your techs already running at capacity?',
     seedKeywords: ['ac repair', 'air conditioning repair', 'hvac repair', 'ac installation', 'hvac company', 'ac repair near me'],
@@ -104,6 +106,7 @@ export const NICHE_RULES = [
     niche: 'Plumbing',
     boost: 38,
     serviceTerm: 'plumbing services',
+    topServiceQueries: 'emergency plumbers, drain cleaning, leak repair, and water heaters',
     lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
     lingoQuestion: 'Could you use more high-ticket repipe, water heater, or emergency dispatch calls from online channels, or is your board already full?',
     seedKeywords: ['plumber', 'plumber near me', 'plumbing company', 'emergency plumber', 'drain cleaning', 'water heater repair'],
@@ -120,6 +123,7 @@ export const NICHE_RULES = [
     niche: 'Electrical',
     boost: 38,
     serviceTerm: 'electrical services',
+    topServiceQueries: 'local electricians, panel upgrades, and generator installation',
     lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
     lingoQuestion: 'Could you use more panel upgrade, generator install, or service calls from online channels, or are you mostly booked through GCs and referrals?',
     seedKeywords: ['electrician', 'electrician near me', 'electrical contractor', 'panel upgrade', 'generator installation'],
@@ -136,6 +140,7 @@ export const NICHE_RULES = [
     niche: 'Landscaping & Lawn',
     boost: 35,
     serviceTerm: 'landscaping & hardscape services',
+    topServiceQueries: 'landscaping, lawn care, tree service, and paver installation',
     lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
     lingoQuestion: 'Are you looking to add more recurring route density and paver/design installs from online channels, or is your schedule already packed?',
     seedKeywords: ['landscaping', 'landscaping near me', 'lawn care', 'tree service', 'paver installation', 'sod installation'],
@@ -152,6 +157,7 @@ export const NICHE_RULES = [
     niche: 'Construction & Remodeling',
     boost: 34,
     serviceTerm: 'remodeling & contracting services',
+    topServiceQueries: 'kitchen & bath remodeling, impact windows, and general contractors',
     lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
     lingoQuestion: 'Could you use more qualified homeowner estimates for remodels or impact jobs from online channels, or is your pipeline booked out on referrals?',
     seedKeywords: ['general contractor', 'home remodeling', 'kitchen remodeling', 'bathroom remodeling', 'impact windows'],
@@ -168,6 +174,7 @@ export const NICHE_RULES = [
     niche: 'Pool & Outdoor',
     boost: 34,
     serviceTerm: 'pool & outdoor living services',
+    topServiceQueries: 'pool cleaning, pool repair, resurfacing, and custom pool builders',
     lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
     lingoQuestion: 'Could you use more pool resurfacing, remodel, or weekly route leads from online channels right now?',
     seedKeywords: ['pool service', 'pool cleaning', 'pool repair', 'pool builder', 'pool resurfacing'],
@@ -184,6 +191,7 @@ export const NICHE_RULES = [
     niche: 'Pest Control & Mold',
     boost: 34,
     serviceTerm: 'pest control & remediation services',
+    topServiceQueries: 'pest control, termite treatment, mold remediation, and water damage restoration',
     lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
     lingoQuestion: 'Could you use more emergency mitigation calls or recurring pest route signups from online channels?',
     seedKeywords: ['pest control', 'exterminator', 'termite control', 'mold remediation', 'water damage restoration'],
@@ -200,6 +208,7 @@ export const NICHE_RULES = [
     niche: 'Cleaning & Property Care',
     boost: 30,
     serviceTerm: 'cleaning & property care services',
+    topServiceQueries: 'house cleaning, commercial janitorial, and pressure washing',
     lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
     lingoQuestion: 'Could you use more commercial walkthroughs or recurring residential bookings from online channels?',
     seedKeywords: ['house cleaning', 'commercial cleaning', 'pressure washing', 'maid service', 'janitorial services'],
@@ -216,6 +225,7 @@ export const NICHE_RULES = [
     niche: 'Medical, Dental & Wellness',
     boost: 35,
     serviceTerm: 'dental, medical & wellness services',
+    topServiceQueries: 'local dentists, dental implants, med spas, and chiropractors',
     lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
     lingoQuestion: 'Could you use more private-pay consults and new patient bookings coming in from online search?',
     seedKeywords: ['dentist near me', 'med spa', 'chiropractor near me', 'physical therapy', 'dental implants'],
@@ -232,6 +242,7 @@ export const NICHE_RULES = [
     niche: 'Fitness & Studios',
     boost: 33,
     serviceTerm: 'classes & studio memberships',
+    topServiceQueries: 'local gyms, pilates & yoga studios, dance classes, and martial arts',
     lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
     lingoQuestion: 'Could you use more local intro-trial bookings and monthly members from online search as you fill up your class schedule?',
     seedKeywords: ['dance studio', 'pilates studio', 'gym near me', 'martial arts', 'yoga studio'],
@@ -248,6 +259,7 @@ export const NICHE_RULES = [
     niche: 'Legal & Accounting',
     boost: 32,
     serviceTerm: 'legal & accounting services',
+    topServiceQueries: 'local CPAs, tax accountants, bookkeeping, and attorneys',
     lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
     lingoQuestion: 'Could your practice use more qualified local client consultations coming in from online search?',
     seedKeywords: ['cpa near me', 'tax accountant', 'real estate attorney', 'personal injury lawyer', 'bookkeeping services'],
@@ -264,6 +276,7 @@ export const NICHE_RULES = [
     niche: 'Auto & Marine',
     boost: 28,
     serviceTerm: 'auto & marine services',
+    topServiceQueries: 'auto repair, mobile detailing, mechanics, and boat repair',
     lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
     lingoQuestion: 'Could you use more high-ticket service bays or mobile bookings coming in from online channels?',
     seedKeywords: ['auto detailing', 'mobile detailing', 'auto repair', 'mechanic near me', 'boat repair'],
@@ -284,6 +297,7 @@ export function getNicheOutreachMeta(nicheName, countyName = 'Broward County') {
   if (!rule) {
     return {
       serviceTerm: 'local services',
+      topServiceQueries: 'local services in your area',
       lingoServices: 'new customer inquiries and local bookings',
       lingoQuestion: 'Could you use any more leads from online channels?',
       searchersCount: 1850,
@@ -293,6 +307,7 @@ export function getNicheOutreachMeta(nicheName, countyName = 'Broward County') {
   const count = (rule.searchDemand && (rule.searchDemand[countyName] || rule.searchDemand.default)) || 2500;
   return {
     serviceTerm: rule.serviceTerm,
+    topServiceQueries: rule.topServiceQueries || rule.serviceTerm,
     lingoServices: rule.lingoServices,
     lingoQuestion: rule.lingoQuestion,
     seedKeywords: rule.seedKeywords,
@@ -1359,41 +1374,44 @@ async function lookupViaPdl(candidate, apiKey) {
 export const OUTREACH_TEMPLATES = {
   launchpad_mockup: {
     id: 'launchpad_mockup',
-    name: '🤝 Default: Direct Owner-to-Owner + Industry Lingo Question',
+    name: '⚡ Default: No-Fluff Search Demand (Direct)',
     subject: '{{business_name_clean}}',
-    body: `Hi {{first_name}}, I saw you recently incorporated {{business_name_clean}}.
+    body: `Hi {{first_name}}
 
-I see {{searchers_count}} people a month are searching for {{service_term}} online around {{city}} ({{lingo_services}}). {{lingo_question}}
+There are {{searchers_count}} searches for {{top_service_queries}}.
 
-Let me know,
+Are you interested in capturing some of this business?
 
-Christian`
+Christian
+(786) 967-3699`
   },
 
   local_demand_snapshot: {
     id: 'local_demand_snapshot',
-    name: '⚡ Angle 2: Ultra-Short Exact Baseline (3 Sentences)',
+    name: '📍 Angle 2: No-Fluff Search Demand + City ({{city}})',
     subject: 'Quick question re: {{business_name_clean}}',
-    body: `Hi {{first_name}}, I saw you recently incorporated {{business_name_clean}}.
+    body: `Hi {{first_name}}
 
-I see {{searchers_count}} people are searching for {{service_term}} online. Could you use any more leads from online channels?
+There are {{searchers_count}} searches around {{city}} for {{top_service_queries}}.
 
-Let me know,
+Are you interested in capturing some of this business?
 
-Christian`
+Christian
+(786) 967-3699`
   },
 
   short_neighbor: {
     id: 'short_neighbor',
-    name: '📍 Angle 3: Local South FL Owner Intro + Capacity Check',
+    name: '🤝 Angle 3: Owner-to-Owner + Industry Lingo',
     subject: '{{first_name}} / {{business_name_clean}}',
     body: `Hi {{first_name}}, saw {{business_name_clean}} come through on the new {{city}} filings—congrats on getting it up and running.
 
-There are roughly {{searchers_count}} local searches a month right now for {{lingo_services}}. Are you guys taking on more work from online channels yet, or still getting settled in?
+There are {{searchers_count}} searches for {{top_service_queries}}.
 
-Let me know,
+Are you interested in capturing some of this business?
 
-Christian`
+Christian
+(786) 967-3699`
   }
 };
 
@@ -1433,6 +1451,7 @@ export function renderOutreachTemplate(templateId, candidate) {
     niche,
     niche_lower: nicheLower,
     service_term: nicheMeta.serviceTerm,
+    top_service_queries: nicheMeta.topServiceQueries,
     lingo_services: nicheMeta.lingoServices,
     lingo_question: nicheMeta.lingoQuestion,
     searchers_count: searchersFormatted,
