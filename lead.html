@@ -491,6 +491,56 @@
       justify-content: space-between;
       gap: 6px;
     }
+
+    /* 5-Milestone Progress Tracker */
+    .milestone-track {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin-bottom: 0.6rem;
+    }
+    .milestone-step {
+      background: #0b0f17;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 0.34rem 0.2rem;
+      text-align: center;
+      font-size: 0.66rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .milestone-step:hover {
+      border-color: #334155;
+      color: #cbd5e1;
+    }
+    .milestone-step.current {
+      border-color: var(--info);
+      background: rgba(56, 189, 248, 0.14);
+      color: #e0f2fe;
+    }
+    .milestone-step.done {
+      border-color: rgba(34, 197, 94, 0.5);
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+    }
+    .milestone-step.stopped {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: rgba(239, 68, 68, 0.12);
+      color: #f87171;
+    }
+    .disarm-cue {
+      background: rgba(56, 189, 248, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 7px;
+      padding: 0.42rem 0.65rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.73rem;
+      line-height: 1.4;
+      color: #bae6fd;
+    }
     .playbook-tabs {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -1057,17 +1107,26 @@
     </div>
   </main>
 
-  <!-- Right Column: Yes/No Outreach Call Playbook -->
+  <!-- Right Column: Cold-Call Playbook -->
   <aside id="playbookSidebar" class="playbook-sidebar" aria-label="Outreach Call Playbook">
     <div class="playbook-header">
       <div class="playbook-title-row">
         <div class="playbook-title">
-          <span>⚡ Yes/No Call Playbook</span>
+          <span>📞 Cold-Call Playbook</span>
         </div>
-        <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn" title="Reset Yes/No question flow">↺ Reset Flow</button>
+        <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn" title="Reset call milestones">↺ Reset Call</button>
       </div>
       <div class="playbook-subtitle">
-        Ask simple Yes/No questions to disqualify non-buyers in 15s or pivot straight to flat-rate pricing.
+        Drop their guard fast. Short sentences, plain words, easy "No" exit.
+      </div>
+
+      <!-- 5 Clear Call Milestones -->
+      <div class="milestone-track" id="milestoneTrack" aria-label="Call milestones">
+        <button type="button" class="milestone-step current" id="msStep1" data-jump="gateCard1">1. Disarm</button>
+        <button type="button" class="milestone-step" id="msStep2" data-jump="gateCard2">2. Need?</button>
+        <button type="button" class="milestone-step" id="msStep3" data-jump="gateCard3">3. Help?</button>
+        <button type="button" class="milestone-step" id="msStep4" data-jump="pbSecPricing">4. Price</button>
+        <button type="button" class="milestone-step" id="msStep5" data-jump="pbSecNextSteps">5. Start</button>
       </div>
 
       <!-- Live Niche & City Calibration -->
@@ -1080,9 +1139,9 @@
           <option value="Landscaping & Lawn">Landscaping &amp; Pavers</option>
           <option value="Construction & Remodeling">Remodeling &amp; Impact</option>
           <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
-          <option value="Pest Control & Mold">Pest &amp; Remediation</option>
-          <option value="Cleaning & Property Care">Cleaning &amp; Janitorial</option>
-          <option value="Medical, Dental & Wellness">Medical / Dental / MedSpa</option>
+          <option value="Pest Control & Mold">Pest Control</option>
+          <option value="Cleaning & Property Care">Cleaning</option>
+          <option value="Medical, Dental & Wellness">Medical / Dental</option>
           <option value="Fitness & Studios">Fitness &amp; Studios</option>
           <option value="Legal & Accounting">Legal &amp; CPA</option>
           <option value="Auto & Marine">Auto &amp; Marine</option>
@@ -1098,262 +1157,275 @@
       <!-- Quick Filter Tabs -->
       <div class="playbook-tabs" role="tablist" aria-label="Playbook sections">
         <button type="button" class="playbook-tab-btn active" data-tab="all">All</button>
-        <button type="button" class="playbook-tab-btn" data-tab="gates">1. Yes/No</button>
-        <button type="button" class="playbook-tab-btn" data-tab="pricing">2. Pricing</button>
-        <button type="button" class="playbook-tab-btn" data-tab="objections">3. Objections</button>
-        <button type="button" class="playbook-tab-btn" data-tab="nextsteps">4. Close</button>
+        <button type="button" class="playbook-tab-btn" data-tab="gates">1. Call Flow</button>
+        <button type="button" class="playbook-tab-btn" data-tab="pricing">2. Prices</button>
+        <button type="button" class="playbook-tab-btn" data-tab="objections">3. Pushback</button>
+        <button type="button" class="playbook-tab-btn" data-tab="nextsteps">4. Next Step</button>
       </div>
     </div>
 
     <div class="playbook-body" id="playbookBody">
-      <!-- SECTION 1: 4 Simple Yes/No Qualification Gates -->
-      <section class="playbook-section" id="pbSecGates" data-section="gates" aria-label="Yes or No Qualification Questions">
+      <!-- SECTION 1: Cold-Call Milestones 1 to 4 -->
+      <section class="playbook-section" id="pbSecGates" data-section="gates" aria-label="Yes or No Cold Call Milestones">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🎯 Step 1: Yes / No Filter Questions</div>
-          <span style="font-size: 0.68rem; color: var(--text-muted);">Goal: Fast Yes or Fast No</span>
+          <div class="playbook-sec-label">🎯 Cold-Call Flow (Yes or No)</div>
+          <span style="font-size: 0.68rem; color: var(--text-muted);">Speak 20% slower &bull; Neighbor tone</span>
         </div>
 
-        <!-- Gate 1 -->
+        <div class="disarm-cue">
+          <strong>🛡️ Lower Their Guard:</strong> Admit upfront you're a stranger, say you're local in Miramar, and tell them "say no and I'll hang up." Control relaxes people.
+        </div>
+
+        <!-- Milestone 1 -->
         <div class="gate-card active-gate" id="gateCard1" data-gate="1">
           <div class="gate-top">
-            <span class="gate-step-badge">Q1 &bull; Owner Check</span>
-            <span class="gate-goal">5 sec</span>
+            <span class="gate-step-badge">Milestone 1 &bull; Disarm &amp; Owner Check</span>
+            <span class="gate-goal">7 sec</span>
           </div>
           <div class="gate-script" id="gateScript1"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="1" data-answer="yes">&check; YES (Go to Q2)</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="1" data-answer="yes">&check; YES (Owner)</button>
             <button type="button" class="gate-btn gate-btn-no" data-gate="1" data-answer="no">&times; NO (Not Owner)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" title="Copy question for SMS/Email">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" title="Copy script">📋</button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome1No">
-            <strong>Ask Gatekeeper:</strong> "No problem — is there a direct number or email for <span class="pb-var-first">the owner</span>, or should I cross you guys off my list?"
-            <button type="button" class="gate-quick-action-btn" data-quick-status="contacted" data-quick-note="Call: Spoke to gatekeeper, owner unavailable.">
-              💬 Log Gatekeeper Note &amp; Mark Contacted
+            <strong>Say this:</strong> "No worries at all. Is there a good number for <span class="pb-var-first">the owner</span>, or should I take you off my list?"
+            <button type="button" class="gate-quick-action-btn" data-quick-status="contacted" data-quick-note="Call: Spoke to staff/gatekeeper, owner unavailable.">
+              💬 Log Note &amp; Mark Contacted
             </button>
           </div>
         </div>
 
-        <!-- Gate 2 -->
+        <!-- Milestone 2 -->
         <div class="gate-card" id="gateCard2" data-gate="2">
           <div class="gate-top">
-            <span class="gate-step-badge">Q2 &bull; Capacity &amp; Demand</span>
-            <span class="gate-goal">10 sec</span>
+            <span class="gate-step-badge">Milestone 2 &bull; Easy Exit + Want More Work?</span>
+            <span class="gate-goal">12 sec</span>
           </div>
           <div class="gate-script" id="gateScript2"></div>
           <div class="gate-btn-row">
             <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes">&check; YES (Wants Work)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no">&times; NO (Booked Out)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" title="Copy question for SMS/Email">📋</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no">&times; NO (Full / Not Looking)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" title="Copy script">📋</button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome2No">
-            <strong>Fast Disqualify Exit:</strong> "Glad to hear your board is full! I won't take up another second of your day—I'll cross you off my list. Best of luck with <span class="pb-var-company">the business</span>!"
-            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on Q2 (No): Already at capacity / not looking for more leads.">
-              ⚡ Mark Lost (No Capacity) &amp; Log Call
+            <strong>Friendly Exit:</strong> "Love hearing you're busy! I'll cross you off my list and let you get back to it. Have a good one."
+            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on M2 (No): Busy / not looking for more work.">
+              ⚡ Mark Lost &amp; Log Call
             </button>
           </div>
         </div>
 
-        <!-- Gate 3 -->
+        <!-- Milestone 3 -->
         <div class="gate-card" id="gateCard3" data-gate="3">
           <div class="gate-top">
-            <span class="gate-step-badge">Q3 &bull; Partner Filter</span>
-            <span class="gate-goal">10 sec</span>
+            <span class="gate-step-badge">Milestone 3 &bull; Open to Local Help?</span>
+            <span class="gate-goal">8 sec</span>
           </div>
           <div class="gate-script" id="gateScript3"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes">&check; YES (Open to Partner)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no">&times; NO (In-House / No Help)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" title="Copy question for SMS/Email">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes">&check; YES (Open to Help)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no">&times; NO (Doing Myself)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" title="Copy script">📋</button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome3No">
-            <strong>Fast Disqualify Exit:</strong> "Totally respect that—I only want to talk to owners who want someone handling online lead capture for them, so I'll get out of your hair. Appreciate the straight answer!"
-            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on Q3 (No): Does not want to work with an outside partner.">
-              ⚡ Mark Lost (Doesn't Want Partner) &amp; Log Call
+            <strong>Friendly Exit:</strong> "Totally fair. Good luck with <span class="pb-var-company">the business</span>—have a great day!"
+            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on M3 (No): Wants to handle everything themselves.">
+              ⚡ Mark Lost &amp; Log Call
             </button>
           </div>
         </div>
 
-        <!-- Gate 4 -->
+        <!-- Milestone 4 Check -->
         <div class="gate-card" id="gateCard4" data-gate="4">
           <div class="gate-top">
-            <span class="gate-step-badge">Q4 &bull; Flat-Rate Pitch Check</span>
-            <span class="gate-goal">15 sec</span>
+            <span class="gate-step-badge">Milestone 4 &bull; Permission to Share Price</span>
+            <span class="gate-goal">8 sec</span>
           </div>
           <div class="gate-script" id="gateScript4"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="4" data-answer="yes">&check; YES (Pitch Pricing)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="4" data-answer="no">&times; NO (Send by Text/Email)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" title="Copy question for SMS/Email">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="4" data-answer="yes">&check; YES (Share Price)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="4" data-answer="no">&times; NO (Text / Email Me)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" title="Copy script">📋</button>
           </div>
           <div class="gate-outcome-box gate-outcome-yes" id="gateOutcome4Yes">
-            <strong>🔥 Green Light — Read Pricing Below!</strong> They want more business, are open to a partner, and want to hear the flat-rate options.
-            <button type="button" class="gate-quick-action-btn" data-quick-status="qualified" data-quick-value="1500" data-quick-note="Qualified on Call (4x YES): Open to partner and reviewing flat-rate packages.">
-              🎯 Mark Qualified ($1,500 Est.) &amp; Log
+            <strong>🔥 Green Light — Read Option 1 Below!</strong> Keep it short: "$500 flat—$250 now, $250 when done."
+            <button type="button" class="gate-quick-action-btn" data-quick-status="qualified" data-quick-value="500" data-quick-note="Qualified on Call: Open to local help and hearing flat prices.">
+              🎯 Mark Qualified &amp; Log
             </button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome4No">
-            <strong>Quick Pivot:</strong> "Fair enough—is this number best for a quick text with the 3 flat prices ($500 Pilot, $3k Platform, $2.5k/mo Growth), or should I send it to your email?"
+            <strong>Say this:</strong> "Sure thing. Best to text the 3 flat prices to this number, or send an email?"
             <button type="button" class="gate-quick-action-btn" id="copyPricingSummaryFromGateBtn">
-              📋 Copy 3-Tier Pricing Summary for SMS/Email
+              📋 Copy Short Text / Email Summary
             </button>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 2: Prepared for YES — Flat-Rate Pricing & ROI -->
+      <!-- SECTION 2: Simple Flat-Rate Prices -->
       <section class="playbook-section" id="pbSecPricing" data-section="pricing" aria-label="Flat-rate pricing options">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">💰 Step 2: Prepared for "YES" — Pricing</div>
-          <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">50% Upfront / 50% on Launch</span>
+          <div class="playbook-sec-label">💰 Milestone 4: Simple Flat Prices</div>
+          <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">Half Now / Half When Done</span>
         </div>
 
-        <!-- Tier 1: $500 Pilot -->
-        <div class="pricing-tier-card">
-          <div class="pricing-tier-top">
-            <span class="pricing-tier-name">01 / Pilot: Static Launchpad</span>
-            <span class="pricing-tier-price">$500 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">one-time</span></span>
-          </div>
-          <div class="pricing-tier-sub">$250 deposit to start, $250 when live &bull; +$99–$199/mo managed hosting</div>
-          <div class="pricing-tier-pitch" id="pitchTier1"></div>
-          <div class="pricing-tier-actions">
-            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Pilot Static Landing Page ($500)" data-tier-value="500">
-              &check; Pitch &amp; Set $500 Proposal
-            </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" title="Copy Tier 1 Pitch">📋</button>
-          </div>
-        </div>
-
-        <!-- Tier 2: $3,000 Dynamic Web Platform -->
+        <!-- Tier 1: $500 Starter Website -->
         <div class="pricing-tier-card recommended">
           <div class="pricing-tier-top">
-            <span class="pricing-tier-name">02 / Scale: Dynamic Web + CRM ⭐</span>
-            <span class="pricing-tier-price">$3,000 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">one-time</span></span>
+            <span class="pricing-tier-name">Option 1: Starter Website ⭐ (Easiest Yes)</span>
+            <span class="pricing-tier-price">$500 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">flat</span></span>
           </div>
-          <div class="pricing-tier-sub">$1,500 deposit, $1,500 on launch &bull; Built-in CRM, CMS &amp; Local SEO Schema</div>
-          <div class="pricing-tier-pitch" id="pitchTier2"></div>
+          <div class="pricing-tier-sub">$250 to start, $250 when you love it &bull; Ready in 2 days (+$99/mo hosting)</div>
+          <div class="pricing-tier-pitch" id="pitchTier1"></div>
           <div class="pricing-tier-actions">
-            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Dynamic Web Platform + CRM ($3,000)" data-tier-value="3000">
-              &check; Pitch &amp; Set $3,000 Proposal
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Starter Website ($500)" data-tier-value="500">
+              &check; Pick $500 &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" title="Copy Tier 2 Pitch">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" title="Copy Option 1">📋</button>
           </div>
         </div>
 
-        <!-- Tier 3: $2,500/mo Growth Retainer -->
+        <!-- Tier 2: $3,000 Website + Lead Tracker -->
         <div class="pricing-tier-card">
           <div class="pricing-tier-top">
-            <span class="pricing-tier-name">03 / Turbo: AI &amp; Local SEO Retainer</span>
+            <span class="pricing-tier-name">Option 2: Full Website + Lead Tracker</span>
+            <span class="pricing-tier-price">$3,000 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">flat</span></span>
+          </div>
+          <div class="pricing-tier-sub">$1,500 to start, $1,500 when live &bull; Tracks every call, text &amp; quote</div>
+          <div class="pricing-tier-pitch" id="pitchTier2"></div>
+          <div class="pricing-tier-actions">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Full Website + Lead Tracker ($3,000)" data-tier-value="3000">
+              &check; Pick $3,000 &amp; Go to Milestone 5
+            </button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" title="Copy Option 2">📋</button>
+          </div>
+        </div>
+
+        <!-- Tier 3: $2,500/mo Monthly Google Growth -->
+        <div class="pricing-tier-card">
+          <div class="pricing-tier-top">
+            <span class="pricing-tier-name">Option 3: Monthly Google Growth</span>
             <span class="pricing-tier-price">$2,500<span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">/mo</span></span>
           </div>
-          <div class="pricing-tier-sub">Month-to-month (cancel w/ 15-day notice) &bull; Free Managed Hosting Included</div>
+          <div class="pricing-tier-sub">No contract (cancel anytime w/ 15-day notice) &bull; Free hosting included</div>
           <div class="pricing-tier-pitch" id="pitchTier3"></div>
           <div class="pricing-tier-actions">
-            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Growth & AI SEO Retainer ($2,500/mo)" data-tier-value="2500">
-              &check; Pitch &amp; Set $2,500 Proposal
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Monthly Google Growth ($2,500/mo)" data-tier-value="2500">
+              &check; Pick $2,500/mo &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" title="Copy Tier 3 Pitch">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" title="Copy Option 3">📋</button>
           </div>
         </div>
       </section>
 
-      <!-- SECTION 3: Quick & Simple Answers to Most Objections -->
-      <section class="playbook-section" id="pbSecObjections" data-section="objections" aria-label="Common call objections">
+      <!-- SECTION 3: Calm, Natural Answers to Guarded Pushback -->
+      <section class="playbook-section" id="pbSecObjections" data-section="objections" aria-label="Common cold call pushback">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🛡️ Step 3: Quick Answers to Objections</div>
-          <span style="font-size: 0.68rem; color: var(--text-muted);">1-Sentence + Yes/No Pivot</span>
+          <div class="playbook-sec-label">🛡️ Calm Answers to Pushback</div>
+          <span style="font-size: 0.68rem; color: var(--text-muted);">1 Short Answer + Simple Yes/No</span>
         </div>
 
         <div class="objection-list">
           <details class="objection-item" name="playbook-objection" open>
-            <summary class="objection-summary">💵 "How much does this cost?"</summary>
+            <summary class="objection-summary">🤨 "Who is this? How did you get my number?"</summary>
             <div class="objection-content" id="objText1">
-              <div>"We don't bill hourly. A 1–5 page Pilot site is <strong>$500 flat</strong> ($250 deposit), a full CRM Web Platform is <strong>$3,000 flat</strong>, and monthly local SEO is <strong>$2,500/mo</strong> with no contract."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "Does starting with the $500 Pilot to capture immediate local calls make sense, yes or no?"</div>
+              <div>"My name's Christian—I live and build websites right here in Miramar. When you open a new LLC in Florida, the state puts it on the public new-business list."</div>
+              <div class="objection-pivot">👉 Ask: "Are you looking for more local customers right now, or should I take you off my list?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText1">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">⏳ "We just filed / aren't ready yet"</summary>
+            <summary class="objection-summary">🏃 "I'm busy / on a job right now"</summary>
             <div class="objection-content" id="objText2">
-              <div>"That's actually why I reached out—Google takes 30 to 60 days to index a new domain and verify your Map Pack profile."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "If we get the $500 Pilot live in 48 hours so Google starts aging it now, will you be ready for calls in 30 days—yes or no?"</div>
+              <div>"My bad, I'll let you run. Quick yes or no before I hang up:"</div>
+              <div class="objection-pivot">👉 Ask: "Do you even need a website for <span class="pb-var-company">your business</span> right now? If yes, I'll text my info—if no, I won't bug you again."</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText2">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">🤝 "We get all our business from referrals"</summary>
+            <summary class="objection-summary">💵 "How much does it cost?"</summary>
             <div class="objection-content" id="objText3">
-              <div>"Referrals are the best leads—but the first thing a referral does is Google your company name, and if nothing credible pops up, they call a competitor."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "Is it worth a one-time $500 Pilot so you never lose a referral who Googles you—yes or no?"</div>
+              <div>"Simple flat prices. A starter website is <strong>$500 flat</strong> ($250 now, $250 when finished). A bigger site with a lead tracker is <strong>$3,000</strong>."</div>
+              <div class="objection-pivot">👉 Ask: "Does starting with the $500 site sound fair, yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText3">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">🧑‍💻 "I already have a website / marketing guy"</summary>
+            <summary class="objection-summary">⏳ "We just opened / not ready yet"</summary>
             <div class="objection-content" id="objText4">
-              <div>"Awesome, you're ahead of 90% of new filings. I only step in if there's a gap in local Map Pack or AI search."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "Are you already ranking top 3 in <span class="pb-var-city">your city</span> for <span class="pb-var-service">your services</span>, or would you be open to a free 2-minute side-by-side check—yes or no?"</div>
+              <div>"Totally get it. Google usually takes 30 to 60 days to start showing a brand-new website."</div>
+              <div class="objection-pivot">👉 Ask: "If we put up the $500 site this week so Google finds it early, will you be ready for calls next month—yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText4">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">🔒 "I don't want to sign a long contract"</summary>
+            <summary class="objection-summary">🤝 "I just get work from word of mouth"</summary>
             <div class="objection-content" id="objText5">
-              <div>"Neither do I. Builds are 50% upfront and 50% only after you approve the live site, and retainers are month-to-month—cancel anytime with 15 days notice."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "With zero long-term lock-in, are you open to kicking off the $500 Pilot this week—yes or no?"</div>
+              <div>"Word of mouth is the best. Most people who get your name still Google you first to see your work and grab your number."</div>
+              <div class="objection-pivot">👉 Ask: "Is it worth $500 once so referrals find a clean website when they look you up—yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText5">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">📉 "Too expensive / no budget right now"</summary>
+            <summary class="objection-summary">🧑‍💻 "I already have a website / web guy"</summary>
             <div class="objection-content" id="objText6">
-              <div>"Totally get it—cash flow comes first. That's why the Pilot is just $250 today and $250 when finished, and one average job pays it back 3x over."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "Does $250 down to get a 100/100 converting site live work for your budget right now—yes or no?"</div>
+              <div>"Nice, you're ahead of most new businesses."</div>
+              <div class="objection-pivot">👉 Ask: "Is it already bringing you calls from Google in <span class="pb-var-city">your city</span>, or can I text you one quick tip for free—yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText6">📋 Copy Answer</button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">📧 "Just send me an email / let me think about it"</summary>
+            <summary class="objection-summary">📉 "Money's tight / too expensive"</summary>
             <div class="objection-content" id="objText7">
-              <div>"Happy to send the 3-bullet breakdown right now so you have the exact numbers."</div>
-              <div class="objection-pivot">👉 Yes/No Pivot: "Just so I don't chase you if it's a no—are you genuinely looking to add more <span class="pb-var-service">local jobs</span> in the next 30 days (Yes), or should I check back in 6 months (No)?"</div>
+              <div>"I hear you—starting up costs money. That's why it's just $250 to start, and $250 after it's done. One job pays it right back."</div>
+              <div class="objection-pivot">👉 Ask: "Does $250 to get started work right now, or should I check back in a couple months?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText7">📋 Copy Answer</button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">📧 "Just text or email me info"</summary>
+            <div class="objection-content" id="objText8">
+              <div>"Happy to text you my work and the 3 flat prices right now."</div>
+              <div class="objection-pivot">👉 Ask: "Just so I don't bug you later—are you actually looking to get a site up in the next 30 days, yes or no?"</div>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText8">📋 Copy Answer</button>
             </div>
           </details>
         </div>
       </section>
 
-      <!-- SECTION 4: Next Steps When They Say YES -->
+      <!-- SECTION 4: Milestone 5 — Simple Next Steps -->
       <section class="playbook-section" id="pbSecNextSteps" data-section="nextsteps" aria-label="Next steps to close">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🚀 Step 4: Next Steps on a "YES"</div>
-          <span style="font-size: 0.68rem; color: var(--info);">48–72h Turnaround</span>
+          <div class="playbook-sec-label">🚀 Milestone 5: Lock Next Step</div>
+          <span style="font-size: 0.68rem; color: var(--info);">2-Day Preview</span>
         </div>
 
         <ol class="next-step-list">
           <li class="next-step-item">
-            <span class="next-step-num">1. Lock Package &amp; Email:</span>
-            "I'll send the 1-page scope and 50% deposit link (<strong>$250</strong> for Pilot / <strong>$1,500</strong> for Platform) to <strong class="pb-var-email">your email</strong> right after we hang up."
+            <span class="next-step-num">1. Send Start Link:</span>
+            "I'll text or email you the 50% start link (<strong>$250</strong> for Starter / <strong>$1,500</strong> for Full) right after we hang up to <strong class="pb-var-email">your email</strong>."
           </li>
           <li class="next-step-item">
-            <span class="next-step-num">2. 3-Item Reply Intake:</span>
-            "Just reply to that email with: (1) the phone number for customer calls, (2) your top 3 services/cities, and (3) your logo if you have one."
+            <span class="next-step-num">2. 3 Easy Details:</span>
+            "Just text or email me back: (1) the phone number for customer calls, (2) your main services and cities, and (3) your logo if you have one."
           </li>
           <li class="next-step-item">
-            <span class="next-step-num">3. Set 48-Hour Review:</span>
-            "I'll text you the live staging link within 48 hours so we can review it together before launch. Sound good?"
+            <span class="next-step-num">3. 48-Hour Preview:</span>
+            "I'll text you a live preview in 2 days. You only pay the other half once you love how it looks. Fair enough?"
           </li>
         </ol>
 
         <div id="recapTemplateHidden" style="display:none;"></div>
         <button type="button" class="gate-quick-action-btn" id="copyFullRecapBtn" style="margin-top:0.2rem;">
-          📋 Copy Full "Yes" Next-Steps &amp; Pricing Recap (SMS / Email)
+          📋 Copy Friendly Text / Email Recap
         </button>
       </section>
     </div>
@@ -1361,21 +1433,21 @@
     <!-- Sticky Footer: 1-Click Call Outcome Logger -->
     <div class="playbook-footer">
       <div class="playbook-footer-label">
-        <span>⚡ 1-Click Call Outcome &amp; Auto-Log</span>
+        <span>⚡ 1-Click Log Call Outcome</span>
         <span id="playbookQuickStatusMsg" style="color: var(--success);"></span>
       </div>
       <div class="playbook-outcome-grid">
-        <button type="button" class="outcome-pill-btn outcome-pill-lost" data-quick-status="lost" data-quick-note="Call Outcome: Said NO / Not interested in capturing more business.">
+        <button type="button" class="outcome-pill-btn outcome-pill-lost" data-quick-status="lost" data-quick-note="Call Outcome: Said NO / Not looking for help.">
           🚫 Said No (Lost)
         </button>
-        <button type="button" class="outcome-pill-btn" data-quick-status="contacted" data-quick-note="Call Outcome: Left voicemail / sent Yes-or-No text follow-up.">
-          📞 Left VM / SMS
+        <button type="button" class="outcome-pill-btn" data-quick-status="contacted" data-quick-note="Call Outcome: Left voicemail / sent friendly text.">
+          📞 Left VM / Text
         </button>
-        <button type="button" class="outcome-pill-btn outcome-pill-qualified" data-quick-status="qualified" data-quick-value="1500" data-quick-note="Call Outcome: Said YES to capturing more leads. Qualified.">
-          🎯 Said Yes (Qual)
+        <button type="button" class="outcome-pill-btn outcome-pill-qualified" data-quick-status="qualified" data-quick-value="500" data-quick-note="Call Outcome: Interested & open to flat-rate website.">
+          🎯 Interested (Qual)
         </button>
-        <button type="button" class="outcome-pill-btn" data-quick-status="proposal" data-quick-value="500" data-quick-note="Call Outcome: Pitched flat-rate package & sending proposal/deposit link.">
-          📄 Sent Proposal
+        <button type="button" class="outcome-pill-btn" data-quick-status="proposal" data-quick-value="500" data-quick-note="Call Outcome: Agreed to review start link / proposal.">
+          📄 Sent Start Link
         </button>
       </div>
     </div>
@@ -1855,90 +1927,90 @@
       });
 
       // -----------------------------------------------------------------------
-      // Right-Hand Yes/No Outreach Call Playbook Logic
+      // Right-Hand Cold-Call Playbook Logic (Guard-Lowering + 5 Milestones)
       // -----------------------------------------------------------------------
       const PLAYBOOK_NICHE_META = {
         'Roofing': {
-          serviceTerm: 'roofing services',
-          lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
+          spokenCall: 'roofing calls',
+          workNoun: 'jobs',
           searchers: '3,570',
           pattern: /\b(roof|roofing|roofer|shingle)\b/i
         },
         'HVAC': {
-          serviceTerm: 'AC & HVAC services',
-          lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
+          spokenCall: 'AC calls',
+          workNoun: 'jobs',
           searchers: '8,550',
           pattern: /\b(hvac|air conditioning|a\/c|cooling|refrigeration|mechanical)\b/i
         },
         'Plumbing': {
-          serviceTerm: 'plumbing services',
-          lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
+          spokenCall: 'plumbing calls',
+          workNoun: 'jobs',
           searchers: '11,910',
           pattern: /\b(plumb|plumbing|plumber|drain|rooter|sewer|piping)\b/i
         },
         'Electrical': {
-          serviceTerm: 'electrical services',
-          lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
+          spokenCall: 'electrical calls',
+          workNoun: 'jobs',
           searchers: '3,860',
           pattern: /\b(electric|electrical|electrician|wiring|lighting|generator)\b/i
         },
         'Landscaping & Lawn': {
-          serviceTerm: 'landscaping & hardscape services',
-          lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
+          spokenCall: 'landscaping jobs',
+          workNoun: 'jobs',
           searchers: '2,270',
           pattern: /\b(landscap|lawn|turf|tree|paver|sod|hardscap)\b/i
         },
         'Construction & Remodeling': {
-          serviceTerm: 'remodeling & contracting services',
-          lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
+          spokenCall: 'remodeling jobs',
+          workNoun: 'jobs',
           searchers: '3,650',
           pattern: /\b(remodel|renovat|construction|contractor|builder|cabinet|flooring|window|door|concrete|stucco|fence|painting|handyman)\b/i
         },
         'Pool & Outdoor': {
-          serviceTerm: 'pool & outdoor living services',
-          lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
+          spokenCall: 'pool service calls',
+          workNoun: 'accounts',
           searchers: '1,300',
           pattern: /\b(pool|spa|patio|pergola|enclosure)\b/i
         },
         'Pest Control & Mold': {
-          serviceTerm: 'pest control & remediation services',
-          lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
+          spokenCall: 'pest control calls',
+          workNoun: 'jobs',
           searchers: '3,000',
           pattern: /\b(pest|exterminat|termite|mold|restoration|mitigation)\b/i
         },
         'Cleaning & Property Care': {
-          serviceTerm: 'cleaning & property care services',
-          lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
+          spokenCall: 'cleaning accounts',
+          workNoun: 'accounts',
           searchers: '3,350',
           pattern: /\b(clean|cleaning|maid|janitorial|pressure wash|soft wash)\b/i
         },
         'Medical, Dental & Wellness': {
-          serviceTerm: 'dental, medical & wellness services',
-          lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
+          spokenCall: 'new patient bookings',
+          workNoun: 'patients',
           searchers: '20,700',
           pattern: /\b(dental|dentist|medical|clinic|health|wellness|medspa|aesthetic|chiropract|therapy)\b/i
         },
         'Fitness & Studios': {
-          serviceTerm: 'classes & studio memberships',
-          lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
+          spokenCall: 'new class signups',
+          workNoun: 'members',
           searchers: '20,350',
           pattern: /\b(dance|studio|gym|fitness|pilates|yoga|martial|karate|boxing)\b/i
         },
         'Legal & Accounting': {
-          serviceTerm: 'legal & accounting services',
-          lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
+          spokenCall: 'new client calls',
+          workNoun: 'clients',
           searchers: '1,030',
           pattern: /\b(law|legal|attorney|cpa|accounting|tax|bookkeeping)\b/i
         },
         'Auto & Marine': {
-          serviceTerm: 'auto & marine services',
-          lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
+          spokenCall: 'shop calls',
+          workNoun: 'customers',
           searchers: '5,420',
           pattern: /\b(auto|detailing|car wash|towing|mechanic|marine|yacht|boat)\b/i
         },
         'Local Business': {
-          serviceTerm: 'local services',
-          lingoServices: 'new customer inquiries, local quotes, and online bookings',
+          spokenCall: 'customer calls',
+          workNoun: 'customers',
           searchers: '1,850',
           pattern: /.*/
         }
@@ -1984,7 +2056,7 @@
         if (addressMatch && addressMatch[1]) return addressMatch[1].trim();
         const parenMatch = msg.match(/Filed\s+\S+\s+in\s+([^).]+)/i);
         if (parenMatch && parenMatch[1]) return parenMatch[1].trim();
-        return 'Miramar & Broward';
+        return 'Miramar';
       }
 
       function syncPlaybookFromLead(lead) {
@@ -2007,47 +2079,77 @@
           ? lead.email
           : ((lead.contact_info && lead.contact_info.includes('@')) ? lead.contact_info : 'your email');
 
-        playbookDemandText.textContent = `📈 ~${meta.searchers} searches/mo in ${city} for ${meta.serviceTerm}`;
+        playbookDemandText.textContent = `📈 ~${meta.searchers} Google searches/mo near ${city}`;
 
         // Populate inline spans
         document.querySelectorAll('.pb-var-first').forEach(el => { el.textContent = firstName; });
         document.querySelectorAll('.pb-var-company').forEach(el => { el.textContent = company; });
         document.querySelectorAll('.pb-var-city').forEach(el => { el.textContent = city; });
-        document.querySelectorAll('.pb-var-service').forEach(el => { el.textContent = meta.serviceTerm; });
+        document.querySelectorAll('.pb-var-service').forEach(el => { el.textContent = meta.spokenCall; });
         document.querySelectorAll('.pb-var-email').forEach(el => { el.textContent = emailDisplay; });
 
-        // 4 Simple Yes/No Gate Questions
+        // Milestone 1: Disarm + Owner Check
         document.getElementById('gateScript1').textContent =
-          `"Hi ${firstName}, this is Christian in Miramar. Quick question—are you the owner handling new business for ${company}?"`;
+          `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web guy here in Miramar. Did I catch the owner of ${company}?"`;
 
+        // Milestone 2: Easy "No" Exit + Need Check
         document.getElementById('gateScript2').textContent =
-          `"I'll be super brief—just looking for a quick yes or no so I don't waste your time. There are ~${meta.searchers} people a month searching online around ${city} for ${meta.lingoServices}. Do you have capacity to take on more ${meta.serviceTerm} right now?"`;
+          `"I know I'm calling out of the blue. If this isn't useful, tell me no and I'll hang up. I saw ${company} on the new ${city} business list, and I build simple websites that bring in ${meta.spokenCall}. Are you looking for more ${meta.workNoun} right now, yes or no?"`;
 
+        // Milestone 3: Open to Local Help?
         document.getElementById('gateScript3').textContent =
-          `"Are you open to working with someone locally to capture those ${city} searches for ${company}, or are you strictly keeping everything word-of-mouth?"`;
+          `"Got it. Are you open to having someone local set that up for you, or do you want to do it all yourself?"`;
 
+        // Milestone 4 Check: Permission for Flat Price
         document.getElementById('gateScript4').textContent =
-          `"Awesome. I don't do hourly billing or long contracts—everything is flat-rate so you know the exact cost upfront. Do you have 30 seconds for me to give you our flat numbers and how we launch in 48 hours?"`;
+          `"Cool. I charge simple flat prices—no hourly fees and no contracts. Got 20 seconds to hear what it costs?"`;
 
-        // 3 Pricing Tier Pitches
+        // 3 Plain-English Flat-Price Options
         document.getElementById('pitchTier1').textContent =
-          `"For $500 flat ($250 deposit today, $250 only after you approve the live site), we build a 1–5 page, 100/100 speed site tailored to ${company} in ${city} so you convert local calls immediately. Since one job pays for this right away, does starting with the $500 Pilot make the most sense—yes or no?"`;
+          `"A clean 1-to-5 page website is $500 flat. It's $250 to start, and the other $250 only after you see it and like it. I build it in 2 days. Does starting with the $500 site make sense, yes or no?"`;
 
         document.getElementById('pitchTier2').textContent =
-          `"For $3,000 flat ($1,500 to start, $1,500 on launch), we build our full Dynamic Web Platform for ${company} with a built-in CRM, automated lead tracking, easy CMS, and local SEO schema. Would you rather start with the $500 Pilot or go straight to the full $3,000 CRM platform?"`;
+          `"If you want a bigger site with a built-in lead tracker so no calls slip through, that's $3,000 flat—half now, half when it's live. Would you rather start at $500, or do the $3,000 setup?"`;
 
         document.getElementById('pitchTier3').textContent =
-          `"To dominate Google Maps and AI search across ${city} for ${meta.lingoServices}, our Growth Retainer is $2,500/mo—strictly month-to-month, cancel anytime with 15 days notice, and managed hosting is included free. Want to pair that now or start with the one-time build first?"`;
+          `"If you want me pushing ${company} to the top of Google every month around ${city}, that's $2,500 a month with no contract—cancel anytime. Most owners start with the $500 or $3,000 site first. Want to start there?"`;
 
-        // Full Recap Text for SMS / Email
+        // Friendly Human SMS / Email Recap
         document.getElementById('recapTemplateHidden').textContent =
-          `Hi ${firstName}, great speaking with you about ${company}!\n\nHere are the flat-rate options we discussed to capture the ~${meta.searchers} monthly searches around ${city} for ${meta.lingoServices}:\n\n1) Pilot Static Launchpad: $500 one-time ($250 deposit / $250 on launch) + $99-$199/mo hosting — 1-5 page 100/100 speed site built in 48-72h.\n2) Dynamic Web Platform + CRM (Recommended): $3,000 one-time ($1,500 deposit / $1,500 on launch) — Custom site + built-in CRM, lead tracking & local SEO schema.\n3) Growth & AI SEO Retainer: $2,500/mo (month-to-month, free hosting included) — Full local Map Pack & programmatic SEO.\n\nNext Steps: Reply with which tier you want to launch (1, 2, or 3) + the best phone number for customer calls, and I'll send over the 50% deposit link and have your live preview ready in 48 hours.\n\n— Christian Gomez | G3Z Creative (786-967-3699)`;
+          `Hey ${firstName}, good chatting with you! This is Christian from G3Z Creative here in Miramar (g3zcreative.com).\n\nSimple flat prices we talked about for ${company}:\n1) Starter Website: $500 flat ($250 to start, $250 when you love it) — clean 1-5 page site ready in 2 days (+$99/mo hosting).\n2) Full Website + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — full site + built-in tracker for every call & quote.\n3) Monthly Google Growth: $2,500/mo (no contract, cancel anytime, free hosting) — ongoing work to rank at the top of Google in ${city}.\n\nTo get started, just reply with #1, #2, or #3 and the best phone number for customer calls. I'll send the 50% start link and have your preview ready in 48 hours.\n\n— Christian (786-967-3699)`;
       }
 
       playbookNicheSelect.addEventListener('change', renderPlaybookScripts);
       playbookCityInput.addEventListener('input', renderPlaybookScripts);
 
-      // Section Filter Tabs (All | 1. Yes/No | 2. Pricing | 3. Objections | 4. Close)
+      // 5-Milestone Tracker Helper
+      function updateMilestoneTracker(doneUpTo, currentStep, stoppedStep) {
+        for (let i = 1; i <= 5; i++) {
+          const pill = document.getElementById('msStep' + i);
+          if (!pill) continue;
+          pill.classList.remove('current', 'done', 'stopped');
+          if (stoppedStep === i) {
+            pill.classList.add('stopped');
+          } else if (i <= doneUpTo) {
+            pill.classList.add('done');
+          } else if (i === currentStep) {
+            pill.classList.add('current');
+          }
+        }
+      }
+
+      // Click Milestone Pill -> Jump to Target Card/Section
+      document.querySelectorAll('.milestone-step[data-jump]').forEach(pill => {
+        pill.addEventListener('click', () => {
+          // Ensure "All" sections are visible if hidden by a tab filter
+          document.querySelectorAll('.playbook-section').forEach(sec => sec.classList.remove('hidden-section'));
+          document.querySelectorAll('.playbook-tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-tab') === 'all'));
+          const targetEl = document.getElementById(pill.getAttribute('data-jump'));
+          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      // Section Filter Tabs (All | 1. Call Flow | 2. Prices | 3. Pushback | 4. Next Step)
       document.querySelectorAll('.playbook-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.playbook-tab-btn').forEach(b => b.classList.remove('active'));
@@ -2084,6 +2186,11 @@
           if (yesBox) yesBox.classList.toggle('show', answer === 'yes');
 
           if (answer === 'yes') {
+            // Gate 1->M2, Gate 2->M3, Gate 3->M4, Gate 4->M4 (Prices)
+            const doneCount = Math.min(gateNum, 3);
+            const nextMilestone = Math.min(gateNum + 1, 4);
+            updateMilestoneTracker(doneCount, nextMilestone, null);
+
             const nextCard = document.getElementById('gateCard' + (gateNum + 1));
             if (nextCard) {
               nextCard.classList.add('active-gate');
@@ -2095,11 +2202,14 @@
                 pricingSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }
             }
+          } else {
+            const stoppedMs = Math.min(gateNum, 4);
+            updateMilestoneTracker(stoppedMs - 1, null, stoppedMs);
           }
         });
       });
 
-      // Reset Flow
+      // Reset Call Flow & Milestones
       playbookResetGatesBtn.addEventListener('click', () => {
         document.querySelectorAll('.gate-card').forEach((card, idx) => {
           card.classList.remove('active-gate', 'answered-yes', 'answered-no');
@@ -2107,6 +2217,7 @@
           card.querySelectorAll('.gate-btn').forEach(b => b.classList.remove('selected'));
           card.querySelectorAll('.gate-outcome-box').forEach(box => box.classList.remove('show'));
         });
+        updateMilestoneTracker(0, 1, null);
       });
 
       // Copy Buttons inside Playbook
@@ -2126,7 +2237,7 @@
           const cleanText = el.innerText.replace(/📋\s*Copy Answer/g, '').replace(/^"|"$/g, '').trim();
           try {
             await navigator.clipboard.writeText(cleanText);
-            showPlaybookCopied('✓ Script copied!');
+            showPlaybookCopied('✓ Copied!');
           } catch (_) {}
         });
       });
@@ -2139,7 +2250,7 @@
           const text = document.getElementById('recapTemplateHidden').textContent;
           try {
             await navigator.clipboard.writeText(text);
-            showPlaybookCopied('✓ Pricing recap copied!');
+            showPlaybookCopied('✓ Text/email copied!');
           } catch (_) {}
         });
       });
@@ -2198,10 +2309,16 @@
         btn.addEventListener('click', () => {
           const tierName = btn.getAttribute('data-select-tier');
           const tierVal = btn.getAttribute('data-tier-value');
+          updateMilestoneTracker(4, 5, null);
+          const nextStepsSec = document.getElementById('pbSecNextSteps');
+          if (nextStepsSec) {
+            nextStepsSec.classList.remove('hidden-section');
+            nextStepsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
           executePlaybookQuickOutcome({
             status: 'proposal',
             value: tierVal,
-            note: `Playbook Pitch Selected: ${tierName}. Moved to Proposal ($${Number(tierVal).toLocaleString()}).`
+            note: `Playbook Option Selected: ${tierName}. Moved to Proposal ($${Number(tierVal).toLocaleString()}).`
           });
         });
       });
