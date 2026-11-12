@@ -1,11 +1,11 @@
-﻿{
+{
   "name": "G3Z Creative CRM",
   "short_name": "G3Z CRM",
   "description": "G3Z Creative In-House Lead & Pipeline Management",
   "start_url": "/crm",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
   "icons": [
     {
       "src": "/images/icon-192.png",

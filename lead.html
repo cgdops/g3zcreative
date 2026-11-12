@@ -11,8 +11,9 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="apple-mobile-web-app-title" content="G3Z CRM">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#0f172a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
@@ -30,6 +31,7 @@
       --success: #22c55e;
       --warning: #f59e0b;
       --info: #38bdf8;
+      --danger: #ef4444;
     }
 
     * {
@@ -54,6 +56,20 @@
       background: #475569;
     }
 
+    html {
+      color-scheme: dark;
+    }
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    select option {
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+
     body {
       font-family: 'Figtree', sans-serif;
       background-color: var(--bg);
@@ -61,10 +77,57 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-wrap: anywhere;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      clip-path: inset(50%) !important;
+      overflow: hidden !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -1px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      white-space: nowrap !important;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 3500;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .skip-link:not(:focus):not(:active) {
+      position: absolute;
+      clip-path: inset(50%);
+      overflow: hidden;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      white-space: nowrap;
+    }
+
+    :where(a, button, input, select, textarea, summary):focus-visible {
+      outline: 2px solid var(--info);
+      outline-offset: 2px;
     }
 
     header {
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(30, 41, 59, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0.85rem 1.5rem;
@@ -74,34 +137,40 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.65rem;
     }
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+      min-width: 0;
     }
     .back-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       background: #0f172a;
-      border: 1px solid var(--border);
+      border: 1px solid #64748b;
       color: var(--text);
       text-decoration: none;
       padding: 0.45rem 0.85rem;
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
+      min-height: 38px;
       transition: all 0.15s ease;
     }
     .back-btn:hover {
       background: var(--surface-hover);
-      border-color: #475569;
+      border-color: #94a3b8;
     }
     .crm-badge {
       font-size: 0.7rem;
       background: var(--primary-subtle);
-      color: var(--primary);
+      color: #ff85ab;
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: 700;
@@ -111,24 +180,28 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
     }
     .playbook-toggle-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       background: var(--primary-subtle);
-      border: 1px solid rgba(218, 16, 77, 0.45);
-      color: #ff6b96;
+      border: 1px solid rgba(218, 16, 77, 0.55);
+      color: #ff85ab;
       padding: 0.45rem 0.9rem;
       border-radius: 8px;
       font-size: 0.82rem;
       font-weight: 700;
+      min-height: 38px;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.15s ease;
     }
     .playbook-toggle-btn:hover {
-      background: rgba(218, 16, 77, 0.25);
+      background: rgba(218, 16, 77, 0.28);
       color: #ffffff;
     }
     .playbook-toggle-btn.active {
@@ -137,22 +210,50 @@
       color: #ffffff;
       box-shadow: 0 4px 12px rgba(218, 16, 77, 0.3);
     }
+    .lock-btn {
+      background: #0f172a;
+      border: 1px solid #64748b;
+      color: #cbd5e1;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      min-height: 38px;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .lock-btn:hover {
+      background: var(--surface-hover);
+      color: #ffffff;
+      border-color: #94a3b8;
+    }
 
     /* Two-Column Workspace: Lead Detail (Left) + Call Playbook (Right) */
     .lead-workspace {
       flex: 1;
       width: 100%;
-      max-width: 1480px;
+      max-width: 1440px;
       margin: 0 auto;
       padding: 1.5rem 1.25rem 3rem;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 520px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 490px);
       gap: 1.5rem;
       align-items: start;
     }
+    .lead-workspace.is-auth-pending {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .lead-workspace > * {
+      min-width: 0;
+    }
     .lead-workspace.playbook-hidden {
       max-width: 860px;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
     .lead-workspace.playbook-hidden .playbook-sidebar {
       display: none;
@@ -205,12 +306,12 @@
     .status-qualified { background: rgba(192, 132, 252, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
     .status-proposal { background: rgba(244, 114, 182, 0.15); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.3); }
     .status-won { background: rgba(74, 222, 128, 0.15); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
-    .status-lost, .status-spam { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
+    .status-lost, .status-spam, .status-preview { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.35); }
 
     /* Action Buttons */
     .direct-actions-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 1rem;
     }
@@ -226,25 +327,52 @@
       text-decoration: none;
       transition: all 0.15s ease;
       min-height: 48px;
+      min-width: 44px;
+      text-align: center;
     }
     .btn-call {
       background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.4);
+      border: 1px solid rgba(34, 197, 94, 0.45);
       color: #4ade80;
     }
-    .btn-call:hover { background: rgba(34, 197, 94, 0.25); transform: translateY(-1px); }
+    .btn-call:not(.is-disabled):hover { background: rgba(34, 197, 94, 0.25); transform: translateY(-1px); }
     .btn-sms {
       background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.45);
       color: #38bdf8;
     }
-    .btn-sms:hover { background: rgba(56, 189, 248, 0.25); transform: translateY(-1px); }
+    .btn-sms:not(.is-disabled):hover { background: rgba(56, 189, 248, 0.25); transform: translateY(-1px); }
     .btn-email {
       background: rgba(192, 132, 252, 0.15);
-      border: 1px solid rgba(192, 132, 252, 0.4);
+      border: 1px solid rgba(192, 132, 252, 0.45);
       color: #c084fc;
     }
-    .btn-email:hover { background: rgba(192, 132, 252, 0.25); transform: translateY(-1px); }
+    .btn-email:not(.is-disabled):hover { background: rgba(192, 132, 252, 0.25); transform: translateY(-1px); }
+    .action-btn.is-disabled {
+      background: rgba(30, 41, 59, 0.45);
+      border-color: #334155;
+      color: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.65;
+      transform: none;
+    }
+
+    /* Candidate Preview Banner */
+    .candidate-preview-banner {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 14px;
+      padding: 1.1rem 1.35rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+    .candidate-preview-banner[hidden] {
+      display: none;
+    }
 
     /* Section Cards */
     .card-section {
@@ -253,6 +381,7 @@
       border-radius: 14px;
       padding: 1.25rem 1.5rem;
       margin-bottom: 1.25rem;
+      min-width: 0;
     }
     .section-title {
       font-size: 0.9rem;
@@ -266,48 +395,96 @@
       gap: 6px;
     }
 
-    /* Stage & Valuation Form */
+    /* Form Controls & Labels */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+    .field-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      letter-spacing: 0.02em;
+    }
     .stage-val-row {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
       gap: 10px;
+      align-items: end;
     }
-    .input-field {
+    .input-field,
+    .search-input {
       width: 100%;
       background: #0f172a;
-      border: 1px solid var(--border);
-      color: white;
-      padding: 0.75rem 1rem;
+      border: 1px solid #64748b;
+      color: #ffffff;
+      padding: 0.72rem 0.95rem;
       border-radius: 8px;
       font-family: inherit;
-      font-size: 16px;
+      font-size: 1rem;
+      min-height: 44px;
     }
-    .input-field:focus {
-      outline: none;
-      border-color: var(--primary);
+    .search-input {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.88rem;
+      min-height: 38px;
     }
+    .input-field:disabled,
+    .search-input:disabled,
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    .input-field:focus-visible,
+    .search-input:focus-visible {
+      outline: 2px solid var(--info);
+      outline-offset: 2px;
+      border-color: var(--info);
+    }
+    .btn,
     .btn-primary {
       background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
+      color: #ffffff;
+      border: 1px solid transparent;
+      padding: 0.75rem 1.4rem;
       border-radius: 8px;
       font-weight: 700;
       font-size: 0.9rem;
+      font-family: inherit;
+      min-height: 44px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s ease;
+      gap: 6px;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
-    .btn-primary:hover {
+    .btn:hover:not(:disabled),
+    .btn-primary:hover:not(:disabled) {
       background: var(--primary-hover);
+    }
+    .btn-secondary {
+      background: #0f172a;
+      color: #e2e8f0;
+      border: 1px solid #64748b;
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: #94a3b8;
+    }
+    .btn-sm {
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      min-height: 38px;
+      white-space: nowrap;
     }
 
     /* Details Grid */
     .detail-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
     .detail-item {
@@ -315,6 +492,7 @@
       border: 1px solid var(--border);
       padding: 0.85rem 1rem;
       border-radius: 8px;
+      min-width: 0;
     }
     .detail-label {
       font-size: 0.75rem;
@@ -327,7 +505,37 @@
     .detail-val {
       font-size: 0.95rem;
       color: #ffffff;
+      overflow-wrap: anywhere;
       word-break: break-word;
+      min-width: 0;
+    }
+    .safe-ext-link {
+      color: var(--info);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      overflow-wrap: anywhere;
+    }
+    .safe-ext-link:hover {
+      color: #7dd3fc;
+    }
+    .osint-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #e2e8f0;
+      text-decoration: none;
+      border: 1px solid #64748b;
+      min-height: 32px;
+    }
+    .osint-pill:hover {
+      background: #334155;
+      color: #ffffff;
     }
     .full-width-item {
       grid-column: span 2;
@@ -335,8 +543,10 @@
 
     /* Timeline & Notes */
     .note-form {
-      display: flex;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
       margin-bottom: 1.25rem;
     }
     .timeline {
@@ -350,10 +560,13 @@
       border-left: 3px solid var(--primary);
       padding: 0.85rem 1rem;
       border-radius: 8px;
+      min-width: 0;
     }
     .timeline-meta {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-bottom: 0.35rem;
@@ -361,7 +574,9 @@
     .timeline-body {
       font-size: 0.9rem;
       color: #e2e8f0;
-      line-height: 1.4;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
     }
 
     /* Danger Zone */
@@ -369,50 +584,118 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      background: rgba(239, 68, 68, 0.04);
+      gap: 1rem;
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      background: rgba(239, 68, 68, 0.05);
       border-radius: 14px;
       padding: 1.25rem 1.5rem;
     }
+    .danger-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fca5a5;
+      margin-bottom: 0.2rem;
+    }
     .btn-danger {
       background: transparent;
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #f87171;
-      padding: 0.6rem 1.2rem;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      color: #fca5a5;
+      padding: 0.65rem 1.2rem;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
+      font-family: inherit;
+      min-height: 44px;
       cursor: pointer;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.15);
-      border-color: #f87171;
+      background: #b91c1c;
+      border-color: #b91c1c;
+      color: #ffffff;
     }
 
-    /* Login Modal */
-    .login-overlay {
+    /* Modals & Toasts */
+    .login-overlay,
+    .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #0f172a;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 15, 23, 0.94);
+      backdrop-filter: blur(8px);
       z-index: 2000;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1rem;
+      overscroll-behavior: contain;
     }
-    .login-card {
+    .login-card,
+    .modal-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid #334155;
       border-radius: 16px;
-      padding: 2.5rem 2rem;
+      padding: 2rem 1.75rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+    .passcode-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0.5rem 0 1rem;
+    }
+    .passcode-toggle-btn {
+      background: #0f172a;
+      border: 1px solid #64748b;
+      color: #cbd5e1;
+      border-radius: 8px;
+      padding: 0 0.85rem;
+      min-height: 46px;
+      min-width: 62px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .passcode-toggle-btn:hover {
+      background: var(--surface-hover);
+      border-color: #94a3b8;
+      color: #ffffff;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin-top: 1.35rem;
+      flex-wrap: wrap;
+    }
+    .app-toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 2500;
+      background: #1e293b;
+      border: 1px solid #64748b;
+      color: #f8fafc;
+      padding: 0.75rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      max-width: min(380px, calc(100vw - 2rem));
+    }
+    .app-toast[hidden] {
+      display: none;
     }
 
     /* Right-Hand Outreach Call Playbook Sidebar */
@@ -457,93 +740,110 @@
     }
     .playbook-context-bar {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
       margin-bottom: 0.75rem;
+    }
+    .playbook-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+    .playbook-field-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .playbook-context-select,
     .playbook-context-input {
       background: #0b0f17;
-      border: 1px solid #334155;
+      border: 1px solid #64748b;
       color: #f8fafc;
-      padding: 0.4rem 0.6rem;
+      padding: 0.45rem 0.6rem;
       border-radius: 6px;
-      font-size: 0.76rem;
+      font-size: 0.8rem;
       font-family: inherit;
       width: 100%;
+      min-height: 36px;
     }
-    .playbook-context-select:focus,
-    .playbook-context-input:focus {
-      outline: none;
-      border-color: var(--primary);
+    .playbook-context-select:focus-visible,
+    .playbook-context-input:focus-visible {
+      outline: 2px solid var(--info);
+      outline-offset: 2px;
+      border-color: var(--info);
     }
     .playbook-demand-pill {
       grid-column: span 2;
       background: rgba(56, 189, 248, 0.12);
       border: 1px solid rgba(56, 189, 248, 0.28);
-      color: #38bdf8;
-      padding: 0.38rem 0.65rem;
+      color: #7dd3fc;
+      padding: 0.42rem 0.65rem;
       border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 6px;
     }
 
     /* 5-Milestone Progress Tracker */
     .milestone-track {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 4px;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.65rem;
     }
     .milestone-step {
       background: #0b0f17;
-      border: 1px solid #1e293b;
+      border: 1px solid #64748b;
       border-radius: 6px;
-      padding: 0.34rem 0.2rem;
+      padding: 0.38rem 0.25rem;
       text-align: center;
-      font-size: 0.66rem;
+      font-size: 0.68rem;
       font-weight: 700;
       font-family: inherit;
-      color: #64748b;
+      color: #94a3b8;
       cursor: pointer;
+      min-height: 32px;
       transition: all 0.18s ease;
     }
     .milestone-step:hover {
-      border-color: #334155;
-      color: #cbd5e1;
+      border-color: #94a3b8;
+      color: #f8fafc;
     }
     .milestone-step.current {
       border-color: var(--info);
-      background: rgba(56, 189, 248, 0.14);
+      background: rgba(56, 189, 248, 0.16);
       color: #e0f2fe;
     }
     .milestone-step.done {
-      border-color: rgba(34, 197, 94, 0.5);
-      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.55);
+      background: rgba(34, 197, 94, 0.14);
       color: #4ade80;
     }
     .milestone-step.stopped {
-      border-color: rgba(239, 68, 68, 0.5);
-      background: rgba(239, 68, 68, 0.12);
-      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.55);
+      background: rgba(239, 68, 68, 0.14);
+      color: #fca5a5;
     }
     .disarm-cue {
-      background: rgba(56, 189, 248, 0.07);
-      border: 1px solid rgba(56, 189, 248, 0.22);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.24);
       border-radius: 7px;
-      padding: 0.42rem 0.65rem;
+      padding: 0.45rem 0.65rem;
       margin-bottom: 0.6rem;
-      font-size: 0.73rem;
-      line-height: 1.4;
+      font-size: 0.75rem;
+      line-height: 1.42;
       color: #bae6fd;
     }
     .playbook-tabs {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 4px;
       background: #0b0f17;
       padding: 3px;
@@ -553,16 +853,16 @@
     .playbook-tab-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      padding: 0.38rem 0.25rem;
+      color: #94a3b8;
+      padding: 0.4rem 0.25rem;
       border-radius: 6px;
       font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
       text-align: center;
+      min-height: 32px;
       transition: all 0.15s ease;
-      white-space: nowrap;
     }
     .playbook-tab-btn:hover {
       color: #ffffff;
@@ -605,19 +905,21 @@
       gap: 6px;
     }
     .playbook-reset-btn {
-      background: transparent;
-      border: 1px solid #334155;
-      color: var(--text-muted);
-      padding: 2px 8px;
-      border-radius: 5px;
-      font-size: 0.68rem;
+      background: #0b0f17;
+      border: 1px solid #64748b;
+      color: #cbd5e1;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
+      min-height: 32px;
+      white-space: nowrap;
     }
     .playbook-reset-btn:hover {
-      color: white;
-      border-color: #64748b;
+      color: #ffffff;
+      border-color: #94a3b8;
     }
 
     /* Yes/No Gate Cards */
@@ -644,6 +946,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 0.45rem;
     }
@@ -671,14 +974,15 @@
       padding: 0.6rem 0.75rem;
       border-radius: 0 6px 6px 0;
       margin-bottom: 0.65rem;
+      overflow-wrap: anywhere;
     }
     .gate-btn-row {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
       gap: 6px;
     }
     .gate-btn {
-      padding: 0.45rem 0.6rem;
+      padding: 0.48rem 0.6rem;
       border-radius: 6px;
       font-size: 0.76rem;
       font-weight: 700;
@@ -689,6 +993,8 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
+      min-height: 36px;
+      min-width: 36px;
       transition: all 0.15s ease;
     }
     .gate-btn-yes {
@@ -703,24 +1009,24 @@
       color: #052e16;
     }
     .gate-btn-no {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.35);
-      color: #f87171;
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(248, 113, 113, 0.45);
+      color: #fca5a5;
     }
     .gate-btn-no:hover,
     .gate-btn-no.selected {
-      background: #ef4444;
-      border-color: #ef4444;
+      background: #b91c1c;
+      border-color: #b91c1c;
       color: #ffffff;
     }
     .gate-btn-copy {
       background: #131b2e;
-      border-color: #334155;
+      border: 1px solid #64748b;
       color: #cbd5e1;
-      padding: 0.45rem 0.55rem;
+      padding: 0.48rem 0.6rem;
     }
     .gate-btn-copy:hover {
-      border-color: #64748b;
+      border-color: #94a3b8;
       color: #ffffff;
     }
     .gate-outcome-box {
@@ -785,6 +1091,7 @@
       display: flex;
       align-items: baseline;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 8px;
     }
     .pricing-tier-name {
@@ -813,7 +1120,7 @@
     }
     .pricing-tier-actions {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 6px;
       margin-top: 0.2rem;
     }
@@ -883,7 +1190,7 @@
     }
     .next-step-num {
       font-weight: 800;
-      color: var(--primary);
+      color: #ff6b96;
       margin-right: 4px;
     }
 
@@ -906,41 +1213,44 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
     }
     .playbook-outcome-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 5px;
     }
     .outcome-pill-btn {
-      padding: 0.45rem 0.35rem;
+      padding: 0.48rem 0.35rem;
       border-radius: 6px;
       font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
-      border: 1px solid #334155;
+      border: 1px solid #64748b;
       background: #131b2e;
       color: #e2e8f0;
       text-align: center;
+      min-height: 36px;
       transition: all 0.15s ease;
     }
     .outcome-pill-btn:hover {
-      border-color: #64748b;
+      border-color: #94a3b8;
       background: #1c2742;
       color: #ffffff;
     }
     .outcome-pill-lost {
-      border-color: rgba(239, 68, 68, 0.4);
+      border-color: rgba(248, 113, 113, 0.45);
       color: #fca5a5;
     }
     .outcome-pill-lost:hover {
-      background: #ef4444;
-      border-color: #ef4444;
+      background: #b91c1c;
+      border-color: #b91c1c;
       color: #ffffff;
     }
     .outcome-pill-qualified {
-      border-color: rgba(34, 197, 94, 0.4);
+      border-color: rgba(34, 197, 94, 0.45);
       color: #86efac;
     }
     .outcome-pill-qualified:hover {
@@ -951,7 +1261,7 @@
 
     @media (max-width: 1120px) {
       .lead-workspace {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
       }
       .playbook-sidebar {
         position: static;
@@ -960,103 +1270,248 @@
     }
 
     @media (max-width: 768px) {
-      input, select, textarea { font-size: 16px !important; }
-      header { padding: 0.75rem 1rem; }
-      .lead-workspace { padding: 1rem 0.85rem 3rem; }
-      .lead-hero { padding: 1.25rem 1rem; }
-      .lead-name { font-size: 1.45rem; }
-      .direct-actions-grid { grid-template-columns: 1fr; gap: 8px; }
-      .card-section { padding: 1rem; }
-      .stage-val-row { grid-template-columns: 1fr; }
-      .detail-grid { grid-template-columns: 1fr; }
-      .full-width-item { grid-column: span 1; }
-      .note-form { flex-direction: column; }
-      .danger-zone { flex-direction: column; gap: 10px; text-align: center; }
-      .playbook-outcome-grid { grid-template-columns: 1fr 1fr; }
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+      button,
+      select,
+      textarea,
+      input:not([type="checkbox"]):not([type="radio"]),
+      .btn,
+      .btn-primary,
+      .btn-secondary,
+      .btn-sm,
+      .btn.btn-sm,
+      .btn-danger,
+      .back-btn,
+      .playbook-toggle-btn,
+      .lock-btn,
+      .passcode-toggle-btn,
+      .action-btn,
+      .comm-btn,
+      .input-field,
+      .search-input,
+      .osint-pill,
+      .safe-ext-link,
+      .playbook-context-select,
+      .playbook-context-input,
+      .playbook-tab-btn,
+      .milestone-step,
+      .gate-btn,
+      .gate-btn-copy,
+      .gate-quick-action-btn,
+      .copy-btn,
+      .outcome-pill-btn,
+      .playbook-reset-btn,
+      .objection-summary {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      .safe-ext-link {
+        display: inline-flex;
+        align-items: center;
+      }
+      .objection-summary {
+        display: flex;
+        align-items: center;
+      }
+      header {
+        padding: 0.75rem 0.9rem;
+      }
+      .lead-workspace {
+        padding: 1rem 0.85rem 3rem;
+      }
+      .lead-hero {
+        padding: 1.25rem 1rem;
+      }
+      .lead-name {
+        font-size: 1.45rem;
+      }
+      .direct-actions-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+      }
+      .card-section {
+        padding: 1rem;
+      }
+      .stage-val-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .detail-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .full-width-item {
+        grid-column: span 1;
+      }
+      .note-form {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .danger-zone {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        text-align: center;
+      }
+      .milestone-track {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .milestone-step {
+        flex: 1 1 calc(33.333% - 6px);
+      }
+      .playbook-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 5px;
+      }
+      .playbook-tab-btn {
+        flex: 1 1 calc(33.333% - 5px);
+        white-space: normal;
+      }
+      .playbook-context-bar {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .playbook-demand-pill {
+        grid-column: span 1;
+      }
+      .playbook-outcome-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gate-btn-row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+      .gate-btn-row .gate-btn-copy {
+        grid-column: span 2;
+      }
     }
   </style>
 </head>
 <body>
+  <a href="#mainWorkspace" id="skipLink" class="skip-link">Skip to main content</a>
+  <div id="appToast" class="app-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
   <!-- Auth Gate -->
-  <div class="login-overlay" id="loginModal" style="display: none;">
+  <div class="login-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle" style="display: none;" hidden>
     <div class="login-card">
-      <img src="/images/favicon.png" width="48" height="48" style="border-radius: 10px; margin-bottom: 1rem;">
-      <h2 style="font-family: 'Young Serif', serif; margin-bottom: 0.5rem;">G3Z Creative CRM</h2>
+      <img src="/images/favicon.png" width="48" height="48" alt="" style="border-radius: 10px; margin-bottom: 1rem;">
+      <h2 id="loginModalTitle" style="font-family: 'Young Serif', serif; margin-bottom: 0.5rem;">G3Z Creative CRM</h2>
       <p style="font-size: 0.85rem; color: var(--text-muted);">Enter passcode to access lead intelligence.</p>
-      <form id="loginForm">
-        <input type="password" id="passcodeInput" class="input-field" placeholder="••••••••" style="margin: 1.25rem 0 1rem; text-align: center; letter-spacing: 0.2em;" required autofocus>
+      <form id="loginForm" aria-labelledby="loginModalTitle">
+        <label for="loginUsernameInput" class="visually-hidden" aria-hidden="true">Username</label>
+        <input type="text" id="loginUsernameInput" name="username" value="admin" autocomplete="username" class="visually-hidden" tabindex="-1" aria-hidden="true">
+        <label for="passcodeInput" class="field-label" style="display: block; text-align: left; margin-top: 1.15rem;">CRM Passcode</label>
+        <div class="passcode-input-wrap">
+          <input type="password" id="passcodeInput" name="passcode" class="input-field" placeholder="••••••••" autocomplete="current-password" style="text-align: center; letter-spacing: 0.15em;" required>
+          <button type="button" id="togglePasscodeBtn" class="passcode-toggle-btn">
+            <span id="togglePasscodeText">Show</span><span class="visually-hidden"> passcode</span>
+          </button>
+        </div>
         <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">Unlock</button>
       </form>
-      <div id="loginError" style="color: #f87171; font-size: 0.8rem; margin-top: 0.75rem; display: none;"></div>
+      <div id="loginError" role="alert" style="color: #fca5a5; font-size: 0.82rem; margin-top: 0.75rem; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteConfirmModal" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" aria-describedby="deleteModalDesc" style="display: none;" hidden>
+    <div class="modal-card">
+      <h2 id="deleteModalTitle" style="font-family: 'Young Serif', serif; font-size: 1.35rem; color: #ffffff; margin-bottom: 0.5rem;">Delete Lead?</h2>
+      <p id="deleteModalDesc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Permanently remove this contact and activity history? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button type="button" class="btn-danger" id="confirmDeleteBtn" style="background: #b91c1c; border-color: #b91c1c; color: #ffffff;">Delete Permanently</button>
+      </div>
     </div>
   </div>
 
   <!-- Header -->
-  <header>
+  <header id="appHeader">
     <div class="brand-group">
-      <a href="/crm" class="back-btn">&larr; Pipeline</a>
-      <a href="/crm#outreach" class="back-btn" title="Back to Sunbiz Outreach">&larr; Outreach</a>
+      <a href="/crm" id="backBtn" class="back-btn">&larr; Pipeline</a>
       <img src="/images/favicon.png" width="28" height="28" style="border-radius: 6px;" alt="">
       <div style="font-weight: 700; font-size: 1.05rem;">G3Z <span class="crm-badge">CRM</span></div>
     </div>
     <div class="header-actions">
-      <button type="button" id="togglePlaybookBtn" class="playbook-toggle-btn active" aria-expanded="true" aria-controls="playbookSidebar">
+      <button type="button" id="togglePlaybookBtn" class="playbook-toggle-btn" aria-expanded="false" aria-controls="playbookSidebar">
         📖 Call Playbook
       </button>
-      <button type="button" id="logoutBtn" style="background: transparent; border: 1px solid var(--border); color: #94a3b8; padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;">Lock</button>
+      <button type="button" id="logoutBtn" class="lock-btn">Lock</button>
     </div>
   </header>
 
-  <div class="lead-workspace" id="leadWorkspace">
+  <div class="lead-workspace playbook-hidden is-auth-pending" id="leadWorkspace" inert>
   <!-- Main Content (Left Column) -->
-  <main id="mainContainer">
+  <main id="mainWorkspace" tabindex="-1">
+    <!-- Outreach Candidate Read-Only Preview Banner -->
+    <div class="candidate-preview-banner" id="candidatePreviewBanner" hidden>
+      <div style="min-width: 0; flex: 1 1 240px;">
+        <div style="font-weight: 800; font-size: 0.92rem; color: #e0f2fe;">🔍 Read-Only Outreach Candidate Preview</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Review Sunbiz filing details and Cold-Call Playbook scripts before adding this lead to your pipeline.</div>
+      </div>
+      <button type="button" class="btn-primary" id="promoteCandidateBtn">🚀 Promote to Pipeline</button>
+    </div>
+
     <!-- Hero Lead Summary -->
     <div class="lead-hero">
       <div class="hero-top">
-        <h1 class="lead-name" id="leadName">Loading...</h1>
+        <h1 class="lead-name" id="leadName" tabindex="-1">Loading...</h1>
         <span class="status-badge" id="leadStatusBadge">...</span>
       </div>
       <div class="hero-meta" id="leadReceivedTime">Received: &mdash;</div>
 
       <!-- Quick 1-Click Communications -->
       <div class="direct-actions-grid">
-        <a href="#" class="action-btn btn-call" id="btnCall">📞 Call Phone</a>
-        <a href="#" class="action-btn btn-sms" id="btnSms">💬 Send SMS</a>
-        <a href="#" class="action-btn btn-email" id="btnEmail">✉️ Send Email</a>
+        <a class="action-btn btn-call is-disabled" id="btnCall" aria-disabled="true" tabindex="-1">📞 Call Phone</a>
+        <a class="action-btn btn-sms is-disabled" id="btnSms" aria-disabled="true" tabindex="-1">💬 Send SMS</a>
+        <a class="action-btn btn-email is-disabled" id="btnEmail" aria-disabled="true" tabindex="-1">✉️ Send Email</a>
       </div>
     </div>
 
     <!-- Stage & Valuation -->
-    <div class="card-section">
-      <div class="section-title">📊 Stage &amp; Deal Valuation</div>
-      <form id="stageForm" class="stage-val-row">
-        <select id="stageSelect" class="input-field">
-          <option value="new">⚡ New Lead</option>
-          <option value="contacted">💬 Contacted</option>
-          <option value="qualified">🎯 Qualified</option>
-          <option value="proposal">📄 Proposal Sent</option>
-          <option value="won">🏆 Deal Won</option>
-          <option value="lost">📁 Lost</option>
-          <option value="spam">🚫 Spam / Archive</option>
-        </select>
-        <input type="number" id="valueInput" class="input-field" placeholder="Est. Deal Value ($)" min="0" step="100">
-        <button type="submit" class="btn-primary" id="saveStageBtn">Save</button>
+    <div class="card-section" id="stageCardSection">
+      <h2 class="section-title" id="stageSectionTitle">📊 Stage &amp; Deal Valuation</h2>
+      <form id="stageForm" class="stage-val-row" aria-labelledby="stageSectionTitle">
+        <div class="field-group">
+          <label for="stageSelect" class="field-label">Pipeline Stage</label>
+          <select id="stageSelect" name="status" class="input-field">
+            <option value="new">⚡ New Lead</option>
+            <option value="contacted">💬 Contacted</option>
+            <option value="qualified">🎯 Qualified</option>
+            <option value="proposal">📄 Proposal Sent</option>
+            <option value="won">🏆 Deal Won</option>
+            <option value="lost">📁 Lost</option>
+            <option value="spam">🚫 Spam / Archive</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="valueInput" class="field-label">Est. Deal Value ($)</label>
+          <input type="number" id="valueInput" name="estimated_value" class="input-field" placeholder="e.g. 1500" min="0" step="100">
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="submit" class="btn-primary" id="saveStageBtn">Save</button>
+          <button type="button" class="btn btn-secondary" id="quickMarkLostBtn">🚫 Lost</button>
+        </div>
       </form>
-      <div id="saveToast" style="color: var(--success); font-size: 0.8rem; font-weight: 600; margin-top: 0.5rem; display: none;">&check; Updated successfully</div>
+      <div id="saveToast" role="status" aria-live="polite" aria-atomic="true" style="color: var(--success); font-size: 0.82rem; font-weight: 600; margin-top: 0.55rem; display: none;">&check; Updated successfully</div>
     </div>
 
     <!-- Lead Information -->
     <div class="card-section">
-      <div class="section-title">📋 Contact Profile</div>
+      <h2 class="section-title">📋 Contact Profile</h2>
       <div class="detail-grid">
         <div class="detail-item">
           <div class="detail-label">Phone</div>
-          <div class="detail-val" id="detailPhone">&mdash;</div>
+          <div class="detail-val" id="detailPhone">Not provided</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Email</div>
-          <div class="detail-val" id="detailEmail">&mdash;</div>
+          <div class="detail-val" id="detailEmail">Not provided</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Company</div>
@@ -1065,8 +1520,9 @@
         <div class="detail-item">
           <div class="detail-label">Enrichment</div>
           <div class="detail-val">
+            <label for="enrichDomainInput" class="field-label" style="display:block; margin-bottom:4px;">Company Domain</label>
             <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-              <input type="text" id="enrichDomainInput" class="search-input" placeholder="company domain" style="flex:1; min-width:140px; font-size:0.8rem; padding:4px 8px;">
+              <input type="text" id="enrichDomainInput" name="company_domain" class="search-input" placeholder="acmeroofing.com" autocorrect="off" autocapitalize="none" spellcheck="false" style="flex:1; min-width:140px;">
               <button type="button" class="btn btn-sm" id="enrichBtn">Find Email</button>
             </div>
             <div id="enrichResult" style="margin-top:8px; font-size:0.8rem;"></div>
@@ -1078,7 +1534,7 @@
         </div>
         <div class="detail-item full-width-item">
           <div class="detail-label">Source Page</div>
-          <div class="detail-val" style="color: var(--info);" id="detailSource">&mdash;</div>
+          <div class="detail-val" id="detailSource">&mdash;</div>
         </div>
         <div class="detail-item full-width-item">
           <div class="detail-label">Inquiry Message</div>
@@ -1088,19 +1544,22 @@
     </div>
 
     <!-- Timeline & Notes -->
-    <div class="card-section">
-      <div class="section-title">📝 Activity Log &amp; Notes</div>
-      <form id="noteForm" class="note-form">
-        <input type="text" id="noteInput" class="input-field" placeholder="Log call notes, outreach details, or next steps..." required>
-        <button type="submit" class="btn-primary" style="white-space: nowrap;">Add Note</button>
+    <div class="card-section" id="notesCardSection">
+      <h2 class="section-title" id="notesSectionTitle">📝 Activity Log &amp; Notes</h2>
+      <form id="noteForm" class="note-form" aria-labelledby="notesSectionTitle">
+        <div class="field-group">
+          <label for="noteInput" class="field-label">Activity Note</label>
+          <input type="text" id="noteInput" name="note_content" class="input-field" placeholder="Log call notes, outreach details, or next steps..." required>
+        </div>
+        <button type="submit" class="btn-primary" id="addNoteBtn" style="white-space: nowrap;">Add Note</button>
       </form>
       <div class="timeline" id="timelineList"></div>
     </div>
 
     <!-- Danger Zone -->
-    <div class="danger-zone">
+    <div class="danger-zone" id="dangerZoneSection">
       <div>
-        <div style="font-weight: 700; font-size: 0.95rem; color: #f87171;">Delete Lead</div>
+        <h2 class="danger-title">Delete Lead</h2>
         <div style="font-size: 0.8rem; color: var(--text-muted);">Permanently remove this contact and activity history.</div>
       </div>
       <button type="button" class="btn-danger" id="deleteBtn">🗑️ Delete Lead</button>
@@ -1108,21 +1567,21 @@
   </main>
 
   <!-- Right Column: Cold-Call Playbook -->
-  <aside id="playbookSidebar" class="playbook-sidebar" aria-label="Outreach Call Playbook">
+  <aside id="playbookSidebar" class="playbook-sidebar" aria-labelledby="playbookHeading">
     <div class="playbook-header">
       <div class="playbook-title-row">
-        <div class="playbook-title">
+        <h2 class="playbook-title" id="playbookHeading">
           <span>📞 Cold-Call Playbook</span>
-        </div>
-        <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn" title="Reset call milestones">↺ Reset Call</button>
+        </h2>
+        <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn">↺ Reset Call</button>
       </div>
       <div class="playbook-subtitle">
         Drop their guard fast. Short sentences, plain words, easy "No" exit.
       </div>
 
       <!-- 5 Clear Call Milestones -->
-      <div class="milestone-track" id="milestoneTrack" aria-label="Call milestones">
-        <button type="button" class="milestone-step current" id="msStep1" data-jump="gateCard1">1. Disarm</button>
+      <div class="milestone-track" id="milestoneTrack" role="group" aria-label="Call milestones">
+        <button type="button" class="milestone-step current" id="msStep1" data-jump="gateCard1" aria-current="step">1. Disarm</button>
         <button type="button" class="milestone-step" id="msStep2" data-jump="gateCard2">2. Need?</button>
         <button type="button" class="milestone-step" id="msStep3" data-jump="gateCard3">3. Help?</button>
         <button type="button" class="milestone-step" id="msStep4" data-jump="pbSecPricing">4. Price</button>
@@ -1131,49 +1590,55 @@
 
       <!-- Live Niche & City Calibration -->
       <div class="playbook-context-bar">
-        <select id="playbookNicheSelect" class="playbook-context-select" aria-label="Target Niche">
-          <option value="Roofing">Roofing</option>
-          <option value="HVAC">HVAC &amp; AC</option>
-          <option value="Plumbing">Plumbing</option>
-          <option value="Electrical">Electrical</option>
-          <option value="Landscaping & Lawn">Landscaping &amp; Pavers</option>
-          <option value="Construction & Remodeling">Remodeling &amp; Impact</option>
-          <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
-          <option value="Pest Control & Mold">Pest Control</option>
-          <option value="Cleaning & Property Care">Cleaning</option>
-          <option value="Medical, Dental & Wellness">Medical / Dental</option>
-          <option value="Fitness & Studios">Fitness &amp; Studios</option>
-          <option value="Legal & Accounting">Legal &amp; CPA</option>
-          <option value="Auto & Marine">Auto &amp; Marine</option>
-          <option value="Local Business" selected>General Local Business</option>
-        </select>
-        <input type="text" id="playbookCityInput" class="playbook-context-input" placeholder="City (e.g. Miramar)" value="South Florida" aria-label="Target City">
+        <div class="playbook-field-group">
+          <label for="playbookNicheSelect" class="playbook-field-label">Target Niche</label>
+          <select id="playbookNicheSelect" name="playbook_niche" class="playbook-context-select">
+            <option value="Roofing">Roofing</option>
+            <option value="HVAC">HVAC &amp; AC</option>
+            <option value="Plumbing">Plumbing</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Landscaping & Lawn">Landscaping &amp; Pavers</option>
+            <option value="Construction & Remodeling">Remodeling &amp; Impact</option>
+            <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
+            <option value="Pest Control & Mold">Pest Control</option>
+            <option value="Cleaning & Property Care">Cleaning</option>
+            <option value="Medical, Dental & Wellness">Medical / Dental</option>
+            <option value="Fitness & Studios">Fitness &amp; Studios</option>
+            <option value="Legal & Accounting">Legal &amp; CPA</option>
+            <option value="Auto & Marine">Auto &amp; Marine</option>
+            <option value="Local Business" selected>General Local Business</option>
+          </select>
+        </div>
+        <div class="playbook-field-group">
+          <label for="playbookCityInput" class="playbook-field-label">Target City</label>
+          <input type="text" id="playbookCityInput" name="playbook_city" class="playbook-context-input" placeholder="City (e.g. South Florida)" value="South Florida">
+        </div>
         <div class="playbook-demand-pill" id="playbookDemandPill">
           <span id="playbookDemandText">📈 ~1,850 local searches/mo</span>
-          <span id="playbookCopyToast" style="color: #4ade80; display: none;">&check; Copied!</span>
+          <span id="playbookCopyToast" role="status" aria-live="polite" aria-atomic="true" style="color: #4ade80; display: none;">&check; Copied!</span>
         </div>
       </div>
 
       <!-- Quick Filter Tabs -->
-      <div class="playbook-tabs" role="tablist" aria-label="Playbook sections">
-        <button type="button" class="playbook-tab-btn active" data-tab="all">All</button>
-        <button type="button" class="playbook-tab-btn" data-tab="gates">1. Call Flow</button>
-        <button type="button" class="playbook-tab-btn" data-tab="pricing">2. Prices</button>
-        <button type="button" class="playbook-tab-btn" data-tab="objections">3. Pushback</button>
-        <button type="button" class="playbook-tab-btn" data-tab="nextsteps">4. Next Step</button>
+      <div class="playbook-tabs" role="group" aria-label="Filter playbook sections">
+        <button type="button" class="playbook-tab-btn active" data-tab="all" aria-pressed="true">All</button>
+        <button type="button" class="playbook-tab-btn" data-tab="gates" aria-pressed="false">1. Call Flow</button>
+        <button type="button" class="playbook-tab-btn" data-tab="pricing" aria-pressed="false">2. Prices</button>
+        <button type="button" class="playbook-tab-btn" data-tab="objections" aria-pressed="false">3. Pushback</button>
+        <button type="button" class="playbook-tab-btn" data-tab="nextsteps" aria-pressed="false">4. Next Step</button>
       </div>
     </div>
 
     <div class="playbook-body" id="playbookBody">
       <!-- SECTION 1: Cold-Call Milestones 1 to 4 -->
-      <section class="playbook-section" id="pbSecGates" data-section="gates" aria-label="Yes or No Cold Call Milestones">
+      <section class="playbook-section" id="pbSecGates" data-section="gates">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🎯 Cold-Call Flow (Yes or No)</div>
+          <h3 class="playbook-sec-label">🎯 Cold-Call Flow (Yes or No)</h3>
           <span style="font-size: 0.68rem; color: var(--text-muted);">Speak 20% slower &bull; Neighbor tone</span>
         </div>
 
         <div class="disarm-cue">
-          <strong>🛡️ Lower Their Guard:</strong> Admit upfront you're a stranger, say you're local in Miramar, and tell them "say no and I'll hang up." Control relaxes people.
+          <strong>🛡️ Lower Their Guard:</strong> Admit upfront you're a stranger, say you're local in South Florida, and tell them "say no and I'll hang up." Control relaxes people.
         </div>
 
         <!-- Milestone 1 -->
@@ -1184,9 +1649,9 @@
           </div>
           <div class="gate-script" id="gateScript1"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="1" data-answer="yes">&check; YES (Owner)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="1" data-answer="no">&times; NO (Not Owner)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" title="Copy script">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="1" data-answer="yes" aria-pressed="false">&check; YES (Owner)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="1" data-answer="no" aria-pressed="false">&times; NO (Not Owner)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" aria-label="Copy Milestone 1 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome1No">
             <strong>Say this:</strong> "No worries at all. Is there a good number for <span class="pb-var-first">the owner</span>, or should I take you off my list?"
@@ -1204,9 +1669,9 @@
           </div>
           <div class="gate-script" id="gateScript2"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes">&check; YES (Wants Work)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no">&times; NO (Full / Not Looking)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" title="Copy script">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes" aria-pressed="false">&check; YES (Wants Work)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no" aria-pressed="false">&times; NO (Full / Not Looking)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" aria-label="Copy Milestone 2 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome2No">
             <strong>Friendly Exit:</strong> "Love hearing you're busy! I'll cross you off my list and let you get back to it. Have a good one."
@@ -1224,9 +1689,9 @@
           </div>
           <div class="gate-script" id="gateScript3"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes">&check; YES (Open to Help)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no">&times; NO (Doing Myself)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" title="Copy script">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes" aria-pressed="false">&check; YES (Open to Help)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no" aria-pressed="false">&times; NO (Doing Myself)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" aria-label="Copy Milestone 3 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome3No">
             <strong>Friendly Exit:</strong> "Totally fair. Good luck with <span class="pb-var-company">the business</span>—have a great day!"
@@ -1244,9 +1709,9 @@
           </div>
           <div class="gate-script" id="gateScript4"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="4" data-answer="yes">&check; YES (Share Price)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="4" data-answer="no">&times; NO (Text / Email Me)</button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" title="Copy script">📋</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="4" data-answer="yes" aria-pressed="false">&check; YES (Share Price)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="4" data-answer="no" aria-pressed="false">&times; NO (Text / Email Me)</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" aria-label="Copy Milestone 4 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-yes" id="gateOutcome4Yes">
             <strong>🔥 Green Light — Read Option 1 Below!</strong> Keep it short: "$500 flat—$250 now, $250 when done."
@@ -1264,9 +1729,9 @@
       </section>
 
       <!-- SECTION 2: Simple Flat-Rate Prices -->
-      <section class="playbook-section" id="pbSecPricing" data-section="pricing" aria-label="Flat-rate pricing options">
+      <section class="playbook-section" id="pbSecPricing" data-section="pricing">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">💰 Milestone 4: Simple Flat Prices</div>
+          <h3 class="playbook-sec-label">💰 Milestone 4: Simple Flat Prices</h3>
           <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">Half Now / Half When Done</span>
         </div>
 
@@ -1282,7 +1747,7 @@
             <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Starter Website ($500)" data-tier-value="500">
               &check; Pick $500 &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" title="Copy Option 1">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" aria-label="Copy Option 1 Starter Website pitch"><span aria-hidden="true">📋</span></button>
           </div>
         </div>
 
@@ -1298,7 +1763,7 @@
             <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Full Website + Lead Tracker ($3,000)" data-tier-value="3000">
               &check; Pick $3,000 &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" title="Copy Option 2">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" aria-label="Copy Option 2 Full Website pitch"><span aria-hidden="true">📋</span></button>
           </div>
         </div>
 
@@ -1314,15 +1779,15 @@
             <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Monthly Google Growth ($2,500/mo)" data-tier-value="2500">
               &check; Pick $2,500/mo &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" title="Copy Option 3">📋</button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" aria-label="Copy Option 3 Monthly Growth pitch"><span aria-hidden="true">📋</span></button>
           </div>
         </div>
       </section>
 
       <!-- SECTION 3: Calm, Natural Answers to Guarded Pushback -->
-      <section class="playbook-section" id="pbSecObjections" data-section="objections" aria-label="Common cold call pushback">
+      <section class="playbook-section" id="pbSecObjections" data-section="objections">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🛡️ Calm Answers to Pushback</div>
+          <h3 class="playbook-sec-label">🛡️ Calm Answers to Pushback</h3>
           <span style="font-size: 0.68rem; color: var(--text-muted);">1 Short Answer + Simple Yes/No</span>
         </div>
 
@@ -1330,9 +1795,9 @@
           <details class="objection-item" name="playbook-objection" open>
             <summary class="objection-summary">🤨 "Who is this? How did you get my number?"</summary>
             <div class="objection-content" id="objText1">
-              <div>"My name's Christian—I live and build websites right here in Miramar. When you open a new LLC in Florida, the state puts it on the public new-business list."</div>
+              <div>"My name's Christian—I live and build websites right here in South Florida. When you open a new LLC in Florida, the state puts it on the public new-business list."</div>
               <div class="objection-pivot">👉 Ask: "Are you looking for more local customers right now, or should I take you off my list?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText1">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText1"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Who is this</span></button>
             </div>
           </details>
 
@@ -1341,7 +1806,7 @@
             <div class="objection-content" id="objText2">
               <div>"My bad, I'll let you run. Quick yes or no before I hang up:"</div>
               <div class="objection-pivot">👉 Ask: "Do you even need a website for <span class="pb-var-company">your business</span> right now? If yes, I'll text my info—if no, I won't bug you again."</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText2">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText2"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for I'm busy</span></button>
             </div>
           </details>
 
@@ -1350,7 +1815,7 @@
             <div class="objection-content" id="objText3">
               <div>"Simple flat prices. A starter website is <strong>$500 flat</strong> ($250 now, $250 when finished). A bigger site with a lead tracker is <strong>$3,000</strong>."</div>
               <div class="objection-pivot">👉 Ask: "Does starting with the $500 site sound fair, yes or no?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText3">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText3"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for How much does it cost</span></button>
             </div>
           </details>
 
@@ -1359,7 +1824,7 @@
             <div class="objection-content" id="objText4">
               <div>"Totally get it. Google usually takes 30 to 60 days to start showing a brand-new website."</div>
               <div class="objection-pivot">👉 Ask: "If we put up the $500 site this week so Google finds it early, will you be ready for calls next month—yes or no?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText4">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText4"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for We just opened</span></button>
             </div>
           </details>
 
@@ -1368,7 +1833,7 @@
             <div class="objection-content" id="objText5">
               <div>"Word of mouth is the best. Most people who get your name still Google you first to see your work and grab your number."</div>
               <div class="objection-pivot">👉 Ask: "Is it worth $500 once so referrals find a clean website when they look you up—yes or no?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText5">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText5"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Word of mouth</span></button>
             </div>
           </details>
 
@@ -1377,7 +1842,7 @@
             <div class="objection-content" id="objText6">
               <div>"Nice, you're ahead of most new businesses."</div>
               <div class="objection-pivot">👉 Ask: "Is it already bringing you calls from Google in <span class="pb-var-city">your city</span>, or can I text you one quick tip for free—yes or no?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText6">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText6"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Already have a website</span></button>
             </div>
           </details>
 
@@ -1386,7 +1851,7 @@
             <div class="objection-content" id="objText7">
               <div>"I hear you—starting up costs money. That's why it's just $250 to start, and $250 after it's done. One job pays it right back."</div>
               <div class="objection-pivot">👉 Ask: "Does $250 to get started work right now, or should I check back in a couple months?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText7">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText7"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Money is tight</span></button>
             </div>
           </details>
 
@@ -1395,20 +1860,20 @@
             <div class="objection-content" id="objText8">
               <div>"Happy to text you my work and the 3 flat prices right now."</div>
               <div class="objection-pivot">👉 Ask: "Just so I don't bug you later—are you actually looking to get a site up in the next 30 days, yes or no?"</div>
-              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText8">📋 Copy Answer</button>
+              <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText8"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Text or email me info</span></button>
             </div>
           </details>
         </div>
       </section>
 
       <!-- SECTION 4: Milestone 5 — Simple Next Steps -->
-      <section class="playbook-section" id="pbSecNextSteps" data-section="nextsteps" aria-label="Next steps to close">
+      <section class="playbook-section" id="pbSecNextSteps" data-section="nextsteps">
         <div class="playbook-sec-header">
-          <div class="playbook-sec-label">🚀 Milestone 5: Lock Next Step</div>
+          <h3 class="playbook-sec-label">🚀 Milestone 5: Lock Next Step</h3>
           <span style="font-size: 0.68rem; color: var(--info);">2-Day Preview</span>
         </div>
 
-        <ol class="next-step-list">
+        <ol class="next-step-list" role="list">
           <li class="next-step-item">
             <span class="next-step-num">1. Send Start Link:</span>
             "I'll text or email you the 50% start link (<strong>$250</strong> for Starter / <strong>$1,500</strong> for Full) right after we hang up to <strong class="pb-var-email">your email</strong>."
@@ -1434,7 +1899,7 @@
     <div class="playbook-footer">
       <div class="playbook-footer-label">
         <span>⚡ 1-Click Log Call Outcome</span>
-        <span id="playbookQuickStatusMsg" style="color: var(--success);"></span>
+        <span id="playbookQuickStatusMsg" role="status" aria-live="polite" aria-atomic="true" style="color: var(--success);"></span>
       </div>
       <div class="playbook-outcome-grid">
         <button type="button" class="outcome-pill-btn outcome-pill-lost" data-quick-status="lost" data-quick-note="Call Outcome: Said NO / Not looking for help.">
@@ -1456,22 +1921,91 @@
 
   <script>
     (function() {
-      const params = new URLSearchParams(window.location.search);
-      const leadId = params.get('id');
+      const urlParams = new URLSearchParams(window.location.search);
+      let leadId = urlParams.get('id');
+      const candidateId = urlParams.get('candidate_id');
+      const rawReturnParam = urlParams.get('return');
+      let isCandidatePreview = Boolean(!leadId && candidateId);
 
-      if (!leadId) {
-        window.location.href = '/crm';
+      function validateReturnUrl(raw) {
+        if (typeof raw !== 'string') return '';
+        const trimmed = raw.trim();
+        if (
+          !trimmed ||
+          !trimmed.startsWith('/') ||
+          trimmed.startsWith('//') ||
+          trimmed.includes('\\') ||
+          trimmed.includes('..') ||
+          /[\u0000-\u001F\u007F]/.test(trimmed)
+        ) {
+          return '';
+        }
+        try {
+          const decoded = decodeURIComponent(trimmed);
+          if (
+            decoded.includes('..') ||
+            decoded.includes('\\') ||
+            decoded.startsWith('//') ||
+            /[\u0000-\u001F\u007F]/.test(decoded)
+          ) {
+            return '';
+          }
+        } catch (_) {
+          return '';
+        }
+        try {
+          const baseOrigin = (typeof window !== 'undefined' && window.location && window.location.origin)
+            ? window.location.origin
+            : 'https://g3zcreative.com';
+          const parsed = new URL(trimmed, baseOrigin);
+          if (
+            parsed.origin === baseOrigin &&
+            (parsed.pathname === '/crm' || parsed.pathname === '/crm.html')
+          ) {
+            return parsed.pathname + parsed.search + parsed.hash;
+          }
+        } catch (_) {}
+        return '';
+      }
+
+      function getSafeReturnHref(isOutreachContext) {
+        const validReturn = validateReturnUrl(rawReturnParam);
+        if (validReturn) return validReturn;
+        return isOutreachContext ? '/crm?tab=outreach' : '/crm';
+      }
+
+      if (!leadId && !candidateId) {
+        window.location.href = getSafeReturnHref(false);
         return;
       }
 
       let currentLead = null;
+      let currentCandidate = null;
 
       // Elements
+      const skipLink = document.getElementById('skipLink');
+      const appHeader = document.getElementById('appHeader');
+      const appToast = document.getElementById('appToast');
+      const backBtn = document.getElementById('backBtn');
+
       const loginModal = document.getElementById('loginModal');
       const loginForm = document.getElementById('loginForm');
       const passcodeInput = document.getElementById('passcodeInput');
+      const togglePasscodeBtn = document.getElementById('togglePasscodeBtn');
+      const togglePasscodeText = document.getElementById('togglePasscodeText');
       const loginError = document.getElementById('loginError');
       const logoutBtn = document.getElementById('logoutBtn');
+
+      const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+      const deleteModalDesc = document.getElementById('deleteModalDesc');
+      const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+      const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+      const candidatePreviewBanner = document.getElementById('candidatePreviewBanner');
+      const promoteCandidateBtn = document.getElementById('promoteCandidateBtn');
+      const stageCardSection = document.getElementById('stageCardSection');
+      const notesCardSection = document.getElementById('notesCardSection');
+      const dangerZoneSection = document.getElementById('dangerZoneSection');
 
       const leadName = document.getElementById('leadName');
       const leadStatusBadge = document.getElementById('leadStatusBadge');
@@ -1483,6 +2017,8 @@
       const stageForm = document.getElementById('stageForm');
       const stageSelect = document.getElementById('stageSelect');
       const valueInput = document.getElementById('valueInput');
+      const saveStageBtn = document.getElementById('saveStageBtn');
+      const quickMarkLostBtn = document.getElementById('quickMarkLostBtn');
       const saveToast = document.getElementById('saveToast');
 
       const detailPhone = document.getElementById('detailPhone');
@@ -1497,22 +2033,90 @@
 
       const noteForm = document.getElementById('noteForm');
       const noteInput = document.getElementById('noteInput');
+      const addNoteBtn = document.getElementById('addNoteBtn');
       const timelineList = document.getElementById('timelineList');
       const deleteBtn = document.getElementById('deleteBtn');
 
+      let toastTimer = null;
+      function showToast(msg) {
+        if (!appToast) return;
+        appToast.textContent = msg;
+        appToast.hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          appToast.hidden = true;
+        }, 3200);
+      }
+
+      function updateBackNavigation(isOutreachContext) {
+        const href = getSafeReturnHref(isOutreachContext);
+        backBtn.setAttribute('href', href);
+        if (
+          /[?&#]tab=outreach\b/i.test(href) ||
+          /#outreach\b/i.test(href) ||
+          (!validateReturnUrl(rawReturnParam) && isOutreachContext)
+        ) {
+          backBtn.textContent = '\u2190 Outreach';
+        } else if (/[?&#]tab=kanban\b/i.test(href) || /#kanban\b/i.test(href)) {
+          backBtn.textContent = '\u2190 Kanban';
+        } else {
+          backBtn.textContent = '\u2190 List';
+        }
+      }
+
+      updateBackNavigation(urlParams.get('playbook') === '1' || Boolean(candidateId));
+
+      function isDateOnlyString(dateStr) {
+        return typeof dateStr === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateStr.trim());
+      }
+
+      function parseUtcDate(dateStr) {
+        if (dateStr === null || dateStr === undefined) return null;
+        const trimmed = String(dateStr).trim();
+        if (!trimmed) return null;
+        if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+          const parts = trimmed.split('-').map(Number);
+          const y = parts[0];
+          const m = parts[1];
+          const d = parts[2];
+          const localCal = new Date(y, m - 1, d);
+          if (
+            Number.isNaN(localCal.getTime()) ||
+            localCal.getFullYear() !== y ||
+            localCal.getMonth() !== m - 1 ||
+            localCal.getDate() !== d
+          ) {
+            return null;
+          }
+          return localCal;
+        }
+        let iso = trimmed.replace(' ', 'T');
+        if (!/[Zz]|[+-]\d{2}:?\d{2}$/.test(iso)) {
+          iso += 'Z';
+        }
+        const date = new Date(iso);
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
       function timeAgo(dateString) {
-        if (!dateString) return '';
-        const now = new Date();
-        const date = new Date(dateString.replace(' ', 'T') + 'Z');
-        const seconds = Math.floor((now - date) / 1000);
+        const date = parseUtcDate(dateString);
+        if (!date) return '';
+        if (isDateOnlyString(dateString)) {
+          const now = new Date();
+          const todayLocal = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          const calDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+          const calDiffDays = Math.round((todayLocal.getTime() - calDay.getTime()) / 86400000);
+          if (calDiffDays <= 0) return 'Today';
+          return calDiffDays + 'd ago';
+        }
+        const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
         if (seconds < 60) return 'Just now';
         const minutes = Math.floor(seconds / 60);
         if (minutes < 60) return minutes + 'm ago';
         const hours = Math.floor(minutes / 60);
         if (hours < 24) return hours + 'h ago';
-        const days = Math.floor(hours / 24);
-        if (days < 30) return days + 'd ago';
-        return date.toLocaleDateString();
+        const diffDays = Math.floor(hours / 24);
+        return diffDays + 'd ago';
       }
 
       function escapeHtml(str) {
@@ -1520,6 +2124,294 @@
         return String(str).replace(/[&<>"']/g, function(m) {
           return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
         });
+      }
+
+      function extractPhoneFromSingleSource(rawVal) {
+        if (!rawVal || typeof rawVal !== 'string') return null;
+        const stripped = rawVal
+          .replace(/\bhttps?:\/\/\S+/gi, ' ')
+          .replace(/\bwww\.\S+/gi, ' ')
+          .replace(/\S+@\S+\.\S+/g, ' ')
+          .replace(/\S+@\S+/g, ' ')
+          .replace(/\b\d{4}-\d{2}-\d{2}(?:[T\s]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:[Zz]|[+-]\d{2}:?\d{2})?)?\b/g, ' ')
+          .replace(/\b(?:ext\.?|extension|x)\s*\d+\b/gi, ' ')
+          .replace(/\b[LPN]\d{8,12}\b/gi, ' ')
+          .replace(/\b[A-Za-z]+\d+[A-Za-z0-9]*\b/g, ' ')
+          .replace(/\b\d+[A-Za-z]+[A-Za-z0-9]*\b/g, ' ');
+
+        const candidates = stripped.match(/(?:\+|\(\d{1,4}\)|\d)[\d\s().\-]{7,}\d/g) || [];
+        for (const chunk of candidates) {
+          const trimmedChunk = chunk.trim();
+          const hasPlus = trimmedChunk.startsWith('+');
+          const digits = trimmedChunk.replace(/\D/g, '');
+          if (digits.length >= 10 && digits.length <= 15) {
+            const dial = hasPlus ? ('+' + digits) : digits;
+            let display = trimmedChunk;
+            if (!hasPlus && digits.length === 10 && /^\d{10}$/.test(trimmedChunk)) {
+              display = '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
+            }
+            return { dial: dial, display: display };
+          }
+        }
+        return null;
+      }
+
+      function extractValidPhone(phoneField, contactInfoField) {
+        return extractPhoneFromSingleSource(phoneField) || extractPhoneFromSingleSource(contactInfoField);
+      }
+
+      function extractValidEmail(emailField, contactInfoField) {
+        const sources = [emailField, contactInfoField];
+        for (const src of sources) {
+          if (!src || typeof src !== 'string') continue;
+          const m = src.match(/([^\s@<>,"']+@[a-z0-9.-]+\.[a-z]{2,24})/i);
+          if (m && m[1] && !/@google\.com$/i.test(m[1])) {
+            return m[1].trim();
+          }
+        }
+        return null;
+      }
+
+      const REALISTIC_TLDS = new Set([
+        'com', 'net', 'org', 'io', 'co', 'us', 'biz', 'info', 'me', 'ai', 'app', 'dev',
+        'site', 'online', 'store', 'shop', 'tech', 'pro', 'agency', 'studio', 'design',
+        'media', 'digital', 'marketing', 'services', 'solutions', 'group', 'company',
+        'construction', 'contractors', 'builders', 'roofing', 'plumbing', 'solar',
+        'cleaning', 'care', 'health', 'dental', 'clinic', 'law', 'legal', 'attorney',
+        'tax', 'cpa', 'auto', 'repair', 'homes', 'realty', 'properties',
+        'nyc', 'club', 'life', 'world', 'today', 'center', 'systems',
+        'network', 'works', 'zone', 'team', 'email', 'cloud', 'page', 'link', 'live',
+        'tv', 'fm', 'cc', 'gg', 'xyz', 'edu', 'gov', 'mil', 'ca', 'uk', 'au', 'de',
+        'fr', 'es', 'mx', 'br', 'pr', 'ly', 'sh', 'so', 'to', 'vc', 'ws', 'mobi', 'name'
+      ]);
+
+      function extractCleanDomain(val) {
+        if (!val || typeof val !== 'string') return null;
+        const trimmed = val.trim();
+        if (
+          !trimmed ||
+          trimmed.startsWith('//') ||
+          trimmed.includes('\\') ||
+          trimmed.includes('@') ||
+          /[\u0000-\u001F\u007F]/.test(trimmed)
+        ) {
+          return null;
+        }
+
+        let host = '';
+        const isExplicitUrl = /^https?:\/\//i.test(trimmed);
+        if (isExplicitUrl) {
+          if (/\s/.test(trimmed)) return null;
+          try {
+            const parsed = new URL(trimmed);
+            if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return null;
+            host = parsed.hostname.replace(/^www\./i, '').replace(/\.$/, '').toLowerCase();
+          } catch (_) {
+            return null;
+          }
+        } else {
+          if (/\s/.test(trimmed) || trimmed.includes(':') || trimmed.startsWith('/')) {
+            return null;
+          }
+          const slashIdx = trimmed.indexOf('/');
+          host = (slashIdx === -1 ? trimmed : trimmed.slice(0, slashIdx))
+            .replace(/^www\./i, '')
+            .replace(/\.$/, '')
+            .toLowerCase();
+        }
+
+        if (!host || host === 'google.com' || host === 'localhost') return null;
+        if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/.test(host)) {
+          return null;
+        }
+        const labels = host.split('.');
+        if (labels.length === 2 && /^(?:ft|st|mt|mr|mrs|ms|dr|jr|sr|inc|llc|pllc|corp|co|fl)$/i.test(labels[0])) {
+          return null;
+        }
+        const tld = labels[labels.length - 1];
+        if (/^\d+$/.test(tld) || /^(?:inc|corp|ltd|llc|pllc)$/i.test(tld)) {
+          return null;
+        }
+        if (!isExplicitUrl && !REALISTIC_TLDS.has(tld)) {
+          return null;
+        }
+        return host;
+      }
+
+      function toSafeHttpUrl(val) {
+        if (!val || typeof val !== 'string') return null;
+        const trimmed = val.trim();
+        if (!trimmed || trimmed.startsWith('//') || /[\u0000-\u001F\u007F\s]/.test(trimmed)) {
+          return null;
+        }
+        if (trimmed.startsWith('/')) {
+          if (/^\/[\/\\]/.test(trimmed)) return null;
+          return trimmed;
+        }
+        if (/^https?:\/\//i.test(trimmed)) {
+          try {
+            const parsed = new URL(trimmed);
+            if ((parsed.protocol === 'http:' || parsed.protocol === 'https:') && parsed.hostname) {
+              return parsed.href;
+            }
+          } catch (_) {}
+        }
+        return null;
+      }
+
+      let activeModalEl = null;
+      let activeModalAllowEscape = false;
+      let activeModalRestoreEl = null;
+
+      function setBackgroundInert(isInert) {
+        [skipLink, appHeader, leadWorkspace].forEach((el) => {
+          if (!el) return;
+          el.inert = isInert;
+          if (isInert) {
+            el.setAttribute('inert', '');
+          } else {
+            el.removeAttribute('inert');
+          }
+        });
+      }
+
+      function getFocusableElements(container) {
+        if (!container) return [];
+        return Array.from(
+          container.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => {
+          if (el.hidden) return false;
+          if (el.getAttribute('tabindex') === '-1') return false;
+          if (el.getAttribute('aria-hidden') === 'true' || el.closest('[aria-hidden="true"]')) return false;
+          if (el.inert || el.hasAttribute('inert') || el.closest('[inert]')) return false;
+          const style = window.getComputedStyle(el);
+          if (style.display === 'none' || style.visibility === 'hidden') return false;
+          return el.offsetParent !== null || style.position === 'fixed';
+        });
+      }
+
+      function openModalDialog(modalEl, opts) {
+        const options = opts || {};
+        activeModalEl = modalEl;
+        activeModalAllowEscape = Boolean(options.allowEscape);
+        activeModalRestoreEl = options.triggerEl || document.activeElement;
+        setBackgroundInert(true);
+        modalEl.hidden = false;
+        modalEl.style.display = 'flex';
+        const targetFocus = options.initialFocusEl || getFocusableElements(modalEl)[0];
+        if (targetFocus && typeof targetFocus.focus === 'function') {
+          requestAnimationFrame(() => targetFocus.focus());
+        }
+      }
+
+      function closeModalDialog(modalEl, opts) {
+        if (!modalEl) return;
+        const restoreFocus = opts && opts.restoreFocus !== undefined ? opts.restoreFocus : true;
+        modalEl.style.display = 'none';
+        modalEl.hidden = true;
+        if (activeModalEl === modalEl) {
+          activeModalEl = null;
+          activeModalAllowEscape = false;
+          setBackgroundInert(false);
+          const toFocus = activeModalRestoreEl;
+          activeModalRestoreEl = null;
+          if (restoreFocus && toFocus && typeof toFocus.focus === 'function' && document.contains(toFocus)) {
+            toFocus.focus();
+          }
+        } else if (!activeModalEl) {
+          setBackgroundInert(false);
+        }
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (!activeModalEl) return;
+        if (e.key === 'Escape' && activeModalAllowEscape) {
+          e.preventDefault();
+          closeModalDialog(activeModalEl, { restoreFocus: true });
+          return;
+        }
+        if (e.key === 'Tab') {
+          const focusables = getFocusableElements(activeModalEl);
+          if (focusables.length === 0) {
+            e.preventDefault();
+            return;
+          }
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first || !activeModalEl.contains(document.activeElement)) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last || !activeModalEl.contains(document.activeElement)) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
+      });
+
+      togglePasscodeBtn.addEventListener('click', () => {
+        const reveal = passcodeInput.type === 'password';
+        passcodeInput.type = reveal ? 'text' : 'password';
+        togglePasscodeText.textContent = reveal ? 'Hide' : 'Show';
+      });
+
+      [btnCall, btnSms, btnEmail].forEach((linkEl) => {
+        linkEl.addEventListener('click', (e) => {
+          if (linkEl.getAttribute('aria-disabled') === 'true') {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+      });
+
+      function setActionLinkState(linkEl, hrefVal) {
+        if (hrefVal) {
+          linkEl.setAttribute('href', hrefVal);
+          linkEl.removeAttribute('aria-disabled');
+          linkEl.removeAttribute('tabindex');
+          linkEl.classList.remove('is-disabled');
+        } else {
+          linkEl.removeAttribute('href');
+          linkEl.setAttribute('aria-disabled', 'true');
+          linkEl.setAttribute('tabindex', '-1');
+          linkEl.classList.add('is-disabled');
+        }
+      }
+
+      function clearSensitiveLeadDom() {
+        currentLead = null;
+        currentCandidate = null;
+        leadWorkspace.classList.add('is-auth-pending');
+        document.title = 'Lead Details — G3Z Creative CRM';
+        leadName.textContent = 'Locked';
+        leadStatusBadge.textContent = '—';
+        leadStatusBadge.className = 'status-badge status-lost';
+        leadReceivedTime.textContent = 'Received: \u2014';
+        setActionLinkState(btnCall, null);
+        setActionLinkState(btnSms, null);
+        setActionLinkState(btnEmail, null);
+        detailPhone.textContent = 'Not provided';
+        detailEmail.textContent = 'Not provided';
+        detailCompany.textContent = '\u2014';
+        enrichDomainInput.value = '';
+        enrichResult.innerHTML = '';
+        detailService.textContent = '\u2014';
+        detailSource.textContent = '\u2014';
+        detailMessage.textContent = '\u2014';
+        timelineList.innerHTML = '';
+        noteInput.value = '';
+        valueInput.value = '';
+        passcodeInput.value = '';
+        passcodeInput.type = 'password';
+        togglePasscodeText.textContent = 'Show';
+        playbookCityInput.value = 'South Florida';
+        playbookNicheSelect.value = 'Local Business';
+        renderPlaybookScripts();
       }
 
       function withPostHog(callback) {
@@ -1544,19 +2436,31 @@
         withPostHog((posthog) => posthog.capture(event, properties));
       }
 
+      function loadActiveRecord() {
+        if (leadId) {
+          fetchLeadDetails();
+        } else if (candidateId) {
+          fetchCandidatePreview();
+        }
+      }
+
       async function checkAuth() {
         try {
-          const res = await fetch('/api/crm/auth');
-          const data = await res.json();
-          if (data.authenticated) {
+          const res = await fetch('/api/crm/auth', { credentials: 'same-origin' });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data && data.authenticated === true) {
             identifyCrmUser(data);
-            loginModal.style.display = 'none';
-            fetchLeadDetails();
+            setBackgroundInert(false);
+            leadWorkspace.classList.remove('is-auth-pending');
+            closeModalDialog(loginModal, { restoreFocus: false });
+            loadActiveRecord();
           } else {
-            loginModal.style.display = 'flex';
+            clearSensitiveLeadDom();
+            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
           }
         } catch (e) {
-          loginModal.style.display = 'flex';
+          clearSensitiveLeadDom();
+          openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
         }
       }
 
@@ -1566,17 +2470,22 @@
         try {
           const res = await fetch('/api/crm/auth', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ passcode: passcodeInput.value })
           });
-          const data = await res.json();
-          if (data.authenticated) {
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data && data.authenticated === true) {
             identifyCrmUser(data);
-            loginModal.style.display = 'none';
-            fetchLeadDetails();
+            passcodeInput.value = '';
+            setBackgroundInert(false);
+            leadWorkspace.classList.remove('is-auth-pending');
+            closeModalDialog(loginModal, { restoreFocus: false });
+            loadActiveRecord();
           } else {
             loginError.textContent = data.error || 'Invalid passcode.';
             loginError.style.display = 'block';
+            passcodeInput.focus();
           }
         } catch (err) {
           loginError.textContent = 'Server error. Please try again.';
@@ -1586,81 +2495,283 @@
 
       logoutBtn.addEventListener('click', async () => {
         withPostHog((posthog) => posthog.reset());
-        await fetch('/api/crm/auth', { method: 'DELETE' });
-        window.location.href = '/crm';
+        try {
+          await fetch('/api/crm/auth', { method: 'DELETE', credentials: 'same-origin' });
+        } catch (_) {}
+        clearSensitiveLeadDom();
+        openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
       });
 
       async function fetchLeadDetails() {
         try {
-          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId));
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { credentials: 'same-origin' });
           if (res.status === 401) {
-            loginModal.style.display = 'flex';
+            clearSensitiveLeadDom();
+            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
             return;
           }
           if (!res.ok) {
-            alert('Lead not found.');
-            window.location.href = '/crm';
+            showToast('Lead not found.');
+            setTimeout(() => { window.location.href = getSafeReturnHref(false); }, 900);
             return;
           }
           const data = await res.json();
+          isCandidatePreview = false;
           renderLead(data.lead, data.notes || []);
         } catch (err) {
           console.error(err);
+          showToast('Unable to load lead details.');
+        }
+      }
+      const fetchLeadDetail = fetchLeadDetails;
+
+      function isOutreachLead(lead) {
+        return (
+          urlParams.get('playbook') === '1' ||
+          Boolean(urlParams.get('candidate_id')) ||
+          Boolean(isCandidatePreview) ||
+          /sunbiz|outreach/i.test((lead && lead.source_page) || '') ||
+          /Sunbiz Doc#:/i.test((lead && lead.message) || '')
+        );
+      }
+
+      async function fetchCandidatePreview() {
+        try {
+          const res = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId), {
+            credentials: 'same-origin'
+          });
+          if (res.status === 401) {
+            clearSensitiveLeadDom();
+            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            return;
+          }
+          if (!res.ok) {
+            showToast('Outreach candidate not found.');
+            setTimeout(() => { window.location.href = getSafeReturnHref(true); }, 900);
+            return;
+          }
+          const data = await res.json();
+          const cand = data.candidate;
+          if (!cand) {
+            showToast('Outreach candidate not found.');
+            return;
+          }
+          // If candidate was already promoted to a pipeline lead, transition cleanly to the real lead workspace
+          if (cand.lead_id) {
+            leadId = String(cand.lead_id);
+            isCandidatePreview = false;
+            const nextParams = new URLSearchParams();
+            nextParams.set('id', leadId);
+            if (urlParams.get('playbook') === '1' || urlParams.has('candidate_id')) {
+              nextParams.set('playbook', '1');
+            }
+            const validRet = validateReturnUrl(rawReturnParam);
+            if (validRet) nextParams.set('return', validRet);
+            window.history.replaceState(null, '', window.location.pathname + '?' + nextParams.toString());
+            await fetchLeadDetail();
+            return;
+          }
+          currentCandidate = cand;
+          isCandidatePreview = true;
+          const previewCity = cand.city || 'South Florida';
+          const previewLead = {
+            id: null,
+            name: cand.founder_name || cand.business_name_clean || 'Outreach Candidate',
+            company: cand.business_name_clean || '',
+            company_domain: cand.website || '',
+            email: cand.email || '',
+            phone: cand.phone || '',
+            contact_info: cand.email || cand.phone || (previewCity + ', FL (' + (cand.doc_number || 'Sunbiz') + ')'),
+            city: previewCity,
+            service_interest: 'Day-1 Launchpad (' + (cand.niche || 'Local Business') + ')',
+            source_page: 'Sunbiz Outreach' + (cand.doc_number ? ' (' + cand.doc_number + ')' : ''),
+            status: cand.outreach_status === 'emailed' ? 'contacted' : 'new',
+            estimated_value: 1500,
+            enrichment_status: cand.enrichment_status || 'pending',
+            created_at: cand.created_at || cand.filing_date || '',
+            message: [
+              cand.doc_number ? ('Sunbiz Doc#: ' + cand.doc_number + ' (' + (cand.entity_type || 'FL LLC') + ')') : '',
+              cand.filing_date ? ('Filing Date: ' + cand.filing_date) : '',
+              cand.founder_name ? ('Founder: ' + cand.founder_name + ' (' + (cand.founder_title || 'MGR') + ')') : '',
+              cand.principal_address ? ('Address: ' + cand.principal_address + ', ' + previewCity + ', FL ' + (cand.zip || '')) : ('City: ' + previewCity + ', FL')
+            ].filter(Boolean).join(' | ')
+          };
+          const previewNotes = cand.notes
+            ? [{ author: 'Outreach Notes', created_at: cand.updated_at || cand.created_at, content: cand.notes }]
+            : [];
+          renderLead(previewLead, previewNotes);
+        } catch (err) {
+          console.error(err);
+          showToast('Unable to load candidate preview.');
         }
       }
 
+      promoteCandidateBtn.addEventListener('click', async () => {
+        if (!candidateId) return;
+        promoteCandidateBtn.disabled = true;
+        promoteCandidateBtn.textContent = 'Promoting...';
+        try {
+          const res = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId) + '/promote', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'promote',
+              status: stageSelect.value || 'contacted'
+            })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.status === 401) {
+            clearSensitiveLeadDom();
+            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            return;
+          }
+          if (res.ok && data.lead_id) {
+            leadId = String(data.lead_id);
+            isCandidatePreview = false;
+            const nextParams = new URLSearchParams();
+            nextParams.set('id', leadId);
+            nextParams.set('playbook', '1');
+            const validRet = validateReturnUrl(rawReturnParam);
+            if (validRet) nextParams.set('return', validRet);
+            window.history.replaceState(null, '', window.location.pathname + '?' + nextParams.toString());
+            showToast('Promoted to active pipeline!');
+            await fetchLeadDetail();
+          } else {
+            showToast(data.error || 'Could not promote candidate.');
+          }
+        } catch (err) {
+          showToast('Could not promote candidate.');
+        } finally {
+          promoteCandidateBtn.disabled = false;
+          promoteCandidateBtn.textContent = '🚀 Promote to Pipeline';
+        }
+      });
+
       function renderLead(lead, notes) {
         currentLead = lead;
-        document.title = (lead.name || 'Lead') + ' — G3Z CRM';
+        const outreachMode = isOutreachLead(lead);
+        updateBackNavigation(outreachMode);
 
+        // Playbook visibility rule: Inbound leads (when ?playbook=1 is not set) always collapse by default
+        if (!outreachMode && urlParams.get('playbook') !== '1') {
+          setPlaybookOpen(false, false);
+        } else if (urlParams.get('playbook') === '1' || isCandidatePreview) {
+          setPlaybookOpen(true, false);
+        } else {
+          setPlaybookOpen(localStorage.getItem('g3z_playbook_hidden') !== '1', false);
+        }
+
+        // Candidate preview vs active pipeline controls (strictly read-only until promoted)
+        candidatePreviewBanner.hidden = !isCandidatePreview;
+        dangerZoneSection.hidden = isCandidatePreview;
+        stageSelect.disabled = isCandidatePreview;
+        valueInput.disabled = isCandidatePreview;
+        saveStageBtn.disabled = isCandidatePreview;
+        if (quickMarkLostBtn) quickMarkLostBtn.disabled = isCandidatePreview;
+        enrichBtn.disabled = isCandidatePreview;
+        enrichDomainInput.disabled = isCandidatePreview;
+        noteInput.disabled = isCandidatePreview;
+        addNoteBtn.disabled = isCandidatePreview;
+        noteInput.placeholder = isCandidatePreview
+          ? 'Promote candidate to pipeline above to log timeline notes...'
+          : 'Log call notes, outreach details, or next steps...';
+
+        document.title = (lead.name || 'Lead') + ' — G3Z CRM';
         leadName.textContent = lead.name || 'Anonymous Lead';
-        leadStatusBadge.textContent = lead.status || 'new';
-        leadStatusBadge.className = 'status-badge status-' + lead.status;
-        leadReceivedTime.textContent = 'Received: ' + (lead.created_at ? new Date(lead.created_at.replace(' ', 'T') + 'Z').toLocaleString() : 'Just now') + ' (' + timeAgo(lead.created_at) + ')';
+
+        if (isCandidatePreview) {
+          leadStatusBadge.textContent = 'Outreach Preview';
+          leadStatusBadge.className = 'status-badge status-preview';
+        } else {
+          const safeStatus = String(lead.status || 'new').toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'new';
+          leadStatusBadge.textContent = safeStatus;
+          leadStatusBadge.className = 'status-badge status-' + safeStatus;
+        }
+
+        const createdDate = parseUtcDate(lead.created_at);
+        if (createdDate) {
+          const dateOnly = isDateOnlyString(lead.created_at);
+          const absFormatted = createdDate.toLocaleDateString(
+            undefined,
+            dateOnly
+              ? { month: 'short', day: 'numeric', year: 'numeric' }
+              : { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }
+          );
+          const relFormatted = timeAgo(lead.created_at);
+          leadReceivedTime.textContent = relFormatted
+            ? ('Received: ' + absFormatted + ' (' + relFormatted + ')')
+            : ('Received: ' + absFormatted);
+        } else {
+          leadReceivedTime.textContent = 'Received: \u2014';
+        }
 
         stageSelect.value = lead.status || 'new';
         valueInput.value = (lead.estimated_value !== undefined && lead.estimated_value !== null)
           ? lead.estimated_value
           : (lead.deal_value || '');
 
-        const rawPhone = (lead.phone || lead.contact_info || '').replace(/[^0-9+]/g, '');
-        const candidateContactEmail = (lead.contact_info && lead.contact_info.includes('@') && !/@google\.com$/i.test(lead.contact_info))
-          ? lead.contact_info
-          : '';
-        const rawEmail = (lead.email && !/@google\.com$/i.test(lead.email)) ? lead.email : candidateContactEmail;
+        const validPhone = extractValidPhone(lead.phone, lead.contact_info);
+        const validEmail = extractValidEmail(lead.email, lead.contact_info);
 
-        if (rawPhone) {
-          btnCall.href = 'tel:' + rawPhone;
-          btnCall.style.opacity = '1';
-          btnCall.style.pointerEvents = 'auto';
-          btnSms.href = 'sms:' + rawPhone;
-          btnSms.style.opacity = '1';
-          btnSms.style.pointerEvents = 'auto';
-          detailPhone.innerHTML = '<a href="tel:' + rawPhone + '" style="color:var(--info); text-decoration:none;">' + escapeHtml(lead.phone || lead.contact_info) + '</a>';
+        if (validPhone) {
+          setActionLinkState(btnCall, 'tel:' + validPhone.dial);
+          setActionLinkState(btnSms, 'sms:' + validPhone.dial);
+          detailPhone.innerHTML = '<a href="tel:' + escapeHtml(validPhone.dial) + '" class="safe-ext-link">' + escapeHtml(validPhone.display) + '</a>';
         } else {
-          btnCall.style.opacity = '0.4';
-          btnCall.style.pointerEvents = 'none';
-          btnSms.style.opacity = '0.4';
-          btnSms.style.pointerEvents = 'none';
-          detailPhone.textContent = '—';
+          setActionLinkState(btnCall, null);
+          setActionLinkState(btnSms, null);
+          detailPhone.textContent = 'Not provided';
         }
 
-        if (rawEmail) {
-          btnEmail.href = 'mailto:' + rawEmail;
-          btnEmail.style.opacity = '1';
-          btnEmail.style.pointerEvents = 'auto';
-          detailEmail.innerHTML = '<a href="mailto:' + rawEmail + '" style="color:var(--info); text-decoration:none;">' + escapeHtml(rawEmail) + '</a>';
+        if (validEmail) {
+          setActionLinkState(btnEmail, 'mailto:' + validEmail);
+          detailEmail.innerHTML = '<a href="mailto:' + escapeHtml(validEmail) + '" class="safe-ext-link">' + escapeHtml(validEmail) + '</a>';
         } else {
-          btnEmail.style.opacity = '0.4';
-          btnEmail.style.pointerEvents = 'none';
-          detailEmail.textContent = '—';
+          setActionLinkState(btnEmail, null);
+          detailEmail.textContent = 'Not provided';
         }
 
-        detailCompany.textContent = lead.company || '—';
-        enrichDomainInput.value = lead.company_domain || '';
+        const explicitDomain = extractCleanDomain(lead.company_domain);
+        const inferredDomain = extractCleanDomain(lead.company);
+        const effectiveDomain = explicitDomain || inferredDomain;
+        enrichDomainInput.value = effectiveDomain || '';
+
+        const rawCompany = (lead.company || '').trim();
+        if (!rawCompany && !effectiveDomain) {
+          detailCompany.textContent = 'Not provided';
+        } else if (effectiveDomain) {
+          const directUrl = toSafeHttpUrl(lead.company_domain) || toSafeHttpUrl(rawCompany) || ('https://' + effectiveDomain);
+          const externalHref = directUrl.startsWith('/') ? ('https://' + effectiveDomain) : directUrl;
+          if (rawCompany && rawCompany.toLowerCase() !== effectiveDomain && !/^https?:\/\//i.test(rawCompany)) {
+            detailCompany.innerHTML = escapeHtml(rawCompany)
+              + ' <span style="color:var(--text-muted);">&middot;</span> '
+              + '<a href="' + escapeHtml(externalHref) + '" target="_blank" rel="noopener noreferrer" class="safe-ext-link">'
+              + escapeHtml(effectiveDomain) + ' &#8599;</a>';
+          } else {
+            detailCompany.innerHTML = '<a href="' + escapeHtml(externalHref) + '" target="_blank" rel="noopener noreferrer" class="safe-ext-link">'
+              + escapeHtml(rawCompany || effectiveDomain) + ' &#8599;</a>';
+          }
+        } else {
+          detailCompany.textContent = rawCompany;
+        }
+
         renderEnrichmentState(lead);
         detailService.textContent = lead.service_interest || 'General Inquiry';
-        detailSource.textContent = lead.source_page || '/';
+
+        const rawSource = (lead.source_page || '').trim();
+        if (!rawSource) {
+          detailSource.textContent = 'Not provided';
+        } else {
+          const safeSourceHref = toSafeHttpUrl(rawSource);
+          if (safeSourceHref) {
+            detailSource.innerHTML = '<a href="' + escapeHtml(safeSourceHref) + '" target="_blank" rel="noopener noreferrer" class="safe-ext-link">'
+              + escapeHtml(rawSource) + '</a>';
+          } else {
+            detailSource.textContent = rawSource;
+          }
+        }
+
         detailMessage.textContent = lead.message || 'No additional message provided.';
 
         renderTimeline(notes, lead);
@@ -1671,14 +2782,22 @@
         timelineList.innerHTML = '';
 
         if (!notes || notes.length === 0) {
-          timelineList.innerHTML = '<div class="timeline-item"><div class="timeline-meta"><span>Inquiry Created</span><span>' + timeAgo(lead.created_at) + '</span></div><div class="timeline-body">Lead captured from ' + escapeHtml(lead.source_page || 'website') + '.</div></div>';
+          const relTime = timeAgo(lead.created_at) || '\u2014';
+          const originLabel = isCandidatePreview ? 'Outreach Candidate Preview' : 'Inquiry Created';
+          timelineList.innerHTML = '<div class="timeline-item"><div class="timeline-meta"><span>'
+            + escapeHtml(originLabel) + '</span><span>' + escapeHtml(relTime)
+            + '</span></div><div class="timeline-body">Lead captured from '
+            + escapeHtml(lead.source_page || 'website') + '.</div></div>';
           return;
         }
 
         notes.forEach(function(note) {
           const item = document.createElement('div');
           item.className = 'timeline-item';
-          item.innerHTML = '<div class="timeline-meta"><span style="font-weight:600; color:white;">' + escapeHtml(note.author || 'Chris') + '</span><span>' + timeAgo(note.created_at) + '</span></div><div class="timeline-body">' + escapeHtml(note.content) + '</div>';
+          const noteTime = timeAgo(note.created_at) || '\u2014';
+          item.innerHTML = '<div class="timeline-meta"><span style="font-weight:600; color:white;">'
+            + escapeHtml(note.author || 'Chris') + '</span><span>' + escapeHtml(noteTime)
+            + '</span></div><div class="timeline-body">' + escapeHtml(note.content) + '</div>';
           timelineList.appendChild(item);
         });
       }
@@ -1686,24 +2805,29 @@
       function buildOsintAndManualEmailHtml(lead, statusText) {
         const name = (lead && lead.name) ? lead.name : '';
         const company = (lead && lead.company) ? lead.company : '';
-        const msg = (lead && lead.message) ? lead.message : '';
-        const cityMatch = msg.match(/Address:\s*[^,|]+,\s*([^,|]+),\s*FL/i) || msg.match(/City:\s*([^,|]+),\s*FL/i);
-        const city = cityMatch ? cityMatch[1].trim() : 'Miami';
+        const city = detectLeadCity(lead);
 
         const googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent('"' + company + '" "' + city + '" FL phone OR email');
         const peopleUrl = 'https://www.google.com/search?q=' + encodeURIComponent('"' + name + '" "' + city + '" FL email OR phone');
         const linkedinUrl = 'https://www.google.com/search?q=' + encodeURIComponent('site:linkedin.com/in "' + name + '" "' + city + '"');
+        const currentValidEmail = extractValidEmail(lead && lead.email, '');
+        const disabledAttr = isCandidatePreview ? ' disabled' : '';
+        const previewHint = isCandidatePreview
+          ? '<div style="color:var(--text-muted); margin-top:6px;">Click &ldquo;Promote to Pipeline&rdquo; above to save emails or run lead enrichment.</div>'
+          : '';
 
         return (statusText ? '<div style="color:var(--text-muted); margin-bottom:6px;">' + statusText + '</div>' : '')
           + '<div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">'
-          + '<a href="' + googleUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">🔍 Google</a>'
-          + '<a href="' + peopleUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">👤 PeopleLookup</a>'
-          + '<a href="' + linkedinUrl + '" target="_blank" rel="noopener" style="font-size:0.72rem; padding:2px 7px; border-radius:4px; background:#1e293b; color:#cbd5e1; text-decoration:none; border:1px solid #334155;">💼 LinkedIn</a>'
+          + '<a href="' + googleUrl + '" target="_blank" rel="noopener noreferrer" class="osint-pill">🔍 Google</a>'
+          + '<a href="' + peopleUrl + '" target="_blank" rel="noopener noreferrer" class="osint-pill">👤 PeopleLookup</a>'
+          + '<a href="' + linkedinUrl + '" target="_blank" rel="noopener noreferrer" class="osint-pill">💼 LinkedIn</a>'
           + '</div>'
+          + '<label for="manualLeadEmailInput" class="field-label" style="display:block; margin-bottom:4px;">Save Found Email</label>'
           + '<div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">'
-          + '<input type="email" id="manualLeadEmailInput" class="search-input" placeholder="Paste found email (e.g. founder@gmail.com)" value="' + escapeHtml((lead && lead.email && !/@google\.com$/i.test(lead.email)) ? lead.email : '') + '" style="flex:1; min-width:160px; font-size:0.78rem; padding:4px 8px;">'
-          + '<button type="button" class="btn btn-sm" id="saveManualEmailBtn">Save Email</button>'
-          + '</div>';
+          + '<input type="email" id="manualLeadEmailInput" name="manual_email" class="search-input" placeholder="founder@company.com" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" value="' + escapeHtml(currentValidEmail || '') + '" style="flex:1; min-width:160px;"' + disabledAttr + '>'
+          + '<button type="button" class="btn btn-sm" id="saveManualEmailBtn"' + disabledAttr + '>Save Email</button>'
+          + '</div>'
+          + previewHint;
       }
 
       function bindManualEmailSave() {
@@ -1711,9 +2835,14 @@
         const input = document.getElementById('manualLeadEmailInput');
         if (!btn || !input) return;
         btn.addEventListener('click', async () => {
+          if (isCandidatePreview || !leadId) {
+            showToast('Click Promote to Pipeline first.');
+            return;
+          }
           const val = input.value.trim();
-          if (!val || !val.includes('@')) {
-            alert('Please enter a valid email address.');
+          if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+            showToast('Please enter a valid email address.');
+            input.focus();
             return;
           }
           btn.disabled = true;
@@ -1721,17 +2850,19 @@
           try {
             const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
               method: 'PATCH',
+              credentials: 'same-origin',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: val, contact_info: val })
             });
             if (res.ok) {
-              enrichResult.innerHTML = '<span style="color:var(--success, #22c55e);">&check; Email saved to lead.</span>';
-              fetchLeadDetails();
+              enrichResult.innerHTML = '<span style="color:var(--success);">&check; Email saved.</span>';
+              showToast('Email saved.');
+              loadActiveRecord();
             } else {
-              alert('Could not save email.');
+              showToast('Could not save email.');
             }
           } catch (_) {
-            alert('Could not save email.');
+            showToast('Could not save email.');
           } finally {
             btn.disabled = false;
             btn.textContent = 'Save Email';
@@ -1762,8 +2893,11 @@
           bindManualEmailSave();
           return;
         }
-        if (lead.enrichment_status === 'found') {
-          enrichResult.innerHTML = '<span style="color:var(--text-muted);">A suggestion was found earlier &mdash; click Find Email to view it.</span>';
+        if (lead.enrichment_status === 'found' || lead.enrichment_status === 'partial') {
+          enrichResult.innerHTML = isCandidatePreview
+            ? buildOsintAndManualEmailHtml(lead, 'A suggestion was found earlier &mdash; promote to pipeline to run or accept enrichment.')
+            : '<span style="color:var(--text-muted);">A suggestion was found earlier &mdash; click Find Email to view it.</span>';
+          if (isCandidatePreview) bindManualEmailSave();
         }
       }
 
@@ -1775,7 +2909,8 @@
           return;
         }
 
-        if (enrichment.status !== 'found' || !enrichment.email) {
+        const hasFoundEmail = (enrichment.status === 'found' || enrichment.status === 'partial') && Boolean(enrichment.email);
+        if (!hasFoundEmail) {
           const domainNote = enrichment.company_domain
             ? 'at ' + escapeHtml(enrichment.company_domain)
             : 'across DataForSEO, PDL, Hunter &amp; Apollo (newly filed LLC has no public domain/email indexed yet)';
@@ -1785,7 +2920,7 @@
           );
           bindManualEmailSave();
           if (enrichment.phone && currentLead && !currentLead.phone) {
-            fetchLeadDetails();
+            loadActiveRecord();
           }
           return;
         }
@@ -1804,15 +2939,21 @@
           + '<button type="button" class="btn btn-sm" id="acceptEmailBtn">Use this email</button>';
 
         document.getElementById('acceptEmailBtn').addEventListener('click', async () => {
+          if (isCandidatePreview || !leadId) {
+            showToast('Click Promote to Pipeline first.');
+            return;
+          }
           try {
             const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
               method: 'PATCH',
+              credentials: 'same-origin',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: enrichment.email })
             });
             if (res.ok) {
               await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
                 method: 'POST',
+                credentials: 'same-origin',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   type: 'enrichment',
@@ -1820,26 +2961,33 @@
                 })
               });
               enrichResult.innerHTML = '<span style="color:var(--success, #22c55e);">Saved to lead.</span>';
-              fetchLeadDetails();
+              showToast('Email saved.');
+              loadActiveRecord();
             } else {
-              alert('Could not save the email.');
+              showToast('Could not save the email.');
             }
           } catch (err) {
-            alert('Could not save the email.');
+            showToast('Could not save the email.');
           }
         });
       }
 
       enrichBtn.addEventListener('click', async () => {
+        if (isCandidatePreview || !leadId) {
+          showToast('Click Promote to Pipeline first.');
+          return;
+        }
         enrichBtn.disabled = true;
         enrichBtn.textContent = 'Searching...';
         enrichResult.innerHTML = '';
 
         try {
+          const cleanedDomain = extractCleanDomain(enrichDomainInput.value) || enrichDomainInput.value.trim();
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/enrich', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ company_domain: enrichDomainInput.value.trim() })
+            body: JSON.stringify({ company_domain: cleanedDomain })
           });
           const data = await res.json().catch(() => ({}));
 
@@ -1849,20 +2997,33 @@
             return;
           }
           captureLeadEvent('lead_enrichment_completed', {
-            enrichment_found: data.enrichment?.status === 'found'
+            enrichment_found: (data.enrichment?.status === 'found' || data.enrichment?.status === 'partial') && Boolean(data.enrichment?.email)
           });
           renderEnrichmentResult(data.enrichment);
         } catch (err) {
           enrichResult.innerHTML = '<span style="color:var(--danger, #ef4444);">Enrichment request failed.</span>';
         } finally {
-          enrichBtn.disabled = false;
+          enrichBtn.disabled = isCandidatePreview;
           enrichBtn.textContent = 'Find Email';
         }
       });
 
       // Save Stage & Valuation
+      let isSavingOutcome = false;
+
       stageForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (isCandidatePreview || !leadId) {
+          showToast('Click Promote to Pipeline first.');
+          return;
+        }
+        if (isSavingOutcome) return;
+        isSavingOutcome = true;
+        saveStageBtn.disabled = true;
+        if (quickMarkLostBtn) quickMarkLostBtn.disabled = true;
+        const targetLeadId = leadId;
+        const prevLeadName = (currentLead && currentLead.name) || 'lead';
+
         try {
           const numericVal = valueInput.value ? parseFloat(valueInput.value) : 0;
           const payload = {
@@ -1870,33 +3031,50 @@
             estimated_value: numericVal,
             deal_value: numericVal
           };
-          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(targetLeadId), {
             method: 'PATCH',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
           if (res.ok) {
+            const patchData = await res.json().catch(() => ({}));
             captureLeadEvent('lead_details_updated', { status: payload.status });
+            if (payload.status === 'lost') {
+              await advanceAfterLost(patchData, prevLeadName);
+              return;
+            }
             leadStatusBadge.textContent = payload.status;
             leadStatusBadge.className = 'status-badge status-' + payload.status;
             saveToast.style.display = 'block';
             setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
             fetchLeadDetails();
+          } else {
+            showToast('Could not update stage.');
           }
         } catch (err) {
-          alert('Could not update stage.');
+          showToast('Could not update stage.');
+        } finally {
+          isSavingOutcome = false;
+          saveStageBtn.disabled = isCandidatePreview;
+          if (quickMarkLostBtn) quickMarkLostBtn.disabled = isCandidatePreview;
         }
       });
 
       // Add Note
       noteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (isCandidatePreview || !leadId) {
+          showToast('Click Promote to Pipeline first.');
+          return;
+        }
         const content = noteInput.value.trim();
         if (!content) return;
 
         try {
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ content: content, author: 'Chris' })
           });
@@ -1904,25 +3082,58 @@
             captureLeadEvent('lead_note_added', { note_type: 'manual' });
             noteInput.value = '';
             fetchLeadDetails();
+          } else {
+            showToast('Could not save note.');
           }
         } catch (err) {
-          alert('Could not save note.');
+          showToast('Could not save note.');
         }
       });
 
-      // Delete Lead
-      deleteBtn.addEventListener('click', async () => {
-        if (!confirm('Are you sure you want to permanently delete "' + (currentLead ? currentLead.name : 'this lead') + '"?')) {
-          return;
+      // Accessible Delete Lead Confirmation Modal
+      deleteBtn.addEventListener('click', () => {
+        if (isCandidatePreview || !leadId) return;
+        const targetName = currentLead && currentLead.name ? currentLead.name : 'this lead';
+        deleteModalDesc.textContent = 'Permanently delete "' + targetName + '" and all associated timeline notes? This action cannot be undone.';
+        openModalDialog(deleteConfirmModal, {
+          initialFocusEl: cancelDeleteBtn,
+          allowEscape: true,
+          triggerEl: deleteBtn
+        });
+      });
+
+      cancelDeleteBtn.addEventListener('click', () => {
+        closeModalDialog(deleteConfirmModal, { restoreFocus: true });
+      });
+
+      deleteConfirmModal.addEventListener('click', (e) => {
+        if (e.target === deleteConfirmModal) {
+          closeModalDialog(deleteConfirmModal, { restoreFocus: true });
         }
+      });
+
+      confirmDeleteBtn.addEventListener('click', async () => {
+        if (!leadId) return;
+        confirmDeleteBtn.disabled = true;
+        confirmDeleteBtn.textContent = 'Deleting...';
         try {
-          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { method: 'DELETE' });
+          const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+            method: 'DELETE',
+            credentials: 'same-origin'
+          });
           if (res.ok) {
             captureLeadEvent('lead_deleted');
-            window.location.href = '/crm';
+            const dest = getSafeReturnHref(isOutreachLead(currentLead));
+            closeModalDialog(deleteConfirmModal, { restoreFocus: false });
+            window.location.href = dest;
+          } else {
+            showToast('Failed to delete lead.');
           }
         } catch (err) {
-          alert('Failed to delete lead.');
+          showToast('Failed to delete lead.');
+        } finally {
+          confirmDeleteBtn.disabled = false;
+          confirmDeleteBtn.textContent = 'Delete Permanently';
         }
       });
 
@@ -2026,17 +3237,24 @@
       const playbookQuickStatusMsg = document.getElementById('playbookQuickStatusMsg');
 
       // Toggle Playbook Open / Closed
-      if (localStorage.getItem('g3z_playbook_hidden') === '1' && params.get('playbook') !== '1') {
-        leadWorkspace.classList.add('playbook-hidden');
-        togglePlaybookBtn.classList.remove('active');
-        togglePlaybookBtn.setAttribute('aria-expanded', 'false');
+      function setPlaybookOpen(isOpen, persist) {
+        const open = Boolean(isOpen);
+        leadWorkspace.classList.toggle('playbook-hidden', !open);
+        togglePlaybookBtn.classList.toggle('active', open);
+        togglePlaybookBtn.setAttribute('aria-expanded', String(open));
+        if (persist) {
+          try {
+            localStorage.setItem('g3z_playbook_hidden', open ? '0' : '1');
+          } catch (_) {}
+        }
       }
 
+      // Default collapsed prior to lead hydration unless ?playbook=1 or ?candidate_id=...
+      setPlaybookOpen(urlParams.get('playbook') === '1' || Boolean(candidateId), false);
+
       togglePlaybookBtn.addEventListener('click', () => {
-        const isHidden = leadWorkspace.classList.toggle('playbook-hidden');
-        togglePlaybookBtn.classList.toggle('active', !isHidden);
-        togglePlaybookBtn.setAttribute('aria-expanded', String(!isHidden));
-        localStorage.setItem('g3z_playbook_hidden', isHidden ? '1' : '0');
+        const willOpen = leadWorkspace.classList.contains('playbook-hidden');
+        setPlaybookOpen(willOpen, true);
       });
 
       function detectLeadNiche(lead) {
@@ -2050,13 +3268,42 @@
         return 'Local Business';
       }
 
+      function cleanParsedCity(raw) {
+        if (!raw || typeof raw !== 'string') return 'South Florida';
+        let cleaned = raw
+          .replace(/\(.*?\)/g, ' ')
+          .replace(/\b\d{5}(?:-\d{4})?\b/g, ' ')
+          .replace(/[,.\s]+(?:FL|Florida|USA|US)\b.*$/i, '')
+          .replace(/^[,.\s-]+|[,.\s-]+$/g, '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
+        if (!cleaned || /^(?:fl|florida|n\/a|none|unknown|sunbiz)$/i.test(cleaned)) {
+          return 'South Florida';
+        }
+        return cleaned;
+      }
+
       function detectLeadCity(lead) {
-        const msg = String(lead.message || '') + ' ' + String(lead.contact_info || '');
-        const addressMatch = msg.match(/Address:\s*[^,|]+,\s*([^,|]+),\s*FL/i) || msg.match(/City:\s*([^,|]+),\s*FL/i);
-        if (addressMatch && addressMatch[1]) return addressMatch[1].trim();
-        const parenMatch = msg.match(/Filed\s+\S+\s+in\s+([^).]+)/i);
-        if (parenMatch && parenMatch[1]) return parenMatch[1].trim();
-        return 'Miramar';
+        if (!lead) return 'South Florida';
+        if (lead.city && String(lead.city).trim()) {
+          return cleanParsedCity(String(lead.city));
+        }
+        const msg = String(lead.message || '') + ' | ' + String(lead.contact_info || '');
+        const addressMatch =
+          msg.match(/Address:\s*[^,|]+,\s*([^,|]+?)(?:,\s*(?:FL|Florida)\b|\||\n|$)/i) ||
+          msg.match(/City:\s*([^,|]+?)(?:,\s*(?:FL|Florida)\b|\||\n|$)/i);
+        if (addressMatch && addressMatch[1]) {
+          return cleanParsedCity(addressMatch[1]);
+        }
+        const filedMatch = msg.match(/Filed\s+\S+\s+in\s+([^|).\n]+)/i);
+        if (filedMatch && filedMatch[1]) {
+          return cleanParsedCity(filedMatch[1]);
+        }
+        const flSuffixMatch = String(lead.contact_info || '').match(/^([A-Za-z][A-Za-z .'-]{1,40}),\s*FL\b/i);
+        if (flSuffixMatch && flSuffixMatch[1]) {
+          return cleanParsedCity(flSuffixMatch[1]);
+        }
+        return 'South Florida';
       }
 
       function syncPlaybookFromLead(lead) {
@@ -2072,12 +3319,10 @@
         const fullName = (lead.name || 'there').trim();
         const firstName = fullName.split(/\s+/)[0] || 'there';
         const company = (lead.company || 'your business').trim();
-        const city = (playbookCityInput.value || 'South Florida').trim();
+        const city = cleanParsedCity(playbookCityInput.value || 'South Florida');
         const niche = playbookNicheSelect.value || 'Local Business';
         const meta = PLAYBOOK_NICHE_META[niche] || PLAYBOOK_NICHE_META['Local Business'];
-        const emailDisplay = (lead.email && !/@google\.com$/i.test(lead.email))
-          ? lead.email
-          : ((lead.contact_info && lead.contact_info.includes('@')) ? lead.contact_info : 'your email');
+        const emailDisplay = extractValidEmail(lead.email, lead.contact_info) || 'your email';
 
         playbookDemandText.textContent = `📈 ~${meta.searchers} Google searches/mo near ${city}`;
 
@@ -2090,7 +3335,7 @@
 
         // Milestone 1: Disarm + Owner Check
         document.getElementById('gateScript1').textContent =
-          `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web guy here in Miramar. Did I catch the owner of ${company}?"`;
+          `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web guy here in South Florida. Did I catch the owner of ${company}?"`;
 
         // Milestone 2: Easy "No" Exit + Need Check
         document.getElementById('gateScript2').textContent =
@@ -2116,7 +3361,7 @@
 
         // Friendly Human SMS / Email Recap
         document.getElementById('recapTemplateHidden').textContent =
-          `Hey ${firstName}, good chatting with you! This is Christian from G3Z Creative here in Miramar (g3zcreative.com).\n\nSimple flat prices we talked about for ${company}:\n1) Starter Website: $500 flat ($250 to start, $250 when you love it) — clean 1-5 page site ready in 2 days (+$99/mo hosting).\n2) Full Website + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — full site + built-in tracker for every call & quote.\n3) Monthly Google Growth: $2,500/mo (no contract, cancel anytime, free hosting) — ongoing work to rank at the top of Google in ${city}.\n\nTo get started, just reply with #1, #2, or #3 and the best phone number for customer calls. I'll send the 50% start link and have your preview ready in 48 hours.\n\n— Christian (786-967-3699)`;
+          `Hey ${firstName}, good chatting with you! This is Christian from G3Z Creative here in South Florida (g3zcreative.com).\n\nSimple flat prices we talked about for ${company}:\n1) Starter Website: $500 flat ($250 to start, $250 when you love it) — clean 1-5 page site ready in 2 days (+$99/mo hosting).\n2) Full Website + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — full site + built-in tracker for every call & quote.\n3) Monthly Google Growth: $2,500/mo (no contract, cancel anytime, free hosting) — ongoing work to rank at the top of Google in ${city}.\n\nTo get started, just reply with #1, #2, or #3 and the best phone number for customer calls. I'll send the 50% start link and have your preview ready in 48 hours.\n\n— Christian (786-967-3699)`;
       }
 
       playbookNicheSelect.addEventListener('change', renderPlaybookScripts);
@@ -2128,14 +3373,24 @@
           const pill = document.getElementById('msStep' + i);
           if (!pill) continue;
           pill.classList.remove('current', 'done', 'stopped');
+          pill.removeAttribute('aria-current');
           if (stoppedStep === i) {
             pill.classList.add('stopped');
           } else if (i <= doneUpTo) {
             pill.classList.add('done');
           } else if (i === currentStep) {
             pill.classList.add('current');
+            pill.setAttribute('aria-current', 'step');
           }
         }
+      }
+
+      function setActivePlaybookTab(activeTabKey) {
+        document.querySelectorAll('.playbook-tab-btn').forEach((b) => {
+          const isMatch = b.getAttribute('data-tab') === activeTabKey;
+          b.classList.toggle('active', isMatch);
+          b.setAttribute('aria-pressed', String(isMatch));
+        });
       }
 
       // Click Milestone Pill -> Jump to Target Card/Section
@@ -2143,7 +3398,7 @@
         pill.addEventListener('click', () => {
           // Ensure "All" sections are visible if hidden by a tab filter
           document.querySelectorAll('.playbook-section').forEach(sec => sec.classList.remove('hidden-section'));
-          document.querySelectorAll('.playbook-tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-tab') === 'all'));
+          setActivePlaybookTab('all');
           const targetEl = document.getElementById(pill.getAttribute('data-jump'));
           if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
@@ -2152,9 +3407,8 @@
       // Section Filter Tabs (All | 1. Call Flow | 2. Prices | 3. Pushback | 4. Next Step)
       document.querySelectorAll('.playbook-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('.playbook-tab-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
           const tab = btn.getAttribute('data-tab');
+          setActivePlaybookTab(tab);
           document.querySelectorAll('.playbook-section').forEach(sec => {
             if (tab === 'all' || sec.getAttribute('data-section') === tab) {
               sec.classList.remove('hidden-section');
@@ -2173,9 +3427,13 @@
           const card = document.getElementById('gateCard' + gateNum);
           if (!card) return;
 
-          // Update button selected state
-          card.querySelectorAll('.gate-btn[data-gate]').forEach(b => b.classList.remove('selected'));
+          // Update button selected + aria-pressed state
+          card.querySelectorAll('.gate-btn[data-gate]').forEach(b => {
+            b.classList.remove('selected');
+            b.setAttribute('aria-pressed', 'false');
+          });
           btn.classList.add('selected');
+          btn.setAttribute('aria-pressed', 'true');
 
           card.classList.remove('active-gate', 'answered-yes', 'answered-no');
           card.classList.add(answer === 'yes' ? 'answered-yes' : 'answered-no');
@@ -2210,15 +3468,24 @@
       });
 
       // Reset Call Flow & Milestones
-      playbookResetGatesBtn.addEventListener('click', () => {
+      function resetPlaybookGates() {
         document.querySelectorAll('.gate-card').forEach((card, idx) => {
           card.classList.remove('active-gate', 'answered-yes', 'answered-no');
           if (idx === 0) card.classList.add('active-gate');
-          card.querySelectorAll('.gate-btn').forEach(b => b.classList.remove('selected'));
+          card.querySelectorAll('.gate-btn').forEach(b => {
+            b.classList.remove('selected');
+            b.setAttribute('aria-pressed', 'false');
+          });
           card.querySelectorAll('.gate-outcome-box').forEach(box => box.classList.remove('show'));
         });
         updateMilestoneTracker(0, 1, null);
-      });
+        document.querySelectorAll('.playbook-section').forEach(sec => sec.classList.remove('hidden-section'));
+        setActivePlaybookTab('all');
+        const pbBody = document.getElementById('playbookBody');
+        if (pbBody) pbBody.scrollTop = 0;
+      }
+
+      playbookResetGatesBtn.addEventListener('click', resetPlaybookGates);
 
       // Copy Buttons inside Playbook
       let copyTimer;
@@ -2234,7 +3501,13 @@
           const targetId = btn.getAttribute('data-copy-target');
           const el = document.getElementById(targetId);
           if (!el) return;
-          const cleanText = el.innerText.replace(/📋\s*Copy Answer/g, '').replace(/^"|"$/g, '').trim();
+          const clone = el.cloneNode(true);
+          clone.querySelectorAll('button, .visually-hidden').forEach(node => node.remove());
+          const cleanText = (clone.textContent || '')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .replace(/^"|"$/g, '')
+            .trim();
           try {
             await navigator.clipboard.writeText(cleanText);
             showPlaybookCopied('✓ Copied!');
@@ -2255,10 +3528,87 @@
         });
       });
 
+      function setOutcomeButtonsDisabled(disabled) {
+        document.querySelectorAll('[data-quick-status], [data-select-tier]').forEach((b) => {
+          b.disabled = Boolean(disabled);
+        });
+        saveStageBtn.disabled = Boolean(disabled) || isCandidatePreview;
+        if (quickMarkLostBtn) quickMarkLostBtn.disabled = Boolean(disabled) || isCandidatePreview;
+      }
+
+      async function advanceAfterLost(patchData, prevLeadName) {
+        const nextLead = patchData && patchData.next_uncontacted_lead ? patchData.next_uncontacted_lead : null;
+        const remainingCount =
+          patchData && typeof patchData.remaining_uncontacted_count === 'number'
+            ? patchData.remaining_uncontacted_count
+            : (nextLead ? 1 : 0);
+
+        if (nextLead && nextLead.id) {
+          leadId = String(nextLead.id);
+          isCandidatePreview = false;
+          currentCandidate = null;
+
+          const nextParams = new URLSearchParams();
+          nextParams.set('id', leadId);
+          nextParams.set('playbook', '1');
+          const validRet = validateReturnUrl(rawReturnParam);
+          if (validRet) nextParams.set('return', validRet);
+          window.history.pushState({ leadId }, '', window.location.pathname + '?' + nextParams.toString());
+
+          urlParams.set('id', leadId);
+          urlParams.set('playbook', '1');
+          urlParams.delete('candidate_id');
+
+          resetPlaybookGates();
+          noteInput.value = '';
+          enrichResult.innerHTML = '';
+          saveToast.style.display = 'none';
+
+          if (Array.isArray(patchData.next_uncontacted_lead_notes)) {
+            renderLead(nextLead, patchData.next_uncontacted_lead_notes);
+          } else {
+            await fetchLeadDetails();
+          }
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          const focusTarget =
+            btnCall && !btnCall.classList.contains('is-disabled') ? btnCall : leadName;
+          if (focusTarget && typeof focusTarget.focus === 'function') {
+            focusTarget.focus({ preventScroll: true });
+          }
+
+          const nextLabel = nextLead.name || nextLead.company || 'Next Lead';
+          const leftLabel = remainingCount === 1 ? '1 uncontacted left' : `${remainingCount} uncontacted left`;
+          playbookQuickStatusMsg.textContent = `→ Next up (${leftLabel})`;
+          setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3800);
+          showToast(`Marked ${prevLeadName} Lost → Next: ${nextLabel} (${leftLabel})`);
+          return;
+        }
+
+        leadStatusBadge.textContent = 'lost';
+        leadStatusBadge.className = 'status-badge status-lost';
+        playbookQuickStatusMsg.textContent = '✓ All uncontacted leads called!';
+        setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 4200);
+        showToast(`Marked ${prevLeadName} Lost — no more uncontacted leads left!`);
+        await fetchLeadDetails();
+      }
+
       // Helper: One-Click Update Stage + Value + Log Call Note
       async function executePlaybookQuickOutcome({ status, value, note }) {
+        if (isCandidatePreview || !leadId) {
+          playbookQuickStatusMsg.textContent = 'Promote to Pipeline first';
+          showToast('Click Promote to Pipeline first to log outcomes.');
+          setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3200);
+          return;
+        }
+        if (isSavingOutcome) return;
+        isSavingOutcome = true;
+        setOutcomeButtonsDisabled(true);
+
+        const targetLeadId = leadId;
+        const prevLeadName = (currentLead && currentLead.name) || 'lead';
+
         try {
-          playbookQuickStatusMsg.textContent = 'Saving...';
           const patchPayload = { status };
           if (value !== undefined && value !== null) {
             const num = parseFloat(value);
@@ -2268,15 +3618,23 @@
           }
           stageSelect.value = status;
 
-          await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+          const patchRes = await fetch('/api/crm/leads/' + encodeURIComponent(targetLeadId), {
             method: 'PATCH',
+            credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(patchPayload)
           });
 
+          if (!patchRes.ok) {
+            playbookQuickStatusMsg.textContent = 'Error saving';
+            return;
+          }
+          const patchData = await patchRes.json().catch(() => ({}));
+
           if (note) {
-            await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
+            await fetch('/api/crm/leads/' + encodeURIComponent(targetLeadId) + '/notes', {
               method: 'POST',
+              credentials: 'same-origin',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 author: 'Chris',
@@ -2287,12 +3645,30 @@
           }
 
           captureLeadEvent('playbook_outcome_logged', { status, value: value || 0 });
+
+          if (status === 'lost') {
+            await advanceAfterLost(patchData, prevLeadName);
+            return;
+          }
+
           playbookQuickStatusMsg.textContent = '✓ Logged (' + status.toUpperCase() + ')';
           setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3000);
           fetchLeadDetails();
         } catch (err) {
           playbookQuickStatusMsg.textContent = 'Error saving';
+        } finally {
+          isSavingOutcome = false;
+          setOutcomeButtonsDisabled(false);
         }
+      }
+
+      if (quickMarkLostBtn) {
+        quickMarkLostBtn.addEventListener('click', () => {
+          executePlaybookQuickOutcome({
+            status: 'lost',
+            note: 'Call Outcome: Marked Lost.'
+          });
+        });
       }
 
       document.querySelectorAll('[data-quick-status]').forEach(btn => {
@@ -2321,6 +3697,25 @@
             note: `Playbook Option Selected: ${tierName}. Moved to Proposal ($${Number(tierVal).toLocaleString()}).`
           });
         });
+      });
+
+      window.addEventListener('popstate', () => {
+        const latestParams = new URLSearchParams(window.location.search);
+        const poppedLeadId = latestParams.get('id');
+        const poppedCandId = latestParams.get('candidate_id');
+        Array.from(urlParams.keys()).forEach((k) => urlParams.delete(k));
+        latestParams.forEach((v, k) => urlParams.set(k, v));
+
+        if (poppedLeadId) {
+          leadId = poppedLeadId;
+          isCandidatePreview = false;
+          resetPlaybookGates();
+          fetchLeadDetails();
+        } else if (poppedCandId) {
+          leadId = null;
+          isCandidatePreview = true;
+          fetchCandidatePreview();
+        }
       });
 
       renderPlaybookScripts();

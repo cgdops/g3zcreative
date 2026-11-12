@@ -6,27 +6,75 @@
  * POST   /api/crm/outreach/:id - Execute action: 'enrich' | 'send_email' | 'promote'
  */
 
-import { checkAuth } from '../auth.js';
+import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
+import { isValidCompanyDomain, normalizeDomain } from '../_enrich.js';
 import {
   enrichOutreachCandidate,
   renderOutreachTemplate,
   verifyEmailDomainDns,
+  normalizeSouthFlCity,
+  matchSouthFloridaLocation,
   OUTREACH_TEMPLATES
 } from '../_sunbiz.js';
-import { ensureOutreachSchema } from './index.js';
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, X-CRM-Key, Authorization',
-  'Access-Control-Allow-Credentials': 'true',
-};
+const ALLOWED_METHODS = 'GET, POST, PATCH, DELETE, OPTIONS';
+const VALID_OUTREACH_STATUSES = new Set(['uncontacted', 'emailed', 'promoted', 'dismissed']);
+const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
 
-function json(body, status = 200) {
+function json(request, body, status = 200, methods = ALLOWED_METHODS, extraHeaders = {}) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      ...extraHeaders,
+      ...getCorsHeaders(request, methods)
+    }
   });
+}
+
+function enforceCsrf(request, auth) {
+  return verifyCsrf(request, auth);
+}
+
+async function readJsonObject(request, auth, { allowEmpty = false } = {}) {
+  const ctHeader = (request.headers.get('content-type') || '').trim().toLowerCase();
+  const mediaType = ctHeader ? ctHeader.split(';')[0].trim() : '';
+  const clHeader = (request.headers.get('content-length') || '').trim();
+
+  if (auth?.method === 'cookie') {
+    if (ctHeader && mediaType !== 'application/json') {
+      return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+    }
+    if (!ctHeader && (!allowEmpty || (clHeader && clHeader !== '0'))) {
+      return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+    }
+  } else if (ctHeader && (mediaType === 'application/x-www-form-urlencoded' || mediaType === 'multipart/form-data')) {
+    return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+  }
+
+  const rawText = await request.text();
+  if (!rawText.trim()) {
+    if (auth?.method === 'cookie' && !ctHeader && !allowEmpty) {
+      return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+    }
+    return { ok: true, body: {} };
+  }
+
+  if (auth?.method === 'cookie' && !ctHeader) {
+    return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+  }
+
+  try {
+    const parsed = JSON.parse(rawText);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      return { ok: false, status: 400, error: 'Request body must be a JSON object.' };
+    }
+    return { ok: true, body: parsed };
+  } catch {
+    return { ok: false, status: 400, error: 'Invalid JSON request body.' };
+  }
 }
 
 function generateId(prefix = 'lead_') {
@@ -61,261 +109,416 @@ function formatPersonalEmailHtml(plainText) {
   return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;color:#1e293b;max-width:620px;">${paragraphs}</div>`;
 }
 
-export async function onRequestOptions() {
-  return new Response(null, { status: 204, headers: CORS_HEADERS });
+export async function onRequestOptions(context) {
+  return handleCorsOptions(context.request, ALLOWED_METHODS);
+}
+
+function authErrorResponse(request, auth, methods = ALLOWED_METHODS) {
+  if (auth.rateLimited) {
+    return json(
+      request,
+      { error: 'Too many failed authentication attempts. Please try again later.' },
+      429,
+      methods,
+      { 'Retry-After': String(auth.retryAfter || 60) }
+    );
+  }
+  return json(
+    request,
+    { error: auth.misconfigured ? 'CRM authentication is not configured.' : 'Unauthorized' },
+    auth.misconfigured ? 503 : 401,
+    methods
+  );
 }
 
 export async function onRequestGet(context) {
   const { request, env, params } = context;
-  const auth = checkAuth(request, env);
-  if (!auth.authenticated) return json({ error: 'Unauthorized' }, 401);
-  if (!env.DB) return json({ error: 'Database not available' }, 500);
+  const auth = await checkAuth(request, env);
+  if (!auth.authenticated) return authErrorResponse(request, auth);
+  if (!env.DB) return json(request, { error: 'Database not available' }, 500);
 
-  await ensureOutreachSchema(env.DB);
-  const candidate = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(params.id).first();
-  if (!candidate) return json({ error: 'Candidate not found' }, 404);
+  try {
+    const candidate = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(params.id).first();
+    if (!candidate) return json(request, { error: 'Candidate not found' }, 404);
 
-  const renderedTemplates = {};
-  for (const key of Object.keys(OUTREACH_TEMPLATES)) {
-    renderedTemplates[key] = {
-      ...OUTREACH_TEMPLATES[key],
-      ...renderOutreachTemplate(key, candidate)
-    };
+    const renderedTemplates = {};
+    for (const key of Object.keys(OUTREACH_TEMPLATES)) {
+      renderedTemplates[key] = {
+        ...OUTREACH_TEMPLATES[key],
+        ...renderOutreachTemplate(key, candidate)
+      };
+    }
+
+    return json(request, { candidate, renderedTemplates });
+  } catch (err) {
+    if (/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
+      return json(request, { error: 'Candidate not found' }, 404);
+    }
+    console.error('Error fetching outreach candidate detail:', err);
+    return json(request, { error: 'Failed to fetch outreach candidate.' }, 500);
   }
-
-  return json({ candidate, renderedTemplates });
 }
 
 export async function onRequestPatch(context) {
   const { request, env, params } = context;
   const candidateId = params.id;
 
-  const auth = checkAuth(request, env);
-  if (!auth.authenticated) return json({ error: 'Unauthorized' }, 401);
-  if (!env.DB) return json({ error: 'Database not available' }, 500);
+  const auth = await checkAuth(request, env);
+  if (!auth.authenticated) return authErrorResponse(request, auth);
 
-  await ensureOutreachSchema(env.DB);
-  const existing = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-  if (!existing) return json({ error: 'Candidate not found' }, 404);
+  const csrf = enforceCsrf(request, auth);
+  if (!csrf.ok) {
+    return json(request, { error: csrf.error || 'Forbidden' }, csrf.status || 403);
+  }
 
-  const body = await request.json().catch(() => ({}));
-  const allowedFields = [
-    'business_name_clean', 'founder_name', 'founder_first_name', 'founder_last_name',
-    'founder_title', 'city', 'zip', 'niche', 'score', 'email', 'phone', 'website',
-    'outreach_status', 'notes'
-  ];
+  const parsedBody = await readJsonObject(request, auth, { allowEmpty: false });
+  if (!parsedBody.ok) {
+    return json(request, { error: parsedBody.error }, parsedBody.status);
+  }
 
-  const updates = [];
-  const values = [];
+  if (!env.DB) return json(request, { error: 'Database not available' }, 500);
 
-  for (const field of allowedFields) {
-    if (body[field] !== undefined) {
-      updates.push(`${field} = ?`);
-      values.push(typeof body[field] === 'string' ? body[field].trim() : body[field]);
+  try {
+    let existing;
+    try {
+      existing = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+    } catch (err) {
+      if (/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
+        return json(request, { error: 'Candidate not found' }, 404);
+      }
+      throw err;
     }
-  }
+    if (!existing) return json(request, { error: 'Candidate not found' }, 404);
 
-  // Automatically update enrichment_status when email or phone is manually entered
-  const nextEmail = body.email !== undefined ? String(body.email || '').trim() : existing.email;
-  const nextPhone = body.phone !== undefined ? String(body.phone || '').trim() : existing.phone;
-  if (body.email !== undefined || body.phone !== undefined) {
-    const nextEnrStatus = (nextEmail && nextPhone) ? 'found' : (nextEmail || nextPhone) ? 'partial' : existing.enrichment_status;
-    updates.push('enrichment_status = ?');
-    values.push(nextEnrStatus);
-    if (nextEmail || nextPhone) {
-      updates.push("enrichment_source = COALESCE(enrichment_source, 'manual')");
+    const body = { ...parsedBody.body };
+    const allowedFields = [
+      'business_name_clean', 'founder_name', 'founder_first_name', 'founder_last_name',
+      'founder_title', 'city', 'zip', 'county', 'niche', 'score', 'email', 'phone', 'website',
+      'outreach_status', 'notes'
+    ];
+
+    for (const field of allowedFields) {
+      if (body[field] !== undefined && body[field] !== null && typeof body[field] === 'object') {
+        return json(request, { error: `Invalid non-primitive value for field "${field}".` }, 400);
+      }
     }
+
+    if (body.outreach_status !== undefined) {
+      if (typeof body.outreach_status !== 'string' || !VALID_OUTREACH_STATUSES.has(body.outreach_status.trim())) {
+        return json(request, {
+          error: `Invalid outreach_status. Must be one of: ${[...VALID_OUTREACH_STATUSES].join(', ')}.`
+        }, 400);
+      }
+      body.outreach_status = body.outreach_status.trim();
+    }
+
+    if (body.score !== undefined) {
+      const scoreNum = Number(body.score);
+      if (body.score === null || !Number.isFinite(scoreNum) || scoreNum < 0 || scoreNum > 100) {
+        return json(request, { error: 'Invalid score value (must be 0..100).' }, 400);
+      }
+      body.score = Math.round(scoreNum);
+    }
+
+    if (body.website !== undefined && body.website !== null && body.website !== '') {
+      const normWeb = normalizeDomain(body.website);
+      body.website = isValidCompanyDomain(normWeb) ? normWeb : '';
+    }
+
+    const updates = [];
+    const values = [];
+
+    const effectiveZip = body.zip !== undefined ? String(body.zip || '').trim() : (existing.zip || '');
+
+    for (const field of allowedFields) {
+      if (body[field] !== undefined) {
+        let val = typeof body[field] === 'string' ? body[field].trim() : body[field];
+        if (field === 'city') {
+          val = normalizeSouthFlCity(val || '', effectiveZip);
+          if (body.county === undefined && val) {
+            const loc = matchSouthFloridaLocation(val, effectiveZip);
+            if (loc.isSouthFlorida && loc.county) {
+              updates.push('county = ?');
+              values.push(loc.county);
+            }
+          }
+        }
+        updates.push(`${field} = ?`);
+        values.push(val);
+      }
+    }
+
+    // Automatically update enrichment_status when email or phone is manually entered
+    const nextEmail = body.email !== undefined ? String(body.email || '').trim() : existing.email;
+    const nextPhone = body.phone !== undefined ? String(body.phone || '').trim() : existing.phone;
+    if (body.email !== undefined || body.phone !== undefined) {
+      const nextEnrStatus = (nextEmail && nextPhone) ? 'found' : (nextEmail || nextPhone) ? 'partial' : existing.enrichment_status;
+      updates.push('enrichment_status = ?');
+      values.push(nextEnrStatus);
+      if (nextEmail || nextPhone) {
+        updates.push("enrichment_source = COALESCE(enrichment_source, 'manual')");
+      }
+    }
+
+    if (updates.length === 0) {
+      return json(request, { success: true, candidate: existing });
+    }
+
+    updates.push('updated_at = CURRENT_TIMESTAMP');
+    values.push(candidateId);
+
+    await env.DB.prepare(`UPDATE outreach_candidates SET ${updates.join(', ')} WHERE id = ?`)
+      .bind(...values)
+      .run();
+
+    const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+    return json(request, { success: true, candidate: updated });
+  } catch (err) {
+    console.error('Error updating outreach candidate:', err);
+    return json(request, { error: 'Failed to update outreach candidate.' }, 500);
   }
-
-  if (updates.length === 0) {
-    return json({ success: true, candidate: existing });
-  }
-
-  updates.push('updated_at = CURRENT_TIMESTAMP');
-  values.push(candidateId);
-
-  await env.DB.prepare(`UPDATE outreach_candidates SET ${updates.join(', ')} WHERE id = ?`)
-    .bind(...values)
-    .run();
-
-  const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-  return json({ success: true, candidate: updated });
 }
 
 export async function onRequestDelete(context) {
   const { request, env, params } = context;
-  const auth = checkAuth(request, env);
-  if (!auth.authenticated) return json({ error: 'Unauthorized' }, 401);
-  if (!env.DB) return json({ error: 'Database not available' }, 500);
+  const auth = await checkAuth(request, env);
+  if (!auth.authenticated) return authErrorResponse(request, auth);
 
-  await ensureOutreachSchema(env.DB);
-  await env.DB.prepare('DELETE FROM outreach_candidates WHERE id = ?').bind(params.id).run();
-  return json({ success: true });
+  const csrf = enforceCsrf(request, auth);
+  if (!csrf.ok) {
+    return json(request, { error: csrf.error || 'Forbidden' }, csrf.status || 403);
+  }
+
+  if (!env.DB) return json(request, { error: 'Database not available' }, 500);
+
+  try {
+    await env.DB.prepare('DELETE FROM outreach_candidates WHERE id = ?').bind(params.id).run();
+    return json(request, { success: true });
+  } catch (err) {
+    if (/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
+      return json(request, { success: true });
+    }
+    console.error('Error deleting outreach candidate:', err);
+    return json(request, { error: 'Failed to delete outreach candidate.' }, 500);
+  }
 }
 
 export async function onRequestPost(context) {
   const { request, env, params } = context;
   const candidateId = params.id;
+  const effectiveMethods = params?.action ? 'POST, OPTIONS' : ALLOWED_METHODS;
 
-  const auth = checkAuth(request, env);
-  if (!auth.authenticated) return json({ error: 'Unauthorized' }, 401);
-  if (!env.DB) return json({ error: 'Database not available' }, 500);
+  const auth = await checkAuth(request, env);
+  if (!auth.authenticated) return authErrorResponse(request, auth, effectiveMethods);
 
-  await ensureOutreachSchema(env.DB);
-  const candidate = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-  if (!candidate) return json({ error: 'Candidate not found' }, 404);
-
-  const body = await request.json().catch(() => ({}));
-  const action = params.action || body.action || 'enrich';
-
-  // -------------------------------------------------------------------------
-  // Action 1: Run Automated Contact Enrichment Waterfall
-  // -------------------------------------------------------------------------
-  if (action === 'enrich') {
-    const hasProvider = Boolean(
-      env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API ||
-      env.APOLLO_API_KEY || env.APOLLO_API ||
-      env.PDL_API_KEY || env.PDL_API ||
-      (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
-    );
-
-    if (!hasProvider) {
-      return json({
-        error: 'No enrichment API keys configured (APOLLO_API_KEY, PDL_API_KEY, ENRICHMENT_API_KEY, or DATAFORSEO_LOGIN). Use the 1-click research links on the card or add an API key to your environment.',
-        userError: true
-      }, 400);
-    }
-
-    await env.DB.prepare("UPDATE outreach_candidates SET enrichment_status = 'pending' WHERE id = ?")
-      .bind(candidateId)
-      .run();
-
-    const enr = await enrichOutreachCandidate(candidate, env);
-
-    await env.DB.prepare(`
-      UPDATE outreach_candidates
-      SET founder_name = COALESCE(?, founder_name),
-          founder_first_name = COALESCE(?, founder_first_name),
-          founder_last_name = COALESCE(?, founder_last_name),
-          email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
-          phone = COALESCE(?, phone),
-          website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
-          enrichment_status = ?,
-          enrichment_source = ?,
-          enrichment_confidence = ?,
-          enrichment_meta = ?,
-          enriched_at = CURRENT_TIMESTAMP,
-          updated_at = CURRENT_TIMESTAMP
-      WHERE id = ?
-    `).bind(
-      enr.resolvedFounder?.fullName || null,
-      enr.resolvedFounder?.firstName || null,
-      enr.resolvedFounder?.lastName || null,
-      enr.email, enr.phone, enr.website,
-      enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
-      candidateId
-    ).run();
-
-    const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-    return json({
-      success: true,
-      enrichment: enr,
-      candidate: updated
-    });
+  const csrf = enforceCsrf(request, auth);
+  if (!csrf.ok) {
+    return json(request, { error: csrf.error || 'Forbidden' }, csrf.status || 403, effectiveMethods);
   }
 
-  // -------------------------------------------------------------------------
-  // Action 2: Promote Candidate to Active Kanban Pipeline
-  // -------------------------------------------------------------------------
-  if (action === 'promote') {
-    const targetStage = body.status || 'contacted';
-    const promoted = await promoteCandidateToLead(env.DB, candidate, {
-      status: targetStage,
-      noteType: 'note',
-      noteContent: body.note || `Promoted from Sunbiz Outreach (${candidate.doc_number} — Filed ${candidate.filing_date} in ${candidate.city}).`
-    });
-
-    const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-    return json({
-      success: true,
-      lead_id: promoted.leadId,
-      candidate: updated
-    });
+  const parsedBody = await readJsonObject(request, auth, { allowEmpty: true });
+  if (!parsedBody.ok) {
+    return json(request, { error: parsedBody.error }, parsedBody.status, effectiveMethods);
   }
 
-  // -------------------------------------------------------------------------
-  // Action 3: Send CRO Outreach Email + Auto-Promote to "Contacted" on Kanban
-  // -------------------------------------------------------------------------
-  if (action === 'send_email' || action === 'send-email') {
-    const toEmail = String(body.to || candidate.email || '').trim();
-    const subject = String(body.subject || '').trim();
-    const emailBody = String(body.body || '').trim();
-    const mode = body.mode || 'send'; // 'send' (API dispatch) or 'log_only' (opened in mail client)
+  if (!env.DB) return json(request, { error: 'Database not available' }, 500, effectiveMethods);
 
-    if (!toEmail || !toEmail.includes('@')) {
-      return json({ error: 'A valid recipient email address is required.' }, 400);
-    }
-    if (!subject || !emailBody) {
-      return json({ error: 'Subject and email body are required.' }, 400);
-    }
-
-    // Verify recipient domain exists in DNS and has MX records before sending/logging
-    if (!body.skip_dns_check) {
-      const dnsCheck = await verifyEmailDomainDns(toEmail);
-      if (!dnsCheck.valid) {
-        return json({
-          error: `Bounce protection: ${dnsCheck.reason}. This newly filed LLC likely hasn't set up their domain/email yet — try calling/texting or use the PeopleLookup pill to find the founder's personal Gmail/iCloud/Yahoo address.`,
-          dnsInvalid: true
-        }, 400);
+  try {
+    const body = parsedBody.body;
+    const scalarActionFields = ['action', 'company_domain', 'website', 'status', 'note', 'to', 'subject', 'body', 'mode'];
+    for (const f of scalarActionFields) {
+      if (body[f] !== undefined && body[f] !== null && typeof body[f] === 'object') {
+        return json(request, { error: `Invalid non-primitive value for field "${f}".` }, 400, effectiveMethods);
       }
     }
 
-    // Save email onto candidate if Christian typed/updated it directly in the composer
-    if (toEmail !== candidate.email) {
-      await env.DB.prepare('UPDATE outreach_candidates SET email = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
-        .bind(toEmail, candidateId)
+    let candidate;
+    try {
+      candidate = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+    } catch (err) {
+      if (/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
+        return json(request, { error: 'Candidate not found' }, 404, effectiveMethods);
+      }
+      throw err;
+    }
+    if (!candidate) return json(request, { error: 'Candidate not found' }, 404, effectiveMethods);
+
+    const action = String(params.action || body.action || 'enrich').trim();
+
+    // -------------------------------------------------------------------------
+    // Action 1: Run Automated Contact Enrichment Waterfall
+    // -------------------------------------------------------------------------
+    if (action === 'enrich') {
+      // Optional company_domain hint from B3 enrichment dialog
+      const requestedDomain = normalizeDomain(body.company_domain || body.website || '');
+      const validRequestedDomain = isValidCompanyDomain(requestedDomain) ? requestedDomain : '';
+      if (validRequestedDomain) {
+        if (!candidate.website) {
+          await env.DB.prepare('UPDATE outreach_candidates SET website = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+            .bind(validRequestedDomain, candidateId)
+            .run();
+        }
+        candidate.website = validRequestedDomain;
+      }
+
+      const hasProvider = Boolean(
+        env.ENRICHMENT_API_KEY || env.HUNTER_API_KEY || env.HUNTER_API ||
+        env.APOLLO_API_KEY || env.APOLLO_API ||
+        env.PDL_API_KEY || env.PDL_API ||
+        (env.DATAFORSEO_LOGIN && env.DATAFORSEO_PASSWORD)
+      );
+
+      if (!hasProvider) {
+        return json(request, {
+          error: 'No enrichment API keys configured (APOLLO_API_KEY, PDL_API_KEY, ENRICHMENT_API_KEY, or DATAFORSEO_LOGIN). Use the 1-click research links on the card or add an API key to your environment.',
+          userError: true
+        }, 400, effectiveMethods);
+      }
+
+      await env.DB.prepare("UPDATE outreach_candidates SET enrichment_status = 'pending' WHERE id = ?")
+        .bind(candidateId)
         .run();
-      candidate.email = toEmail;
+
+      const enr = await enrichOutreachCandidate(candidate, env);
+
+      await env.DB.prepare(`
+        UPDATE outreach_candidates
+        SET founder_name = COALESCE(?, founder_name),
+            founder_first_name = COALESCE(?, founder_first_name),
+            founder_last_name = COALESCE(?, founder_last_name),
+            email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
+            phone = COALESCE(?, phone),
+            website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
+            enrichment_status = ?,
+            enrichment_source = ?,
+            enrichment_confidence = ?,
+            enrichment_meta = ?,
+            enriched_at = CURRENT_TIMESTAMP,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).bind(
+        enr.resolvedFounder?.fullName || null,
+        enr.resolvedFounder?.firstName || null,
+        enr.resolvedFounder?.lastName || null,
+        enr.email, enr.phone, enr.website,
+        enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
+        candidateId
+      ).run();
+
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      return json(request, {
+        success: true,
+        enrichment: enr,
+        candidate: updated
+      }, 200, effectiveMethods);
     }
 
-    let dispatchProvider = 'mail_app';
-    if (mode === 'send') {
-      const dispatchResult = await dispatchOutreachEmail(env, {
-        to: toEmail,
-        subject,
-        text: emailBody,
-        html: formatPersonalEmailHtml(emailBody),
-        candidate
+    // -------------------------------------------------------------------------
+    // Action 2: Promote Candidate to Active Kanban Pipeline
+    // -------------------------------------------------------------------------
+    if (action === 'promote') {
+      const defaultPromoteStage = candidate.outreach_status === 'emailed' ? 'contacted' : 'new';
+      const rawStage = body.status !== undefined && body.status !== null ? body.status : defaultPromoteStage;
+      if (typeof rawStage !== 'string' || !VALID_LEAD_STATUSES.has(rawStage.trim())) {
+        return json(request, {
+          error: `Invalid target lead status. Must be one of: ${[...VALID_LEAD_STATUSES].join(', ')}.`
+        }, 400, effectiveMethods);
+      }
+      const targetStage = rawStage.trim();
+
+      const promoted = await promoteCandidateToLead(env.DB, candidate, {
+        status: targetStage,
+        author: auth.user || 'Christian',
+        noteType: 'note',
+        noteContent: String(body.note || '').trim() || `Promoted from Sunbiz Outreach (${candidate.doc_number} — Filed ${candidate.filing_date} in ${candidate.city}).`
       });
 
-      if (!dispatchResult.ok) {
-        return json({
-          error: dispatchResult.error,
-          canFallbackToMailto: true
-        }, 400);
-      }
-      dispatchProvider = dispatchResult.provider;
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      return json(request, {
+        success: true,
+        lead_id: promoted.leadId,
+        candidate: updated
+      }, 200, effectiveMethods);
     }
 
-    // Promote to CRM Kanban Pipeline under 'contacted' and log outbound email in lead_notes
-    const promoted = await promoteCandidateToLead(env.DB, candidate, {
-      status: 'contacted',
-      outreachStatus: 'emailed',
-      lastSubject: subject,
-      noteType: 'email',
-      noteContent: `Outbound Sunbiz Outreach Email sent to ${toEmail} (${dispatchProvider}):\nSubject: ${subject}\n\n${emailBody}`
-    });
+    // -------------------------------------------------------------------------
+    // Action 3: Send CRO Outreach Email + Auto-Promote to "Contacted" on Kanban
+    // -------------------------------------------------------------------------
+    if (action === 'send_email' || action === 'send-email') {
+      const toEmail = String(body.to || candidate.email || '').trim();
+      const subject = String(body.subject || '').trim();
+      const emailBody = String(body.body || '').trim();
+      const mode = String(body.mode || 'send').trim(); // 'send' (API dispatch) or 'log_only' (opened in mail client)
 
-    const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-    return json({
-      success: true,
-      provider: dispatchProvider,
-      lead_id: promoted.leadId,
-      candidate: updated
-    });
+      if (!toEmail || !toEmail.includes('@')) {
+        return json(request, { error: 'A valid recipient email address is required.' }, 400, effectiveMethods);
+      }
+      if (!subject || !emailBody) {
+        return json(request, { error: 'Subject and email body are required.' }, 400, effectiveMethods);
+      }
+
+      // Verify recipient domain exists in DNS and has MX records before sending/logging
+      if (!body.skip_dns_check) {
+        const dnsCheck = await verifyEmailDomainDns(toEmail);
+        if (!dnsCheck.valid) {
+          return json(request, {
+            error: `Bounce protection: ${dnsCheck.reason}. This newly filed LLC likely hasn't set up their domain/email yet — try calling/texting or use the PeopleLookup pill to find the founder's personal Gmail/iCloud/Yahoo address.`,
+            dnsInvalid: true
+          }, 400, effectiveMethods);
+        }
+      }
+
+      // Save email onto candidate if Christian typed/updated it directly in the composer
+      if (toEmail !== candidate.email) {
+        await env.DB.prepare('UPDATE outreach_candidates SET email = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+          .bind(toEmail, candidateId)
+          .run();
+        candidate.email = toEmail;
+      }
+
+      let dispatchProvider = 'mail_app';
+      if (mode === 'send') {
+        const dispatchResult = await dispatchOutreachEmail(env, {
+          to: toEmail,
+          subject,
+          text: emailBody,
+          html: formatPersonalEmailHtml(emailBody),
+          candidate
+        });
+
+        if (!dispatchResult.ok) {
+          return json(request, {
+            error: dispatchResult.error,
+            canFallbackToMailto: true
+          }, 400, effectiveMethods);
+        }
+        dispatchProvider = dispatchResult.provider;
+      }
+
+      // Promote to CRM Kanban Pipeline under 'contacted' and log outbound email in lead_notes
+      const promoted = await promoteCandidateToLead(env.DB, candidate, {
+        status: 'contacted',
+        author: auth.user || 'Christian',
+        outreachStatus: 'emailed',
+        lastSubject: subject,
+        noteType: 'email',
+        noteContent: `Outbound Sunbiz Outreach Email sent to ${toEmail} (${dispatchProvider}):\nSubject: ${subject}\n\n${emailBody}`
+      });
+
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      return json(request, {
+        success: true,
+        provider: dispatchProvider,
+        lead_id: promoted.leadId,
+        candidate: updated
+      }, 200, effectiveMethods);
+    }
+
+    return json(request, { error: `Unknown action: ${action}` }, 400, effectiveMethods);
+  } catch (err) {
+    console.error('Error executing outreach action:', err);
+    return json(request, { error: 'Failed to execute outreach action.' }, 500, effectiveMethods);
   }
-
-  return json({ error: `Unknown action: ${action}` }, 400);
 }
 
 /**
@@ -328,14 +531,15 @@ async function promoteCandidateToLead(db, candidate, opts) {
     ? await db.prepare('SELECT id FROM leads WHERE id = ?').bind(leadId).first()
     : null;
 
-  const contactInfo = candidate.email || candidate.phone || `${candidate.city}, FL (${candidate.doc_number})`;
+  const canonicalCity = normalizeSouthFlCity(candidate.city, candidate.zip) || candidate.city || 'South Florida';
+  const contactInfo = candidate.email || candidate.phone || `${canonicalCity}, FL (${candidate.doc_number})`;
   const serviceInterest = `Day-1 Launchpad (${candidate.niche || 'Local Business'})`;
   const sourcePage = `Sunbiz (${candidate.doc_number})`;
   const contextMessage = [
     `Sunbiz Doc#: ${candidate.doc_number} (${candidate.entity_type || 'FL LLC'})`,
     `Filing Date: ${candidate.filing_date || 'Recent'}`,
     `Founder: ${candidate.founder_name} (${candidate.founder_title || 'MGR'})`,
-    candidate.principal_address ? `Address: ${candidate.principal_address}, ${candidate.city}, FL ${candidate.zip || ''}` : `City: ${candidate.city}, FL`
+    candidate.principal_address ? `Address: ${candidate.principal_address}, ${canonicalCity}, FL ${candidate.zip || ''}` : `City: ${canonicalCity}, FL`
   ].join(' | ');
 
   if (!existingLead) {
@@ -382,8 +586,8 @@ async function promoteCandidateToLead(db, candidate, opts) {
   const noteId = generateId('note_');
   await db.prepare(`
     INSERT INTO lead_notes (id, lead_id, author, type, content, created_at)
-    VALUES (?, ?, 'Christian', ?, ?, CURRENT_TIMESTAMP)
-  `).bind(noteId, leadId, opts.noteType || 'email', opts.noteContent).run();
+    VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+  `).bind(noteId, leadId, opts.author || 'Christian', opts.noteType || 'email', opts.noteContent).run();
 
   // Update outreach_candidates record
   const nextOutreachStatus = opts.outreachStatus || 'promoted';
@@ -431,8 +635,8 @@ async function dispatchOutreachEmail(env, { to, subject, text, html, candidate }
       })
     });
     if (!res.ok) {
-      const errText = await res.text();
-      return { ok: false, error: `Resend error (${res.status}): ${errText}` };
+      console.error('Resend dispatch error:', res.status, await res.text().catch(() => ''));
+      return { ok: false, error: `Email provider rejected request (Resend HTTP ${res.status}).` };
     }
     return { ok: true, provider: 'resend' };
   }
@@ -455,8 +659,8 @@ async function dispatchOutreachEmail(env, { to, subject, text, html, candidate }
       })
     });
     if (!res.ok) {
-      const errText = await res.text();
-      return { ok: false, error: `Postmark error (${res.status}): ${errText}` };
+      console.error('Postmark dispatch error:', res.status, await res.text().catch(() => ''));
+      return { ok: false, error: `Email provider rejected request (Postmark HTTP ${res.status}).` };
     }
     return { ok: true, provider: 'postmark' };
   }
@@ -481,8 +685,8 @@ async function dispatchOutreachEmail(env, { to, subject, text, html, candidate }
       })
     });
     if (!res.ok) {
-      const errText = await res.text();
-      return { ok: false, error: `SendGrid error (${res.status}): ${errText}` };
+      console.error('SendGrid dispatch error:', res.status, await res.text().catch(() => ''));
+      return { ok: false, error: `Email provider rejected request (SendGrid HTTP ${res.status}).` };
     }
     return { ok: true, provider: 'sendgrid' };
   }

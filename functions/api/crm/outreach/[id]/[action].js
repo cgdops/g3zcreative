@@ -1,7 +1,13 @@
 /**
  * Cloudflare Pages Function route for /api/crm/outreach/:id/:action
  * Supports POST /api/crm/outreach/:id/enrich, /promote, and /send_email
- * by delegating to the parent [id].js handler (which reads params.id and params.action).
+ * with strict POST, OPTIONS preflight handling.
  */
 
-export { onRequestOptions, onRequestPost } from '../[id].js';
+import { handleCorsOptions } from '../../auth.js';
+
+export async function onRequestOptions(context) {
+  return handleCorsOptions(context.request, 'POST, OPTIONS');
+}
+
+export { onRequestPost } from '../[id].js';

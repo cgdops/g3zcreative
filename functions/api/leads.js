@@ -18,6 +18,28 @@ function escapeHtml(str) {
   })[m]);
 }
 
+function sanitizeHeaderLine(str) {
+  if (!str) return '';
+  return String(str).replace(/[\r\n\x00-\x1f\x7f]+/g, ' ').trim();
+}
+
+function buildSafeSourceUrl(rawSourcePage) {
+  const cleaned = String(rawSourcePage || '/').replace(/[\r\n\x00-\x1f\x7f"'<>\\\s]+/g, '');
+  if (!cleaned || cleaned.startsWith('//')) {
+    return 'https://g3zcreative.com/';
+  }
+  try {
+    const parsed = new URL(cleaned, 'https://g3zcreative.com');
+    if (parsed.origin !== 'https://g3zcreative.com') {
+      return 'https://g3zcreative.com/';
+    }
+    const safePath = parsed.pathname.replace(/^\/+/, '/');
+    return `https://g3zcreative.com${safePath}${parsed.search}${parsed.hash}`;
+  } catch {
+    return 'https://g3zcreative.com/';
+  }
+}
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -138,8 +160,13 @@ export async function onRequestPost(context) {
 
     // 3. Instant Email Notification (Resend / SendGrid / Postmark / Webhook)
     const targetEmail = env.NOTIFICATION_EMAIL || 'chris@g3zcreative.com';
-    const emailSubject = `🔥 New Lead: ${name} (${serviceInterest})`;
-    const leadDetailUrl = `https://g3zcreative.com/lead?id=${leadId}`;
+    const emailSubject = `🔥 New Lead: ${sanitizeHeaderLine(name)} (${sanitizeHeaderLine(serviceInterest)})`;
+    const leadDetailUrl = `https://g3zcreative.com/lead?id=${encodeURIComponent(leadId)}`;
+    const safeTelDigits = phone ? phone.replace(/[^0-9+]/g, '') : '';
+    const cleanEmailAddr = email ? email.replace(/[\r\n\x00-\x1f\x7f<>"'\s]+/g, '') : '';
+    const safeMailtoHref = cleanEmailAddr ? `mailto:${escapeHtml(encodeURIComponent(cleanEmailAddr))}` : '';
+    const safeSourceHref = escapeHtml(buildSafeSourceUrl(sourcePage));
+    const safeReplyToEmail = cleanEmailAddr || undefined;
 
     const emailHtml = `<!DOCTYPE html>
 <html>
@@ -177,8 +204,8 @@ export async function onRequestPost(context) {
           <td class="info-label">Contact</td>
           <td class="info-val"><strong>${escapeHtml(contactInfo)}</strong></td>
         </tr>
-        ${phone ? `<tr><td class="info-label">Phone</td><td class="info-val"><a href="tel:${phone}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(phone)}</a></td></tr>` : ''}
-        ${email ? `<tr><td class="info-label">Email</td><td class="info-val"><a href="mailto:${email}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(email)}</a></td></tr>` : ''}
+        ${phone ? `<tr><td class="info-label">Phone</td><td class="info-val">${safeTelDigits ? `<a href="tel:${escapeHtml(safeTelDigits)}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(phone)}</a>` : escapeHtml(phone)}</td></tr>` : ''}
+        ${email ? `<tr><td class="info-label">Email</td><td class="info-val">${safeMailtoHref ? `<a href="${safeMailtoHref}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(email)}</a>` : escapeHtml(email)}</td></tr>` : ''}
         ${company ? `<tr><td class="info-label">Company</td><td class="info-val">${escapeHtml(company)}</td></tr>` : ''}
         <tr>
           <td class="info-label">Service</td>
@@ -186,7 +213,7 @@ export async function onRequestPost(context) {
         </tr>
         <tr>
           <td class="info-label">Source Page</td>
-          <td class="info-val"><a href="https://g3zcreative.com${sourcePage.startsWith('/') ? sourcePage : '/' + sourcePage}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(sourcePage)}</a></td>
+          <td class="info-val"><a href="${safeSourceHref}" style="color: #38bdf8; text-decoration: none;">${escapeHtml(sourcePage)}</a></td>
         </tr>
         <tr>
           <td class="info-label">Location</td>
@@ -198,7 +225,7 @@ export async function onRequestPost(context) {
       <div class="message-box">${escapeHtml(message || 'No additional message provided.')}</div>
 
       <div style="text-align: center; margin-top: 24px;">
-        <a href="${leadDetailUrl}" class="btn" style="display: block; padding: 14px; font-size: 15px;">👉 View Lead in CRM</a>
+        <a href="${escapeHtml(leadDetailUrl)}" class="btn" style="display: block; padding: 14px; font-size: 15px;">👉 View Lead in CRM</a>
       </div>
     </div>
     <div class="footer">
@@ -221,7 +248,7 @@ export async function onRequestPost(context) {
           body: JSON.stringify({
             from: fromAddress,
             to: [targetEmail],
-            reply_to: email || undefined,
+            reply_to: safeReplyToEmail,
             subject: emailSubject,
             html: emailHtml
           })
@@ -247,7 +274,7 @@ export async function onRequestPost(context) {
           body: JSON.stringify({
             From: fromAddress,
             To: targetEmail,
-            ReplyTo: email || undefined,
+            ReplyTo: safeReplyToEmail,
             Subject: emailSubject,
             HtmlBody: emailHtml
           })
@@ -268,7 +295,7 @@ export async function onRequestPost(context) {
           body: JSON.stringify({
             personalizations: [{ to: [{ email: targetEmail }] }],
             from: { email: fromAddress, name: 'G3Z Creative CRM' },
-            reply_to: email ? { email } : undefined,
+            reply_to: safeReplyToEmail ? { email: safeReplyToEmail } : undefined,
             subject: emailSubject,
             content: [{ type: 'text/html', value: emailHtml }]
           })

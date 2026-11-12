@@ -58,25 +58,47 @@ export function splitName(fullName) {
  * a URL, or an email address.
  */
 export function normalizeDomain(input) {
-  let value = String(input || '').trim().toLowerCase();
+  if (input === null || input === undefined || typeof input === 'object') return '';
+  let value = String(input).trim().toLowerCase();
   if (!value) return '';
   if (value.includes('@')) value = value.split('@').pop();
   value = value.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0].split('?')[0];
   return /^[a-z0-9.-]+\.[a-z]{2,}$/.test(value) ? value : '';
 }
 
+function redactKey(msg, apiKey) {
+  let out = String(msg || '');
+  if (apiKey) {
+    out = out.split(apiKey).join('[REDACTED]');
+    out = out.split(encodeURIComponent(apiKey)).join('[REDACTED]');
+  }
+  return out.replace(/([?&]api_key=)[^&\s]+/gi, '$1[REDACTED]');
+}
+
 /**
  * Look up a company's domain by name. Separate call, separate cost — the
  * endpoint only reaches for this when no domain is stored on the lead.
+ * Passes credentials exclusively via X-API-KEY header so keys never appear in URLs.
  */
 async function hunterDomainSearch(companyName, apiKey) {
-  const url = `${HUNTER_BASE}/domain-search?company=${encodeURIComponent(companyName)}&limit=1&api_key=${encodeURIComponent(apiKey)}`;
-  const res = await fetch(url);
+  const url = `${HUNTER_BASE}/domain-search?company=${encodeURIComponent(companyName)}&limit=1`;
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'X-API-KEY': apiKey,
+        'Accept': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error(redactKey(`Hunter domain search network error: ${err?.message || 'request failed'}`, apiKey));
+  }
   const body = await res.json().catch(() => ({}));
 
   if (!res.ok) {
     const message = body?.errors?.[0]?.details || `Hunter domain search failed (${res.status})`;
-    throw new Error(message);
+    throw new Error(redactKey(message, apiKey));
   }
 
   const candidateDomain = body?.data?.domain ? normalizeDomain(body.data.domain) : '';
@@ -92,15 +114,25 @@ async function hunterEmailFinder({ firstName, lastName, domain }, apiKey) {
   const url = `${HUNTER_BASE}/email-finder`
     + `?domain=${encodeURIComponent(domain)}`
     + `&first_name=${encodeURIComponent(firstName)}`
-    + `&last_name=${encodeURIComponent(lastName)}`
-    + `&api_key=${encodeURIComponent(apiKey)}`;
+    + `&last_name=${encodeURIComponent(lastName)}`;
 
-  const res = await fetch(url);
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'X-API-KEY': apiKey,
+        'Accept': 'application/json'
+      }
+    });
+  } catch (err) {
+    throw new Error(redactKey(`Hunter email finder network error: ${err?.message || 'request failed'}`, apiKey));
+  }
   const body = await res.json().catch(() => ({}));
 
   if (!res.ok) {
     const message = body?.errors?.[0]?.details || `Hunter email finder failed (${res.status})`;
-    throw new Error(message);
+    throw new Error(redactKey(message, apiKey));
   }
 
   const data = body?.data || {};

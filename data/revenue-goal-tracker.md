@@ -1,17 +1,19 @@
 # G3Z Creative — $4,000/Month Revenue Goal Tracker
 
 **Target Monthly Revenue:** `$4,000 / month`  
-**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,401.15` (`85.0%` of goal; `-$685.00` adjusted for Raul shutdown & Natalie deferral)  
-**Collected (Paid) MTD:** `$456.00` (`11.4%`)  
-- `#1594` Ancat Media Group: `$308.00`  
-- `#1583` Shiny Paws LLC: `$99.00`  
-- `#1585` BroadbandQ Wireless: `$49.00`  
-**Immediate Recoverable / In-Flight (Nov 2026):** `$2,945.15`  
-- **Confirmed / Reminded (`$2,545.15`)**: Towing One `#1604` (`$1,406.25`, spoke to Fausto ✅), Fajardo Elite `#1582` (`$480.00`, reminder sent ✅), Remember Me `#1605` (`$412.50`, confirmed good ✅), MV Almer / Miriam `#1595` (`$246.40`, reminder sent ✅)  
-- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 6d overdue)  
+**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,497.15` (`87.4%` of goal; includes `$400` Vivelo recovery) / `$3,097.15` safe base (`77.4%`)  
+**Collected (Paid) MTD:** `$798.40` (`19.96%`)  
+- `#1596` MV Almer Productions / Miriam: `$342.40` (Collected Nov 11 ✅)  
+- `#1594` Ancat Media Group: `$308.00` (Collected Nov 2 ✅)  
+- `#1583` Shiny Paws LLC: `$99.00` (Collected Nov 2 ✅)  
+- `#1585` BroadbandQ Wireless: `$49.00` (Collected Nov 2 ✅)  
+**Immediate Recoverable / In-Flight (Nov 2026):** `$2,698.75`  
+- **Confirmed / Auto-Scheduled (`$1,818.75`)**: Towing One `#1604` (`$1,406.25`, outstanding / work in progress, spoke to Fausto ✅), Remember Me `#1605` (`$412.50`, pending auto-charge Nov 20 ✅)  
+- **Action Required — Unsent Draft (`$480.00`)**: Fajardo Elite `#1600` (`$480.00`, drafted in Bonsai — needs to be sent to Alexis Romero)  
+- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 8d overdue)  
 - **Deferred / Suspended (`$685.00` removed from Nov)**: Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
-**New Business Gap to `$4,000`:** **`$598.85`** (or **`$998.85`** if Vivelo Weekender doesn't clear -> solved by **2 × `$500` Pilot builds**)  
-**Last Check-In:** `2026-11-10T11:00:00-05:00`  
+**New Business Gap to `$4,000`:** **`$502.85`** (if Manny clears) to **`$902.85`** (safe base) -> solved by **1 to 2 × `$500` Pilot landing page builds**  
+**Last Check-In:** `2026-11-12T11:20:00-05:00`  
 **Schedule:** Hourly (`9:00 AM – 5:00 PM`, Mon–Fri, `America/New_York`)
 
 ---
@@ -24,9 +26,13 @@ Based on live pricing in `pricing.html`:
 - **Tier 3 — Turbo (Growth Retainer)**: `$2,500/mo` recurring
 
 ### Fastest Paths to $4,000/Month:
-1. **Path A (Book Collection — Fastest & Highest Probability)**: **Collect Existing Pipeline** (`$456.00` paid + `$2,571.25` outstanding + `$646.40` overdue + `$412.50` pending) = **`$4,086.15`** without signing a single new client.
-2. **Path B (Retainer-Led New Business)**: **1 Growth Retainer (`$2,500/mo`)** + **3 Pilot Landing Pages (`3 × $500 = $1,500`)** = **`$4,000`**
-3. **Path C (Platform + Pilots)**: **1 Dynamic Web Platform (`$3,000`)** + **2 Pilot Landing Pages (`2 × $500 = $1,000`)** = **`$4,000`**
+1. **Path A (Book Collection + 1-2 Pilots — Highest Probability)**:
+   - Collect In-Flight Pipeline (`$798.40` collected + `$1,818.75` confirmed + `$480.00` Fajardo send) = **`$3,097.15`**
+   - Close **1 to 2 × `$500` Pilot Landing Pages** from D1 Outbound Leads = **`$3,597.15` – `$4,097.15`**
+2. **Path B (1 Scale Platform Deal)**:
+   - 1 Scale Platform (`$3,000`) + Live Collected (`$798.40`) + In-Flight (`$412.50`) = **`$4,210.90`** (Exceeds goal immediately)
+3. **Path C (1 Growth Retainer)**:
+   - 1 Growth Retainer (`$2,500/mo`) + Live Collected (`$798.40`) + Towing One (`$1,406.25`) = **`$4,704.65`**
 
 ---
 
@@ -34,14 +40,34 @@ Based on live pricing in `pricing.html`:
 
 | Priority | Task | Revenue Leverage | Current Status | Next Concrete Action (60-Min Sprint) |
 | :---: | :--- | :--- | :--- | :--- |
-| **P0** | **Direct Phone Outbound Sprint on Sunbiz Leads** | **`$500 – $3,000`** per closed deal (closes **`$598.85`–`$998.85`** Nov gap) | Active sprint starting now; 8 phone-verified contractors in D1 (`g3zcreative-crm`) | Dial top 5 verified phone leads (Marcus Vance, Taylor Newman, Paul Silva, Andy Rivera, Jona Elisco) pitching the `$500` Pilot / lead-gen audit. |
-| **P1** | **Follow Up on Vivelo Weekender (`#1589`) & Sent Reminders** | **`$1,126.40`** (`$480` Fajardo + `$246.40` Miriam + `$400` Manny) | Reminders sent to Fajardo Elite & Miriam ✅; Manny (`$400`) 6d overdue | Send quick check-in to Manny (Vivelo Weekender `#1589`) if not yet messaged; monitor Bonsai for Miriam & Fajardo payments. |
-| **P2** | **Towing One LLC (`#1604`) & Remember Me (`#1605`) Clearing** | **`$1,818.75`** (`$1,406.25` + `$412.50`) | Spoke to Fausto ✅; Remember Me confirmed good ✅ | Track invoice settlement dates (`#1605` due Nov 20, `#1604` due Dec 5 / earlier upon completion). |
-| **P3** | **Raul Santiago Bad-Debt Hygiene & Reactivation Gate** | **`$279.00`** + `$50` reactivation fee (or clean write-off) | Site shut down; `#1591` (`$279`) outstanding & `#1597` (`$279` draft) still in Bonsai | Delete recurring draft `#1597` in Bonsai so future books aren't inflated; keep `#1591` gated behind payment + reactivation fee. |
+| **P0** | **Send Fajardo Elite Draft Invoice (`#1600`)** | **`$480.00`** cash recovery | In Bonsai as `drafted` (`sent_date: null`) | Send invoice `#1600` ($480) to Alexis Romero via Bonsai or forward public link. |
+| **P1** | **Dial Top 4 Uncontacted Phone Leads in D1** | **`$500 – $3,000`** (closes Nov gap) | 4 contractor leads queued with direct phone numbers | Dial Marcus Vance (`(954) 709-4412`), Paul Silva (`(954) 807-1300`), Andy Rivera (`(954) 544-4872`), Annaliet Valdes (`(305) 479-5482`). |
+| **P2** | **Follow Up on Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 8 days overdue (due Nov 04) | Quick SMS/WhatsApp/email ping to Manny to resolve overdue payment. |
+| **P3** | **Monitor Towing One (`#1604`) & Remember Me (`#1605`)** | **`$1,818.75`** pipeline | In-flight / on track | `#1605` auto-charges Nov 20; advance Towing One deliverables to trigger prompt settlement. |
 
 ---
 
 ## 3. Hourly Check-In Log
+
+### `2026-11-12 11:20 AM EST` — Midday Check-In: +$342.40 Collected & Calling Sprint
+- **Cash Collected Update**:
+  - **Miriam V. Borrell / MV Almer Productions (`#1596`) PAID `$342.40`** on Nov 11!
+  - Total MTD collected rises from `$456.00` to **`$798.40`** (20.0% of goal).
+- **Critical Invoicing Discovery**:
+  - Fajardo Elite (`#1600`, `$480.00`) is sitting in Bonsai as **`drafted` (unsent)**. Sending this immediately unlocks `$480.00` in expected cash.
+- **Current Numbers**:
+  - Collected MTD: **`$798.40`**
+  - Confirmed In-Flight: **`$1,818.75`** (`#1604` Towing One `$1,406.25` + `#1605` Remember Me `$412.50`)
+  - Unsent Draft: **`$480.00`** (`#1600` Fajardo Elite)
+  - Overdue: **`$400.00`** (`#1589` Vivelo Weekender)
+  - **Net Solid Nov Base**: **`$3,097.15`** (`$3,497.15` if Manny clears).
+  - **True Gap to `$4,000/mo`**: **`$502.85` to `$902.85`** (1 to 2 `$500` Pilot deals).
+- **Outbound Calling Sprint Targets (Top Verified Phone Leads Ready)**:
+  1. **Marcus J. Vance** (Davie Precision Plumbing): `(954) 709-4412` (Plumbing — 3,920 searches/mo)
+  2. **Paul Silva** (Paul's Plumbing & Drain): `(954) 807-1300` (Plumbing — 3,920 searches/mo)
+  3. **Andy Rivera** (A&T Next Level Lawn Care): `(954) 544-4872` (Landscaping — 1,840 searches/mo)
+  4. **Annaliet Valdes** (AB HVAC LLC): `(305) 479-5482` (HVAC — Score 94)
+  5. **Jorge A. Morales** (Doral Tropical Landscape): `(305) 592-6388` (Landscaping — Score 73)
 
 ### `2026-11-10 11:00 AM EST` — Outbound Calling Playbook Shipped & Live Calling Queue
 - **CRM Infrastructure Shipped**:

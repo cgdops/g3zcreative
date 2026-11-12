@@ -32,7 +32,13 @@ function encrypt(plainText, password) {
 // Main execution
 function main() {
   const args = process.argv.slice(2);
-  const password = args[0] || 'g3z-partner-2026';
+  const password = (args[0] || process.env.CLIENT_PORTAL_PASSWORD || '').trim();
+  if (!password) {
+    console.error(
+      'Error: Missing encryption password. Provide CLIENT_PORTAL_PASSWORD in the environment or pass it as the first CLI argument.'
+    );
+    process.exit(1);
+  }
   const inputFile = args[1] || path.join(__dirname, 'private-client-content.html');
 
   if (!fs.existsSync(inputFile)) {
@@ -126,7 +132,7 @@ function main() {
   const result = encrypt(plainText, password);
 
   console.log('\n--- ENCRYPTED PAYLOAD GENERATED ---');
-  console.log(`Password used: "${password}"`);
+  console.log('Password source: [REDACTED]');
   console.log(`Input File: ${inputFile}`);
   
   // Automatically patch clients.html

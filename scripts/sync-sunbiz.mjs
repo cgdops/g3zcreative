@@ -13,6 +13,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+import { fileURLToPath } from 'url';
 import { execFileSync, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
 import {
@@ -20,7 +21,23 @@ import {
   enrichOutreachCandidate
 } from '../functions/api/crm/_sunbiz.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const REPO_ROOT = path.resolve(__dirname, '..');
+const ENV_FILE_PATH = path.join(REPO_ROOT, '.env');
+const DEV_VARS_PATH = path.join(REPO_ROOT, '.dev.vars');
+
+if (fs.existsSync(ENV_FILE_PATH)) {
+  dotenv.config({ path: ENV_FILE_PATH, quiet: true });
+}
+if (fs.existsSync(DEV_VARS_PATH)) {
+  const devVars = dotenv.parse(fs.readFileSync(DEV_VARS_PATH, 'utf8'));
+  for (const [key, val] of Object.entries(devVars)) {
+    if (process.env[key] === undefined || String(process.env[key]).trim() === '') {
+      process.env[key] = val;
+    }
+  }
+}
 
 const SFTP_HOST = 'sftp.floridados.gov';
 const SFTP_USER = 'Public';
@@ -36,17 +53,27 @@ function parseArgs(argv) {
     maxEnrich: 10
   };
   for (const arg of argv.slice(2)) {
-    if (arg.startsWith('--date=')) args.date = arg.split('=')[1];
-    else if (arg.startsWith('--file=')) args.file = arg.split('=')[1];
+    if (arg.startsWith('--date=')) args.date = arg.slice('--date='.length);
+    else if (arg.startsWith('--file=')) args.file = arg.slice('--file='.length);
     else if (arg === '--local') args.local = true;
     else if (arg === '--dry-run') args.dryRun = true;
-    else if (arg.startsWith('--max-enrich=')) args.maxEnrich = parseInt(arg.split('=')[1], 10) || 10;
+    else if (arg.startsWith('--max-enrich=')) {
+      args.maxEnrich = parseInt(arg.slice('--max-enrich='.length), 10) || 10;
+    }
   }
   return args;
 }
 
-function getRecentWeekdayDates(specificDate = null) {
-  if (specificDate) return [specificDate.replace(/-/g, '')];
+export function getRecentWeekdayDates(specificDate = null) {
+  if (specificDate !== null && specificDate !== undefined && specificDate !== '') {
+    const cleaned = String(specificDate).trim();
+    if (!/^\d{8}$/.test(cleaned)) {
+      throw new Error(
+        `Invalid --date value "${specificDate}". Expected strict 8-digit YYYYMMDD format (e.g. 20261023).`
+      );
+    }
+    return [cleaned];
+  }
   const dates = [];
   const cursor = new Date();
   for (let i = 0; i < 7; i++) {
@@ -62,51 +89,87 @@ function getRecentWeekdayDates(specificDate = null) {
   return dates;
 }
 
-async function downloadSunbizDailyFile(dateCandidates) {
+async function downloadSunbizDailyText(dateCandidates) {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sunbiz-'));
+  const allowInsecureHostKey = process.env.SUNBIZ_INSECURE_SKIP_HOSTKEY === '1';
+  const pinnedKnownHost = (
+    process.env.SUNBIZ_SFTP_KNOWN_HOST ||
+    process.env.SUNBIZ_SFTP_HOST_KEY ||
+    ''
+  ).trim();
 
-  for (const ymd of dateCandidates) {
-    const fileName = `${ymd}c.txt`;
-    const localPath = path.join(tmpDir, fileName);
-    console.log(`[Sunbiz Sync] Checking official SFTP for ${REMOTE_COR_DIR}/${fileName}...`);
-
-    // Method 1: Try curl if sftp protocol is enabled
-    const curlRes = spawnSync('curl', [
-      '-s', '-S', '-f', '-k',
-      `sftp://${SFTP_USER}:${SFTP_PASS}@${SFTP_HOST}${REMOTE_COR_DIR}/${fileName}`,
-      '-o', localPath
-    ], { encoding: 'utf8', timeout: 45000 });
-
-    if (curlRes.status === 0 && fs.existsSync(localPath) && fs.statSync(localPath).size > 500) {
-      console.log(`[Sunbiz Sync] Downloaded ${fileName} (${(fs.statSync(localPath).size / 1024).toFixed(1)} KB)`);
-      return localPath;
+  try {
+    let knownHostsFile = null;
+    if (pinnedKnownHost) {
+      knownHostsFile = path.join(tmpDir, 'known_hosts');
+      const hostLine = pinnedKnownHost.startsWith(SFTP_HOST)
+        ? pinnedKnownHost
+        : `${SFTP_HOST} ${pinnedKnownHost}`;
+      fs.writeFileSync(knownHostsFile, `${hostLine}\n`, { encoding: 'utf8', mode: 0o600 });
+    } else if (allowInsecureHostKey) {
+      console.warn(
+        '[Sunbiz Sync] WARNING: SUNBIZ_INSECURE_SKIP_HOSTKEY=1 is set; SSH host key verification is disabled.'
+      );
     }
 
-    // Method 2: Try sshpass + sftp (Linux / GitHub Actions)
-    const sshpassRes = spawnSync('sshpass', [
-      '-p', SFTP_PASS,
-      'sftp',
-      '-oBatchMode=no',
-      '-oStrictHostKeyChecking=no',
-      `${SFTP_USER}@${SFTP_HOST}:${REMOTE_COR_DIR}/${fileName}`,
-      localPath
-    ], { encoding: 'utf8', timeout: 45000 });
+    for (const ymd of dateCandidates) {
+      if (!/^\d{8}$/.test(ymd)) {
+        throw new Error(`Refusing invalid SFTP date candidate: "${ymd}"`);
+      }
+      const fileName = `${ymd}c.txt`;
+      const localPath = path.join(tmpDir, fileName);
+      console.log(`[Sunbiz Sync] Checking official SFTP for ${REMOTE_COR_DIR}/${fileName}...`);
 
-    if (sshpassRes.status === 0 && fs.existsSync(localPath) && fs.statSync(localPath).size > 500) {
-      console.log(`[Sunbiz Sync] Downloaded ${fileName} via sshpass+sftp`);
-      return localPath;
+      // Method 1: Try curl if sftp protocol is enabled (strict host-key check unless explicitly opted out)
+      const curlArgs = ['-s', '-S', '-f'];
+      if (allowInsecureHostKey) {
+        curlArgs.push('-k');
+      }
+      curlArgs.push(
+        `sftp://${SFTP_USER}:${SFTP_PASS}@${SFTP_HOST}${REMOTE_COR_DIR}/${fileName}`,
+        '-o',
+        localPath
+      );
+      const curlRes = spawnSync('curl', curlArgs, { encoding: 'utf8', timeout: 45000 });
+
+      if (curlRes.status === 0 && fs.existsSync(localPath) && fs.statSync(localPath).size > 500) {
+        console.log(
+          `[Sunbiz Sync] Downloaded ${fileName} (${(fs.statSync(localPath).size / 1024).toFixed(1)} KB)`
+        );
+        return fs.readFileSync(localPath, 'utf8');
+      }
+
+      // Method 2: Try sshpass + sftp (Linux / GitHub Actions)
+      const sftpArgs = ['-p', SFTP_PASS, 'sftp', '-oBatchMode=no'];
+      if (knownHostsFile) {
+        sftpArgs.push('-oStrictHostKeyChecking=yes', `-oUserKnownHostsFile=${knownHostsFile}`);
+      } else if (allowInsecureHostKey) {
+        sftpArgs.push('-oStrictHostKeyChecking=no');
+      } else {
+        sftpArgs.push('-oStrictHostKeyChecking=yes');
+      }
+      sftpArgs.push(`${SFTP_USER}@${SFTP_HOST}:${REMOTE_COR_DIR}/${fileName}`, localPath);
+
+      const sshpassRes = spawnSync('sshpass', sftpArgs, { encoding: 'utf8', timeout: 45000 });
+
+      if (sshpassRes.status === 0 && fs.existsSync(localPath) && fs.statSync(localPath).size > 500) {
+        console.log(`[Sunbiz Sync] Downloaded ${fileName} via sshpass+sftp`);
+        return fs.readFileSync(localPath, 'utf8');
+      }
     }
+
+    throw new Error(
+      `Could not download direct SFTP file automatically in this shell (ensure SUNBIZ_SFTP_KNOWN_HOST or ~/.ssh/known_hosts contains ${SFTP_HOST}, or pass --file=<path-to-sunbiz-file.txt>).`
+    );
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
   }
-
-  throw new Error(
-    `Could not download direct SFTP file automatically in this shell (Windows curl disables SFTP protocol by default). ` +
-    `Run via the GitHub Action workflow (.github/workflows/sunbiz-outreach-sync.yml) or pass --file=<path-to-sunbiz-file.txt>.`
-  );
 }
 
-function sqlString(val) {
+export function sqlString(val) {
   if (val === null || val === undefined || val === '') return 'NULL';
-  return `'${String(val).replace(/'/g, "''")}'`;
+  const cleaned = String(val).replace(/\0/g, '').replace(/'/g, "''");
+  return cleaned === '' ? 'NULL' : `'${cleaned}'`;
 }
 
 async function main() {
@@ -123,8 +186,7 @@ async function main() {
     rawText = fs.readFileSync(resolved, 'utf8');
   } else {
     const dates = getRecentWeekdayDates(args.date);
-    const downloadedPath = await downloadSunbizDailyFile(dates);
-    rawText = fs.readFileSync(downloadedPath, 'utf8');
+    rawText = await downloadSunbizDailyText(dates);
   }
 
   const candidates = parseSunbizBulkText(rawText, {
@@ -197,7 +259,7 @@ async function main() {
       niche TEXT DEFAULT 'Local Business', score INTEGER DEFAULT 50, email TEXT, phone TEXT, website TEXT,
       enrichment_status TEXT DEFAULT 'unattempted', enrichment_source TEXT, enrichment_confidence INTEGER,
       enrichment_meta TEXT, enriched_at DATETIME, outreach_status TEXT DEFAULT 'uncontacted',
-      emailed_at DATETIME, last_subject TEXT, lead_id TEXT, notes TEXT,
+      emailed_at DATETIME, last_subject TEXT, lead_id TEXT REFERENCES leads(id) ON DELETE SET NULL, notes TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );`
   ];
@@ -266,7 +328,12 @@ async function main() {
 
   // Fallback remote upload via authenticated CRM API
   const crmApiUrl = (process.env.CRM_API_URL || 'https://g3zcreative.com').replace(/\/+$/, '');
-  const crmKey = process.env.CRM_PASSCODE || 'g3z2026';
+  const crmKey = (process.env.CRM_PASSCODE || '').trim();
+  if (!crmKey) {
+    throw new Error(
+      'Missing CRM_PASSCODE environment variable. Set CRM_PASSCODE in .env or .dev.vars before uploading candidates to the CRM API.'
+    );
+  }
   const batchSize = 100;
   let totalInserted = 0;
   let totalUpdated = 0;
@@ -303,7 +370,9 @@ async function main() {
   console.log(`[Sunbiz Sync] Successfully synced ${candidates.length} South Florida candidates to production D1 (${totalInserted} new, ${totalUpdated} updated)!`);
 }
 
-main().catch(err => {
-  console.error('[Sunbiz Sync Error]', err.message);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  main().catch(err => {
+    console.error('[Sunbiz Sync Error]', err.message);
+    process.exit(1);
+  });
+}

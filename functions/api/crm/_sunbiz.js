@@ -12,9 +12,10 @@
 import { enrichLead, isValidCompanyDomain, normalizeDomain, splitName } from './_enrich.js';
 
 // ---------------------------------------------------------------------------
-// 1. South Florida Target Cities (Synchronized with data/cities.json)
+// 1. South Florida Target Cities & Canonical Normalization
 // ---------------------------------------------------------------------------
 export const SOUTH_FL_CITIES = new Map([
+  // Broward County
   ['MIRAMAR', { name: 'Miramar', county: 'Broward County', priority: 15, landmark: 'Miramar Regional Park' }],
   ['PEMBROKE PINES', { name: 'Pembroke Pines', county: 'Broward County', priority: 15, landmark: 'C.B. Smith Park' }],
   ['HOLLYWOOD', { name: 'Hollywood', county: 'Broward County', priority: 14, landmark: 'Hollywood Beach Broadwalk' }],
@@ -23,14 +24,10 @@ export const SOUTH_FL_CITIES = new Map([
   ['SOUTHWEST RANCHES', { name: 'Southwest Ranches', county: 'Broward County', priority: 14, landmark: 'Sunshine Ranches' }],
   ['WESTON', { name: 'Weston', county: 'Broward County', priority: 14, landmark: 'Weston Town Center' }],
   ['FORT LAUDERDALE', { name: 'Fort Lauderdale', county: 'Broward County', priority: 13, landmark: 'Las Olas Boulevard' }],
-  ['FT LAUDERDALE', { name: 'Fort Lauderdale', county: 'Broward County', priority: 13, landmark: 'Las Olas Boulevard' }],
-  ['FT. LAUDERDALE', { name: 'Fort Lauderdale', county: 'Broward County', priority: 13, landmark: 'Las Olas Boulevard' }],
   ['PLANTATION', { name: 'Plantation', county: 'Broward County', priority: 13, landmark: 'Plantation Central Park' }],
   ['SUNRISE', { name: 'Sunrise', county: 'Broward County', priority: 12, landmark: 'Sawgrass Mills' }],
   ['HALLANDALE BEACH', { name: 'Hallandale Beach', county: 'Broward County', priority: 12, landmark: 'Gulfstream Park' }],
-  ['HALLANDALE', { name: 'Hallandale Beach', county: 'Broward County', priority: 12, landmark: 'Gulfstream Park' }],
   ['DANIA BEACH', { name: 'Dania Beach', county: 'Broward County', priority: 12, landmark: 'Dania Beach Pier' }],
-  ['DANIA', { name: 'Dania Beach', county: 'Broward County', priority: 12, landmark: 'Dania Beach Pier' }],
   ['CORAL SPRINGS', { name: 'Coral Springs', county: 'Broward County', priority: 12, landmark: 'Coral Springs Center for the Arts' }],
   ['PARKLAND', { name: 'Parkland', county: 'Broward County', priority: 12, landmark: 'Pine Trails Park' }],
   ['POMPANO BEACH', { name: 'Pompano Beach', county: 'Broward County', priority: 12, landmark: 'Pompano Beach Fishing Pier' }],
@@ -41,8 +38,16 @@ export const SOUTH_FL_CITIES = new Map([
   ['LAUDERHILL', { name: 'Lauderhill', county: 'Broward County', priority: 11, landmark: 'Central Broward Regional Park' }],
   ['OAKLAND PARK', { name: 'Oakland Park', county: 'Broward County', priority: 11, landmark: 'Jaco Pastorius Park' }],
   ['WILTON MANORS', { name: 'Wilton Manors', county: 'Broward County', priority: 11, landmark: 'Island City Park Preserve' }],
+  ['LIGHTHOUSE POINT', { name: 'Lighthouse Point', county: 'Broward County', priority: 11, landmark: 'Hillsboro Inlet Lighthouse' }],
   ['LAUDERDALE LAKES', { name: 'Lauderdale Lakes', county: 'Broward County', priority: 10, landmark: 'Vincent Torres Memorial Park' }],
   ['NORTH LAUDERDALE', { name: 'North Lauderdale', county: 'Broward County', priority: 10, landmark: 'Hampton Pines Park' }],
+  ['LAUDERDALE BY THE SEA', { name: 'Lauderdale By The Sea', county: 'Broward County', priority: 10, landmark: 'Anglins Fishing Pier' }],
+  ['HILLSBORO BEACH', { name: 'Hillsboro Beach', county: 'Broward County', priority: 10, landmark: 'Hillsboro Mile' }],
+  ['WEST PARK', { name: 'West Park', county: 'Broward County', priority: 10, landmark: 'McTyre Park' }],
+  ['PEMBROKE PARK', { name: 'Pembroke Park', county: 'Broward County', priority: 10, landmark: 'Pembroke Park' }],
+  ['SEA RANCH LAKES', { name: 'Sea Ranch Lakes', county: 'Broward County', priority: 10, landmark: 'Sea Ranch Lakes' }],
+
+  // Miami-Dade County
   ['MIAMI GARDENS', { name: 'Miami Gardens', county: 'Miami-Dade County', priority: 13, landmark: 'Hard Rock Stadium' }],
   ['MIAMI LAKES', { name: 'Miami Lakes', county: 'Miami-Dade County', priority: 13, landmark: 'Main Street Miami Lakes' }],
   ['AVENTURA', { name: 'Aventura', county: 'Miami-Dade County', priority: 13, landmark: 'Aventura Mall' }],
@@ -51,16 +56,247 @@ export const SOUTH_FL_CITIES = new Map([
   ['MIAMI', { name: 'Miami', county: 'Miami-Dade County', priority: 12, landmark: 'Brickell Financial District' }],
   ['MIAMI BEACH', { name: 'Miami Beach', county: 'Miami-Dade County', priority: 12, landmark: 'South Beach' }],
   ['NORTH MIAMI BEACH', { name: 'North Miami Beach', county: 'Miami-Dade County', priority: 12, landmark: 'Ancient Spanish Monastery' }],
-  ['NORTH MIAMI', { name: 'North Miami', county: 'Miami-Dade County', priority: 11, landmark: 'Oleta River State Park' }],
   ['SUNNY ISLES BEACH', { name: 'Sunny Isles Beach', county: 'Miami-Dade County', priority: 12, landmark: 'Newport Fishing Pier' }],
+  ['PINECREST', { name: 'Pinecrest', county: 'Miami-Dade County', priority: 12, landmark: 'Pinecrest Gardens' }],
+  ['KEY BISCAYNE', { name: 'Key Biscayne', county: 'Miami-Dade County', priority: 12, landmark: 'Crandon Park' }],
+  ['BAL HARBOUR', { name: 'Bal Harbour', county: 'Miami-Dade County', priority: 12, landmark: 'Bal Harbour Shops' }],
+  ['NORTH MIAMI', { name: 'North Miami', county: 'Miami-Dade County', priority: 11, landmark: 'Oleta River State Park' }],
   ['HIALEAH', { name: 'Hialeah', county: 'Miami-Dade County', priority: 11, landmark: 'Amelia Earhart Park' }],
   ['HIALEAH GARDENS', { name: 'Hialeah Gardens', county: 'Miami-Dade County', priority: 11, landmark: 'Westland Gardens Park' }],
   ['KENDALL', { name: 'Kendall', county: 'Miami-Dade County', priority: 11, landmark: 'Dadeland Mall' }],
+  ['MIAMI SPRINGS', { name: 'Miami Springs', county: 'Miami-Dade County', priority: 11, landmark: 'Miami Springs Golf & Country Club' }],
+  ['MIAMI SHORES', { name: 'Miami Shores', county: 'Miami-Dade County', priority: 11, landmark: 'Miami Shores Country Club' }],
+  ['CUTLER BAY', { name: 'Cutler Bay', county: 'Miami-Dade County', priority: 11, landmark: 'Southland Mall' }],
+  ['PALMETTO BAY', { name: 'Palmetto Bay', county: 'Miami-Dade County', priority: 11, landmark: 'Deering Estate' }],
+  ['SURFSIDE', { name: 'Surfside', county: 'Miami-Dade County', priority: 11, landmark: 'Surfside Community Center' }],
+  ['BAY HARBOR ISLANDS', { name: 'Bay Harbor Islands', county: 'Miami-Dade County', priority: 11, landmark: 'Kane Concourse' }],
+  ['GOLDEN BEACH', { name: 'Golden Beach', county: 'Miami-Dade County', priority: 11, landmark: 'Golden Beach' }],
+  ['SOUTH MIAMI', { name: 'South Miami', county: 'Miami-Dade County', priority: 11, landmark: 'Sunset Drive' }],
   ['SWEETWATER', { name: 'Sweetwater', county: 'Miami-Dade County', priority: 10, landmark: 'Dolphin Mall' }],
+  ['HOMESTEAD', { name: 'Homestead', county: 'Miami-Dade County', priority: 10, landmark: 'Homestead-Miami Speedway' }],
+  ['OPA LOCKA', { name: 'Opa Locka', county: 'Miami-Dade County', priority: 10, landmark: 'Opa-locka Historic City Hall' }],
+  ['FLORIDA CITY', { name: 'Florida City', county: 'Miami-Dade County', priority: 10, landmark: 'Florida Keys Outlet Marketplace' }],
+  ['MEDLEY', { name: 'Medley', county: 'Miami-Dade County', priority: 10, landmark: 'Medley Industrial Corridor' }],
+  ['VIRGINIA GARDENS', { name: 'Virginia Gardens', county: 'Miami-Dade County', priority: 10, landmark: 'Virginia Gardens' }],
+  ['EL PORTAL', { name: 'El Portal', county: 'Miami-Dade County', priority: 10, landmark: 'El Portal Nature Trail' }],
+  ['BISCAYNE PARK', { name: 'Biscayne Park', county: 'Miami-Dade County', priority: 10, landmark: 'Biscayne Park' }],
+  ['WEST MIAMI', { name: 'West Miami', county: 'Miami-Dade County', priority: 10, landmark: 'West Miami' }],
+
+  // Palm Beach County
   ['BOCA RATON', { name: 'Boca Raton', county: 'Palm Beach County', priority: 11, landmark: 'Mizner Park' }],
+  ['WELLINGTON', { name: 'Wellington', county: 'Palm Beach County', priority: 11, landmark: 'Wellington International' }],
+  ['JUPITER', { name: 'Jupiter', county: 'Palm Beach County', priority: 11, landmark: 'Jupiter Inlet Lighthouse' }],
+  ['PALM BEACH GARDENS', { name: 'Palm Beach Gardens', county: 'Palm Beach County', priority: 11, landmark: 'The Gardens Mall' }],
+  ['PALM BEACH', { name: 'Palm Beach', county: 'Palm Beach County', priority: 11, landmark: 'Worth Avenue' }],
   ['DELRAY BEACH', { name: 'Delray Beach', county: 'Palm Beach County', priority: 10, landmark: 'Atlantic Avenue' }],
-  ['WEST PALM BEACH', { name: 'West Palm Beach', county: 'Palm Beach County', priority: 10, landmark: 'The Square' }]
+  ['BOYNTON BEACH', { name: 'Boynton Beach', county: 'Palm Beach County', priority: 10, landmark: 'Boynton Harbor Marina' }],
+  ['WEST PALM BEACH', { name: 'West Palm Beach', county: 'Palm Beach County', priority: 10, landmark: 'The Square' }],
+  ['LAKE WORTH BEACH', { name: 'Lake Worth Beach', county: 'Palm Beach County', priority: 10, landmark: 'Lake Worth Pier' }],
+  ['ROYAL PALM BEACH', { name: 'Royal Palm Beach', county: 'Palm Beach County', priority: 10, landmark: 'Commons Park' }],
+  ['GREENACRES', { name: 'Greenacres', county: 'Palm Beach County', priority: 10, landmark: 'Samuel J. Ferreri Community Park' }],
+  ['NORTH PALM BEACH', { name: 'North Palm Beach', county: 'Palm Beach County', priority: 10, landmark: 'John D. MacArthur Beach State Park' }],
+  ['RIVIERA BEACH', { name: 'Riviera Beach', county: 'Palm Beach County', priority: 10, landmark: 'Peanut Island' }],
+  ['LANTANA', { name: 'Lantana', county: 'Palm Beach County', priority: 10, landmark: 'Lantana Municipal Beach' }],
+  ['PALM SPRINGS', { name: 'Palm Springs', county: 'Palm Beach County', priority: 10, landmark: 'Village of Palm Springs' }],
+  ['TEQUESTA', { name: 'Tequesta', county: 'Palm Beach County', priority: 10, landmark: 'Coral Cove Park' }],
+
+  // Monroe County (Florida Keys)
+  ['ISLAMORADA', { name: 'Islamorada', county: 'Monroe County', priority: 10, landmark: 'Theater of the Sea' }],
+  ['KEY LARGO', { name: 'Key Largo', county: 'Monroe County', priority: 10, landmark: 'John Pennekamp Coral Reef State Park' }],
+  ['MARATHON', { name: 'Marathon', county: 'Monroe County', priority: 10, landmark: 'Seven Mile Bridge' }],
+  ['KEY WEST', { name: 'Key West', county: 'Monroe County', priority: 10, landmark: 'Duval Street' }],
+  ['TAVERNIER', { name: 'Tavernier', county: 'Monroe County', priority: 10, landmark: 'Tavernier Historic District' }]
 ]);
+
+const SOUTH_FL_CITY_ALIASES = new Map([
+  // Fort Lauderdale
+  ['FT LAUDERDALE', 'FORT LAUDERDALE'],
+  ['FTLAUDERDALE', 'FORT LAUDERDALE'],
+  ['FORT LAUDERALE', 'FORT LAUDERDALE'],
+  ['FT LAUDERALE', 'FORT LAUDERDALE'],
+  ['FORT LAUDEDALE', 'FORT LAUDERDALE'],
+  ['FT LAUD', 'FORT LAUDERDALE'],
+  ['FORT LAUD', 'FORT LAUDERDALE'],
+  ['LAUDERDALE', 'FORT LAUDERDALE'],
+
+  // Miami
+  ['MIAMI DADE', 'MIAMI'],
+  ['MIAM', 'MIAMI'],
+  ['MAMI', 'MIAMI'],
+  ['MAIMI', 'MIAMI'],
+  ['CITY OF MIAMI', 'MIAMI'],
+
+  // Weston
+  ['WESON', 'WESTON'],
+  ['WESTN', 'WESTON'],
+
+  // West Palm Beach
+  ['WEST PALM BEAH', 'WEST PALM BEACH'],
+  ['W PALM BEACH', 'WEST PALM BEACH'],
+  ['W PALM BCH', 'WEST PALM BEACH'],
+  ['WEST PALM BCH', 'WEST PALM BEACH'],
+  ['WPB', 'WEST PALM BEACH'],
+  ['W P B', 'WEST PALM BEACH'],
+  ['WEST PALM', 'WEST PALM BEACH'],
+
+  // Opa Locka
+  ['OPALOCKA', 'OPA LOCKA'],
+  ['OPA LOCK', 'OPA LOCKA'],
+
+  // Palmetto Bay
+  ['PALMETO BAY', 'PALMETTO BAY'],
+  ['PALMETTO BY', 'PALMETTO BAY'],
+
+  // Islamorada
+  ['ISLA MORADA', 'ISLAMORADA'],
+
+  // Broward variants
+  ['PEMBROKE PINE', 'PEMBROKE PINES'],
+  ['PEMBROKE PNS', 'PEMBROKE PINES'],
+  ['PEMBRK PINES', 'PEMBROKE PINES'],
+  ['PEMB PINES', 'PEMBROKE PINES'],
+  ['HOLLYWOOD BEACH', 'HOLLYWOOD'],
+  ['HOLLYWOOD BCH', 'HOLLYWOOD'],
+  ['HOLLYWD', 'HOLLYWOOD'],
+  ['SW RANCHES', 'SOUTHWEST RANCHES'],
+  ['S W RANCHES', 'SOUTHWEST RANCHES'],
+  ['SOUTH WEST RANCHES', 'SOUTHWEST RANCHES'],
+  ['HALLANDALE', 'HALLANDALE BEACH'],
+  ['HALLANDALE BCH', 'HALLANDALE BEACH'],
+  ['HALLENDALE', 'HALLANDALE BEACH'],
+  ['HALLENDALE BEACH', 'HALLANDALE BEACH'],
+  ['DANIA', 'DANIA BEACH'],
+  ['DANIA BCH', 'DANIA BEACH'],
+  ['POMPANO', 'POMPANO BEACH'],
+  ['POMPANO BCH', 'POMPANO BEACH'],
+  ['DEERFIELD', 'DEERFIELD BEACH'],
+  ['DEERFIELD BCH', 'DEERFIELD BEACH'],
+  ['CORAL SPRING', 'CORAL SPRINGS'],
+  ['CORAL SPGS', 'CORAL SPRINGS'],
+  ['COCONUT CRK', 'COCONUT CREEK'],
+  ['N LAUDERDALE', 'NORTH LAUDERDALE'],
+  ['NO LAUDERDALE', 'NORTH LAUDERDALE'],
+  ['LAUD BY THE SEA', 'LAUDERDALE BY THE SEA'],
+  ['LAUDERDALE BY SEA', 'LAUDERDALE BY THE SEA'],
+
+  // Miami-Dade variants
+  ['MIAMI BCH', 'MIAMI BEACH'],
+  ['SOUTH BEACH', 'MIAMI BEACH'],
+  ['S MIAMI BEACH', 'MIAMI BEACH'],
+  ['N MIAMI BEACH', 'NORTH MIAMI BEACH'],
+  ['N MIAMI BCH', 'NORTH MIAMI BEACH'],
+  ['NORTH MIAMI BCH', 'NORTH MIAMI BEACH'],
+  ['NMB', 'NORTH MIAMI BEACH'],
+  ['N M B', 'NORTH MIAMI BEACH'],
+  ['N MIAMI', 'NORTH MIAMI'],
+  ['NO MIAMI', 'NORTH MIAMI'],
+  ['S MIAMI', 'SOUTH MIAMI'],
+  ['SO MIAMI', 'SOUTH MIAMI'],
+  ['SUNNY ISLES', 'SUNNY ISLES BEACH'],
+  ['SUNNY ISLES BCH', 'SUNNY ISLES BEACH'],
+  ['SUNNY ISLE BEACH', 'SUNNY ISLES BEACH'],
+  ['SUNNY ISLE', 'SUNNY ISLES BEACH'],
+  ['MIAMI GRDNS', 'MIAMI GARDENS'],
+  ['MIAMI GDNS', 'MIAMI GARDENS'],
+  ['CAROL CITY', 'MIAMI GARDENS'],
+  ['HIALEAH GDNS', 'HIALEAH GARDENS'],
+  ['HIALEAH GRDNS', 'HIALEAH GARDENS'],
+  ['CORAL GABLE', 'CORAL GABLES'],
+  ['CUTLER RIDGE', 'CUTLER BAY'],
+  ['BAL HARBOR', 'BAL HARBOUR'],
+  ['BAL HARBOUR VILLAGE', 'BAL HARBOUR'],
+  ['BAY HARBOR', 'BAY HARBOR ISLANDS'],
+  ['BAY HARBOR ISLAND', 'BAY HARBOR ISLANDS'],
+  ['BAY HARBOUR', 'BAY HARBOR ISLANDS'],
+  ['BAY HARBOUR ISLANDS', 'BAY HARBOR ISLANDS'],
+  ['KEY BISC', 'KEY BISCAYNE'],
+
+  // Palm Beach variants
+  ['BOCA', 'BOCA RATON'],
+  ['DELRAY', 'DELRAY BEACH'],
+  ['DELRAY BCH', 'DELRAY BEACH'],
+  ['BOYNTON', 'BOYNTON BEACH'],
+  ['BOYNTON BCH', 'BOYNTON BEACH'],
+  ['LAKE WORTH', 'LAKE WORTH BEACH'],
+  ['LK WORTH', 'LAKE WORTH BEACH'],
+  ['LAKE WORTH BCH', 'LAKE WORTH BEACH'],
+  ['PBG', 'PALM BEACH GARDENS'],
+  ['P B G', 'PALM BEACH GARDENS'],
+  ['PALM BCH GARDENS', 'PALM BEACH GARDENS'],
+  ['PALM BEACH GDNS', 'PALM BEACH GARDENS'],
+  ['ROYAL PALM BCH', 'ROYAL PALM BEACH'],
+  ['ROYAL PALM', 'ROYAL PALM BEACH'],
+  ['N PALM BEACH', 'NORTH PALM BEACH'],
+  ['N PALM BCH', 'NORTH PALM BEACH'],
+  ['NORTH PALM BCH', 'NORTH PALM BEACH'],
+  ['RIVIERA BCH', 'RIVIERA BEACH']
+]);
+
+const SOUTH_FL_ZIP_CITIES = new Map([
+  // Broward & Monroe 330xx
+  ['33004', 'DANIA BEACH'],
+  ['33009', 'HALLANDALE BEACH'],
+  ['33019', 'HOLLYWOOD'], ['33020', 'HOLLYWOOD'], ['33021', 'HOLLYWOOD'],
+  ['33023', 'MIRAMAR'], ['33025', 'MIRAMAR'], ['33027', 'MIRAMAR'],
+  ['33024', 'PEMBROKE PINES'], ['33026', 'PEMBROKE PINES'], ['33028', 'PEMBROKE PINES'], ['33029', 'PEMBROKE PINES'],
+  ['33060', 'POMPANO BEACH'], ['33062', 'POMPANO BEACH'], ['33069', 'POMPANO BEACH'],
+  ['33063', 'MARGATE'],
+  ['33064', 'DEERFIELD BEACH'],
+  ['33065', 'CORAL SPRINGS'], ['33071', 'CORAL SPRINGS'],
+  ['33066', 'COCONUT CREEK'], ['33073', 'COCONUT CREEK'],
+  ['33067', 'PARKLAND'], ['33076', 'PARKLAND'],
+  ['33068', 'NORTH LAUDERDALE'],
+  ['33036', 'ISLAMORADA'],
+  ['33037', 'KEY LARGO'],
+  ['33040', 'KEY WEST'], ['33042', 'KEY WEST'], ['33043', 'KEY WEST'],
+  ['33050', 'MARATHON'], ['33051', 'MARATHON'],
+  ['33070', 'TAVERNIER'],
+  // Miami-Dade 330xx & 331xx
+  ['33010', 'HIALEAH'], ['33012', 'HIALEAH'], ['33013', 'HIALEAH'], ['33015', 'HIALEAH'], ['33018', 'HIALEAH'],
+  ['33014', 'MIAMI LAKES'], ['33016', 'HIALEAH GARDENS'],
+  ['33030', 'HOMESTEAD'], ['33033', 'HOMESTEAD'], ['33035', 'HOMESTEAD'],
+  ['33034', 'FLORIDA CITY'],
+  ['33054', 'OPA LOCKA'],
+  ['33055', 'MIAMI GARDENS'], ['33056', 'MIAMI GARDENS'],
+  ['33122', 'DORAL'], ['33166', 'DORAL'], ['33172', 'DORAL'], ['33178', 'DORAL'],
+  ['33134', 'CORAL GABLES'], ['33146', 'CORAL GABLES'],
+  ['33139', 'MIAMI BEACH'], ['33140', 'MIAMI BEACH'], ['33141', 'MIAMI BEACH'],
+  ['33149', 'KEY BISCAYNE'],
+  ['33154', 'BAL HARBOUR'],
+  ['33156', 'PINECREST'],
+  ['33157', 'PALMETTO BAY'],
+  ['33160', 'SUNNY ISLES BEACH'],
+  ['33161', 'NORTH MIAMI'], ['33168', 'NORTH MIAMI'],
+  ['33162', 'NORTH MIAMI BEACH'], ['33179', 'NORTH MIAMI BEACH'],
+  ['33180', 'AVENTURA'],
+  ['33189', 'CUTLER BAY'], ['33190', 'CUTLER BAY'],
+  // Broward 333xx
+  ['33301', 'FORT LAUDERDALE'], ['33304', 'FORT LAUDERDALE'], ['33305', 'FORT LAUDERDALE'],
+  ['33306', 'FORT LAUDERDALE'], ['33308', 'FORT LAUDERDALE'], ['33309', 'FORT LAUDERDALE'],
+  ['33311', 'FORT LAUDERDALE'], ['33312', 'FORT LAUDERDALE'], ['33315', 'FORT LAUDERDALE'],
+  ['33316', 'FORT LAUDERDALE'], ['33334', 'FORT LAUDERDALE'],
+  ['33313', 'LAUDERHILL'], ['33319', 'LAUDERHILL'],
+  ['33314', 'DAVIE'], ['33325', 'DAVIE'], ['33328', 'DAVIE'],
+  ['33330', 'COOPER CITY'],
+  ['33317', 'PLANTATION'], ['33322', 'PLANTATION'], ['33324', 'PLANTATION'],
+  ['33321', 'TAMARAC'],
+  ['33323', 'SUNRISE'], ['33351', 'SUNRISE'],
+  ['33326', 'WESTON'], ['33327', 'WESTON'], ['33331', 'WESTON'], ['33332', 'SOUTHWEST RANCHES'],
+  // Palm Beach 334xx
+  ['33401', 'WEST PALM BEACH'], ['33405', 'WEST PALM BEACH'], ['33407', 'WEST PALM BEACH'], ['33409', 'WEST PALM BEACH'],
+  ['33410', 'PALM BEACH GARDENS'], ['33418', 'PALM BEACH GARDENS'],
+  ['33411', 'ROYAL PALM BEACH'],
+  ['33414', 'WELLINGTON'],
+  ['33426', 'BOYNTON BEACH'], ['33435', 'BOYNTON BEACH'], ['33436', 'BOYNTON BEACH'], ['33437', 'BOYNTON BEACH'],
+  ['33428', 'BOCA RATON'], ['33431', 'BOCA RATON'], ['33432', 'BOCA RATON'], ['33433', 'BOCA RATON'],
+  ['33434', 'BOCA RATON'], ['33486', 'BOCA RATON'], ['33487', 'BOCA RATON'], ['33496', 'BOCA RATON'], ['33498', 'BOCA RATON'],
+  ['33444', 'DELRAY BEACH'], ['33445', 'DELRAY BEACH'], ['33446', 'DELRAY BEACH'], ['33483', 'DELRAY BEACH'], ['33484', 'DELRAY BEACH'],
+  ['33458', 'JUPITER'], ['33477', 'JUPITER'], ['33478', 'JUPITER'],
+  ['33460', 'LAKE WORTH BEACH'], ['33461', 'LAKE WORTH BEACH'], ['33463', 'LAKE WORTH BEACH'], ['33467', 'LAKE WORTH BEACH'],
+  ['33480', 'PALM BEACH']
+]);
+
+const MONROE_KEYS_ZIPS = new Set(['33036', '33037', '33040', '33042', '33043', '33050', '33051', '33070']);
 
 // ---------------------------------------------------------------------------
 // 2. Niche Classification, Priority Scoring & Industry Lingo / Demand Rules
@@ -360,17 +596,71 @@ export function isShellOrHoldingEntity(businessName) {
   return SHELL_ENTITY_PATTERNS.some(rx => rx.test(name));
 }
 
+/**
+ * Deterministically canonicalize South Florida city names across Sunbiz filings,
+ * CSV imports, manual edits, and lead enrichment hints.
+ *
+ * Examples:
+ *   "Miami FL", "Miami Florida", "Miami, FL", "MIAMI-DADE", "MIAM" -> "Miami"
+ *   "Ft. Lauderdale FL", "Ft.Lauderdale", "FORT LAUDERALE", "FT LAUD" -> "Fort Lauderdale"
+ *   "Weson", "Weston Florida" -> "Weston"
+ *   "West Palm Beah", "W. Palm Beach", "WPB" -> "West Palm Beach"
+ *   "Opalocka", "Opa-locka", "Opa Locka FL" -> "Opa Locka"
+ *   "Palmeto Bay" -> "Palmetto Bay"
+ *   "Isla Morada" -> "Islamorada"
+ */
+export function normalizeSouthFlCity(rawCity, rawZip = '') {
+  const rawStr = String(rawCity || '').trim();
+  const explicitZipMatch = String(rawZip || '').trim().match(/\b(\d{5})\b/);
+  const embeddedZipMatch = rawStr.match(/\b(\d{5})(?:-\d{4})?\s*$/);
+  const zip5 = (explicitZipMatch && explicitZipMatch[1]) || (embeddedZipMatch && embeddedZipMatch[1]) || '';
+
+  // 1. Replace punctuation separators (.,#/_-) with spaces, drop quotes/symbols, collapse spaces, uppercase
+  let cleaned = rawStr
+    .replace(/[.,#/_-]+/g, ' ')
+    .replace(/['’"`]/g, '')
+    .replace(/[^a-zA-Z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toUpperCase();
+
+  // 2. Strip trailing 5-digit (+ optional 4-digit) ZIP codes
+  cleaned = cleaned.replace(/\s+\d{5}(?:\s+\d{4})?$/, '').trim();
+
+  // 3. Strip trailing state suffixes (FL, FLA, FLORIDA) while preserving "FLORIDA CITY"
+  cleaned = cleaned.replace(/^(.+?)\s+(?:FL|FLA|FLORIDA)$/, '$1').trim();
+
+  // Treat standalone state codes or digit-only noise as empty/garbled
+  if (!cleaned || /^(?:FL|FLA|FLORIDA)$/.test(cleaned) || !/[A-Z]{2}/.test(cleaned)) {
+    if (zip5 && SOUTH_FL_ZIP_CITIES.has(zip5)) {
+      const zipCanon = SOUTH_FL_ZIP_CITIES.get(zip5);
+      return SOUTH_FL_CITIES.get(zipCanon)?.name || toTitleCase(zipCanon);
+    }
+    return '';
+  }
+
+  // 4. Resolve common Sunbiz typos & abbreviations before canonical lookup
+  const canonicalKey = SOUTH_FL_CITY_ALIASES.get(cleaned) || cleaned;
+  if (SOUTH_FL_CITIES.has(canonicalKey)) {
+    return SOUTH_FL_CITIES.get(canonicalKey).name;
+  }
+
+  return toTitleCase(cleaned);
+}
+
 export function matchSouthFloridaLocation(cityInput, zipInput, stateInput = 'FL') {
   const state = String(stateInput || 'FL').trim().toUpperCase();
-  if (state && state !== 'FL' && state !== 'FLORIDA') {
+  if (state && state !== 'FL' && state !== 'FLA' && state !== 'FLORIDA') {
     return { isSouthFlorida: false, city: toTitleCase(cityInput), county: 'Out of State', priority: 0 };
   }
 
-  const cleanCity = String(cityInput || '').trim().toUpperCase().replace(/[^A-Z\s.]/g, '').replace(/\s+/g, ' ');
-  const zip = String(zipInput || '').trim().slice(0, 5);
+  const zipMatch = String(zipInput || '').trim().match(/^(\d{5})/);
+  const zip = zipMatch ? zipMatch[1] : '';
+  const normalizedCity = normalizeSouthFlCity(cityInput, zip);
+  const lookupKey = normalizedCity.toUpperCase().replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
 
-  if (SOUTH_FL_CITIES.has(cleanCity)) {
-    const match = SOUTH_FL_CITIES.get(cleanCity);
+  if (lookupKey && SOUTH_FL_CITIES.has(lookupKey)) {
+    const match = SOUTH_FL_CITIES.get(lookupKey);
     return {
       isSouthFlorida: true,
       city: match.name,
@@ -380,17 +670,19 @@ export function matchSouthFloridaLocation(cityInput, zipInput, stateInput = 'FL'
     };
   }
 
-  // Fallback by South Florida ZIP prefixes (330xx = South Broward / North Dade, 331xx-332xx = Miami-Dade, 333xx = Broward, 334xx = Palm Beach / North Broward)
+  // Fallback by South Florida ZIP prefixes (330xx = South Broward / North Dade / Keys, 331xx-332xx = Miami-Dade, 333xx = Broward, 334xx = Palm Beach)
   if (/^33[01234]\d{2}$/.test(zip)) {
     const prefix = zip.slice(0, 3);
-    const county = (prefix === '330' || prefix === '333')
-      ? 'Broward County'
-      : (prefix === '331' || prefix === '332')
-        ? 'Miami-Dade County'
-        : 'Palm Beach County';
+    const county = MONROE_KEYS_ZIPS.has(zip)
+      ? 'Monroe County'
+      : (prefix === '330' || prefix === '333')
+        ? 'Broward County'
+        : (prefix === '331' || prefix === '332')
+          ? 'Miami-Dade County'
+          : 'Palm Beach County';
     return {
       isSouthFlorida: true,
-      city: toTitleCase(cleanCity) || 'South Florida',
+      city: normalizedCity || 'South Florida',
       county,
       landmark: 'South Florida',
       priority: 8
@@ -399,10 +691,68 @@ export function matchSouthFloridaLocation(cityInput, zipInput, stateInput = 'FL'
 
   return {
     isSouthFlorida: false,
-    city: toTitleCase(cleanCity) || 'Florida',
+    city: normalizedCity || 'Florida',
     county: 'Florida',
     landmark: 'Florida',
     priority: 0
+  };
+}
+
+/**
+ * Shared parameterized WHERE clause builder for outreach candidate queries & CSV exports.
+ */
+export function buildOutreachWhereClause({
+  search = '',
+  status = 'active',
+  niche = 'all',
+  city = 'all',
+  contactFilter = 'all'
+} = {}) {
+  const conditions = [];
+  const params = [];
+
+  if (status === 'active') {
+    conditions.push("outreach_status != 'dismissed'");
+  } else if (status && status !== 'all') {
+    conditions.push('outreach_status = ?');
+    params.push(status);
+  }
+
+  if (niche && niche !== 'all') {
+    conditions.push('niche = ?');
+    params.push(niche);
+  }
+
+  if (city && city !== 'all') {
+    const normCity = normalizeSouthFlCity(city);
+    if (normCity && normCity !== city) {
+      conditions.push('(city = ? OR city = ?)');
+      params.push(city, normCity);
+    } else {
+      conditions.push('city = ?');
+      params.push(normCity || city);
+    }
+  }
+
+  if (contactFilter === 'has_email') {
+    conditions.push("email IS NOT NULL AND email != ''");
+  } else if (contactFilter === 'has_phone') {
+    conditions.push("phone IS NOT NULL AND phone != ''");
+  } else if (contactFilter === 'has_any') {
+    conditions.push("((email IS NOT NULL AND email != '') OR (phone IS NOT NULL AND phone != ''))");
+  } else if (contactFilter === 'needs_enrichment') {
+    conditions.push("(email IS NULL OR email = '') AND enrichment_status = 'unattempted'");
+  }
+
+  if (search) {
+    conditions.push('(business_name LIKE ? OR business_name_clean LIKE ? OR founder_name LIKE ? OR city LIKE ? OR niche LIKE ? OR doc_number LIKE ? OR email LIKE ? OR phone LIKE ?)');
+    const term = `%${search}%`;
+    params.push(term, term, term, term, term, term, term, term);
+  }
+
+  return {
+    whereClause: conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '',
+    params
   };
 }
 
@@ -442,7 +792,7 @@ export function classifyAndScoreBusiness(businessName, cityMeta) {
  * (`/Public/doc/cor/YYYYMMDDc.txt`).
  * Also supports tab/pipe-delimited or variable-length Sunbiz text lines.
  */
-export function parseSunbizFixedWidthLine(line) {
+export function parseSunbizFixedWidthLine(line, options = { requireSouthFlorida: true, excludeShells: true }) {
   if (!line || line.length < 200) return null;
 
   const docNumber = line.slice(0, 12).trim();
@@ -561,8 +911,8 @@ export function parseSunbizFixedWidthLine(line) {
 
   if (!primaryFounder) return null;
 
-  const effectiveCity = principalCity || mailingCity || raCity;
   const effectiveZip = principalZip || mailingZip || raZip;
+  const effectiveCity = normalizeSouthFlCity(principalCity || mailingCity || raCity, effectiveZip);
   const effectiveState = principalState || mailingState || raState || 'FL';
 
   return buildCandidateRecord({
@@ -581,7 +931,7 @@ export function parseSunbizFixedWidthLine(line) {
     city: effectiveCity,
     state: effectiveState,
     zip: effectiveZip
-  });
+  }, options);
 }
 
 /**
@@ -672,12 +1022,8 @@ export function parseSunbizBulkText(text, options = { requireSouthFlorida: true,
   if (firstLine.length >= 400 && /^[LPFN]\d{9,11}/i.test(firstLine.trim())) {
     const candidates = [];
     for (const line of lines) {
-      const parsed = parseSunbizFixedWidthLine(line);
+      const parsed = parseSunbizFixedWidthLine(line, options);
       if (!parsed) continue;
-      if (options.requireSouthFlorida !== false) {
-        const loc = matchSouthFloridaLocation(parsed.city, parsed.zip, parsed.state);
-        if (!loc.isSouthFlorida) continue;
-      }
       candidates.push(parsed);
     }
     return candidates;
@@ -697,6 +1043,7 @@ export function parseSunbizBulkText(text, options = { requireSouthFlorida: true,
       obj[h] = row[idx] || '';
     });
 
+    const rawZip = obj.zip || obj.postal_code || obj.principal_zip || '';
     const mapped = {
       doc_number: obj.doc_number || obj.document_number || obj.doc || obj.id,
       business_name: obj.business_name || obj.entity_name || obj.company || obj.corporation_name || obj.name,
@@ -704,9 +1051,9 @@ export function parseSunbizBulkText(text, options = { requireSouthFlorida: true,
       founder_name: obj.founder_name || obj.officer_name || obj.manager_name || obj.authorized_person || obj.founder || obj.registered_agent,
       founder_title: obj.founder_title || obj.title || 'MGR',
       principal_address: obj.principal_address || obj.address || obj.street_address,
-      city: obj.city || obj.principal_city,
+      city: normalizeSouthFlCity(obj.city || obj.principal_city, rawZip),
       state: obj.state || obj.principal_state || 'FL',
-      zip: obj.zip || obj.postal_code || obj.principal_zip,
+      zip: rawZip,
       email: obj.email || obj.email_address,
       phone: obj.phone || obj.phone_number,
       website: obj.website || obj.domain
@@ -1047,7 +1394,9 @@ export async function enrichOutreachCandidate(candidate, env) {
 
 async function lookupViaDataForSeo(candidate, env) {
   const authHeader = 'Basic ' + btoa(`${env.DATAFORSEO_LOGIN}:${env.DATAFORSEO_PASSWORD}`);
-  const query = `"${candidate.business_name_clean}" "${candidate.city}" FL`;
+  const query = candidate.city
+    ? `"${candidate.business_name_clean}" "${candidate.city}" FL`
+    : `"${candidate.business_name_clean}" FL`;
   const res = await fetch('https://api.dataforseo.com/v3/serp/google/organic/live/regular', {
     method: 'POST',
     headers: {
@@ -1193,7 +1542,7 @@ async function lookupViaApollo(candidate, domain, pdlHints, apiKey) {
     organization_name: effectiveOrgName,
     domain: effectiveDomain,
     linkedin_url: pdlHints?.linkedinUrl || undefined,
-    city: candidate.city,
+    city: candidate.city || undefined,
     state: 'Florida',
     country: 'United States'
   });
@@ -1210,7 +1559,7 @@ async function lookupViaApollo(candidate, domain, pdlHints, apiKey) {
         },
         body: JSON.stringify({
           q_person_name: `${candidate.founder_first_name} ${candidate.founder_last_name}`.trim(),
-          person_locations: [`${candidate.city}, Florida`],
+          person_locations: [candidate.city ? `${candidate.city}, Florida` : 'Florida'],
           per_page: 5
         })
       });
@@ -1299,7 +1648,7 @@ async function lookupViaPdl(candidate, apiKey) {
   const baseParams = {
     first_name: candidate.founder_first_name || '',
     last_name: candidate.founder_last_name || '',
-    locality: candidate.city || '',
+    ...(candidate.city ? { locality: candidate.city } : {}),
     region: 'florida',
     country: 'united states',
     min_likelihood: '6'
