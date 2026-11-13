@@ -44,6 +44,23 @@ const SFTP_USER = 'Public';
 const SFTP_PASS = 'PubAccess1845!';
 const REMOTE_COR_DIR = '/Public/doc/cor';
 
+// Pinned official Florida Department of State (Sunbiz) SSH public host keys.
+// Can be overridden via SUNBIZ_SFTP_KNOWN_HOST if Florida DOS rotates keys.
+const DEFAULT_SUNBIZ_KNOWN_HOSTS = [
+  `${SFTP_HOST} ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIFRdq4ekBu4hkT7QRm+frcyLZFQZplBp63gRcEm0Kwq`,
+  `${SFTP_HOST} ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEoTyT4Kp6MNXcKhRwwN5Je/j7HAwtWvhXKT41h0x8l0SWEuPnh0QfhMHXMMhxvAItK5y/CoUZBTeO8aVmGJ/TE=`,
+  `${SFTP_HOST} ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcqcmLnzD8ophR/Ox+GUXEeg/UbNw5ghGtUxKgXz9vLY9z8KFn5e9HtjOeCF9UldrcMn1uece49dYGRqOI2Xo7pDH7B3vTqH9l1QPes8rM7WK4+mpAeV5Isct+VpL6bSJyHd5wOCKWVtszeTTQUdXzDlPR6sJweHWu/4e7z1UiCJtjEYac1nK4H7dX3ZZCJ10SzvMwA/DbHOojEhKTJIwk0RdD/umSM2fa+WSw0Oi+CD9g/lKuFGzEn0OLYj5x7IQrVfcDLIYpBUuBEoDxvpnMx8Cf+SSgOsyZvgSx/70AZO8lzs+PqC2xzn2lKyiFnCYtUuQFb78U8gM7d/UaOe5x`
+].join('\n');
+
+export function formatKnownHostsContent(rawKnownHosts, host = SFTP_HOST) {
+  return String(rawKnownHosts || '')
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line && !line.startsWith('#'))
+    .map(line => (line.startsWith(host) ? line : `${host} ${line}`))
+    .join('\n');
+}
+
 function parseArgs(argv) {
   const args = {
     date: null,
@@ -92,25 +109,46 @@ export function getRecentWeekdayDates(specificDate = null) {
 async function downloadSunbizDailyText(dateCandidates) {
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sunbiz-'));
   const allowInsecureHostKey = process.env.SUNBIZ_INSECURE_SKIP_HOSTKEY === '1';
-  const pinnedKnownHost = (
+  const configuredKnownHost = (
     process.env.SUNBIZ_SFTP_KNOWN_HOST ||
     process.env.SUNBIZ_SFTP_HOST_KEY ||
-    ''
+    DEFAULT_SUNBIZ_KNOWN_HOSTS
   ).trim();
 
   try {
     let knownHostsFile = null;
-    if (pinnedKnownHost) {
-      knownHostsFile = path.join(tmpDir, 'known_hosts');
-      const hostLine = pinnedKnownHost.startsWith(SFTP_HOST)
-        ? pinnedKnownHost
-        : `${SFTP_HOST} ${pinnedKnownHost}`;
-      fs.writeFileSync(knownHostsFile, `${hostLine}\n`, { encoding: 'utf8', mode: 0o600 });
-    } else if (allowInsecureHostKey) {
+
+    if (allowInsecureHostKey) {
       console.warn(
         '[Sunbiz Sync] WARNING: SUNBIZ_INSECURE_SKIP_HOSTKEY=1 is set; SSH host key verification is disabled.'
       );
+    } else if (configuredKnownHost) {
+      const formattedKnownHosts = formatKnownHostsContent(configuredKnownHost, SFTP_HOST);
+      knownHostsFile = path.join(tmpDir, 'known_hosts');
+      fs.writeFileSync(knownHostsFile, `${formattedKnownHosts}\n`, { encoding: 'utf8', mode: 0o600 });
+
+      const dotSshDir = path.join(tmpDir, '.ssh');
+      fs.mkdirSync(dotSshDir, { recursive: true, mode: 0o700 });
+      fs.writeFileSync(path.join(dotSshDir, 'known_hosts'), `${formattedKnownHosts}\n`, {
+        encoding: 'utf8',
+        mode: 0o600
+      });
     }
+
+    let lastTransportError = '';
+    const recordDiagnostic = stderr => {
+      const msg = String(stderr || '').trim();
+      if (!msg) return;
+      if (/remote file not found|no such file|not found/i.test(msg)) return;
+      // Strip Florida DOS login banner noise to keep actionable error lines
+      const actionable = msg
+        .split(/\r?\n/)
+        .map(l => l.trim())
+        .filter(l => l && !/^(_NOTICE TO USERS_|Attention!!|limited to, E-mail|use described herein)/i.test(l))
+        .slice(-3)
+        .join(' | ');
+      if (actionable) lastTransportError = actionable;
+    };
 
     for (const ymd of dateCandidates) {
       if (!/^\d{8}$/.test(ymd)) {
@@ -124,13 +162,19 @@ async function downloadSunbizDailyText(dateCandidates) {
       const curlArgs = ['-s', '-S', '-f'];
       if (allowInsecureHostKey) {
         curlArgs.push('-k');
+      } else if (knownHostsFile) {
+        curlArgs.push('--knownhosts', knownHostsFile);
       }
       curlArgs.push(
         `sftp://${SFTP_USER}:${SFTP_PASS}@${SFTP_HOST}${REMOTE_COR_DIR}/${fileName}`,
         '-o',
         localPath
       );
-      const curlRes = spawnSync('curl', curlArgs, { encoding: 'utf8', timeout: 45000 });
+      const curlRes = spawnSync('curl', curlArgs, {
+        encoding: 'utf8',
+        timeout: 45000,
+        env: { ...process.env, HOME: tmpDir }
+      });
 
       if (curlRes.status === 0 && fs.existsSync(localPath) && fs.statSync(localPath).size > 500) {
         console.log(
@@ -138,13 +182,18 @@ async function downloadSunbizDailyText(dateCandidates) {
         );
         return fs.readFileSync(localPath, 'utf8');
       }
+      recordDiagnostic(curlRes.stderr);
 
       // Method 2: Try sshpass + sftp (Linux / GitHub Actions)
       const sftpArgs = ['-p', SFTP_PASS, 'sftp', '-oBatchMode=no'];
-      if (knownHostsFile) {
-        sftpArgs.push('-oStrictHostKeyChecking=yes', `-oUserKnownHostsFile=${knownHostsFile}`);
-      } else if (allowInsecureHostKey) {
+      if (allowInsecureHostKey) {
         sftpArgs.push('-oStrictHostKeyChecking=no');
+      } else if (knownHostsFile) {
+        sftpArgs.push(
+          '-oStrictHostKeyChecking=yes',
+          '-oCheckHostIP=no',
+          `-oUserKnownHostsFile=${knownHostsFile}`
+        );
       } else {
         sftpArgs.push('-oStrictHostKeyChecking=yes');
       }
@@ -156,10 +205,12 @@ async function downloadSunbizDailyText(dateCandidates) {
         console.log(`[Sunbiz Sync] Downloaded ${fileName} via sshpass+sftp`);
         return fs.readFileSync(localPath, 'utf8');
       }
+      recordDiagnostic(sshpassRes.stderr);
     }
 
+    const detailSuffix = lastTransportError ? ` Last error: ${lastTransportError}` : '';
     throw new Error(
-      `Could not download direct SFTP file automatically in this shell (ensure SUNBIZ_SFTP_KNOWN_HOST or ~/.ssh/known_hosts contains ${SFTP_HOST}, or pass --file=<path-to-sunbiz-file.txt>).`
+      `Could not download direct SFTP file automatically in this shell (checked ${dateCandidates.join(', ')} on ${SFTP_HOST}).${detailSuffix}`
     );
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
