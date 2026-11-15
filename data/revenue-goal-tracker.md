@@ -1,7 +1,7 @@
 # G3Z Creative — $4,000/Month Revenue Goal Tracker
 
 **Target Monthly Revenue:** `$4,000 / month`  
-**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,657.15` (`91.4%` of goal; includes `$400` Vivelo recovery + 4 Fajardo drafts) / `$3,097.15` safe base (`77.4%`)  
+**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,657.15` (`91.4%` of goal; includes `$400` Vivelo recovery + 4 Fajardo drafts) / `$3,257.15` safe base (`81.4%`)  
 **Collected (Paid) MTD:** `$1,210.90` (`30.27%`)  
 - `#1605` William McConnell / Remember Me: `$412.50` (Collected ✅ — cleared ahead of Nov 20 auto-charge)  
 - `#1596` MV Almer Productions / Miriam: `$342.40` (Collected Nov 11 ✅)  
@@ -10,11 +10,11 @@
 - `#1585` BroadbandQ Wireless: `$49.00` (Collected Nov 2 ✅)  
 **Immediate Recoverable / In-Flight (Nov 2026):** `$2,446.25`  
 - **Confirmed In-Flight (`$1,406.25`)**: Towing One `#1604` (`$1,406.25`, outstanding / WIP deliverable, due Dec 05, spoke to Fausto ✅)  
-- **Action Required — Unsent Drafts (`$480.00 – $640.00`)**: Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` @ `$160.00` each drafted in Bonsai — needs to be sent to Alexis Romero)  
-- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 9d overdue — due Nov 04)  
+- **Action Required — Unsent Drafts (`$640.00`)**: Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` @ `$160.00` each drafted in Bonsai — `#1590` was due Nov 14!)  
+- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 11d overdue — due Nov 04)  
 - **Deferred / Suspended (`$685.00` removed from Nov)**: Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
-**New Business Gap to `$4,000`:** **`$342.85`** (if Vivelo clears + 4 Fajardo drafts) to **`$902.85`** (safe base) -> solved by **1 to 2 × `$500` Pilot landing page builds**  
-**Last Check-In:** `2026-11-13T09:00:00-05:00`  
+**New Business Gap to `$4,000`:** **`$342.85`** (if Vivelo clears + 4 Fajardo drafts) to **`$742.85`** (safe base) -> solved by **1 to 2 × `$500` Pilot landing page builds**  
+**Last Check-In:** `2026-11-15T09:00:00-05:00`  
 **Schedule:** Hourly (`9:00 AM – 5:00 PM`, Mon–Fri, `America/New_York`)
 
 ---
@@ -40,16 +40,150 @@ Based on live pricing in `pricing.html`:
 
 ## 2. Priority Task Board (Ranked by Direct Revenue Leverage)
 
-| Priority | Task | Revenue Leverage | Current Status | Next Concrete Action (9:00 AM Sprint) |
+| Priority | Task | Revenue Leverage | Current Status | Next Concrete Action |
 | :---: | :--- | :--- | :--- | :--- |
-| **P0** | **Send Fajardo Elite Invoices (`#1584`–`#1590`)** | **`$480 – $640`** cash recovery | 4 weekly invoices ($160/wk) drafted in Bonsai | Send drafted invoices to Alexis Romero via Bonsai or forward links. |
-| **P1** | **Dial Top 3 Contractor Phone Leads in D1** | **`$500 – $3,000`** (closes Nov gap) | 3 high-value trade leads uncontacted with direct phone numbers | Dial Marcus Vance (`(954) 709-4412`), Paul Silva (`(954) 807-1300`), Andy Rivera (`(954) 544-4872`). |
-| **P2** | **Follow Up on Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 9 days overdue (due Nov 04) | Quick SMS/WhatsApp/email ping to Manny with payment link token `1c08955f6737d95`. |
-| **P3** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight / on track | Wrap up Google Ads / website milestone to trigger client sign-off and payment ahead of Dec 5. |
+| **P0** | **Send Fajardo Elite Invoices (`#1584`–`#1590`)** | **`$640.00`** cash recovery | 4 weekly invoices ($160/wk) drafted in Bonsai (`#1590` was due Nov 14) | Email all 4 invoice links directly to `eliteintdance@icloud.com` or send via Bonsai. |
+| **P1** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 11 days overdue (due Nov 04) | Email `info@viveloweekender.com` / text Manny with payment link: `https://app.hellobonsai.com/invoices/2766350`. |
+| **P2** | **Dial Fresh Leads in D1 (Philip Parisi & Francesco Villalba)** | **`$500 – $3,000`** (closes Nov gap) | Philip Parisi (HVAC, Score 98, new LLC) & Francesco Villalba (Construction, Score 94, uncontacted) | Call Philip Parisi (`561-788-2424`) and Francesco Villalba (`786-609-2373`) with $500 launchpad offer. |
+| **P3** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight / on track (due Dec 05) | Wrap up Google Ads / website milestone to trigger client sign-off and early collection. |
 
 ---
 
 ## 3. Hourly Check-In Log
+
+### `2026-11-15 09:00 AM EST` — Sunday Morning Kickoff: Closing the $342.85 Gap to $4,000/mo
+- **Live Pipeline & Cash Reconciliation**:
+  - **Cash Collected MTD**: **`$1,210.90` (30.27%)** (cleared and verified in Hello Bonsai: William McConnell `$412.50`, Miriam Borrell `$342.40`, Ben Gonzalez `$308.00`, Shiny Paws `$99.00`, BroadbandQ `$49.00`).
+  - **In-Flight / Receivables**:
+    - `#1604` Towing One (Fausto): **`$1,406.25`** outstanding WIP (due Dec 05).
+    - `#1584`, `#1587`, `#1588`, `#1590` Fajardo Elite (Alexis Romero): **`$640.00`** in drafted retainers ($160/ea).
+    - `#1589` Vivelo Weekender (Manny): **`$400.00`** overdue (due Nov 04, 11 days overdue).
+  - **Total Active Collectible Pipeline**: **`$3,657.15` (91.43%)** ($3,257.15 conservative base).
+  - **Gap to `$4,000.00/mo`**: Exactly **`$342.85`** (with Vivelo) or **`$742.85`** (without Vivelo) -> **1 single $500 Pilot deal closes the entire gap**.
+- **Actionable Low-Hanging Fruit (< 5 Minutes to Execute)**:
+  1. **Alexis Romero (`eliteintdance@icloud.com`)**: Send 1 email containing direct Bonsai links for invoices `#1584`, `#1587`, `#1588`, `#1590` (`+$640.00`).
+  2. **Manny (`info@viveloweekender.com`)**: Ping via SMS / WhatsApp with payment link `https://app.hellobonsai.com/invoices/2766350` (`+$400.00`).
+- **Outbound Dialing Priority (Cloudflare D1)**:
+  1. **Philip Parisi** (Breezy Does It Air Conditioning Services) — `561-788-2424` (Score 98, new LLC in Pembroke Pines, status: `new`).
+  2. **Francesco Villalba** (Pro Services Group General Construction LLC) — `786-609-2373` (Score 94, uncontacted in Miramar).
+- **Sprint Target (9:00 AM – 10:00 AM)**:
+  - Clear P0 and P1 in under 5 minutes to lock in `$1,040.00` in active receivables.
+  - Ring Philip Parisi and Francesco Villalba using the streamlined script.
+
+### `2026-11-14 05:00 PM EST` — 5:00 PM Daily Closeout: Pipeline Calibration & Weekend Standup
+- **Daily Performance Wrap-Up**:
+  - Full hourly accountability coverage completed across all 9 scheduled hourly checkpoints (9:00 AM through 5:00 PM).
+  - **Cash Collected MTD**: **`$1,210.90` (30.27%)** (cleared and verified in Hello Bonsai).
+  - **Active Collectible Pipeline**: **`$3,657.15` (91.43%)** ($3,257.15 safe base without Vivelo).
+  - **Gap to `$4,000.00/mo`**: Only **`$342.85 – $742.85`** (1 to 2 `$500` Pilot deals).
+- **Core Assets Ready for Execution**:
+  1. Direct client emails extracted for immediate 1-click outreach:
+     - Alexis Romero: `eliteintdance@icloud.com` (4 drafted retainers totaling `$640.00`).
+     - Manny: `info@viveloweekender.com` (overdue invoice `#1589`, `$400.00`).
+  2. Hot phone prospects primed in Cloudflare D1 CRM:
+     - Philip Parisi (Breezy Does It AC): `561-788-2424` (Score 98, fresh Sunbiz filing).
+     - Francesco Villalba (Pro Services Group Construction): `786-609-2373` (Score 94).
+- **Handover Confirmation**:
+  - All check-in logs, numbers, contact data, and playbook scripts are persisted to [revenue-goal-tracker.md](file:///e:/GitHub/g3zcreative/data/revenue-goal-tracker.md).
+
+### `2026-11-14 04:00 PM EST` — 4:00 PM Accountability: Final Hour Before Daily Closeout
+- **Live Status Check (3:00 PM – 4:00 PM)**:
+  - Bonsai records and Cloudflare D1 remain unchanged.
+  - Active pipeline stands at `$3,657.15` (91.4% of goal).
+  - Outstanding low-hanging fruit: `$640.00` Alexis Romero + `$400.00` Vivelo Weekender.
+- **Sprint Mandate (4:00 PM – 5:00 PM)**:
+  - Send the 2 emails to Alexis Romero (`eliteintdance@icloud.com`) and Manny (`info@viveloweekender.com`) before the close of business.
+  - Quick dial to Philip Parisi (`561-788-2424`).
+
+### `2026-11-14 03:00 PM EST` — 3:00 PM Accountability: Late Afternoon Sprint
+- **Live Status Check (2:00 PM – 3:00 PM)**:
+  - Bonsai records and Cloudflare D1 remain unchanged.
+  - Active collectible pipeline remains at `$3,657.15` (91.4% of goal).
+  - Outstanding immediate cash tasks:
+    1. Send `$640.00` retainers to Alexis Romero (`eliteintdance@icloud.com`).
+    2. Ping Manny (`info@viveloweekender.com`) for `$400.00`.
+    3. Call Philip Parisi (`561-788-2424`).
+- **Sprint Mandate (3:00 PM – 4:00 PM)**:
+  - Spend 2 minutes sending the pre-written emails before the end of the business day.
+  - Make 1 phone call to Philip Parisi.
+
+### `2026-11-14 02:00 PM EST` — 2:00 PM Accountability: Mid-Afternoon Execution Window
+- **Live Status Check (1:00 PM – 2:00 PM)**:
+  - Bonsai records and Cloudflare D1 remain unchanged.
+  - Current revenue stands at `$1,210.90` collected MTD + `$1,406.25` Towing One in-flight.
+  - `$1,040.00` in drafted/overdue cash (`$640` Alexis + `$400` Manny) remains 2 clicks away.
+- **Sprint Mandate (2:00 PM – 3:00 PM)**:
+  - Send the 2 emails to Alexis Romero (`eliteintdance@icloud.com`) and Manny (`info@viveloweekender.com`).
+  - Take 5 minutes to call Philip Parisi (`561-788-2424`).
+
+### `2026-11-14 01:00 PM EST` — 1:00 PM Accountability: Afternoon Focus
+- **Live Status Check (12:00 PM – 1:00 PM)**:
+  - Bonsai books and D1 CRM remain unchanged over the lunch hour.
+  - `$640.00` in drafted retainers for Fajardo Elite (`eliteintdance@icloud.com`) and `$400.00` for Vivelo Weekender (`info@viveloweekender.com`) remain pending.
+- **Sprint Mandate (1:00 PM – 2:00 PM)**:
+  - Send the 2 pre-written emails to Alexis Romero and Manny to secure `$1,040.00` in active receivables.
+  - Dial Philip Parisi (`561-788-2424`) to pitch the $500 launchpad package.
+
+### `2026-11-14 12:00 PM EST` — Noon Accountability: Direct Email Shortcuts Discovered ($1,040 in 2 Minutes)
+- **Live Status Check (11:00 AM – 12:00 PM)**:
+  - Books and D1 remain unchanged. `$1,040.00` in receivables remain pending.
+- **Friction Elimination Discovery**:
+  - Direct client emails extracted from Bonsai contact records:
+    - Alexis Romero: `eliteintdance@icloud.com`
+    - Manny (Vivelo Weekender): `info@viveloweekender.com`
+  - Instead of opening and navigating 4 separate Bonsai dashboard tabs, a single pre-drafted email to Alexis and a single text/email to Manny clears all outstanding invoicing tasks in under 120 seconds.
+- **Sprint Mandate (12:00 PM – 1:00 PM)**:
+  1. Fire off the 1 email to Alexis Romero (`$640.00`).
+  2. Fire off the 1 message to Manny (`$400.00`).
+  3. Dial Philip Parisi (`561-788-2424`).
+
+### `2026-11-14 11:00 AM EST` — Midday Accountability: Overcoming Task Friction
+- **Live Status Check (10:00 AM – 11:00 AM)**:
+  - No changes recorded in Bonsai or Cloudflare D1 CRM.
+  - `$640.00` in Fajardo Elite drafts remain unsent (Invoice `#1590` is scheduled for today).
+  - `$400.00` Vivelo Weekender remains 10 days overdue.
+  - High-intent leads (Philip Parisi `561-788-2424` & Francesco Villalba `786-609-2373`) are uncontacted.
+- **Action Plan for 11:00 AM – 12:00 PM**:
+  - Focus exclusively on sending the 4 drafted invoices (`$640.00`) and the 1 overdue text to Manny (`$400.00`) to secure `$1,040.00` in active receivables within the next 15 minutes.
+  - Execute the two phone calls before lunchtime.
+
+### `2026-11-14 10:00 AM EST` — Mid-Morning Accountability: Invoicing Lock & 10-Min Dial Sprint
+- **Audit Findings (Past 60 Minutes)**:
+  - Bonsai audit confirms 4 Fajardo Elite drafts (`#1584`, `#1587`, `#1588`, `#1590`) remain unsent. Invoice `#1590` is scheduled for today (`Nov 14`).
+  - Vivelo Weekender `#1589` remains unpaid (`$400.00`, 10d overdue).
+  - High-priority fresh leads (Philip Parisi `561-788-2424` and Francesco Villalba `786-609-2373`) remain untouched in D1.
+- **Immediate Sprint Mandate (10:00 AM – 11:00 AM)**:
+  1. Open the 4 Bonsai invoice links below and click "Send" (`+$640.00` active receivables).
+  2. Send the pre-written SMS text to Manny (`+$400.00` overdue recovery).
+  3. Spend 10 minutes dialing Philip Parisi and Francesco Villalba using the streamlined script.
+
+### `2026-11-14 09:00 AM EST` — Morning Kickoff: Nov 14 Invoicing Milestone ($640 Fajardo Drafts) & Fresh Sunbiz Leads
+- **Pipeline & Invoicing Status**:
+  - **Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590`)**: 4 weekly invoices at `$160.00` each drafted in Bonsai (`$640.00` total). **Invoice `#1590` is scheduled with due date TODAY (`2026-11-14`)**. Sending these 4 drafts immediately unlocks `$640.00` in active receivables.
+  - **Vivelo Weekender (`#1589`)**: `$400.00` is now 10 days overdue (due Nov 04). Direct link: `https://app.hellobonsai.com/invoices/2766350`.
+  - **Towing One (`#1604`)**: `$1,406.25` outstanding milestone due Dec 05.
+- **Cash Position & Gap Math**:
+  - Collected MTD: **`$1,210.90`** (30.27% of goal).
+  - Safe Active Book (Collected `$1,210.90` + Towing One `$1,406.25` + Fajardo `$640.00`): **`$3,257.15`** (**81.4%** of goal).
+  - Full Collectible (with Vivelo `$400.00`): **`$3,657.15`** (**91.4%** of goal).
+  - **New Business Gap to `$4,000`**: **`$342.85`** (with Vivelo) or **`$742.85`** (without Vivelo) -> **1 to 2 × `$500` Pilot landing page builds**.
+- **Fresh Outbound Dialing Queue in D1**:
+  1. **Philip Parisi** (Breezy Does It Air Conditioning Services) — **HOT NEW LEAD**:
+     - Phone: `561-788-2424` | Score: 98 | Pembroke Pines, FL | Filed: 2026-11-06 (1 week old LLC).
+     - Target Offer: HVAC Day-1 Launchpad ($500 pilot / $1,500 scale).
+  2. **Francesco Villalba** (PRO SERVICES GROUP GENERAL CONSTRUCTION LLC) — **TOP UNCONTACTED**:
+     - Phone: `786-609-2373` | Score: 94 | Miramar, FL | Filed: 2026-11-06.
+     - Target Offer: General Contractor Web/SEO Pilot ($500).
+  3. **Marcus J. Vance** (Davie Precision Plumbing & Drain Services):
+     - Phone: `(954) 709-4412` | High Local Demand: 3,920 monthly searches in Davie/Broward.
+  4. **Paul Silva** (Paul's Plumbing & Drain):
+     - Phone: `(954) 807-1300` | High Local Demand: 3,920 monthly searches.
+  5. **Andy Rivera** (A&T Next Level Lawn Care):
+     - Phone: `(954) 544-4872` | Demand: 1,840 monthly searches.
+- **60-Minute Sprint Mandate (9:00 AM – 10:00 AM)**:
+  1. **Send 4 Fajardo Elite Drafts (`$640.00`)**: Log into Bonsai or open draft URLs and hit Send.
+  2. **Ping Manny / Vivelo Weekender (`$400.00`)**: SMS/WhatsApp nudge with link.
+  3. **Call Philip Parisi (`561-788-2424`) & Francesco Villalba (`786-609-2373`)**: Pitch the $500 Launchpad pilot.
 
 ### `2026-11-13 09:00 AM EST` — Morning Kickoff: Remember Me Paid ($1,210.90 Collected) & Dialing Block
 - **Cash Collected Win**:
