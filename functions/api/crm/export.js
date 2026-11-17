@@ -4,7 +4,7 @@
  */
 
 import { checkAuth, getCorsHeaders, handleCorsOptions } from './auth.js';
-import { buildDiagnosticWhereClause, upgradeExistingOutreachTable } from './outreach/index.js';
+import { buildDiagnosticWhereClause, normalizeCadenceQueryParam, upgradeExistingOutreachTable } from './outreach/index.js';
 
 const ALLOWED_METHODS = 'GET, OPTIONS';
 const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
@@ -12,7 +12,7 @@ const VALID_OUTREACH_STATUS_FILTERS = new Set(['active', 'all', 'uncontacted', '
 const VALID_CONTACT_FILTERS = new Set(['all', 'has_email', 'has_phone', 'has_any', 'needs_enrichment']);
 const VALID_TIER_FILTERS = new Set(['all', 'platform_3k', 'retainer_2500', 'pilot_500']);
 const VALID_WEBSITE_STATUS_FILTERS = new Set(['all', 'missing', 'broken', 'slow', 'unoptimized', 'healthy', 'needs_fix']);
-const VALID_CADENCE_FILTERS = new Set(['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'in_cadence']);
+const VALID_CADENCE_FILTERS = new Set(['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'step_4', 'in_cadence']);
 
 const LEADING_WS_CTRL_BOM_RE = /^[\u0000-\u0020\u007F-\u009F\u00A0\u1680\u180E\u2000-\u200F\u2028-\u202F\u205F\u2060\u3000\uFEFF]+/;
 const LEADING_CTRL_OR_BOM_RE = /^[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u2028-\u202F\u2060\uFEFF]/;
@@ -122,7 +122,10 @@ export async function onRequestGet(context) {
         return jsonError(corsHeaders, 'Invalid website_status filter.', 400);
       }
 
-      const cadence = (url.searchParams.get('cadence') || url.searchParams.get('due_followup') || 'all').trim();
+      const cadence = normalizeCadenceQueryParam(
+        url.searchParams.get('cadence'),
+        url.searchParams.get('due_followup')
+      );
       if (!VALID_CADENCE_FILTERS.has(cadence)) {
         return jsonError(corsHeaders, 'Invalid outreach cadence filter.', 400);
       }
@@ -144,7 +147,7 @@ export async function onRequestGet(context) {
           ${whereClause}
           ORDER BY
             CASE
-              WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 3 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 0
+              WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 4 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 0
               WHEN outreach_status = 'uncontacted' THEN 1
               ELSE 2
             END ASC,

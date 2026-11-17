@@ -3,7 +3,7 @@
  * GET    /api/crm/outreach/:id - Fetch candidate + rendered diagnostic templates
  * PATCH  /api/crm/outreach/:id - Update candidate contact, diagnostic, and cadence fields
  * DELETE /api/crm/outreach/:id - Delete candidate
- * POST   /api/crm/outreach/:id - Execute action: 'enrich' | 'audit' | 'send_email' | 'log_touch' | 'advance_cadence' | 'promote'
+ * POST   /api/crm/outreach/:id - Execute action: 'enrich' | 'audit' | 'send_email' | 'log_touch' | 'advance_cadence' | 'promote' | 'dismiss'
  */
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
@@ -13,6 +13,7 @@ import {
   auditCandidateWebsite,
   scoreAndClassifyCandidate,
   renderOutreachTemplate,
+  computeNextCadenceState,
   verifyEmailDomainDns,
   normalizeSouthFlCity,
   matchSouthFloridaLocation,
@@ -110,6 +111,81 @@ function normalizeIsoDateTime(val) {
     return parsed.toISOString().replace('T', ' ').slice(0, 19);
   }
   return trimmed;
+}
+
+function parseOptionalEstimatedValue(body) {
+  if (!body || typeof body !== 'object') return { ok: true, value: null };
+  for (const key of ['estimated_value', 'deal_value']) {
+    if (body[key] !== undefined && body[key] !== null && typeof body[key] === 'object') {
+      return { ok: false, error: `Invalid non-primitive value for field "${key}".` };
+    }
+  }
+  const rawVal = body.estimated_value !== undefined ? body.estimated_value : body.deal_value;
+  if (rawVal === undefined || rawVal === null || rawVal === '') {
+    return { ok: true, value: null };
+  }
+  const numVal = Number(rawVal);
+  if (typeof rawVal === 'boolean' || !Number.isFinite(numVal) || numVal < 0) {
+    return { ok: false, error: 'Invalid estimated_value / deal_value (must be a finite number >= 0).' };
+  }
+  return { ok: true, value: Math.round(numVal * 100) / 100 };
+}
+
+function resolveCadenceNextActionAt(currentStep, targetStep, channel, rawExplicitNextActionAt) {
+  const hasExplicitNext =
+    rawExplicitNextActionAt !== undefined &&
+    rawExplicitNextActionAt !== null &&
+    String(rawExplicitNextActionAt).trim() !== '';
+  const explicitNext = hasExplicitNext ? normalizeIsoDateTime(rawExplicitNextActionAt) : undefined;
+  const state = computeNextCadenceState(currentStep || 0, targetStep, channel, new Date(), explicitNext);
+  return state.next_action_at ? normalizeIsoDateTime(state.next_action_at) : null;
+}
+
+export async function findNextUncontactedPhoneCandidate(db, excludeCandidateId) {
+  const hasExclude =
+    excludeCandidateId !== undefined &&
+    excludeCandidateId !== null &&
+    String(excludeCandidateId).trim() !== '';
+
+  const nextSql = hasExclude
+    ? `
+      SELECT * FROM outreach_candidates
+      WHERE outreach_status = 'uncontacted' AND id != ?
+      ORDER BY
+        CASE WHEN (phone IS NOT NULL AND TRIM(phone) != '') THEN 0 ELSE 1 END ASC,
+        score DESC,
+        COALESCE(review_count, 0) DESC,
+        filing_date DESC,
+        id ASC
+      LIMIT 1
+    `
+    : `
+      SELECT * FROM outreach_candidates
+      WHERE outreach_status = 'uncontacted'
+      ORDER BY
+        CASE WHEN (phone IS NOT NULL AND TRIM(phone) != '') THEN 0 ELSE 1 END ASC,
+        score DESC,
+        COALESCE(review_count, 0) DESC,
+        filing_date DESC,
+        id ASC
+      LIMIT 1
+    `;
+
+  const countSql = hasExclude
+    ? "SELECT COUNT(*) AS remaining_count FROM outreach_candidates WHERE outreach_status = 'uncontacted' AND id != ?"
+    : "SELECT COUNT(*) AS remaining_count FROM outreach_candidates WHERE outreach_status = 'uncontacted'";
+
+  const nextCandidate = hasExclude
+    ? await db.prepare(nextSql).bind(excludeCandidateId).first()
+    : await db.prepare(nextSql).first();
+  const countRow = hasExclude
+    ? await db.prepare(countSql).bind(excludeCandidateId).first()
+    : await db.prepare(countSql).first();
+
+  return {
+    next_uncontacted_candidate: nextCandidate || null,
+    remaining_uncontacted_count: Number(countRow?.remaining_count || 0)
+  };
 }
 
 function escapeHtml(str) {
@@ -292,6 +368,11 @@ export async function onRequestPatch(context) {
       }
     }
 
+    const parsedPatchEstVal = parseOptionalEstimatedValue(body);
+    if (!parsedPatchEstVal.ok) {
+      return json(request, { error: parsedPatchEstVal.error }, 400);
+    }
+
     if (body.outreach_status !== undefined) {
       if (typeof body.outreach_status !== 'string' || !VALID_OUTREACH_STATUSES.has(body.outreach_status.trim())) {
         return json(request, {
@@ -460,7 +541,11 @@ export async function onRequestPatch(context) {
       .run();
 
     const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
-    return json(request, { success: true, candidate: updated });
+    let dismissMeta = {};
+    if (body.outreach_status === 'dismissed') {
+      dismissMeta = await findNextUncontactedPhoneCandidate(env.DB, candidateId);
+    }
+    return json(request, { success: true, candidate: updated, ...dismissMeta });
   } catch (err) {
     console.error('Error updating outreach candidate:', err);
     return json(request, { error: 'Failed to update outreach candidate.' }, 500);
@@ -517,7 +602,8 @@ export async function onRequestPost(context) {
     const body = parsedBody.body;
     const scalarActionFields = [
       'action', 'company_domain', 'website', 'status', 'note', 'to', 'subject', 'body', 'mode',
-      'touch_number', 'cadence_step', 'step', 'channel', 'last_channel', 'next_action_at', 'promote'
+      'touch_number', 'cadence_step', 'step', 'channel', 'last_channel', 'next_action_at', 'promote',
+      'estimated_value', 'deal_value', 'skip_dns_check'
     ];
     for (const f of scalarActionFields) {
       if (body[f] !== undefined && body[f] !== null && typeof body[f] === 'object') {
@@ -720,7 +806,8 @@ export async function onRequestPost(context) {
     // -------------------------------------------------------------------------
     if (action === 'promote') {
       const defaultPromoteStage = candidate.outreach_status === 'emailed' ? 'contacted' : 'new';
-      const rawStage = body.status !== undefined && body.status !== null ? body.status : defaultPromoteStage;
+      const hasExplicitStatus = body.status !== undefined && body.status !== null && String(body.status).trim() !== '';
+      const rawStage = hasExplicitStatus ? body.status : defaultPromoteStage;
       if (typeof rawStage !== 'string' || !VALID_LEAD_STATUSES.has(rawStage.trim())) {
         return json(request, {
           error: `Invalid target lead status. Must be one of: ${[...VALID_LEAD_STATUSES].join(', ')}.`
@@ -728,11 +815,18 @@ export async function onRequestPost(context) {
       }
       const targetStage = rawStage.trim();
 
+      const parsedEstVal = parseOptionalEstimatedValue(body);
+      if (!parsedEstVal.ok) {
+        return json(request, { error: parsedEstVal.error }, 400, effectiveMethods);
+      }
+
       const promoted = await promoteCandidateToLead(env.DB, candidate, {
         status: targetStage,
+        explicitStatus: hasExplicitStatus,
         author: auth.user || 'Christian',
         noteType: 'note',
-        noteContent: String(body.note || '').trim() || buildDefaultPromoteNote(candidate)
+        noteContent: String(body.note || '').trim() || buildDefaultPromoteNote(candidate),
+        estimatedValue: parsedEstVal.value
       });
 
       const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
@@ -741,6 +835,32 @@ export async function onRequestPost(context) {
         lead_id: promoted.leadId,
         estimated_value: promoted.estimatedValue,
         candidate: updated
+      }, 200, effectiveMethods);
+    }
+
+    // -------------------------------------------------------------------------
+    // Action 3b: Dismiss Candidate & Auto-Advance to Next Uncontacted Phone Lead
+    // -------------------------------------------------------------------------
+    if (action === 'dismiss') {
+      const dismissNote = String(body.note || '').trim();
+      const nextNotes = dismissNote
+        ? (candidate.notes && String(candidate.notes).trim() ? `${String(candidate.notes).trim()}\n${dismissNote}` : dismissNote)
+        : (candidate.notes ?? null);
+
+      await env.DB.prepare(`
+        UPDATE outreach_candidates
+        SET outreach_status = 'dismissed',
+            notes = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).bind(nextNotes, candidateId).run();
+
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      const nextQueue = await findNextUncontactedPhoneCandidate(env.DB, candidateId);
+      return json(request, {
+        success: true,
+        candidate: updated,
+        ...nextQueue
       }, 200, effectiveMethods);
     }
 
@@ -755,54 +875,66 @@ export async function onRequestPost(context) {
         }, 400, effectiveMethods);
       }
 
-      const rawStep = body.step ?? body.cadence_step ?? body.touch_number ?? Math.min((Number(candidate.cadence_step) || 0) + 1, 3);
+      const rawStep = body.step ?? body.cadence_step ?? body.touch_number ?? Math.min((Number(candidate.cadence_step) || 0) + 1, 4);
       const stepNum = Number(rawStep);
-      if (typeof rawStep === 'boolean' || !Number.isFinite(stepNum) || ![1, 2, 3].includes(Math.round(stepNum))) {
+      if (typeof rawStep === 'boolean' || rawStep === '' || !Number.isFinite(stepNum) || ![1, 2, 3, 4].includes(Math.round(stepNum))) {
         return json(request, {
-          error: 'Invalid cadence step. Must be 1, 2, or 3.'
+          error: 'Invalid cadence step. Must be 1, 2, 3, or 4.'
         }, 400, effectiveMethods);
       }
       const step = Math.round(stepNum);
       const effectiveCadenceStep = Math.max(Number(candidate.cadence_step) || 0, step);
 
-      let nextActionAt = null;
-      if (body.next_action_at !== undefined && body.next_action_at !== null && String(body.next_action_at).trim() !== '') {
-        nextActionAt = normalizeIsoDateTime(body.next_action_at);
-      } else if (step === 1) {
-        // After Touch 1 -> +2 days (Day +2 Call/SMS)
-        nextActionAt = new Date(Date.now() + 2 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
-      } else if (step === 2) {
-        // After Touch 2 (Day +2 Call/SMS) -> +3 days (Day +5 from Touch 1)
-        nextActionAt = new Date(Date.now() + 3 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
-      } else {
-        // After Touch 3 (Day +5 Follow-Up Email) -> null
-        nextActionAt = null;
+      const hasExplicitStatus = body.status !== undefined && body.status !== null && String(body.status).trim() !== '';
+      let targetLeadStatus = 'contacted';
+      if (hasExplicitStatus) {
+        if (typeof body.status !== 'string' || !VALID_LEAD_STATUSES.has(body.status.trim())) {
+          return json(request, {
+            error: `Invalid target lead status. Must be one of: ${[...VALID_LEAD_STATUSES].join(', ')}.`
+          }, 400, effectiveMethods);
+        }
+        targetLeadStatus = body.status.trim();
       }
+
+      const parsedEstVal = parseOptionalEstimatedValue(body);
+      if (!parsedEstVal.ok) {
+        return json(request, { error: parsedEstVal.error }, 400, effectiveMethods);
+      }
+
+      const nextActionAt = resolveCadenceNextActionAt(candidate.cadence_step, step, rawChannel, body.next_action_at);
 
       const shouldPromote = body.promote !== false;
       const nextOutreachStatus = body.promote === true
         ? 'promoted'
-        : (step < 3 ? 'emailed' : (candidate.outreach_status === 'promoted' || candidate.lead_id ? 'promoted' : 'emailed'));
+        : (candidate.outreach_status === 'promoted'
+          ? 'promoted'
+          : (step < 4
+            ? (candidate.outreach_status === 'in_cadence' ? 'in_cadence' : 'emailed')
+            : (candidate.lead_id ? 'promoted' : 'emailed')));
 
       const customNote = String(body.note || '').trim();
       const noteContent = customNote ||
         `Cadence Touch #${step} logged via ${rawChannel.toUpperCase()} for ${candidate.business_name_clean} (${candidate.city || 'South Florida'}).` +
-        (nextActionAt ? ` Next follow-up scheduled for ${nextActionAt}.` : ' 3-touch cadence complete.');
+        (nextActionAt ? ` Next follow-up scheduled for ${nextActionAt}.` : ' 4-touch cadence complete.');
 
       let leadId = candidate.lead_id || null;
+      let promotedEstimatedValue;
 
       if (shouldPromote || candidate.lead_id) {
         const promoted = await promoteCandidateToLead(env.DB, candidate, {
-          status: 'contacted',
+          status: targetLeadStatus,
+          explicitStatus: hasExplicitStatus,
           author: auth.user || 'Christian',
           outreachStatus: nextOutreachStatus,
           noteType: rawChannel,
           noteContent,
           cadenceStep: effectiveCadenceStep,
           lastChannel: rawChannel,
-          nextActionAt
+          nextActionAt,
+          estimatedValue: parsedEstVal.value
         });
         leadId = promoted.leadId;
+        promotedEstimatedValue = promoted.estimatedValue;
       } else {
         await env.DB.prepare(`
           UPDATE outreach_candidates
@@ -830,6 +962,7 @@ export async function onRequestPost(context) {
         last_channel: rawChannel,
         next_action_at: nextActionAt,
         lead_id: leadId,
+        ...(promotedEstimatedValue !== undefined ? { estimated_value: promotedEstimatedValue } : {}),
         candidate: updated,
         renderedTemplates: renderAllTemplates(updated || candidate)
       }, 200, effectiveMethods);
@@ -848,12 +981,24 @@ export async function onRequestPost(context) {
       let touchStep = 1;
       if (rawTouch !== undefined && rawTouch !== null && rawTouch !== '') {
         const parsedTouch = Number(rawTouch);
-        if (typeof rawTouch === 'boolean' || !Number.isFinite(parsedTouch) || ![1, 2, 3].includes(Math.round(parsedTouch))) {
-          return json(request, { error: 'Invalid touch_number / cadence_step. Must be 1, 2, or 3.' }, 400, effectiveMethods);
+        if (typeof rawTouch === 'boolean' || !Number.isFinite(parsedTouch) || ![1, 2, 3, 4].includes(Math.round(parsedTouch))) {
+          return json(request, { error: 'Invalid touch_number / cadence_step. Must be 1, 2, 3, or 4.' }, 400, effectiveMethods);
         }
         touchStep = Math.round(parsedTouch);
-      } else if (Number(candidate.cadence_step || 0) >= 2) {
-        touchStep = 3;
+      } else {
+        const currentStep = Number(candidate.cadence_step || 0);
+        if (currentStep >= 3) {
+          touchStep = 4;
+        } else if (currentStep === 2) {
+          touchStep = 3;
+        } else {
+          touchStep = 1;
+        }
+      }
+
+      const parsedEstVal = parseOptionalEstimatedValue(body);
+      if (!parsedEstVal.ok) {
+        return json(request, { error: parsedEstVal.error }, 400, effectiveMethods);
       }
 
       if (!toEmail || !toEmail.includes('@')) {
@@ -902,29 +1047,21 @@ export async function onRequestPost(context) {
       }
 
       const effectiveCadenceStep = Math.max(Number(candidate.cadence_step) || 0, touchStep);
-      let nextActionAt = null;
-      if (body.next_action_at !== undefined && body.next_action_at !== null && String(body.next_action_at).trim() !== '') {
-        nextActionAt = normalizeIsoDateTime(body.next_action_at);
-      } else if (touchStep === 1) {
-        nextActionAt = new Date(Date.now() + 2 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
-      } else if (touchStep === 2) {
-        nextActionAt = new Date(Date.now() + 3 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
-      } else {
-        // Touch 3 completes the 3-touch cadence unless a custom next_action_at was provided
-        nextActionAt = null;
-      }
+      const nextActionAt = resolveCadenceNextActionAt(candidate.cadence_step, touchStep, 'email', body.next_action_at);
 
       // Promote to CRM Kanban Pipeline under 'contacted' and log outbound email in lead_notes
       const promoted = await promoteCandidateToLead(env.DB, candidate, {
         status: 'contacted',
+        explicitStatus: false,
         author: auth.user || 'Christian',
-        outreachStatus: 'emailed',
+        outreachStatus: candidate.outreach_status === 'promoted' ? 'promoted' : 'emailed',
         lastSubject: subject,
         noteType: 'email',
         noteContent: `Outbound Outreach Email (Touch #${touchStep}) sent to ${toEmail} (${dispatchProvider}):\nSubject: ${subject}\n\n${emailBody}`,
         cadenceStep: effectiveCadenceStep,
         lastChannel: 'email',
-        nextActionAt
+        nextActionAt,
+        estimatedValue: parsedEstVal.value
       });
 
       const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
@@ -1005,17 +1142,21 @@ function buildDefaultPromoteNote(candidate) {
 async function promoteCandidateToLead(db, candidate, opts) {
   let leadId = candidate.lead_id;
   const existingLead = leadId
-    ? await db.prepare('SELECT id FROM leads WHERE id = ?').bind(leadId).first()
+    ? await db.prepare('SELECT id, status, estimated_value FROM leads WHERE id = ?').bind(leadId).first()
     : null;
 
   const canonicalCity = normalizeSouthFlCity(candidate.city, candidate.zip) || candidate.city || 'South Florida';
   const contactInfo = candidate.email || candidate.phone || `${canonicalCity}, FL (${candidate.doc_number})`;
   const serviceInterest = getTierServiceInterest(candidate);
-  const estimatedValue = getTierEstimatedValue(candidate.recommended_tier);
+  const hasEstimatedValueOverride = opts.estimatedValue !== undefined && opts.estimatedValue !== null;
+  const defaultEstimatedValue = getTierEstimatedValue(candidate.recommended_tier);
+  const effectiveEstimatedValue = hasEstimatedValueOverride ? opts.estimatedValue : defaultEstimatedValue;
   const sourcePage = candidate.place_id
     ? `Google Maps (${candidate.place_id})`
     : `Sunbiz (${candidate.doc_number})`;
   const contextMessage = buildDiagnosticLeadMessage(candidate, canonicalCity);
+
+  let persistedEstimatedValue = effectiveEstimatedValue;
 
   if (!existingLead) {
     leadId = generateId('lead_');
@@ -1037,9 +1178,17 @@ async function promoteCandidateToLead(db, candidate, opts) {
       contextMessage,
       sourcePage,
       opts.status || 'contacted',
-      estimatedValue
+      effectiveEstimatedValue
     ).run();
   } else {
+    const estimatedValueSql = hasEstimatedValueOverride
+      ? 'estimated_value = ?,'
+      : 'estimated_value = CASE WHEN COALESCE(estimated_value, 0) <= 0 OR estimated_value = 1500 THEN ? ELSE estimated_value END,';
+
+    const nextLeadStatus = (opts.explicitStatus || !existingLead.status || existingLead.status === 'new')
+      ? (opts.status || 'contacted')
+      : existingLead.status;
+
     await db.prepare(`
       UPDATE leads
       SET contact_info = COALESCE(?, contact_info),
@@ -1047,7 +1196,7 @@ async function promoteCandidateToLead(db, candidate, opts) {
           phone = COALESCE(?, phone),
           service_interest = COALESCE(?, service_interest),
           message = COALESCE(?, message),
-          estimated_value = CASE WHEN COALESCE(estimated_value, 0) <= 0 OR estimated_value = 1500 THEN ? ELSE estimated_value END,
+          ${estimatedValueSql}
           status = ?,
           updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
@@ -1057,10 +1206,15 @@ async function promoteCandidateToLead(db, candidate, opts) {
       candidate.phone || null,
       serviceInterest,
       contextMessage,
-      estimatedValue,
-      opts.status || 'contacted',
+      effectiveEstimatedValue,
+      nextLeadStatus,
       leadId
     ).run();
+
+    if (!hasEstimatedValueOverride) {
+      const existingVal = Number(existingLead.estimated_value || 0);
+      persistedEstimatedValue = (existingVal <= 0 || existingVal === 1500) ? defaultEstimatedValue : existingVal;
+    }
   }
 
   // Record timeline note
@@ -1113,7 +1267,7 @@ async function promoteCandidateToLead(db, candidate, opts) {
     ).run();
   }
 
-  return { leadId, estimatedValue };
+  return { leadId, estimatedValue: persistedEstimatedValue };
 }
 
 /**

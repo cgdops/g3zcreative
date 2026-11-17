@@ -28,7 +28,7 @@ const VALID_TIER_FILTERS = new Set(['all', 'platform_3k', 'retainer_2500', 'pilo
 const VALID_TIERS = new Set(['platform_3k', 'retainer_2500', 'pilot_500']);
 const VALID_WEBSITE_STATUS_FILTERS = new Set(['all', 'missing', 'broken', 'slow', 'unoptimized', 'healthy', 'needs_fix']);
 const VALID_WEBSITE_STATUSES = new Set(['missing', 'broken', 'slow', 'unoptimized', 'healthy']);
-const VALID_CADENCE_FILTERS = new Set(['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'in_cadence']);
+const VALID_CADENCE_FILTERS = new Set(['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'step_4', 'in_cadence']);
 const VALID_CHANNELS = new Set(['email', 'call', 'sms']);
 
 const DIAGNOSTIC_SCHEMA_COLUMNS = [
@@ -449,7 +449,7 @@ export function buildDiagnosticWhereClause(filters = {}) {
 
   if (cadence && cadence !== 'all') {
     if (cadence === 'due_today') {
-      extraConditions.push("(outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 3 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now'))");
+      extraConditions.push("(outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 4 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now'))");
     } else if (cadence === 'step_0') {
       extraConditions.push('COALESCE(cadence_step, 0) = 0');
     } else if (cadence === 'step_1') {
@@ -457,9 +457,11 @@ export function buildDiagnosticWhereClause(filters = {}) {
     } else if (cadence === 'step_2') {
       extraConditions.push('cadence_step = 2');
     } else if (cadence === 'step_3') {
-      extraConditions.push('cadence_step >= 3');
+      extraConditions.push('cadence_step = 3');
+    } else if (cadence === 'step_4') {
+      extraConditions.push('cadence_step >= 4');
     } else if (cadence === 'in_cadence') {
-      extraConditions.push("((outreach_status = 'in_cadence' OR COALESCE(cadence_step, 0) >= 1) AND outreach_status != 'dismissed')");
+      extraConditions.push("((outreach_status = 'in_cadence' OR COALESCE(cadence_step, 0) BETWEEN 1 AND 3) AND outreach_status != 'dismissed')");
     }
   }
 
@@ -607,6 +609,15 @@ export async function onRequestOptions(context) {
   return handleCorsOptions(context.request, ALLOWED_METHODS);
 }
 
+export function normalizeCadenceQueryParam(cadenceRaw, dueFollowupRaw) {
+  const rawCadence = (cadenceRaw || '').trim();
+  if (rawCadence) return rawCadence;
+  const rawDue = (dueFollowupRaw || '').trim().toLowerCase();
+  if (!rawDue || rawDue === 'false' || rawDue === '0') return 'all';
+  if (rawDue === 'true' || rawDue === '1') return 'due_today';
+  return (dueFollowupRaw || '').trim() || 'all';
+}
+
 export async function onRequestGet(context) {
   const { request, env } = context;
 
@@ -625,7 +636,10 @@ export async function onRequestGet(context) {
   const contactFilter = (url.searchParams.get('contact') || 'all').trim();
   const tier = (url.searchParams.get('tier') || url.searchParams.get('recommended_tier') || 'all').trim();
   const websiteStatus = (url.searchParams.get('website_status') || 'all').trim();
-  const cadence = (url.searchParams.get('cadence') || url.searchParams.get('due_followup') || 'all').trim();
+  const cadence = normalizeCadenceQueryParam(
+    url.searchParams.get('cadence'),
+    url.searchParams.get('due_followup')
+  );
 
   if (!VALID_STATUS_FILTERS.has(status)) {
     return json(request, { error: `Invalid outreach status filter "${status}".` }, 400);
@@ -674,7 +688,7 @@ export async function onRequestGet(context) {
       ${whereClause}
       ORDER BY
         CASE
-          WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 3 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 0
+          WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 4 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 0
           WHEN outreach_status = 'uncontacted' THEN 1
           ELSE 2
         END ASC,
@@ -700,7 +714,7 @@ export async function onRequestGet(context) {
         COALESCE(SUM(CASE WHEN outreach_status = 'dismissed' THEN 1 ELSE 0 END), 0) as dismissed_count,
         COALESCE(SUM(CASE WHEN outreach_status != 'dismissed' AND recommended_tier = 'platform_3k' THEN 1 ELSE 0 END), 0) as platform_3k_count,
         COALESCE(SUM(CASE WHEN outreach_status != 'dismissed' AND recommended_tier = 'retainer_2500' THEN 1 ELSE 0 END), 0) as retainer_2500_count,
-        COALESCE(SUM(CASE WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 3 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 1 ELSE 0 END), 0) as due_followup_count,
+        COALESCE(SUM(CASE WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 4 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 1 ELSE 0 END), 0) as due_followup_count,
         COALESCE(SUM(CASE WHEN outreach_status != 'dismissed' AND gbp_rank BETWEEN 4 AND 30 THEN 1 ELSE 0 END), 0) as bleeders_count
       FROM outreach_candidates
     `;

@@ -115,9 +115,22 @@ export async function onRequestGet(context) {
       'SELECT * FROM lead_notes WHERE lead_id = ? ORDER BY created_at DESC'
     ).bind(leadId).all();
 
+    let linkedCandidate = null;
+    try {
+      linkedCandidate = await env.DB.prepare(
+        'SELECT * FROM outreach_candidates WHERE lead_id = ? LIMIT 1'
+      ).bind(leadId).first();
+    } catch (candErr) {
+      const errMsg = String(candErr?.message || candErr);
+      if (!/no such (table|column)/i.test(errMsg)) {
+        throw candErr;
+      }
+    }
+
     return json(request, {
       lead,
-      notes: notes || []
+      notes: notes || [],
+      candidate: linkedCandidate || null
     });
 
   } catch (error) {
@@ -246,6 +259,8 @@ export async function onRequestPatch(context) {
     let nextUncontactedLead = null;
     let nextUncontactedLeadNotes = [];
     let remainingUncontactedCount = null;
+    let nextUncontactedCandidate = null;
+    let remainingUncontactedCandidatesCount = null;
 
     if (body.status === 'lost') {
       const uncontactedWhere = `
@@ -302,6 +317,53 @@ export async function onRequestPatch(context) {
           nextUncontactedLeadNotes = nextNotes || [];
         }
       }
+
+      if (!nextUncontactedLead) {
+        try {
+          const candCountRow = await env.DB.prepare(
+            "SELECT COUNT(*) AS cnt FROM outreach_candidates WHERE outreach_status = 'uncontacted'"
+          ).first();
+          remainingUncontactedCandidatesCount = Number(candCountRow?.cnt || 0);
+
+          if (remainingUncontactedCandidatesCount > 0) {
+            try {
+              nextUncontactedCandidate = await env.DB.prepare(`
+                SELECT *
+                FROM outreach_candidates
+                WHERE outreach_status = 'uncontacted'
+                ORDER BY
+                  CASE WHEN (phone IS NOT NULL AND TRIM(phone) != '') THEN 0 ELSE 1 END ASC,
+                  score DESC,
+                  COALESCE(review_count, 0) DESC,
+                  filing_date DESC,
+                  id ASC
+                LIMIT 1
+              `).first();
+            } catch (orderErr) {
+              if (/no such column/i.test(String(orderErr?.message || orderErr))) {
+                nextUncontactedCandidate = await env.DB.prepare(`
+                  SELECT *
+                  FROM outreach_candidates
+                  WHERE outreach_status = 'uncontacted'
+                  ORDER BY
+                    CASE WHEN (phone IS NOT NULL AND TRIM(phone) != '') THEN 0 ELSE 1 END ASC,
+                    score DESC,
+                    filing_date DESC,
+                    id ASC
+                  LIMIT 1
+                `).first();
+              } else {
+                throw orderErr;
+              }
+            }
+          }
+        } catch (candErr) {
+          const errMsg = String(candErr?.message || candErr);
+          if (!/no such (table|column)/i.test(errMsg)) {
+            throw candErr;
+          }
+        }
+      }
     }
 
     return json(request, {
@@ -311,7 +373,9 @@ export async function onRequestPatch(context) {
         ? {
             next_uncontacted_lead: nextUncontactedLead || null,
             next_uncontacted_lead_notes: nextUncontactedLeadNotes,
-            remaining_uncontacted_count: remainingUncontactedCount
+            remaining_uncontacted_count: remainingUncontactedCount,
+            next_uncontacted_candidate: nextUncontactedCandidate || null,
+            remaining_uncontacted_candidates_count: remainingUncontactedCandidatesCount
           }
         : {})
     });

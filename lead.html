@@ -736,7 +736,101 @@
       font-size: 0.78rem;
       color: var(--text-muted);
       line-height: 1.35;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
+    }
+    .playbook-mode-toggle {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      background: #0b0f17;
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      margin-bottom: 0.65rem;
+    }
+    .playbook-mode-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      padding: 0.42rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      min-height: 34px;
+      transition: all 0.15s ease;
+    }
+    .playbook-mode-btn:hover {
+      color: #ffffff;
+    }
+    .playbook-mode-btn.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #e0f2fe;
+    }
+    .playbook-diag-banner {
+      background: rgba(11, 15, 23, 0.88);
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      margin-bottom: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .playbook-diag-banner[hidden] {
+      display: none;
+    }
+    .playbook-diag-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+    .diag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #131b2e;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      line-height: 1.35;
+    }
+    .diag-pill-rank {
+      background: rgba(245, 158, 11, 0.14);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fcd34d;
+    }
+    .diag-pill-rank.top3 {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+    .diag-pill-comp {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.35);
+      color: #cbd5e1;
+    }
+    .diag-pill-tech-bad {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+    .diag-pill-tier {
+      background: rgba(218, 16, 77, 0.16);
+      border-color: rgba(218, 16, 77, 0.45);
+      color: #ff85ab;
+    }
+    .playbook-diag-summary {
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      line-height: 1.4;
     }
     .playbook-context-bar {
       display: grid;
@@ -1098,6 +1192,33 @@
       font-weight: 800;
       font-size: 0.9rem;
       color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .pricing-tier-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .pricing-tier-badge.is-recommended {
+      background: rgba(218, 16, 77, 0.22);
+      border: 1px solid rgba(218, 16, 77, 0.55);
+      color: #ff85ab;
+    }
+    .pricing-tier-badge.is-downsell {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+    }
+    .pricing-tier-badge[hidden] {
+      display: none;
     }
     .pricing-tier-price {
       font-family: 'Young Serif', serif;
@@ -1170,6 +1291,16 @@
       color: #bae6fd;
       font-weight: 600;
       font-size: 0.8rem;
+    }
+    .objection-spoken {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .objection-btn-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
     }
 
     /* Next Steps Card */
@@ -1295,6 +1426,7 @@
       .safe-ext-link,
       .playbook-context-select,
       .playbook-context-input,
+      .playbook-mode-btn,
       .playbook-tab-btn,
       .milestone-step,
       .gate-btn,
@@ -1448,11 +1580,11 @@
   <div class="lead-workspace playbook-hidden is-auth-pending" id="leadWorkspace" inert>
   <!-- Main Content (Left Column) -->
   <main id="mainWorkspace" tabindex="-1">
-    <!-- Outreach Candidate Read-Only Preview Banner -->
+    <!-- Outreach Candidate Power-Dialer Preview Banner -->
     <div class="candidate-preview-banner" id="candidatePreviewBanner" hidden>
       <div style="min-width: 0; flex: 1 1 240px;">
-        <div style="font-weight: 800; font-size: 0.92rem; color: #e0f2fe;">🔍 Read-Only Outreach Candidate Preview</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Review Sunbiz filing details and Cold-Call Playbook scripts before adding this lead to your pipeline.</div>
+        <div style="font-weight: 800; font-size: 0.92rem; color: #e0f2fe;">⚡ Power-Dialer Candidate Preview</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Review diagnostic details &amp; Cold-Call Playbook scripts. All 1-click call outcomes and tier buttons work immediately—no manual promote required first.</div>
       </div>
       <button type="button" class="btn-primary" id="promoteCandidateBtn">🚀 Promote to Pipeline</button>
     </div>
@@ -1575,15 +1707,27 @@
         </h2>
         <button type="button" class="playbook-reset-btn" id="playbookResetGatesBtn">↺ Reset Call</button>
       </div>
-      <div class="playbook-subtitle">
-        Drop their guard fast. Short sentences, plain words, easy "No" exit.
+      <div class="playbook-subtitle" id="playbookSubtitle">
+        Peer-to-peer specialist framing. Lead with local proof, lock a 60-sec preview, then anchor flat pricing.
+      </div>
+
+      <!-- Playbook Mode Switcher -->
+      <div class="playbook-mode-toggle" id="playbookModeToggleBar" role="group" aria-label="Call playbook mode">
+        <button type="button" class="playbook-mode-btn" id="pbModeBleederBtn" data-pb-mode="bleeder" aria-pressed="false">📍 Maps Bleeder Mode</button>
+        <button type="button" class="playbook-mode-btn" id="pbModeLaunchpadBtn" data-pb-mode="launchpad" aria-pressed="true">🏛️ New Filing Mode</button>
+      </div>
+
+      <!-- Diagnostic Telemetry Banner -->
+      <div class="playbook-diag-banner" id="playbookDiagnosticBanner" hidden>
+        <div class="playbook-diag-pills" id="playbookDiagPills"></div>
+        <div class="playbook-diag-summary" id="playbookDiagSummary"></div>
       </div>
 
       <!-- 5 Clear Call Milestones -->
       <div class="milestone-track" id="milestoneTrack" role="group" aria-label="Call milestones">
         <button type="button" class="milestone-step current" id="msStep1" data-jump="gateCard1" aria-current="step">1. Disarm</button>
         <button type="button" class="milestone-step" id="msStep2" data-jump="gateCard2">2. Need?</button>
-        <button type="button" class="milestone-step" id="msStep3" data-jump="gateCard3">3. Help?</button>
+        <button type="button" class="milestone-step" id="msStep3" data-jump="gateCard3">3. Preview</button>
         <button type="button" class="milestone-step" id="msStep4" data-jump="pbSecPricing">4. Price</button>
         <button type="button" class="milestone-step" id="msStep5" data-jump="pbSecNextSteps">5. Start</button>
       </div>
@@ -1637,8 +1781,8 @@
           <span style="font-size: 0.68rem; color: var(--text-muted);">Speak 20% slower &bull; Neighbor tone</span>
         </div>
 
-        <div class="disarm-cue">
-          <strong>🛡️ Lower Their Guard:</strong> Admit upfront you're a stranger, say you're local in South Florida, and tell them "say no and I'll hang up." Control relaxes people.
+        <div class="disarm-cue" id="playbookDisarmCue">
+          <strong>🛡️ Lower Their Guard:</strong> Speak 20% slower as a local South Florida specialist. Give them an easy "no" exit early, then earn the micro-commitment to text their 60-second custom preview.
         </div>
 
         <!-- Milestone 1 -->
@@ -1654,7 +1798,7 @@
             <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript1" aria-label="Copy Milestone 1 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome1No">
-            <strong>Say this:</strong> "No worries at all. Is there a good number for <span class="pb-var-first">the owner</span>, or should I take you off my list?"
+            <strong>Say this:</strong> "No worries at all. Is there a good number for <span class="pb-var-owner">the owner</span>, or should I take you off my list?"
             <button type="button" class="gate-quick-action-btn" data-quick-status="contacted" data-quick-note="Call: Spoke to staff/gatekeeper, owner unavailable.">
               💬 Log Note &amp; Mark Contacted
             </button>
@@ -1664,19 +1808,19 @@
         <!-- Milestone 2 -->
         <div class="gate-card" id="gateCard2" data-gate="2">
           <div class="gate-top">
-            <span class="gate-step-badge">Milestone 2 &bull; Easy Exit + Want More Work?</span>
+            <span class="gate-step-badge" id="gateBadge2">Milestone 2 &bull; Rank Gap &amp; Need Check</span>
             <span class="gate-goal">12 sec</span>
           </div>
           <div class="gate-script" id="gateScript2"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes" aria-pressed="false">&check; YES (Wants Work)</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="2" data-answer="yes" aria-pressed="false">&check; YES (Wants Calls)</button>
             <button type="button" class="gate-btn gate-btn-no" data-gate="2" data-answer="no" aria-pressed="false">&times; NO (Full / Not Looking)</button>
             <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript2" aria-label="Copy Milestone 2 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome2No">
             <strong>Friendly Exit:</strong> "Love hearing you're busy! I'll cross you off my list and let you get back to it. Have a good one."
             <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on M2 (No): Busy / not looking for more work.">
-              ⚡ Mark Lost &amp; Log Call
+              ⚡ Mark Lost &amp; Next Call
             </button>
           </div>
         </div>
@@ -1684,19 +1828,30 @@
         <!-- Milestone 3 -->
         <div class="gate-card" id="gateCard3" data-gate="3">
           <div class="gate-top">
-            <span class="gate-step-badge">Milestone 3 &bull; Open to Local Help?</span>
+            <span class="gate-step-badge" id="gateBadge3">Milestone 3 &bull; 60-Sec Custom Preview</span>
             <span class="gate-goal">8 sec</span>
           </div>
           <div class="gate-script" id="gateScript3"></div>
           <div class="gate-btn-row">
-            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes" aria-pressed="false">&check; YES (Open to Help)</button>
-            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no" aria-pressed="false">&times; NO (Doing Myself)</button>
+            <button type="button" class="gate-btn gate-btn-yes" data-gate="3" data-answer="yes" aria-pressed="false">&check; YES (Text Preview)</button>
+            <button type="button" class="gate-btn gate-btn-no" data-gate="3" data-answer="no" aria-pressed="false">&times; NO (Pass)</button>
             <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript3" aria-label="Copy Milestone 3 script"><span aria-hidden="true">📋</span></button>
+          </div>
+          <div class="gate-outcome-box gate-outcome-yes" id="gateOutcome3Yes">
+            <strong>🔥 Micro-Commitment Locked!</strong> Send the 60-sec custom preview link, then ask permission to share flat investment below.
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 0.5rem;">
+              <button type="button" class="gate-quick-action-btn" id="copyPreviewSmsFromGateBtn" style="margin-top:0; flex:1 1 150px;">
+                💬 Copy 60-Sec Preview SMS
+              </button>
+              <button type="button" class="gate-quick-action-btn" data-quick-status="contacted" data-quick-note="Call + SMS: Agreed to review 60-second custom preview link." style="margin-top:0; flex:1 1 150px;">
+                📞 Log Preview Sent
+              </button>
+            </div>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome3No">
             <strong>Friendly Exit:</strong> "Totally fair. Good luck with <span class="pb-var-company">the business</span>—have a great day!"
-            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on M3 (No): Wants to handle everything themselves.">
-              ⚡ Mark Lost &amp; Log Call
+            <button type="button" class="gate-quick-action-btn" data-quick-status="lost" data-quick-note="Disqualified on M3 (No): Passed on 60-second custom preview.">
+              ⚡ Mark Lost &amp; Next Call
             </button>
           </div>
         </div>
@@ -1714,13 +1869,13 @@
             <button type="button" class="gate-btn gate-btn-copy" data-copy-target="gateScript4" aria-label="Copy Milestone 4 script"><span aria-hidden="true">📋</span></button>
           </div>
           <div class="gate-outcome-box gate-outcome-yes" id="gateOutcome4Yes">
-            <strong>🔥 Green Light — Read Option 1 Below!</strong> Keep it short: "$500 flat—$250 now, $250 when done."
-            <button type="button" class="gate-quick-action-btn" data-quick-status="qualified" data-quick-value="500" data-quick-note="Qualified on Call: Open to local help and hearing flat prices.">
+            <strong id="gateOutcome4YesLeadText">🔥 Green Light — Anchor Recommended Option Below!</strong>
+            <button type="button" class="gate-quick-action-btn" id="gate4QualifiedBtn" data-quick-status="qualified" data-quick-note="Qualified on Call: Open to recommended flat-rate growth plan.">
               🎯 Mark Qualified &amp; Log
             </button>
           </div>
           <div class="gate-outcome-box gate-outcome-no" id="gateOutcome4No">
-            <strong>Say this:</strong> "Sure thing. Best to text the 3 flat prices to this number, or send an email?"
+            <strong>Say this:</strong> "Sure thing. Best to text the breakdown to this number, or send an email?"
             <button type="button" class="gate-quick-action-btn" id="copyPricingSummaryFromGateBtn">
               📋 Copy Short Text / Email Summary
             </button>
@@ -1728,58 +1883,67 @@
         </div>
       </section>
 
-      <!-- SECTION 2: Simple Flat-Rate Prices -->
+      <!-- SECTION 2: Top-Down Flat-Rate Options -->
       <section class="playbook-section" id="pbSecPricing" data-section="pricing">
         <div class="playbook-sec-header">
-          <h3 class="playbook-sec-label">💰 Milestone 4: Simple Flat Prices</h3>
-          <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">Half Now / Half When Done</span>
+          <h3 class="playbook-sec-label">💰 Milestone 4: Flat-Rate Growth Options</h3>
+          <span style="font-size: 0.68rem; color: #4ade80; font-weight: 700;">50% Start / 50% When Live</span>
         </div>
 
-        <!-- Tier 1: $500 Starter Website -->
-        <div class="pricing-tier-card recommended">
+        <!-- Tier: $3,000 Full Platform + Lead Tracker -->
+        <div class="pricing-tier-card" id="pricingCardPlatform" data-tier-key="platform_3k">
           <div class="pricing-tier-top">
-            <span class="pricing-tier-name">Option 1: Starter Website ⭐ (Easiest Yes)</span>
-            <span class="pricing-tier-price">$500 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">flat</span></span>
-          </div>
-          <div class="pricing-tier-sub">$250 to start, $250 when you love it &bull; Ready in 2 days (+$99/mo hosting)</div>
-          <div class="pricing-tier-pitch" id="pitchTier1"></div>
-          <div class="pricing-tier-actions">
-            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Starter Website ($500)" data-tier-value="500">
-              &check; Pick $500 &amp; Go to Milestone 5
-            </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier1" aria-label="Copy Option 1 Starter Website pitch"><span aria-hidden="true">📋</span></button>
-          </div>
-        </div>
-
-        <!-- Tier 2: $3,000 Website + Lead Tracker -->
-        <div class="pricing-tier-card">
-          <div class="pricing-tier-top">
-            <span class="pricing-tier-name">Option 2: Full Website + Lead Tracker</span>
+            <span class="pricing-tier-name">
+              <span class="pricing-tier-title">Full Platform + Lead Tracker</span>
+              <span class="pricing-tier-badge" id="badgePlatform" hidden></span>
+            </span>
             <span class="pricing-tier-price">$3,000 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">flat</span></span>
           </div>
-          <div class="pricing-tier-sub">$1,500 to start, $1,500 when live &bull; Tracks every call, text &amp; quote</div>
-          <div class="pricing-tier-pitch" id="pitchTier2"></div>
+          <div class="pricing-tier-sub">$1,500 to start, $1,500 when live &bull; Fast mobile rebuild + built-in call &amp; quote tracker</div>
+          <div class="pricing-tier-pitch" id="pitchTierPlatform"></div>
           <div class="pricing-tier-actions">
-            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Full Website + Lead Tracker ($3,000)" data-tier-value="3000">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Full Platform + Lead Tracker ($3,000)" data-tier-value="3000">
               &check; Pick $3,000 &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier2" aria-label="Copy Option 2 Full Website pitch"><span aria-hidden="true">📋</span></button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTierPlatform" aria-label="Copy Full Platform pitch"><span aria-hidden="true">📋</span></button>
           </div>
         </div>
 
-        <!-- Tier 3: $2,500/mo Monthly Google Growth -->
-        <div class="pricing-tier-card">
+        <!-- Tier: $2,500/mo Monthly Google Growth -->
+        <div class="pricing-tier-card" id="pricingCardRetainer" data-tier-key="retainer_2500">
           <div class="pricing-tier-top">
-            <span class="pricing-tier-name">Option 3: Monthly Google Growth</span>
+            <span class="pricing-tier-name">
+              <span class="pricing-tier-title">Monthly Google Growth</span>
+              <span class="pricing-tier-badge" id="badgeRetainer" hidden></span>
+            </span>
             <span class="pricing-tier-price">$2,500<span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">/mo</span></span>
           </div>
-          <div class="pricing-tier-sub">No contract (cancel anytime w/ 15-day notice) &bull; Free hosting included</div>
-          <div class="pricing-tier-pitch" id="pitchTier3"></div>
+          <div class="pricing-tier-sub">No long-term contract (cancel w/ 15-day notice) &bull; Hosting &amp; Maps ranking push included</div>
+          <div class="pricing-tier-pitch" id="pitchTierRetainer"></div>
           <div class="pricing-tier-actions">
             <button type="button" class="gate-btn gate-btn-yes" data-select-tier="Monthly Google Growth ($2,500/mo)" data-tier-value="2500">
               &check; Pick $2,500/mo &amp; Go to Milestone 5
             </button>
-            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTier3" aria-label="Copy Option 3 Monthly Growth pitch"><span aria-hidden="true">📋</span></button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTierRetainer" aria-label="Copy Monthly Google Growth pitch"><span aria-hidden="true">📋</span></button>
+          </div>
+        </div>
+
+        <!-- Tier: $500 48-Hour Quick-Win Pilot -->
+        <div class="pricing-tier-card recommended" id="pricingCardPilot" data-tier-key="pilot_500">
+          <div class="pricing-tier-top">
+            <span class="pricing-tier-name">
+              <span class="pricing-tier-title" id="pilotCardTitle">48-Hour Quick-Win Pilot</span>
+              <span class="pricing-tier-badge is-recommended" id="badgePilot">⭐ Recommended</span>
+            </span>
+            <span class="pricing-tier-price">$500 <span style="font-size:0.72rem; font-family:'Figtree',sans-serif; color:var(--text-muted);">flat</span></span>
+          </div>
+          <div class="pricing-tier-sub">$250 to start, $250 when done &bull; Live in 48 hours (+$99/mo hosting)</div>
+          <div class="pricing-tier-pitch" id="pitchTierPilot"></div>
+          <div class="pricing-tier-actions">
+            <button type="button" class="gate-btn gate-btn-yes" data-select-tier="48-Hour Quick-Win Pilot ($500)" data-tier-value="500" id="pickPilotBtn">
+              &check; Pick $500 &amp; Go to Milestone 5
+            </button>
+            <button type="button" class="gate-btn gate-btn-copy" data-copy-target="pitchTierPilot" aria-label="Copy 48-Hour Quick-Win Pilot pitch"><span aria-hidden="true">📋</span></button>
           </div>
         </div>
       </section>
@@ -1795,8 +1959,8 @@
           <details class="objection-item" name="playbook-objection" open>
             <summary class="objection-summary">🤨 "Who is this? How did you get my number?"</summary>
             <div class="objection-content" id="objText1">
-              <div>"My name's Christian—I live and build websites right here in South Florida. When you open a new LLC in Florida, the state puts it on the public new-business list."</div>
-              <div class="objection-pivot">👉 Ask: "Are you looking for more local customers right now, or should I take you off my list?"</div>
+              <div>"My name's Christian Gomez—I build Google-ready websites and local Map Pack systems right here in South Florida. I came across <span class="pb-var-company">your business</span> locally while checking <span class="pb-var-city">South Florida</span> listings."</div>
+              <div class="objection-pivot">👉 Ask: "Are you looking for more local <span class="pb-var-service">customer calls</span> right now, or should I take you off my list?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText1"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Who is this</span></button>
             </div>
           </details>
@@ -1804,8 +1968,8 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">🏃 "I'm busy / on a job right now"</summary>
             <div class="objection-content" id="objText2">
-              <div>"My bad, I'll let you run. Quick yes or no before I hang up:"</div>
-              <div class="objection-pivot">👉 Ask: "Do you even need a website for <span class="pb-var-company">your business</span> right now? If yes, I'll text my info—if no, I won't bug you again."</div>
+              <div>"Got it—I'll let you get right back to the job. Quick yes or no before I hang up:"</div>
+              <div class="objection-pivot">👉 Ask: "I put together a 60-second preview showing how <span class="pb-var-company">your business</span> can capture more calls in <span class="pb-var-city">South Florida</span>—want me to text that link so you can check it after hours?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText2"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for I'm busy</span></button>
             </div>
           </details>
@@ -1813,8 +1977,8 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">💵 "How much does it cost?"</summary>
             <div class="objection-content" id="objText3">
-              <div>"Simple flat prices. A starter website is <strong>$500 flat</strong> ($250 now, $250 when finished). A bigger site with a lead tracker is <strong>$3,000</strong>."</div>
-              <div class="objection-pivot">👉 Ask: "Does starting with the $500 site sound fair, yes or no?"</div>
+              <div id="objText3Answer">"Flat pricing with zero lock-in contracts. Our Full Platform + Lead Tracker is <strong>$3,000 flat</strong> ($1,500 to start, $1,500 when live), Monthly Google Growth is <strong>$2,500/mo</strong> with no long contract, or you can test us with a <strong>$500 48-Hour Quick-Win Pilot</strong> ($250 now, $250 when live)."</div>
+              <div class="objection-pivot" id="objText3Pivot">👉 Ask: "Does starting on a 50/50 split feel fair once you see the 60-second preview, yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText3"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for How much does it cost</span></button>
             </div>
           </details>
@@ -1822,8 +1986,8 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">⏳ "We just opened / not ready yet"</summary>
             <div class="objection-content" id="objText4">
-              <div>"Totally get it. Google usually takes 30 to 60 days to start showing a brand-new website."</div>
-              <div class="objection-pivot">👉 Ask: "If we put up the $500 site this week so Google finds it early, will you be ready for calls next month—yes or no?"</div>
+              <div>"Totally get it. Google usually takes 30 to 60 days to index and start ranking a brand-new business."</div>
+              <div class="objection-pivot">👉 Ask: "If we launch the $500 48-Hour Launchpad this week so Google finds you early, will you be ready for calls next month—yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText4"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for We just opened</span></button>
             </div>
           </details>
@@ -1831,17 +1995,17 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">🤝 "I just get work from word of mouth"</summary>
             <div class="objection-content" id="objText5">
-              <div>"Word of mouth is the best. Most people who get your name still Google you first to see your work and grab your number."</div>
-              <div class="objection-pivot">👉 Ask: "Is it worth $500 once so referrals find a clean website when they look you up—yes or no?"</div>
+              <div>"Word of mouth is the gold standard. Most <span class="pb-var-audience">customers</span> who get your name still Google you first to check your site and grab your number before calling."</div>
+              <div class="objection-pivot">👉 Ask: "Is $500 flat ($250 to start, $250 when live, +$99/mo hosting) worth it so referrals find a fast, credible site when they look you up—yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText5"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Word of mouth</span></button>
             </div>
           </details>
 
           <details class="objection-item" name="playbook-objection">
-            <summary class="objection-summary">🧑‍💻 "I already have a website / web guy"</summary>
+            <summary class="objection-summary">🧑‍💻 "I already have a website / someone handling it"</summary>
             <div class="objection-content" id="objText6">
-              <div>"Nice, you're ahead of most new businesses."</div>
-              <div class="objection-pivot">👉 Ask: "Is it already bringing you calls from Google in <span class="pb-var-city">your city</span>, or can I text you one quick tip for free—yes or no?"</div>
+              <div>"Good—having a site up already puts you ahead of a lot of <span class="pb-var-biz-plural">businesses</span>."</div>
+              <div class="objection-pivot">👉 Ask: "Is it consistently putting <span class="pb-var-company">your business</span> in the Google Top 3 in <span class="pb-var-city">South Florida</span>, or can I text you a 60-second breakdown of where calls are leaking?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText6"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Already have a website</span></button>
             </div>
           </details>
@@ -1849,8 +2013,8 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">📉 "Money's tight / too expensive"</summary>
             <div class="objection-content" id="objText7">
-              <div>"I hear you—starting up costs money. That's why it's just $250 to start, and $250 after it's done. One job pays it right back."</div>
-              <div class="objection-pivot">👉 Ask: "Does $250 to get started work right now, or should I check back in a couple months?"</div>
+              <div>"I hear you—cash flow matters. That's why we offer the $500 48-Hour Quick-Win Pilot at just $250 to start and $250 only after you see it live and love it—one job pays it right back."</div>
+              <div class="objection-pivot">👉 Ask: "Does $250 to kick off a 48-hour build make sense right now, or should I check back next quarter?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText7"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Money is tight</span></button>
             </div>
           </details>
@@ -1858,40 +2022,91 @@
           <details class="objection-item" name="playbook-objection">
             <summary class="objection-summary">📧 "Just text or email me info"</summary>
             <div class="objection-content" id="objText8">
-              <div>"Happy to text you my work and the 3 flat prices right now."</div>
-              <div class="objection-pivot">👉 Ask: "Just so I don't bug you later—are you actually looking to get a site up in the next 30 days, yes or no?"</div>
+              <div>"Happy to text you the 60-second custom preview and flat pricing right now."</div>
+              <div class="objection-pivot">👉 Ask: "So I respect your time—are you actively looking to fix your Google presence in the next 30 days, yes or no?"</div>
               <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText8"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Text or email me info</span></button>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">🔒 "I'm locked into an SEO / agency contract"</summary>
+            <div class="objection-content">
+              <div class="objection-spoken" id="objText9">
+                <div>"Totally respect honoring your agreement. Most agencies lock <span class="pb-var-biz-plural">businesses</span> into 12-month retainers where you don't even own the pages if you leave."</div>
+                <div class="objection-pivot">👉 Ask: "Want me to text you a 60-second custom preview for <span class="pb-var-company">your business</span> right now so you can compare it with zero obligation before renewal?"</div>
+              </div>
+              <div id="objSms9" style="display:none;">Hey <span class="pb-var-first">there</span>, Christian Gomez with G3Z Creative here—no pressure to break your current contract at all. Whenever you have 60 seconds, I put together a quick preview showing the exact Google Maps gap for <span class="pb-var-company">your business</span> in <span class="pb-var-city">South Florida</span> so you have an owned, zero-contract option ready when you want it.</div>
+              <div class="objection-btn-row">
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText9"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Locked into SEO contract</span></button>
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objSms9"><span aria-hidden="true">💬</span> Copy SMS Reply<span class="visually-hidden"> for Locked into SEO contract</span></button>
+              </div>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">🔥 "Angi / HomeAdvisor / SEO burned me before"</summary>
+            <div class="objection-content">
+              <div class="objection-spoken" id="objText10">
+                <div>"I hear that every week from South Florida <span class="pb-var-biz-plural">businesses</span>—Angi sells the same lead to five competitors, and SEO retainers burn cash before you own a single asset. With us, you own the site and calls 100%, and it's a 50/50 split—you only pay the second half after you see it live and love it."</div>
+                <div class="objection-pivot">👉 Ask: "Does owning your own asset with a 50% satisfaction holdback feel fairer than paying for shared leads, yes or no?"</div>
+              </div>
+              <div id="objSms10" style="display:none;">Hey <span class="pb-var-first">there</span>, Christian Gomez here—totally get why you're skeptical after Angi or SEO retainers. Everything we build for <span class="pb-var-company">your business</span> is 100% owned by you (zero shared leads or lock-in contracts) with a 50/50 split so you don't pay the second half until you see it live and love it.</div>
+              <div class="objection-btn-row">
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText10"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Burned by Angi or SEO</span></button>
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objSms10"><span aria-hidden="true">💬</span> Copy SMS Reply<span class="visually-hidden"> for Burned by Angi or SEO</span></button>
+              </div>
+            </div>
+          </details>
+
+          <details class="objection-item" name="playbook-objection">
+            <summary class="objection-summary">📱 "Send me an example of your work first"</summary>
+            <div class="objection-content">
+              <div class="objection-spoken" id="objText11">
+                <div>"Even better than a generic portfolio—I already put together a 60-second custom preview specifically for <span class="pb-var-company">your business</span> in <span class="pb-var-city">South Florida</span> so you can see how it looks for your actual market."</div>
+                <div class="objection-pivot">👉 Ask: "If I text that custom preview to your phone right now, can we do a quick 5-minute check-in tomorrow afternoon once you've glanced at it?"</div>
+              </div>
+              <div id="objSms11" style="display:none;">Hey <span class="pb-var-first">there</span>, Christian Gomez with G3Z Creative—sending over a 60-second custom preview showing how <span class="pb-var-company">your business</span> can capture more <span class="pb-var-service">customer calls</span> in <span class="pb-var-city">South Florida</span>. Take a quick look when you have a minute and let me know if tomorrow afternoon works for a 5-minute chat. [PREVIEW LINK]</div>
+              <div class="objection-btn-row">
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objText11"><span aria-hidden="true">📋</span> Copy Answer<span class="visually-hidden"> for Send example first</span></button>
+                <button type="button" class="gate-btn gate-btn-copy" data-copy-target="objSms11"><span aria-hidden="true">💬</span> Copy SMS Reply<span class="visually-hidden"> for Send example first</span></button>
+              </div>
             </div>
           </details>
         </div>
       </section>
 
-      <!-- SECTION 4: Milestone 5 — Simple Next Steps -->
+      <!-- SECTION 4: Milestone 5 — Two-Step Close -->
       <section class="playbook-section" id="pbSecNextSteps" data-section="nextsteps">
         <div class="playbook-sec-header">
-          <h3 class="playbook-sec-label">🚀 Milestone 5: Lock Next Step</h3>
-          <span style="font-size: 0.68rem; color: var(--info);">2-Day Preview</span>
+          <h3 class="playbook-sec-label">🚀 Milestone 5: Two-Step Close</h3>
+          <span style="font-size: 0.68rem; color: var(--info);">Preview First or 50% Start</span>
         </div>
 
         <ol class="next-step-list" role="list">
           <li class="next-step-item">
-            <span class="next-step-num">1. Send Start Link:</span>
-            "I'll text or email you the 50% start link (<strong>$250</strong> for Starter / <strong>$1,500</strong> for Full) right after we hang up to <strong class="pb-var-email">your email</strong>."
+            <span class="next-step-num">Path 1 &bull; Text 60-Sec Preview First:</span>
+            "I'll text/email the live preview &amp; diagnostic link for <strong class="pb-var-company">your business</strong> right after we hang up. Let's lock a quick 5-minute follow-up check-in for tomorrow so you can tell me if you want to move forward."
           </li>
           <li class="next-step-item">
-            <span class="next-step-num">2. 3 Easy Details:</span>
-            "Just text or email me back: (1) the phone number for customer calls, (2) your main services and cities, and (3) your logo if you have one."
+            <span class="next-step-num">Path 2 &bull; Ready-Buyer Start Link:</span>
+            "I'll send the start link (<strong>$1,500</strong> 50% deposit for the $3,000 Platform, <strong>$2,500</strong> first month for Monthly Growth, or <strong>$250</strong> 50% deposit for the $500 Pilot) to <strong class="pb-var-email">your email</strong> right now."
           </li>
           <li class="next-step-item">
-            <span class="next-step-num">3. 48-Hour Preview:</span>
-            "I'll text you a live preview in 2 days. You only pay the other half once you love how it looks. Fair enough?"
+            <span class="next-step-num">3 Easy Details + 48-Hour Delivery:</span>
+            "Reply with: (1) the phone number for customer calls, (2) your main services and cities, and (3) your logo if you have one. Your live site is ready in 48 hours—you only pay the other half once you love it."
           </li>
         </ol>
 
+        <div id="previewSmsTemplateHidden" style="display:none;"></div>
         <div id="recapTemplateHidden" style="display:none;"></div>
-        <button type="button" class="gate-quick-action-btn" id="copyFullRecapBtn" style="margin-top:0.2rem;">
-          📋 Copy Friendly Text / Email Recap
-        </button>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 0.2rem;">
+          <button type="button" class="gate-quick-action-btn" id="copyPreviewSmsBtn" style="margin-top:0;">
+            💬 Copy 60-Sec Preview SMS
+          </button>
+          <button type="button" class="gate-quick-action-btn" id="copyFullRecapBtn" style="margin-top:0;">
+            📋 Copy Full Text / Email Recap
+          </button>
+        </div>
       </section>
     </div>
 
@@ -1908,10 +2123,10 @@
         <button type="button" class="outcome-pill-btn" data-quick-status="contacted" data-quick-note="Call Outcome: Left voicemail / sent friendly text.">
           📞 Left VM / Text
         </button>
-        <button type="button" class="outcome-pill-btn outcome-pill-qualified" data-quick-status="qualified" data-quick-value="500" data-quick-note="Call Outcome: Interested & open to flat-rate website.">
+        <button type="button" class="outcome-pill-btn outcome-pill-qualified" id="footerOutcomeQualifiedBtn" data-quick-status="qualified" data-quick-note="Call Outcome: Interested & open to recommended growth plan.">
           🎯 Interested (Qual)
         </button>
-        <button type="button" class="outcome-pill-btn" data-quick-status="proposal" data-quick-value="500" data-quick-note="Call Outcome: Agreed to review start link / proposal.">
+        <button type="button" class="outcome-pill-btn" id="footerOutcomeProposalBtn" data-quick-status="proposal" data-quick-note="Call Outcome: Agreed to review 50% start link / proposal.">
           📄 Sent Start Link
         </button>
       </div>
@@ -1923,7 +2138,7 @@
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
       let leadId = urlParams.get('id');
-      const candidateId = urlParams.get('candidate_id');
+      let candidateId = urlParams.get('candidate_id');
       const rawReturnParam = urlParams.get('return');
       let isCandidatePreview = Boolean(!leadId && candidateId);
 
@@ -1981,6 +2196,9 @@
 
       let currentLead = null;
       let currentCandidate = null;
+      let currentPlaybookMode = 'launchpad';
+      let manualPlaybookModeOverride = null;
+      let activeLoadSeq = 0;
 
       // Elements
       const skipLink = document.getElementById('skipLink');
@@ -2384,8 +2602,11 @@
       }
 
       function clearSensitiveLeadDom() {
+        activeLoadSeq += 1;
         currentLead = null;
         currentCandidate = null;
+        manualPlaybookModeOverride = null;
+        currentPlaybookMode = 'launchpad';
         leadWorkspace.classList.add('is-auth-pending');
         document.title = 'Lead Details — G3Z Creative CRM';
         leadName.textContent = 'Locked';
@@ -2411,6 +2632,8 @@
         togglePasscodeText.textContent = 'Show';
         playbookCityInput.value = 'South Florida';
         playbookNicheSelect.value = 'Local Business';
+        const diagBanner = document.getElementById('playbookDiagnosticBanner');
+        if (diagBanner) diagBanner.hidden = true;
         renderPlaybookScripts();
       }
 
@@ -2502,9 +2725,77 @@
         openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
       });
 
+      const TIER_VALUES = {
+        platform_3k: 3000,
+        retainer_2500: 2500,
+        pilot_500: 500
+      };
+      const TIER_SERVICE_LABELS = {
+        platform_3k: 'Web Platform Rebuild ($3k)',
+        retainer_2500: 'Local Maps & SEO Authority ($2.5k/mo)',
+        pilot_500: '48-Hour Quick-Win Pilot ($500)'
+      };
+
+      function getTierEstimatedValue(tier) {
+        return TIER_VALUES[tier] || 1500;
+      }
+
+      function getTierServiceInterest(tier, niche) {
+        const safeNiche = niche || 'Local Business';
+        if (tier && TIER_SERVICE_LABELS[tier]) {
+          return TIER_SERVICE_LABELS[tier] + ' — ' + safeNiche;
+        }
+        return 'Day-1 Launchpad (' + safeNiche + ')';
+      }
+
+      function sanitizePlainDiagnosticText(raw) {
+        if (!raw) return '';
+        return String(raw)
+          .replace(/(?:Missing\s+)?(?:LocalBusiness(?:\s*&\s*Service)?|Dentist\/MedicalClinic)\s+(?:JSON-LD\s+)?schema/gi, (m) =>
+            /^missing/i.test(m) ? 'Missing local service-area details' : 'local service-area details'
+          )
+          .replace(/JSON-LD\s*schema|JSON-LD|\bschema\s+velocity\b|\bschema(?:\s+markup)?\b/gi, 'local business details')
+          .replace(/\bmobile\s+LCP\b|\bgallery\s+LCP\b|\bLCP\b/gi, 'mobile load speed')
+          .replace(/\bentity[- ]signals?\b|\bentity\b/gi, 'local listing')
+          .replace(/\bGBP\b/g, 'Google Business Profile')
+          .replace(/\bunindexed\b/gi, 'not yet showing on Google');
+      }
+
+      function mergeLeadWithCandidate(lead, cand) {
+        const base = lead ? { ...lead } : {};
+        if (!cand || typeof cand !== 'object') return base;
+        const diagnosticKeys = [
+          'gbp_rank', 'review_count', 'rating', 'gbp_category', 'top_competitors',
+          'lcp_ms', 'performance_score', 'has_schema', 'has_ssl', 'website_status',
+          'recommended_tier', 'pain_summary', 'county', 'niche', 'cadence_step',
+          'next_action_at', 'doc_number', 'place_id', 'city', 'zip', 'score', 'enrichment_meta'
+        ];
+        for (const key of diagnosticKeys) {
+          if (base[key] === undefined || base[key] === null || base[key] === '') {
+            if (cand[key] !== undefined && cand[key] !== null && cand[key] !== '') {
+              base[key] = cand[key];
+            }
+          }
+        }
+        if (!base.company_domain && cand.website) base.company_domain = cand.website;
+        if (!base.website && (base.company_domain || cand.website)) {
+          base.website = base.company_domain || cand.website;
+        }
+        if (!base.company && (cand.business_name_clean || cand.business_name)) {
+          base.company = cand.business_name_clean || cand.business_name;
+        }
+        if (!base.name && cand.founder_name) base.name = cand.founder_name;
+        if ((!base.estimated_value || Number(base.estimated_value) <= 0) && cand.recommended_tier) {
+          base.estimated_value = getTierEstimatedValue(cand.recommended_tier);
+        }
+        return base;
+      }
+
       async function fetchLeadDetails() {
+        const seq = ++activeLoadSeq;
         try {
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { credentials: 'same-origin' });
+          if (seq !== activeLoadSeq) return;
           if (res.status === 401) {
             clearSensitiveLeadDom();
             openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
@@ -2516,9 +2807,13 @@
             return;
           }
           const data = await res.json();
+          if (seq !== activeLoadSeq) return;
+          currentCandidate = data.candidate || null;
+          manualPlaybookModeOverride = null;
           isCandidatePreview = false;
           renderLead(data.lead, data.notes || []);
         } catch (err) {
+          if (seq !== activeLoadSeq) return;
           console.error(err);
           showToast('Unable to load lead details.');
         }
@@ -2530,16 +2825,21 @@
           urlParams.get('playbook') === '1' ||
           Boolean(urlParams.get('candidate_id')) ||
           Boolean(isCandidatePreview) ||
-          /sunbiz|outreach/i.test((lead && lead.source_page) || '') ||
-          /Sunbiz Doc#:/i.test((lead && lead.message) || '')
+          Boolean(currentCandidate) ||
+          /sunbiz|outreach|google maps/i.test((lead && lead.source_page) || '') ||
+          /Sunbiz Doc#:|Google Maps Rank:|Doc#:/i.test((lead && lead.message) || '') ||
+          Boolean(lead && lead.gbp_rank && Number(lead.gbp_rank) > 0) ||
+          Boolean(lead && lead.recommended_tier)
         );
       }
 
       async function fetchCandidatePreview() {
+        const seq = ++activeLoadSeq;
         try {
           const res = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId), {
             credentials: 'same-origin'
           });
+          if (seq !== activeLoadSeq) return;
           if (res.status === 401) {
             clearSensitiveLeadDom();
             openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
@@ -2551,6 +2851,7 @@
             return;
           }
           const data = await res.json();
+          if (seq !== activeLoadSeq) return;
           const cand = data.candidate;
           if (!cand) {
             showToast('Outreach candidate not found.');
@@ -2568,33 +2869,82 @@
             const validRet = validateReturnUrl(rawReturnParam);
             if (validRet) nextParams.set('return', validRet);
             window.history.replaceState(null, '', window.location.pathname + '?' + nextParams.toString());
+            urlParams.set('id', leadId);
+            urlParams.delete('candidate_id');
             await fetchLeadDetail();
             return;
           }
           currentCandidate = cand;
+          manualPlaybookModeOverride = null;
           isCandidatePreview = true;
           const previewCity = cand.city || 'South Florida';
+          const tierKey = cand.recommended_tier || '';
+          const diagMsgParts = [];
+          if (cand.place_id || cand.gbp_rank) {
+            diagMsgParts.push(
+              'Google Maps Rank: #' + (cand.gbp_rank || '?') + ' in ' + previewCity +
+              ' (' + (cand.review_count ?? 0) + ' reviews' +
+              (cand.rating ? (', ' + Number(cand.rating).toFixed(1) + '★') : '') + ')'
+            );
+          }
+          if (cand.doc_number) {
+            diagMsgParts.push('Sunbiz Doc#: ' + cand.doc_number + ' (' + (cand.entity_type || 'FL LLC') + ')');
+          }
+          if (cand.filing_date) {
+            diagMsgParts.push('Filing Date: ' + cand.filing_date);
+          }
+          if (cand.founder_name) {
+            diagMsgParts.push('Founder: ' + cand.founder_name + ' (' + (cand.founder_title || 'MGR') + ')');
+          }
+          if (cand.pain_summary) {
+            diagMsgParts.push('Diagnostic: ' + sanitizePlainDiagnosticText(cand.pain_summary));
+          }
+          if (cand.principal_address) {
+            diagMsgParts.push('Address: ' + cand.principal_address + ', ' + previewCity + ', FL ' + (cand.zip || ''));
+          } else {
+            diagMsgParts.push('City: ' + previewCity + ', FL');
+          }
+
           const previewLead = {
             id: null,
             name: cand.founder_name || cand.business_name_clean || 'Outreach Candidate',
             company: cand.business_name_clean || '',
             company_domain: cand.website || '',
+            website: cand.website || '',
             email: cand.email || '',
             phone: cand.phone || '',
             contact_info: cand.email || cand.phone || (previewCity + ', FL (' + (cand.doc_number || 'Sunbiz') + ')'),
             city: previewCity,
-            service_interest: 'Day-1 Launchpad (' + (cand.niche || 'Local Business') + ')',
-            source_page: 'Sunbiz Outreach' + (cand.doc_number ? ' (' + cand.doc_number + ')' : ''),
+            zip: cand.zip || '',
+            county: cand.county || '',
+            niche: cand.niche || 'Local Business',
+            service_interest: getTierServiceInterest(tierKey, cand.niche),
+            source_page: cand.place_id
+              ? ('Google Maps (' + cand.place_id + ')')
+              : ('Sunbiz Outreach' + (cand.doc_number ? ' (' + cand.doc_number + ')' : '')),
             status: cand.outreach_status === 'emailed' ? 'contacted' : 'new',
-            estimated_value: 1500,
+            estimated_value: getTierEstimatedValue(tierKey),
             enrichment_status: cand.enrichment_status || 'pending',
+            enrichment_meta: cand.enrichment_meta || null,
             created_at: cand.created_at || cand.filing_date || '',
-            message: [
-              cand.doc_number ? ('Sunbiz Doc#: ' + cand.doc_number + ' (' + (cand.entity_type || 'FL LLC') + ')') : '',
-              cand.filing_date ? ('Filing Date: ' + cand.filing_date) : '',
-              cand.founder_name ? ('Founder: ' + cand.founder_name + ' (' + (cand.founder_title || 'MGR') + ')') : '',
-              cand.principal_address ? ('Address: ' + cand.principal_address + ', ' + previewCity + ', FL ' + (cand.zip || '')) : ('City: ' + previewCity + ', FL')
-            ].filter(Boolean).join(' | ')
+            gbp_rank: cand.gbp_rank ?? null,
+            review_count: cand.review_count ?? null,
+            rating: cand.rating ?? null,
+            gbp_category: cand.gbp_category || '',
+            top_competitors: cand.top_competitors || '[]',
+            lcp_ms: cand.lcp_ms ?? null,
+            performance_score: cand.performance_score ?? null,
+            has_schema: cand.has_schema ?? 0,
+            has_ssl: cand.has_ssl ?? (cand.website ? 1 : 0),
+            website_status: cand.website_status || '',
+            recommended_tier: tierKey || '',
+            pain_summary: cand.pain_summary || '',
+            cadence_step: cand.cadence_step ?? 0,
+            next_action_at: cand.next_action_at || null,
+            doc_number: cand.doc_number || '',
+            place_id: cand.place_id || '',
+            score: cand.score ?? null,
+            message: diagMsgParts.filter(Boolean).join(' | ')
           };
           const previewNotes = cand.notes
             ? [{ author: 'Outreach Notes', created_at: cand.updated_at || cand.created_at, content: cand.notes }]
@@ -2607,11 +2957,12 @@
       }
 
       promoteCandidateBtn.addEventListener('click', async () => {
-        if (!candidateId) return;
-        promoteCandidateBtn.disabled = true;
+        if (!candidateId || isSavingOutcome) return;
+        isSavingOutcome = true;
+        setOutcomeButtonsDisabled(true);
         promoteCandidateBtn.textContent = 'Promoting...';
         try {
-          const res = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId) + '/promote', {
+          const res = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId), {
             method: 'POST',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
@@ -2635,6 +2986,9 @@
             const validRet = validateReturnUrl(rawReturnParam);
             if (validRet) nextParams.set('return', validRet);
             window.history.replaceState(null, '', window.location.pathname + '?' + nextParams.toString());
+            urlParams.set('id', leadId);
+            urlParams.set('playbook', '1');
+            urlParams.delete('candidate_id');
             showToast('Promoted to active pipeline!');
             await fetchLeadDetail();
           } else {
@@ -2643,13 +2997,16 @@
         } catch (err) {
           showToast('Could not promote candidate.');
         } finally {
-          promoteCandidateBtn.disabled = false;
+          isSavingOutcome = false;
+          setOutcomeButtonsDisabled(false);
           promoteCandidateBtn.textContent = '🚀 Promote to Pipeline';
         }
       });
 
       function renderLead(lead, notes) {
-        currentLead = lead;
+        const mergedLead = mergeLeadWithCandidate(lead, currentCandidate);
+        currentLead = mergedLead;
+        lead = mergedLead;
         const outreachMode = isOutreachLead(lead);
         updateBackNavigation(outreachMode);
 
@@ -2662,20 +3019,25 @@
           setPlaybookOpen(localStorage.getItem('g3z_playbook_hidden') !== '1', false);
         }
 
-        // Candidate preview vs active pipeline controls (strictly read-only until promoted)
+        // Candidate preview vs active pipeline controls
+        // 1-click outcome buttons, gate quick-actions, pricing tier picks, and Dismiss/Lost remain enabled for zero-friction dialing
         candidatePreviewBanner.hidden = !isCandidatePreview;
         dangerZoneSection.hidden = isCandidatePreview;
         stageSelect.disabled = isCandidatePreview;
         valueInput.disabled = isCandidatePreview;
         saveStageBtn.disabled = isCandidatePreview;
-        if (quickMarkLostBtn) quickMarkLostBtn.disabled = isCandidatePreview;
+        if (quickMarkLostBtn) {
+          quickMarkLostBtn.disabled = isSavingOutcome;
+          quickMarkLostBtn.textContent = isCandidatePreview ? '🚫 Dismiss' : '🚫 Lost';
+        }
         enrichBtn.disabled = isCandidatePreview;
         enrichDomainInput.disabled = isCandidatePreview;
         noteInput.disabled = isCandidatePreview;
         addNoteBtn.disabled = isCandidatePreview;
         noteInput.placeholder = isCandidatePreview
-          ? 'Promote candidate to pipeline above to log timeline notes...'
+          ? 'Promote candidate above for manual notes, or use 1-click Call Outcomes →'
           : 'Log call notes, outreach details, or next steps...';
+        setOutcomeButtonsDisabled(isSavingOutcome);
 
         document.title = (lead.name || 'Lead') + ' — G3Z CRM';
         leadName.textContent = lead.name || 'Anonymous Lead';
@@ -3019,8 +3381,7 @@
         }
         if (isSavingOutcome) return;
         isSavingOutcome = true;
-        saveStageBtn.disabled = true;
-        if (quickMarkLostBtn) quickMarkLostBtn.disabled = true;
+        setOutcomeButtonsDisabled(true);
         const targetLeadId = leadId;
         const prevLeadName = (currentLead && currentLead.name) || 'lead';
 
@@ -3056,8 +3417,7 @@
           showToast('Could not update stage.');
         } finally {
           isSavingOutcome = false;
-          saveStageBtn.disabled = isCandidatePreview;
-          if (quickMarkLostBtn) quickMarkLostBtn.disabled = isCandidatePreview;
+          setOutcomeButtonsDisabled(false);
         }
       });
 
@@ -3138,94 +3498,279 @@
       });
 
       // -----------------------------------------------------------------------
-      // Right-Hand Cold-Call Playbook Logic (Guard-Lowering + 5 Milestones)
+      // Right-Hand Dual-Mode Call Playbook & Zero-Friction Power Dialer
       // -----------------------------------------------------------------------
       const PLAYBOOK_NICHE_META = {
         'Roofing': {
           spokenCall: 'roofing calls',
           workNoun: 'jobs',
-          searchers: '3,570',
+          audienceNoun: 'homeowners',
+          businessNoun: 'roofing company',
+          businessPlural: 'roofers',
+          searchDemand: {
+            'Broward County': 3570,
+            'Miami-Dade County': 6430,
+            'Palm Beach County': 2630,
+            'Monroe County': 660,
+            default: 3570
+          },
           pattern: /\b(roof|roofing|roofer|shingle)\b/i
         },
         'HVAC': {
           spokenCall: 'AC calls',
           workNoun: 'jobs',
-          searchers: '8,550',
+          audienceNoun: 'homeowners',
+          businessNoun: 'AC company',
+          businessPlural: 'HVAC companies',
+          searchDemand: {
+            'Broward County': 8550,
+            'Miami-Dade County': 12860,
+            'Palm Beach County': 6340,
+            'Monroe County': 1590,
+            default: 8550
+          },
           pattern: /\b(hvac|air conditioning|a\/c|cooling|refrigeration|mechanical)\b/i
         },
         'Plumbing': {
           spokenCall: 'plumbing calls',
           workNoun: 'jobs',
-          searchers: '11,910',
+          audienceNoun: 'homeowners',
+          businessNoun: 'plumbing company',
+          businessPlural: 'plumbers',
+          searchDemand: {
+            'Broward County': 11910,
+            'Miami-Dade County': 17210,
+            'Palm Beach County': 8540,
+            'Monroe County': 2140,
+            default: 11910
+          },
           pattern: /\b(plumb|plumbing|plumber|drain|rooter|sewer|piping)\b/i
         },
         'Electrical': {
           spokenCall: 'electrical calls',
           workNoun: 'jobs',
-          searchers: '3,860',
+          audienceNoun: 'homeowners',
+          businessNoun: 'electrical company',
+          businessPlural: 'electricians',
+          searchDemand: {
+            'Broward County': 3860,
+            'Miami-Dade County': 6050,
+            'Palm Beach County': 3450,
+            'Monroe County': 860,
+            default: 3860
+          },
           pattern: /\b(electric|electrical|electrician|wiring|lighting|generator)\b/i
         },
         'Landscaping & Lawn': {
           spokenCall: 'landscaping jobs',
           workNoun: 'jobs',
-          searchers: '2,270',
+          audienceNoun: 'property owners',
+          businessNoun: 'landscaping company',
+          businessPlural: 'landscapers',
+          searchDemand: {
+            'Broward County': 2270,
+            'Miami-Dade County': 3870,
+            'Palm Beach County': 2030,
+            'Monroe County': 510,
+            default: 2270
+          },
           pattern: /\b(landscap|lawn|turf|tree|paver|sod|hardscap)\b/i
         },
         'Construction & Remodeling': {
           spokenCall: 'remodeling jobs',
           workNoun: 'jobs',
-          searchers: '3,650',
+          audienceNoun: 'homeowners',
+          businessNoun: 'remodeling company',
+          businessPlural: 'contractors',
+          searchDemand: {
+            'Broward County': 3650,
+            'Miami-Dade County': 4330,
+            'Palm Beach County': 2330,
+            'Monroe County': 580,
+            default: 3650
+          },
           pattern: /\b(remodel|renovat|construction|contractor|builder|cabinet|flooring|window|door|concrete|stucco|fence|painting|handyman)\b/i
         },
         'Pool & Outdoor': {
           spokenCall: 'pool service calls',
           workNoun: 'accounts',
-          searchers: '1,300',
+          audienceNoun: 'homeowners',
+          businessNoun: 'pool company',
+          businessPlural: 'pool companies',
+          searchDemand: {
+            'Broward County': 1300,
+            'Miami-Dade County': 1290,
+            'Palm Beach County': 840,
+            'Monroe County': 210,
+            default: 1300
+          },
           pattern: /\b(pool|spa|patio|pergola|enclosure)\b/i
         },
         'Pest Control & Mold': {
           spokenCall: 'pest control calls',
           workNoun: 'jobs',
-          searchers: '3,000',
+          audienceNoun: 'homeowners',
+          businessNoun: 'pest control company',
+          businessPlural: 'pest control companies',
+          searchDemand: {
+            'Broward County': 3000,
+            'Miami-Dade County': 4690,
+            'Palm Beach County': 2530,
+            'Monroe County': 630,
+            default: 3000
+          },
           pattern: /\b(pest|exterminat|termite|mold|restoration|mitigation)\b/i
         },
         'Cleaning & Property Care': {
           spokenCall: 'cleaning accounts',
           workNoun: 'accounts',
-          searchers: '3,350',
+          audienceNoun: 'property owners',
+          businessNoun: 'cleaning company',
+          businessPlural: 'cleaning companies',
+          searchDemand: {
+            'Broward County': 3350,
+            'Miami-Dade County': 4070,
+            'Palm Beach County': 2750,
+            'Monroe County': 690,
+            default: 3350
+          },
           pattern: /\b(clean|cleaning|maid|janitorial|pressure wash|soft wash)\b/i
         },
         'Medical, Dental & Wellness': {
           spokenCall: 'new patient bookings',
           workNoun: 'patients',
-          searchers: '20,700',
+          audienceNoun: 'patients',
+          businessNoun: 'practice',
+          businessPlural: 'practices',
+          searchDemand: {
+            'Broward County': 20700,
+            'Miami-Dade County': 24500,
+            'Palm Beach County': 17280,
+            'Monroe County': 4320,
+            default: 20700
+          },
           pattern: /\b(dental|dentist|medical|clinic|health|wellness|medspa|aesthetic|chiropract|therapy)\b/i
         },
         'Fitness & Studios': {
           spokenCall: 'new class signups',
           workNoun: 'members',
-          searchers: '20,350',
+          audienceNoun: 'members',
+          businessNoun: 'studio',
+          businessPlural: 'studios',
+          searchDemand: {
+            'Broward County': 20350,
+            'Miami-Dade County': 31000,
+            'Palm Beach County': 11790,
+            'Monroe County': 2950,
+            default: 20350
+          },
           pattern: /\b(dance|studio|gym|fitness|pilates|yoga|martial|karate|boxing)\b/i
         },
         'Legal & Accounting': {
           spokenCall: 'new client calls',
           workNoun: 'clients',
-          searchers: '1,030',
+          audienceNoun: 'clients',
+          businessNoun: 'firm',
+          businessPlural: 'firms',
+          searchDemand: {
+            'Broward County': 1030,
+            'Miami-Dade County': 1330,
+            'Palm Beach County': 790,
+            'Monroe County': 200,
+            default: 1030
+          },
           pattern: /\b(law|legal|attorney|cpa|accounting|tax|bookkeeping)\b/i
         },
         'Auto & Marine': {
           spokenCall: 'shop calls',
           workNoun: 'customers',
-          searchers: '5,420',
+          audienceNoun: 'vehicle & boat owners',
+          businessNoun: 'shop',
+          businessPlural: 'shops',
+          searchDemand: {
+            'Broward County': 5420,
+            'Miami-Dade County': 6280,
+            'Palm Beach County': 3690,
+            'Monroe County': 920,
+            default: 5420
+          },
           pattern: /\b(auto|detailing|car wash|towing|mechanic|marine|yacht|boat)\b/i
         },
         'Local Business': {
           spokenCall: 'customer calls',
           workNoun: 'customers',
-          searchers: '1,850',
+          audienceNoun: 'customers',
+          businessNoun: 'business',
+          businessPlural: 'businesses',
+          searchDemand: {
+            'Broward County': 1850,
+            'Miami-Dade County': 1850,
+            'Palm Beach County': 1850,
+            'Monroe County': 460,
+            default: 1850
+          },
           pattern: /.*/
         }
       };
+
+      const SOUTH_FL_CITY_COUNTY_MAP = new Map([
+        // Broward County
+        ['MIRAMAR', 'Broward County'], ['PEMBROKE PINES', 'Broward County'], ['HOLLYWOOD', 'Broward County'],
+        ['HOLLYWOOD BEACH', 'Broward County'], ['DAVIE', 'Broward County'], ['COOPER CITY', 'Broward County'],
+        ['SOUTHWEST RANCHES', 'Broward County'], ['SW RANCHES', 'Broward County'], ['WESTON', 'Broward County'],
+        ['FORT LAUDERDALE', 'Broward County'], ['FT LAUDERDALE', 'Broward County'], ['FTLAUDERDALE', 'Broward County'],
+        ['FT LAUD', 'Broward County'], ['FORT LAUD', 'Broward County'], ['PLANTATION', 'Broward County'],
+        ['SUNRISE', 'Broward County'], ['HALLANDALE BEACH', 'Broward County'], ['HALLANDALE', 'Broward County'],
+        ['DANIA BEACH', 'Broward County'], ['DANIA', 'Broward County'], ['CORAL SPRINGS', 'Broward County'],
+        ['CORAL SPGS', 'Broward County'], ['PARKLAND', 'Broward County'], ['POMPANO BEACH', 'Broward County'],
+        ['POMPANO', 'Broward County'], ['COCONUT CREEK', 'Broward County'], ['DEERFIELD BEACH', 'Broward County'],
+        ['DEERFIELD', 'Broward County'], ['TAMARAC', 'Broward County'], ['MARGATE', 'Broward County'],
+        ['LAUDERHILL', 'Broward County'], ['OAKLAND PARK', 'Broward County'], ['WILTON MANORS', 'Broward County'],
+        ['LIGHTHOUSE POINT', 'Broward County'], ['LAUDERDALE LAKES', 'Broward County'], ['NORTH LAUDERDALE', 'Broward County'],
+        ['N LAUDERDALE', 'Broward County'], ['LAUDERDALE BY THE SEA', 'Broward County'], ['LAUD BY THE SEA', 'Broward County'],
+        ['HILLSBORO BEACH', 'Broward County'], ['WEST PARK', 'Broward County'], ['PEMBROKE PARK', 'Broward County'],
+        ['SEA RANCH LAKES', 'Broward County'],
+        // Miami-Dade County
+        ['MIAMI GARDENS', 'Miami-Dade County'], ['CAROL CITY', 'Miami-Dade County'], ['MIAMI LAKES', 'Miami-Dade County'],
+        ['AVENTURA', 'Miami-Dade County'], ['DORAL', 'Miami-Dade County'], ['CORAL GABLES', 'Miami-Dade County'],
+        ['MIAMI', 'Miami-Dade County'], ['MIAMI DADE', 'Miami-Dade County'], ['MIAMI BEACH', 'Miami-Dade County'],
+        ['SOUTH BEACH', 'Miami-Dade County'], ['NORTH MIAMI BEACH', 'Miami-Dade County'], ['N MIAMI BEACH', 'Miami-Dade County'],
+        ['NMB', 'Miami-Dade County'], ['SUNNY ISLES BEACH', 'Miami-Dade County'], ['SUNNY ISLES', 'Miami-Dade County'],
+        ['PINECREST', 'Miami-Dade County'], ['KEY BISCAYNE', 'Miami-Dade County'], ['BAL HARBOUR', 'Miami-Dade County'],
+        ['BAL HARBOR', 'Miami-Dade County'], ['NORTH MIAMI', 'Miami-Dade County'], ['N MIAMI', 'Miami-Dade County'],
+        ['HIALEAH', 'Miami-Dade County'], ['HIALEAH GARDENS', 'Miami-Dade County'], ['KENDALL', 'Miami-Dade County'],
+        ['MIAMI SPRINGS', 'Miami-Dade County'], ['MIAMI SHORES', 'Miami-Dade County'], ['CUTLER BAY', 'Miami-Dade County'],
+        ['CUTLER RIDGE', 'Miami-Dade County'], ['PALMETTO BAY', 'Miami-Dade County'], ['SURFSIDE', 'Miami-Dade County'],
+        ['BAY HARBOR ISLANDS', 'Miami-Dade County'], ['BAY HARBOR', 'Miami-Dade County'], ['GOLDEN BEACH', 'Miami-Dade County'],
+        ['SOUTH MIAMI', 'Miami-Dade County'], ['S MIAMI', 'Miami-Dade County'], ['SWEETWATER', 'Miami-Dade County'],
+        ['HOMESTEAD', 'Miami-Dade County'], ['OPA LOCKA', 'Miami-Dade County'], ['OPALOCKA', 'Miami-Dade County'],
+        ['FLORIDA CITY', 'Miami-Dade County'], ['MEDLEY', 'Miami-Dade County'], ['VIRGINIA GARDENS', 'Miami-Dade County'],
+        ['EL PORTAL', 'Miami-Dade County'], ['BISCAYNE PARK', 'Miami-Dade County'], ['WEST MIAMI', 'Miami-Dade County'],
+        // Palm Beach County
+        ['BOCA RATON', 'Palm Beach County'], ['BOCA', 'Palm Beach County'], ['WELLINGTON', 'Palm Beach County'],
+        ['JUPITER', 'Palm Beach County'], ['PALM BEACH GARDENS', 'Palm Beach County'], ['PBG', 'Palm Beach County'],
+        ['PALM BEACH', 'Palm Beach County'], ['DELRAY BEACH', 'Palm Beach County'], ['DELRAY', 'Palm Beach County'],
+        ['BOYNTON BEACH', 'Palm Beach County'], ['BOYNTON', 'Palm Beach County'], ['WEST PALM BEACH', 'Palm Beach County'],
+        ['W PALM BEACH', 'Palm Beach County'], ['WPB', 'Palm Beach County'], ['LAKE WORTH BEACH', 'Palm Beach County'],
+        ['LAKE WORTH', 'Palm Beach County'], ['ROYAL PALM BEACH', 'Palm Beach County'], ['ROYAL PALM', 'Palm Beach County'],
+        ['GREENACRES', 'Palm Beach County'], ['NORTH PALM BEACH', 'Palm Beach County'], ['N PALM BEACH', 'Palm Beach County'],
+        ['RIVIERA BEACH', 'Palm Beach County'], ['LANTANA', 'Palm Beach County'], ['PALM SPRINGS', 'Palm Beach County'],
+        ['TEQUESTA', 'Palm Beach County'], ['JUPITER INLET COLONY', 'Palm Beach County'], ['JUNO BEACH', 'Palm Beach County'],
+        ['HYPOLUXO', 'Palm Beach County'], ['LAKE PARK', 'Palm Beach County'], ['HIGHLAND BEACH', 'Palm Beach County'],
+        ['OCEAN RIDGE', 'Palm Beach County'], ['LOXAHATCHEE', 'Palm Beach County'], ['BELLE GLADE', 'Palm Beach County'],
+        // Monroe County
+        ['ISLAMORADA', 'Monroe County'], ['KEY LARGO', 'Monroe County'], ['MARATHON', 'Monroe County'],
+        ['KEY WEST', 'Monroe County'], ['TAVERNIER', 'Monroe County'], ['BIG PINE KEY', 'Monroe County'],
+        ['CUDJOE KEY', 'Monroe County'], ['SUGARLOAF KEY', 'Monroe County'], ['DUCK KEY', 'Monroe County'],
+        ['KEY COLONY BEACH', 'Monroe County'], ['STOCK ISLAND', 'Monroe County']
+      ]);
+
+      const MONROE_ZIPS = new Set(['33036', '33037', '33040', '33042', '33043', '33050', '33051', '33052', '33070']);
+      const BROWARD_330_ZIPS = new Set([
+        '33004', '33009', '33019', '33020', '33021', '33023', '33024', '33025', '33026', '33027', '33028', '33029',
+        '33060', '33061', '33062', '33063', '33064', '33065', '33066', '33067', '33068', '33069', '33071', '33072',
+        '33073', '33074', '33075', '33076', '33077', '33093', '33097'
+      ]);
 
       const leadWorkspace = document.getElementById('leadWorkspace');
       const togglePlaybookBtn = document.getElementById('togglePlaybookBtn');
@@ -3235,6 +3780,11 @@
       const playbookCopyToast = document.getElementById('playbookCopyToast');
       const playbookResetGatesBtn = document.getElementById('playbookResetGatesBtn');
       const playbookQuickStatusMsg = document.getElementById('playbookQuickStatusMsg');
+      const pbModeBleederBtn = document.getElementById('pbModeBleederBtn');
+      const pbModeLaunchpadBtn = document.getElementById('pbModeLaunchpadBtn');
+      const playbookDiagnosticBanner = document.getElementById('playbookDiagnosticBanner');
+      const playbookDiagPills = document.getElementById('playbookDiagPills');
+      const playbookDiagSummary = document.getElementById('playbookDiagSummary');
 
       // Toggle Playbook Open / Closed
       function setPlaybookOpen(isOpen, persist) {
@@ -3258,7 +3808,17 @@
       });
 
       function detectLeadNiche(lead) {
-        const combined = [lead.service_interest, lead.company, lead.message].filter(Boolean).join(' ');
+        const explicitNiche = String((lead && lead.niche) || (currentCandidate && currentCandidate.niche) || '').trim();
+        if (explicitNiche && explicitNiche !== 'Local Business' && PLAYBOOK_NICHE_META[explicitNiche]) {
+          return explicitNiche;
+        }
+        const combined = [
+          lead && lead.niche,
+          lead && lead.gbp_category,
+          lead && lead.service_interest,
+          lead && lead.company,
+          lead && lead.message
+        ].filter(Boolean).join(' ');
         for (const key of Object.keys(PLAYBOOK_NICHE_META)) {
           if (key === 'Local Business') continue;
           if (combined.toLowerCase().includes(key.toLowerCase()) || PLAYBOOK_NICHE_META[key].pattern.test(combined)) {
@@ -3285,13 +3845,15 @@
 
       function detectLeadCity(lead) {
         if (!lead) return 'South Florida';
-        if (lead.city && String(lead.city).trim()) {
-          return cleanParsedCity(String(lead.city));
+        const candCity = (lead.city && String(lead.city).trim()) || (currentCandidate && currentCandidate.city && String(currentCandidate.city).trim());
+        if (candCity) {
+          return cleanParsedCity(candCity);
         }
         const msg = String(lead.message || '') + ' | ' + String(lead.contact_info || '');
         const addressMatch =
           msg.match(/Address:\s*[^,|]+,\s*([^,|]+?)(?:,\s*(?:FL|Florida)\b|\||\n|$)/i) ||
-          msg.match(/City:\s*([^,|]+?)(?:,\s*(?:FL|Florida)\b|\||\n|$)/i);
+          msg.match(/City:\s*([^,|]+?)(?:,\s*(?:FL|Florida)\b|\||\n|$)/i) ||
+          msg.match(/Google Maps Rank:\s*#?\d*\s+in\s+([^|(,\n]+?)(?:\s*\(|\||\n|$)/i);
         if (addressMatch && addressMatch[1]) {
           return cleanParsedCity(addressMatch[1]);
         }
@@ -3306,62 +3868,651 @@
         return 'South Florida';
       }
 
+      function normalizeCountyName(raw) {
+        if (!raw || typeof raw !== 'string') return '';
+        const upper = raw.trim().toUpperCase();
+        if (!upper) return '';
+        if (upper.includes('BROWARD')) return 'Broward County';
+        if (upper.includes('MIAMI') || upper.includes('DADE')) return 'Miami-Dade County';
+        if (upper.includes('PALM BEACH')) return 'Palm Beach County';
+        if (upper.includes('MONROE') || upper.includes('KEYS')) return 'Monroe County';
+        return '';
+      }
+
+      function detectLeadCounty(lead, city) {
+        const explicitCounty = normalizeCountyName(
+          (lead && lead.county) || (currentCandidate && currentCandidate.county) || ''
+        );
+        if (explicitCounty) return explicitCounty;
+
+        const cityCandidates = [
+          city,
+          lead && lead.city,
+          currentCandidate && currentCandidate.city
+        ];
+        for (const rawCity of cityCandidates) {
+          if (!rawCity) continue;
+          const normKey = cleanParsedCity(String(rawCity))
+            .toUpperCase()
+            .replace(/[-.]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+          if (SOUTH_FL_CITY_COUNTY_MAP.has(normKey)) {
+            return SOUTH_FL_CITY_COUNTY_MAP.get(normKey);
+          }
+        }
+
+        const rawZip = String(
+          (lead && lead.zip) ||
+          (currentCandidate && currentCandidate.zip) ||
+          ((String((lead && lead.message) || '').match(/\bFL\s+(\d{5})\b/i) || [])[1]) ||
+          ''
+        ).trim().slice(0, 5);
+        if (/^\d{5}$/.test(rawZip)) {
+          if (MONROE_ZIPS.has(rawZip)) return 'Monroe County';
+          if (rawZip.startsWith('333') || BROWARD_330_ZIPS.has(rawZip)) return 'Broward County';
+          if (rawZip.startsWith('331') || rawZip.startsWith('332') || rawZip.startsWith('330')) return 'Miami-Dade County';
+          if (rawZip.startsWith('334')) return 'Palm Beach County';
+        }
+
+        return 'Broward County';
+      }
+
+      function parseTopCompetitors(rawTopComp) {
+        if (!rawTopComp) return [];
+        let list = rawTopComp;
+        if (typeof rawTopComp === 'string') {
+          const trimmed = rawTopComp.trim();
+          if (!trimmed || trimmed === '[]') return [];
+          try {
+            list = JSON.parse(trimmed);
+          } catch (_) {
+            return [];
+          }
+        }
+        if (!Array.isArray(list)) return [];
+        return list
+          .filter((item) => item && typeof item === 'object')
+          .slice(0, 3)
+          .map((item, idx) => ({
+            rank: Number(item.rank || idx + 1),
+            name: String(item.name || item.title || ('Map Pack Leader #' + (idx + 1))).trim(),
+            rating: item.rating !== undefined && item.rating !== null ? Number(item.rating) : null,
+            reviews: (item.reviews ?? item.review_count) !== undefined && (item.reviews ?? item.review_count) !== null
+              ? Number(item.reviews ?? item.review_count)
+              : null
+          }));
+      }
+
+      function inferRecommendedTier(lead) {
+        if (!lead) return 'pilot_500';
+        const explicit = String(lead.recommended_tier || (currentCandidate && currentCandidate.recommended_tier) || '').trim();
+        if (explicit === 'platform_3k' || explicit === 'retainer_2500' || explicit === 'pilot_500') {
+          return explicit;
+        }
+        const reviews = Number(lead.review_count ?? 0);
+        const lcpMs = lead.lcp_ms !== null && lead.lcp_ms !== undefined && lead.lcp_ms !== '' ? Number(lead.lcp_ms) : null;
+        const websiteDomain = extractCleanDomain(lead.company_domain || lead.website || '');
+        const webStatus = String(lead.website_status || (websiteDomain ? 'unoptimized' : 'missing')).trim();
+        const hasSevereWeb = ['missing', 'broken', 'slow'].includes(webStatus) || (lcpMs !== null && lcpMs > 4000);
+        if (reviews >= 10 && hasSevereWeb) return 'platform_3k';
+        if (reviews >= 15 || (reviews >= 10 && ['unoptimized', 'healthy'].includes(webStatus))) return 'retainer_2500';
+        if (Number(lead.estimated_value) === 3000) return 'platform_3k';
+        if (Number(lead.estimated_value) === 2500) return 'retainer_2500';
+        return 'pilot_500';
+      }
+
+      function detectPlaybookMode(lead) {
+        const merged = mergeLeadWithCandidate(lead, currentCandidate);
+        const hasRank = merged.gbp_rank !== null && merged.gbp_rank !== undefined && merged.gbp_rank !== '' && Number(merged.gbp_rank) > 0;
+        const cleanSite = extractCleanDomain(merged.website || merged.company_domain || '');
+        const competitors = parseTopCompetitors(merged.top_competitors);
+        const tier = String(merged.recommended_tier || '').trim();
+        if (
+          hasRank ||
+          Boolean(cleanSite) ||
+          competitors.length > 0 ||
+          tier === 'platform_3k' ||
+          tier === 'retainer_2500'
+        ) {
+          return 'bleeder';
+        }
+        return 'launchpad';
+      }
+
+      function updatePlaybookModeButtons(mode) {
+        const activeMode = mode === 'bleeder' ? 'bleeder' : 'launchpad';
+        if (pbModeBleederBtn) {
+          const isB = activeMode === 'bleeder';
+          pbModeBleederBtn.classList.toggle('active', isB);
+          pbModeBleederBtn.setAttribute('aria-pressed', String(isB));
+        }
+        if (pbModeLaunchpadBtn) {
+          const isL = activeMode === 'launchpad';
+          pbModeLaunchpadBtn.classList.toggle('active', isL);
+          pbModeLaunchpadBtn.setAttribute('aria-pressed', String(isL));
+        }
+      }
+
+      function setPlaybookMode(mode, isManual) {
+        const normalized = mode === 'bleeder' ? 'bleeder' : 'launchpad';
+        if (isManual) {
+          manualPlaybookModeOverride = normalized;
+        }
+        currentPlaybookMode = normalized;
+        updatePlaybookModeButtons(normalized);
+        renderPlaybookScripts();
+      }
+
+      if (pbModeBleederBtn) {
+        pbModeBleederBtn.addEventListener('click', () => setPlaybookMode('bleeder', true));
+      }
+      if (pbModeLaunchpadBtn) {
+        pbModeLaunchpadBtn.addEventListener('click', () => setPlaybookMode('launchpad', true));
+      }
+
+      function getMonthlySearchDisplay(niche, county, lead) {
+        const meta = PLAYBOOK_NICHE_META[niche] || PLAYBOOK_NICHE_META['Local Business'];
+        const demandMap = meta.searchDemand || {};
+        let count = Number(demandMap[county] || demandMap.default || 1850);
+        const rawMeta = (lead && lead.enrichment_meta) || (currentCandidate && currentCandidate.enrichment_meta);
+        if (rawMeta) {
+          try {
+            const parsedMeta = typeof rawMeta === 'string' ? JSON.parse(rawMeta) : rawMeta;
+            if (parsedMeta && Number(parsedMeta.live_search_volume) > 0) {
+              count = Number(parsedMeta.live_search_volume);
+            }
+          } catch (_) {}
+        }
+        return {
+          count,
+          formatted: count.toLocaleString('en-US')
+        };
+      }
+
+      function cleanBizTokensForNameCheck(str) {
+        return String(str || '')
+          .toLowerCase()
+          .replace(/\b(llc|l\.l\.c\.|inc|incorporated|corp|corporation|co|company|ltd|limited|pllc|pa|lp|llp|group|services|solutions|florida|fl)\b/g, ' ')
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function isPlaceholderFirstName(rawName, companyName) {
+        const raw = String(rawName || '').trim();
+        if (!raw || raw.length < 2) return true;
+        const placeholderRegex = /^(owner(\s*\/\s*decision\s*maker)?|decision\s*maker|manager|founder|president|principal|admin|team|director|member|mgr|ambr|ra|unknown|n\/a|none|null|undefined|there|anonymous|outreach(\s+candidate)?|lead|dispatch|office|info|support|sales|service)$/i;
+        if (placeholderRegex.test(raw)) return true;
+
+        const rawLower = raw.toLowerCase();
+        const cleanCompany = cleanBizTokensForNameCheck(companyName);
+        const rawClean = cleanBizTokensForNameCheck(raw);
+        if (companyName && rawLower === String(companyName).trim().toLowerCase()) return true;
+        if (cleanCompany && rawClean && rawClean === cleanCompany) return true;
+
+        const rawWords = rawClean ? rawClean.split(/\s+/).filter(Boolean) : [];
+        const compWords = cleanCompany ? cleanCompany.split(/\s+/).filter(Boolean) : [];
+        if (rawWords.length > 0 && compWords.length > 0) {
+          if (placeholderRegex.test(rawWords[0])) return true;
+          if (rawWords.length === 1 && compWords.includes(rawWords[0])) return true;
+          if (
+            rawWords.length >= 2 &&
+            rawWords.every((w) => compWords.includes(w)) &&
+            compWords.length === rawWords.length
+          ) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function toTitleCaseToken(token) {
+        const s = String(token || '').trim();
+        if (!s) return '';
+        return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+      }
+
+      function resolveCallerNames(lead, company) {
+        const candFirst = (currentCandidate && currentCandidate.founder_first_name)
+          ? String(currentCandidate.founder_first_name).trim()
+          : '';
+        const fullName = String((lead && lead.name) || '').trim();
+
+        if (candFirst && !isPlaceholderFirstName(candFirst, company)) {
+          const cleanToken = toTitleCaseToken(candFirst.split(/\s+/)[0]);
+          if (cleanToken && !isPlaceholderFirstName(cleanToken, company)) {
+            return { firstName: cleanToken, ownerTarget: cleanToken };
+          }
+        }
+
+        if (!fullName || isPlaceholderFirstName(fullName, company)) {
+          return { firstName: 'there', ownerTarget: 'the owner' };
+        }
+
+        const tokens = fullName.split(/\s+/).filter(Boolean);
+        const rawFirst = tokens[0] || '';
+        const isSingleTokenCompanyMatch = tokens.length === 1 && isPlaceholderFirstName(rawFirst, company);
+        const isGenericToken = !rawFirst || rawFirst.length < 2 || isSingleTokenCompanyMatch ||
+          /^(owner|manager|founder|president|principal|admin|team|director|member|mgr|ambr|ra|unknown|n\/a|none|null|undefined|there|anonymous|outreach|lead|dispatch|office|info|support|sales|service)$/i.test(rawFirst);
+
+        if (isGenericToken) {
+          return { firstName: 'there', ownerTarget: 'the owner' };
+        }
+        const formatted = toTitleCaseToken(rawFirst);
+        return { firstName: formatted, ownerTarget: formatted };
+      }
+
+      function buildPlainEnglishBottleneck(lead, city, comp1, meta) {
+        const audience = (meta && meta.audienceNoun) || 'customers';
+        const cleanSite = extractCleanDomain(lead.website || lead.company_domain || '');
+        const webStatus = String(lead.website_status || (cleanSite ? '' : 'missing')).trim();
+        const lcpMs = lead.lcp_ms !== null && lead.lcp_ms !== undefined && lead.lcp_ms !== '' ? Number(lead.lcp_ms) : null;
+        const hasSsl = lead.has_ssl !== undefined && lead.has_ssl !== null ? Number(lead.has_ssl) : (cleanSite ? 1 : 0);
+
+        if (webStatus === 'missing' || !cleanSite) {
+          return comp1 && comp1.name
+            ? `No website linked to Google Maps—${audience} click through and call #1 ${comp1.name} instead.`
+            : `No website linked to Google Maps—${audience} bounce straight to Top 3 competitors.`;
+        }
+        if (webStatus === 'broken') {
+          return 'Website link on Google Maps fails to load cleanly on phones, causing callers to hit back immediately.';
+        }
+        if (webStatus === 'slow' || (lcpMs !== null && lcpMs > 4000)) {
+          const secLabel = lcpMs ? (lcpMs / 1000).toFixed(1) + 's ' : '';
+          return `Slow ${secLabel}mobile load makes ${city} ${audience} hit the back button before dialing.`;
+        }
+        if (hasSsl === 0) {
+          return `Browser security warning + missing local ${city} service pages Google uses to rank the Top 3.`;
+        }
+        if (webStatus === 'healthy') {
+          return `Site loads fine, so the gap into the ${city} Top 3 is local neighborhood pages and Google Maps authority.`;
+        }
+        if (lead.pain_summary) {
+          return sanitizePlainDiagnosticText(lead.pain_summary);
+        }
+        return `Missing dedicated ${city} service pages and local trust signals Google looks for to rank Top 3.`;
+      }
+
+      function renderDiagnosticBanner(lead, city, county, meta) {
+        if (!playbookDiagnosticBanner || !playbookDiagPills || !playbookDiagSummary) return;
+
+        const gbpRank = lead.gbp_rank !== null && lead.gbp_rank !== undefined && lead.gbp_rank !== '' ? Number(lead.gbp_rank) : null;
+        const reviewCount = lead.review_count !== null && lead.review_count !== undefined && lead.review_count !== '' ? Number(lead.review_count) : null;
+        const rating = lead.rating !== null && lead.rating !== undefined && lead.rating !== '' && Number(lead.rating) > 0 ? Number(lead.rating) : null;
+        const competitors = parseTopCompetitors(lead.top_competitors);
+        const comp1 = competitors[0] || null;
+        const lcpMs = lead.lcp_ms !== null && lead.lcp_ms !== undefined && lead.lcp_ms !== '' && Number(lead.lcp_ms) > 0 ? Number(lead.lcp_ms) : null;
+        const webStatus = String(lead.website_status || '').trim();
+        const hasSsl = lead.has_ssl !== undefined && lead.has_ssl !== null ? Number(lead.has_ssl) : 1;
+        const recTier = String(lead.recommended_tier || '').trim();
+        const hasDiag = Boolean(
+          (gbpRank && gbpRank > 0) ||
+          (reviewCount !== null && reviewCount > 0) ||
+          rating ||
+          comp1 ||
+          lcpMs ||
+          webStatus ||
+          recTier ||
+          lead.pain_summary ||
+          Number(lead.cadence_step || 0) > 0
+        );
+
+        if (!hasDiag) {
+          playbookDiagnosticBanner.hidden = true;
+          playbookDiagPills.innerHTML = '';
+          playbookDiagSummary.textContent = '';
+          return;
+        }
+
+        playbookDiagnosticBanner.hidden = false;
+        playbookDiagPills.innerHTML = '';
+
+        const addPill = (text, extraClass) => {
+          const span = document.createElement('span');
+          span.className = 'diag-pill' + (extraClass ? (' ' + extraClass) : '');
+          span.textContent = text;
+          playbookDiagPills.appendChild(span);
+        };
+
+        if (gbpRank && gbpRank > 0) {
+          addPill('📍 #' + gbpRank + ' in ' + city, gbpRank <= 3 ? 'diag-pill-rank top3' : 'diag-pill-rank');
+        }
+        if (rating !== null || (reviewCount !== null && reviewCount >= 0)) {
+          const rStr = rating !== null ? rating.toFixed(1) + '★ ' : '';
+          const revStr = reviewCount !== null ? '(' + reviewCount + ' rev)' : '';
+          addPill('⭐ ' + (rStr + revStr).trim(), '');
+        }
+        if (comp1 && comp1.name) {
+          const compRev = comp1.reviews ? (' (' + comp1.reviews + ' rev)') : '';
+          addPill('vs #1 ' + comp1.name + compRev, 'diag-pill-comp');
+        }
+        if (webStatus === 'missing') {
+          addPill('No Site', 'diag-pill-tech-bad');
+        } else if (webStatus === 'broken') {
+          addPill('Broken Site', 'diag-pill-tech-bad');
+        } else if (lcpMs !== null) {
+          addPill((lcpMs / 1000).toFixed(1) + 's load', lcpMs > 4000 ? 'diag-pill-tech-bad' : '');
+        } else if (hasSsl === 0) {
+          addPill('No SSL', 'diag-pill-tech-bad');
+        }
+
+        const effectiveTier = recTier || inferRecommendedTier(lead);
+        const tierPillMap = {
+          platform_3k: '💎 $3,000 Web Platform',
+          retainer_2500: '📈 $2,500/mo Growth',
+          pilot_500: '⚡ $500 Pilot'
+        };
+        addPill(tierPillMap[effectiveTier] || '⚡ $500 Pilot', 'diag-pill-tier');
+
+        playbookDiagSummary.textContent = buildPlainEnglishBottleneck(lead, city, comp1, meta);
+      }
+
+      function reorderAndHighlightPricingCards(recommendedTier, mode) {
+        const pricingSec = document.getElementById('pbSecPricing');
+        const cardPlatform = document.getElementById('pricingCardPlatform');
+        const cardRetainer = document.getElementById('pricingCardRetainer');
+        const cardPilot = document.getElementById('pricingCardPilot');
+        const badgePlatform = document.getElementById('badgePlatform');
+        const badgeRetainer = document.getElementById('badgeRetainer');
+        const badgePilot = document.getElementById('badgePilot');
+        const pilotCardTitle = document.getElementById('pilotCardTitle');
+        const pickPilotBtn = document.getElementById('pickPilotBtn');
+        if (!pricingSec || !cardPlatform || !cardRetainer || !cardPilot) return;
+
+        const orderMap = {
+          platform_3k: [cardPlatform, cardPilot, cardRetainer],
+          retainer_2500: [cardRetainer, cardPilot, cardPlatform],
+          pilot_500: [cardPilot, cardPlatform, cardRetainer]
+        };
+        const orderedCards = orderMap[recommendedTier] || orderMap.pilot_500;
+        orderedCards.forEach((card) => pricingSec.appendChild(card));
+
+        cardPlatform.classList.toggle('recommended', recommendedTier === 'platform_3k');
+        cardRetainer.classList.toggle('recommended', recommendedTier === 'retainer_2500');
+        cardPilot.classList.toggle('recommended', recommendedTier === 'pilot_500');
+
+        const isDownsellPilot = recommendedTier === 'platform_3k' || recommendedTier === 'retainer_2500';
+        if (pilotCardTitle && pickPilotBtn) {
+          if (mode === 'launchpad' && !isDownsellPilot) {
+            pilotCardTitle.textContent = '48-Hour Launchpad';
+            pickPilotBtn.setAttribute('data-select-tier', '48-Hour Launchpad ($500)');
+          } else {
+            pilotCardTitle.textContent = '48-Hour Quick-Win Pilot';
+            pickPilotBtn.setAttribute('data-select-tier', '48-Hour Quick-Win Pilot ($500)');
+          }
+        }
+
+        const setBadge = (badgeEl, label, badgeClass) => {
+          if (!badgeEl) return;
+          if (!label) {
+            badgeEl.hidden = true;
+            badgeEl.textContent = '';
+            badgeEl.className = 'pricing-tier-badge';
+          } else {
+            badgeEl.hidden = false;
+            badgeEl.textContent = label;
+            badgeEl.className = 'pricing-tier-badge ' + badgeClass;
+          }
+        };
+
+        setBadge(badgePlatform, recommendedTier === 'platform_3k' ? '⭐ Recommended' : '', 'is-recommended');
+        setBadge(badgeRetainer, recommendedTier === 'retainer_2500' ? '⭐ Recommended' : '', 'is-recommended');
+        setBadge(
+          badgePilot,
+          recommendedTier === 'pilot_500'
+            ? '⭐ Recommended'
+            : (isDownsellPilot ? 'Low-Risk Downsell' : ''),
+          recommendedTier === 'pilot_500' ? 'is-recommended' : 'is-downsell'
+        );
+      }
+
+      function getEffectiveRecommendedTier(lead, mode) {
+        const diagnosed = inferRecommendedTier(lead);
+        if (mode === 'launchpad') {
+          if (manualPlaybookModeOverride === 'launchpad') return 'pilot_500';
+          return diagnosed === 'platform_3k' || diagnosed === 'retainer_2500' ? 'pilot_500' : diagnosed;
+        }
+        if (diagnosed === 'pilot_500') {
+          const cleanSite = extractCleanDomain((lead && (lead.website || lead.company_domain)) || '');
+          const webStatus = String((lead && lead.website_status) || '').trim();
+          const hasRank = Number((lead && lead.gbp_rank) || 0) > 0;
+          if (!lead || !lead.recommended_tier) {
+            if (webStatus === 'missing' || webStatus === 'broken' || webStatus === 'slow') return 'platform_3k';
+            if (hasRank || cleanSite) return 'retainer_2500';
+          }
+        }
+        return diagnosed;
+      }
+
       function syncPlaybookFromLead(lead) {
         if (!lead) return;
         const detectedNiche = detectLeadNiche(lead);
         playbookNicheSelect.value = detectedNiche;
         playbookCityInput.value = detectLeadCity(lead);
+        if (!manualPlaybookModeOverride) {
+          currentPlaybookMode = detectPlaybookMode(lead);
+        }
+        updatePlaybookModeButtons(currentPlaybookMode);
         renderPlaybookScripts();
       }
 
       function renderPlaybookScripts() {
         const lead = currentLead || {};
-        const fullName = (lead.name || 'there').trim();
-        const firstName = fullName.split(/\s+/)[0] || 'there';
         const company = (lead.company || 'your business').trim();
+        const { firstName, ownerTarget } = resolveCallerNames(lead, company);
         const city = cleanParsedCity(playbookCityInput.value || 'South Florida');
+        const county = detectLeadCounty(lead, city);
         const niche = playbookNicheSelect.value || 'Local Business';
         const meta = PLAYBOOK_NICHE_META[niche] || PLAYBOOK_NICHE_META['Local Business'];
+        const searchStats = getMonthlySearchDisplay(niche, county, lead);
         const emailDisplay = extractValidEmail(lead.email, lead.contact_info) || 'your email';
 
-        playbookDemandText.textContent = `📈 ~${meta.searchers} Google searches/mo near ${city}`;
+        const mode = currentPlaybookMode === 'bleeder' ? 'bleeder' : 'launchpad';
+        const activeTier = getEffectiveRecommendedTier(lead, mode);
+        const tierPriceMap = { platform_3k: 3000, retainer_2500: 2500, pilot_500: 500 };
+        const activeTierPrice = tierPriceMap[activeTier] || 500;
+
+        playbookDemandText.textContent =
+          `📈 ~${searchStats.formatted} searches/mo in ${county}` +
+          (city && city !== 'South Florida' ? ` (${city})` : '');
+
+        renderDiagnosticBanner(lead, city, county, meta);
+        reorderAndHighlightPricingCards(activeTier, mode);
 
         // Populate inline spans
         document.querySelectorAll('.pb-var-first').forEach(el => { el.textContent = firstName; });
+        document.querySelectorAll('.pb-var-owner').forEach(el => { el.textContent = ownerTarget; });
         document.querySelectorAll('.pb-var-company').forEach(el => { el.textContent = company; });
         document.querySelectorAll('.pb-var-city').forEach(el => { el.textContent = city; });
         document.querySelectorAll('.pb-var-service').forEach(el => { el.textContent = meta.spokenCall; });
+        document.querySelectorAll('.pb-var-audience').forEach(el => { el.textContent = meta.audienceNoun || 'customers'; });
+        document.querySelectorAll('.pb-var-biz-plural').forEach(el => { el.textContent = meta.businessPlural || 'businesses'; });
         document.querySelectorAll('.pb-var-email').forEach(el => { el.textContent = emailDisplay; });
 
-        // Milestone 1: Disarm + Owner Check
+        const competitors = parseTopCompetitors(lead.top_competitors);
+        const comp1 = competitors[0] || null;
+        const gbpRank = lead.gbp_rank !== null && lead.gbp_rank !== undefined && lead.gbp_rank !== '' && Number(lead.gbp_rank) > 0
+          ? Math.round(Number(lead.gbp_rank))
+          : null;
+        const cleanSite = extractCleanDomain(lead.website || lead.company_domain || '');
+        const webStatus = String(lead.website_status || (cleanSite ? '' : 'missing')).trim();
+        const lcpMs = lead.lcp_ms !== null && lead.lcp_ms !== undefined && lead.lcp_ms !== '' ? Number(lead.lcp_ms) : null;
+        const hasSsl = lead.has_ssl !== undefined && lead.has_ssl !== null ? Number(lead.has_ssl) : (cleanSite ? 1 : 0);
+
+        // Milestone 1: Peer-level Disarm + Owner Check (< 7s)
         document.getElementById('gateScript1').textContent =
-          `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web guy here in South Florida. Did I catch the owner of ${company}?"`;
+          `"Hey ${firstName}, Christian Gomez calling locally here in South Florida. Did I catch the owner of ${company}?"`;
 
-        // Milestone 2: Easy "No" Exit + Need Check
-        document.getElementById('gateScript2').textContent =
-          `"I know I'm calling out of the blue. If this isn't useful, tell me no and I'll hang up. I saw ${company} on the new ${city} business list, and I build simple websites that bring in ${meta.spokenCall}. Are you looking for more ${meta.workNoun} right now, yes or no?"`;
+        const gateBadge2 = document.getElementById('gateBadge2');
+        const gateBadge3 = document.getElementById('gateBadge3');
 
-        // Milestone 3: Open to Local Help?
-        document.getElementById('gateScript3').textContent =
-          `"Got it. Are you open to having someone local set that up for you, or do you want to do it all yourself?"`;
+        if (mode === 'bleeder') {
+          if (gateBadge2) gateBadge2.textContent = 'Milestone 2 • Rank Gap & Need Check';
+          if (gateBadge3) gateBadge3.textContent = 'Milestone 3 • 60-Sec Custom Preview';
 
-        // Milestone 4 Check: Permission for Flat Price
-        document.getElementById('gateScript4').textContent =
-          `"Cool. I charge simple flat prices—no hourly fees and no contracts. Got 20 seconds to hear what it costs?"`;
+          let plainBottleneckPhrase = 'your site is missing local city service pages';
+          if (webStatus === 'missing' || !cleanSite) {
+            plainBottleneckPhrase = "there's no website on your Google Maps listing";
+          } else if (webStatus === 'broken') {
+            plainBottleneckPhrase = "your website link isn't loading on phones";
+          } else if (webStatus === 'slow' || (lcpMs !== null && lcpMs > 4000)) {
+            plainBottleneckPhrase = lcpMs
+              ? `your mobile site takes ${(lcpMs / 1000).toFixed(1)} seconds to load`
+              : 'your mobile site loads too slowly';
+          } else if (hasSsl === 0) {
+            plainBottleneckPhrase = 'your site shows a security warning on phones';
+          }
 
-        // 3 Plain-English Flat-Price Options
-        document.getElementById('pitchTier1').textContent =
-          `"A clean 1-to-5 page website is $500 flat. It's $250 to start, and the other $250 only after you see it and like it. I build it in 2 days. Does starting with the $500 site make sense, yes or no?"`;
+          const rankLabel = gbpRank ? `#${gbpRank}` : 'page 2';
+          const behindLabel = comp1 && comp1.name ? ` behind ${comp1.name}` : '';
 
-        document.getElementById('pitchTier2').textContent =
-          `"If you want a bigger site with a built-in lead tracker so no calls slip through, that's $3,000 flat—half now, half when it's live. Would you rather start at $500, or do the $3,000 setup?"`;
+          document.getElementById('gateScript2').textContent =
+            `"Quick gut-check—tell me no if this isn't useful. I saw ${company} sitting at ${rankLabel} in ${city}${behindLabel} because ${plainBottleneckPhrase}. Are you looking for more ${meta.spokenCall} right now, yes or no?"`;
 
-        document.getElementById('pitchTier3').textContent =
-          `"If you want me pushing ${company} to the top of Google every month around ${city}, that's $2,500 a month with no contract—cancel anytime. Most owners start with the $500 or $3,000 site first. Want to start there?"`;
+          document.getElementById('gateScript3').textContent =
+            `"Got it. Before we talk numbers—I built a 60-second custom preview showing how to push ${company} into the ${city} Top 3. Want me to text you the link?"`;
 
-        // Friendly Human SMS / Email Recap
-        document.getElementById('recapTemplateHidden').textContent =
-          `Hey ${firstName}, good chatting with you! This is Christian from G3Z Creative here in South Florida (g3zcreative.com).\n\nSimple flat prices we talked about for ${company}:\n1) Starter Website: $500 flat ($250 to start, $250 when you love it) — clean 1-5 page site ready in 2 days (+$99/mo hosting).\n2) Full Website + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — full site + built-in tracker for every call & quote.\n3) Monthly Google Growth: $2,500/mo (no contract, cancel anytime, free hosting) — ongoing work to rank at the top of Google in ${city}.\n\nTo get started, just reply with #1, #2, or #3 and the best phone number for customer calls. I'll send the 50% start link and have your preview ready in 48 hours.\n\n— Christian (786-967-3699)`;
+          document.getElementById('gateScript4').textContent =
+            `"Awesome. Everything I do is flat-rate—no long-term contracts and zero hourly surprises. Got 20 seconds to hear how the investment breaks down for ${company}?"`;
+        } else {
+          if (gateBadge2) gateBadge2.textContent = 'Milestone 2 • New Filing + Indexing Window';
+          if (gateBadge3) gateBadge3.textContent = 'Milestone 3 • 60-Sec Custom Preview';
+
+          document.getElementById('gateScript2').textContent =
+            `"Quick gut-check—tell me no if this isn't useful. I saw ${company}'s new ${city} filing, and Google takes 30 to 60 days to start showing new businesses. Could you use more ${meta.spokenCall} next month, yes or no?"`;
+
+          document.getElementById('gateScript3').textContent =
+            `"Got it. Before we talk numbers—I built a 60-second custom preview showing how to get ${company} showing up in ${city}. Want me to text you the link?"`;
+
+          document.getElementById('gateScript4').textContent =
+            `"Cool. I work on flat prices—no hourly fees and no lock-in contracts. Got 20 seconds to hear how it breaks down for ${company}?"`;
+        }
+
+        // Dynamic Top-Down Anchoring inside Objection #3 ("How much does it cost?")
+        const obj3AnswerEl = document.getElementById('objText3Answer');
+        const obj3PivotEl = document.getElementById('objText3Pivot');
+        const bizNoun = meta.businessNoun || 'business';
+        if (obj3AnswerEl && obj3PivotEl) {
+          const appendParts = (parent, parts) => {
+            parent.textContent = '';
+            parts.forEach((p) => {
+              if (typeof p === 'string') {
+                parent.appendChild(document.createTextNode(p));
+              } else {
+                const strong = document.createElement('strong');
+                strong.textContent = p.bold;
+                parent.appendChild(strong);
+              }
+            });
+          };
+
+          if (activeTier === 'retainer_2500') {
+            appendParts(obj3AnswerEl, [
+              '"Flat pricing with zero lock-in contracts. Monthly Google Growth is ',
+              { bold: '$2,500/mo' },
+              ' (cancel anytime with 15-day notice), a Full Platform + Lead Tracker is ',
+              { bold: '$3,000 flat' },
+              ' ($1,500 start / $1,500 live), or you can test us first with the ',
+              { bold: '$500 48-Hour Quick-Win Pilot' },
+              ' ($250 now, $250 when live)."'
+            ]);
+            obj3PivotEl.textContent = '👉 Ask: "Does a zero-contract 30-day sprint feel fair once you see the 60-second preview, yes or no?"';
+          } else if (activeTier === 'pilot_500') {
+            const pilotOfferTitle = mode === 'launchpad' ? '48-Hour Launchpad' : '48-Hour Quick-Win Pilot';
+            appendParts(obj3AnswerEl, [
+              '"Flat pricing with zero lock-in contracts. For where your ' + bizNoun + ' is right now, our ' + pilotOfferTitle + ' is ',
+              { bold: '$500 flat' },
+              ' ($250 to start, $250 when live, +$99/mo hosting)—and full platforms ($3,000) or monthly growth ($2,500/mo) are always optional later."'
+            ]);
+            obj3PivotEl.textContent = '👉 Ask: "Does $250 to start and $250 only after you see and approve it feel fair, yes or no?"';
+          } else {
+            appendParts(obj3AnswerEl, [
+              '"Flat pricing with zero lock-in contracts. Our Full Platform + Lead Tracker is ',
+              { bold: '$3,000 flat' },
+              ' ($1,500 to start, $1,500 when live), Monthly Google Growth is ',
+              { bold: '$2,500/mo' },
+              ' with no long contract, or you can test us with a ',
+              { bold: '$500 48-Hour Quick-Win Pilot' },
+              ' ($250 now, $250 when live)."'
+            ]);
+            obj3PivotEl.textContent = '👉 Ask: "Does starting on a 50/50 split feel fair once you see the 60-second preview, yes or no?"';
+          }
+        }
+
+        // Dynamic Gate 4 Green-Light Callout & Qualified Value
+        const gate4LeadText = document.getElementById('gateOutcome4YesLeadText');
+        const gate4QualifiedBtn = document.getElementById('gate4QualifiedBtn');
+        if (gate4LeadText) {
+          if (activeTier === 'platform_3k') {
+            gate4LeadText.textContent = '🔥 Green Light — Anchor $3,000 Full Platform First! ($1,500 start / $1,500 live — $500 Pilot is your downsell)';
+          } else if (activeTier === 'retainer_2500') {
+            gate4LeadText.textContent = '🔥 Green Light — Anchor $2,500/mo Monthly Google Growth First! (No contract — $500 Pilot is your downsell)';
+          } else {
+            gate4LeadText.textContent = '🔥 Green Light — Recommend $500 48-Hour Launchpad / Pilot First! ($250 now, $250 when done)';
+          }
+        }
+        if (gate4QualifiedBtn) {
+          gate4QualifiedBtn.setAttribute('data-quick-value', String(activeTierPrice));
+          gate4QualifiedBtn.setAttribute(
+            'data-quick-note',
+            `Qualified on Call: Open to flat-rate plan (${activeTier === 'platform_3k' ? '$3,000 Platform' : activeTier === 'retainer_2500' ? '$2,500/mo Growth' : '$500 Pilot'}).`
+          );
+        }
+
+        // Top-Down Anchored Tier Pitches (zero dev jargon, tailored to businessNoun/audienceNoun)
+        const pitchPlatform = document.getElementById('pitchTierPlatform');
+        const pitchRetainer = document.getElementById('pitchTierRetainer');
+        const pitchPilot = document.getElementById('pitchTierPilot');
+
+        if (activeTier === 'platform_3k') {
+          pitchPlatform.textContent =
+            `"Based on what's holding your ${bizNoun} back right now, the clean fix is our Full Platform + Lead Tracker—we rebuild your mobile site for speed, add dedicated ${city} service pages, and track every call, text, and quote for $3,000 flat ($1,500 to start, $1,500 when live). Ready to lock that in, or prefer to test a smaller pilot first?"`;
+          pitchPilot.textContent =
+            `"If you'd rather test how we work first with almost zero risk, we can start with the $500 48-Hour Quick-Win Pilot—just $250 to start and $250 only after you see the live page and love it (+$99/mo hosting). Want to start at $250 instead?"`;
+          pitchRetainer.textContent =
+            `"Once your platform is live, Monthly Google Growth ($2,500/mo, no contract, cancel anytime) builds your ${city} Map Pack authority every month to lock down Top 3."`;
+        } else if (activeTier === 'retainer_2500') {
+          pitchRetainer.textContent =
+            `"Since ${company} already has solid local proof in ${city}, your fastest path into the Top 3 Map Pack is Monthly Google Growth—we build neighborhood pages, tune your Google Business Profile, and drive local authority every month for $2,500/mo with zero lock-in contract (hosting included). Open to a 30-day sprint, or want to start with a quick-win page first?"`;
+          pitchPilot.textContent =
+            `"If you'd rather test us first with almost zero upfront risk, we can run the $500 48-Hour Quick-Win Pilot on your highest-value service—just $250 to start and $250 when live (+$99/mo hosting). Does $250 to start feel easier?"`;
+          pitchPlatform.textContent =
+            `"If you want a complete site rebuild plus a built-in lead tracker so no calls or quotes slip through, that's $3,000 flat—$1,500 to start and $1,500 when live."`;
+        } else {
+          pitchPilot.textContent = mode === 'launchpad'
+            ? `"Our 48-Hour Launchpad gives your ${bizNoun} a fast, ready-to-convert website built to start indexing early in Google for $500 flat—$250 to start, and $250 only after you see it and love it (+$99/mo hosting). Does starting with the $500 Launchpad make sense, yes or no?"`
+            : `"Our 48-Hour Quick-Win Pilot upgrades your front-end Google Maps landing page in 2 days for $500 flat—$250 to start, and $250 only after you see it and love it (+$99/mo hosting). Does starting with the $500 pilot make sense, yes or no?"`;
+          pitchPlatform.textContent =
+            `"If you want a full multi-page site with a built-in lead tracker so every call, text, and quote is captured in one place, that's $3,000 flat—$1,500 to start and $1,500 when live."`;
+          pitchRetainer.textContent =
+            `"If you want us actively pushing ${company} into the ${city} Top 3 on Google every month, that's $2,500/mo with no contract—cancel anytime (free hosting included)."`;
+        }
+
+        // 60-Sec Preview SMS Template (Two-Step Micro-Commitment Path)
+        const previewSmsEl = document.getElementById('previewSmsTemplateHidden');
+        if (previewSmsEl) {
+          previewSmsEl.textContent = mode === 'bleeder'
+            ? `Hey ${firstName}, Christian Gomez from G3Z Creative here—great speaking with you! Here's the 60-second custom preview I mentioned for ${company} showing how we fix the ${city} Google Maps gap${gbpRank ? ` (moving up from #${gbpRank})` : ''} so more of those ~${searchStats.formatted} monthly ${county} searches turn into calls. Take a look when you get a minute and let me know if tomorrow afternoon works for a quick 5-minute check-in! [PREVIEW LINK]`
+            : `Hey ${firstName}, Christian Gomez from G3Z Creative here—great speaking with you! Here's the 60-second custom preview I put together for ${company} in ${city} so your ${bizNoun} gets found early across the ~${searchStats.formatted} monthly searches in ${county}. Take a quick look and let me know if tomorrow afternoon works for a 5-minute check-in! [PREVIEW LINK]`;
+        }
+
+        // Mode-Adapted Plain-English Recap Template (Zero Dev Jargon)
+        const recapEl = document.getElementById('recapTemplateHidden');
+        if (recapEl) {
+          const introContext = mode === 'bleeder'
+            ? `Quick recap on what we spotted for ${company} in ${city} (~${searchStats.formatted} local searches/mo in ${county}${gbpRank ? `, currently #${gbpRank} on Google Maps` : ''}${comp1 && comp1.name ? ` behind #1 ${comp1.name}` : ''}): ${webStatus === 'missing' || !cleanSite ? 'launching a fast mobile site with local service pages captures calls going straight to the Top 3 right now.' : 'fixing your mobile speed & local service pages captures calls going straight to the Top 3 right now.'}`
+            : `Quick recap for ${company} in ${city} (~${searchStats.formatted} local searches/mo in ${county}): Google typically takes 30 to 60 days to start ranking a newly filed ${bizNoun}, so launching clean local pages now gets your phone ringing ahead of competitors.`;
+
+          const tierLines = activeTier === 'platform_3k'
+            ? `Recommended First — 1) Full Platform + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — fast custom mobile site + built-in call & quote tracker.\nLow-Risk Starter — 2) 48-Hour Quick-Win Pilot: $500 flat ($250 to start, $250 when you love it, +$99/mo hosting) — high-converting front-end page live in 48 hours.\nOngoing Growth — 3) Monthly Google Growth: $2,500/mo (no contract, free hosting) — continuous ${city} Map Pack ranking push.`
+            : activeTier === 'retainer_2500'
+            ? `Recommended First — 1) Monthly Google Growth: $2,500/mo (no contract, cancel w/ 15-day notice, free hosting) — dedicated ${city} Map Pack pages & ongoing Top-3 push.\nLow-Risk Starter — 2) 48-Hour Quick-Win Pilot: $500 flat ($250 to start, $250 when you love it, +$99/mo hosting) — test us with a live page in 48 hours.\nFull Rebuild — 3) Full Platform + Lead Tracker: $3,000 flat ($1,500 start / $1,500 live) — complete site + call & quote tracker.`
+            : `Recommended First — 1) 48-Hour ${mode === 'launchpad' ? 'Launchpad' : 'Quick-Win Pilot'}: $500 flat ($250 to start, $250 when you love it, +$99/mo hosting) — live custom site in 48 hours.\nFull Build — 2) Full Platform + Lead Tracker: $3,000 flat ($1,500 to start, $1,500 when live) — complete site + built-in tracker for every call & quote.\nOngoing Growth — 3) Monthly Google Growth: $2,500/mo (no contract, free hosting) — ongoing Top-3 ranking push in ${city}.`;
+
+          recapEl.textContent =
+            `Hey ${firstName}, good chatting with you! This is Christian Gomez with G3Z Creative here in South Florida (g3zcreative.com).\n\n${introContext}\n\nFlat-rate options (no lock-in contracts):\n${tierLines}\n\nNext step: Reply with #1, #2, or #3 (or let me know once you've checked out the 60-sec preview) plus the best phone number for customer calls, your main services & cities, and your logo if you have one. I'll send your start link and deliver the live build in 48 hours.\n\n— Christian Gomez • (786) 967-3699`;
+        }
       }
 
       playbookNicheSelect.addEventListener('change', renderPlaybookScripts);
@@ -3396,7 +4547,6 @@
       // Click Milestone Pill -> Jump to Target Card/Section
       document.querySelectorAll('.milestone-step[data-jump]').forEach(pill => {
         pill.addEventListener('click', () => {
-          // Ensure "All" sections are visible if hidden by a tab filter
           document.querySelectorAll('.playbook-section').forEach(sec => sec.classList.remove('hidden-section'));
           setActivePlaybookTab('all');
           const targetEl = document.getElementById(pill.getAttribute('data-jump'));
@@ -3427,7 +4577,6 @@
           const card = document.getElementById('gateCard' + gateNum);
           if (!card) return;
 
-          // Update button selected + aria-pressed state
           card.querySelectorAll('.gate-btn[data-gate]').forEach(b => {
             b.classList.remove('selected');
             b.setAttribute('aria-pressed', 'false');
@@ -3444,7 +4593,6 @@
           if (yesBox) yesBox.classList.toggle('show', answer === 'yes');
 
           if (answer === 'yes') {
-            // Gate 1->M2, Gate 2->M3, Gate 3->M4, Gate 4->M4 (Prices)
             const doneCount = Math.min(gateNum, 3);
             const nextMilestone = Math.min(gateNum + 1, 4);
             updateMilestoneTracker(doneCount, nextMilestone, null);
@@ -3496,6 +4644,29 @@
         copyTimer = setTimeout(() => { playbookCopyToast.style.display = 'none'; }, 2400);
       }
 
+      async function writeTextToClipboard(text) {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch (_) {}
+        }
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          const ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          return ok;
+        } catch (_) {
+          return false;
+        }
+      }
+
       document.querySelectorAll('[data-copy-target]').forEach(btn => {
         btn.addEventListener('click', async () => {
           const targetId = btn.getAttribute('data-copy-target');
@@ -3508,10 +4679,10 @@
             .trim()
             .replace(/^"|"$/g, '')
             .trim();
-          try {
-            await navigator.clipboard.writeText(cleanText);
-            showPlaybookCopied('✓ Copied!');
-          } catch (_) {}
+          const copied = await writeTextToClipboard(cleanText);
+          if (copied) {
+            showPlaybookCopied(targetId && targetId.startsWith('objSms') ? '✓ SMS reply copied!' : '✓ Copied!');
+          }
         });
       });
 
@@ -3521,10 +4692,21 @@
         if (!btn) return;
         btn.addEventListener('click', async () => {
           const text = document.getElementById('recapTemplateHidden').textContent;
-          try {
-            await navigator.clipboard.writeText(text);
+          if (await writeTextToClipboard(text)) {
             showPlaybookCopied('✓ Text/email copied!');
-          } catch (_) {}
+          }
+        });
+      });
+
+      const copyPreviewSmsFromGateBtn = document.getElementById('copyPreviewSmsFromGateBtn');
+      const copyPreviewSmsBtn = document.getElementById('copyPreviewSmsBtn');
+      [copyPreviewSmsFromGateBtn, copyPreviewSmsBtn].forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('click', async () => {
+          const text = document.getElementById('previewSmsTemplateHidden').textContent;
+          if (await writeTextToClipboard(text)) {
+            showPlaybookCopied('✓ Preview SMS copied!');
+          }
         });
       });
 
@@ -3532,8 +4714,52 @@
         document.querySelectorAll('[data-quick-status], [data-select-tier]').forEach((b) => {
           b.disabled = Boolean(disabled);
         });
+        if (promoteCandidateBtn) promoteCandidateBtn.disabled = Boolean(disabled);
         saveStageBtn.disabled = Boolean(disabled) || isCandidatePreview;
-        if (quickMarkLostBtn) quickMarkLostBtn.disabled = Boolean(disabled) || isCandidatePreview;
+        if (quickMarkLostBtn) quickMarkLostBtn.disabled = Boolean(disabled);
+      }
+
+      async function advanceToCandidatePreview(nextCand, remainingCount, prevName, actionVerb) {
+        activeLoadSeq += 1;
+        candidateId = String(nextCand.id);
+        leadId = null;
+        isCandidatePreview = true;
+        currentLead = null;
+        currentCandidate = nextCand;
+        manualPlaybookModeOverride = null;
+
+        const nextParams = new URLSearchParams();
+        nextParams.set('candidate_id', candidateId);
+        nextParams.set('playbook', '1');
+        const validRet = validateReturnUrl(rawReturnParam);
+        if (validRet) nextParams.set('return', validRet);
+        window.history.pushState({ candidateId }, '', window.location.pathname + '?' + nextParams.toString());
+
+        urlParams.delete('id');
+        urlParams.set('candidate_id', candidateId);
+        urlParams.set('playbook', '1');
+
+        resetPlaybookGates();
+        noteInput.value = '';
+        enrichResult.innerHTML = '';
+        saveToast.style.display = 'none';
+
+        await fetchCandidatePreview();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const focusTarget =
+          btnCall && !btnCall.classList.contains('is-disabled') ? btnCall : leadName;
+        if (focusTarget && typeof focusTarget.focus === 'function') {
+          focusTarget.focus({ preventScroll: true });
+        }
+
+        const nextLabel = nextCand.business_name_clean || nextCand.founder_name || 'Next Candidate';
+        const leftLabel = typeof remainingCount === 'number'
+          ? (remainingCount === 1 ? '1 phone candidate left' : `${remainingCount} phone candidates left`)
+          : 'Next phone candidate';
+        playbookQuickStatusMsg.textContent = `→ Next up (${leftLabel})`;
+        setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3800);
+        showToast(`${actionVerb} ${prevName} → Next: ${nextLabel} (${leftLabel})`);
       }
 
       async function advanceAfterLost(patchData, prevLeadName) {
@@ -3544,9 +4770,12 @@
             : (nextLead ? 1 : 0);
 
         if (nextLead && nextLead.id) {
+          activeLoadSeq += 1;
           leadId = String(nextLead.id);
+          candidateId = null;
           isCandidatePreview = false;
           currentCandidate = null;
+          manualPlaybookModeOverride = null;
 
           const nextParams = new URLSearchParams();
           nextParams.set('id', leadId);
@@ -3585,6 +4814,15 @@
           return;
         }
 
+        const nextCand = patchData && patchData.next_uncontacted_candidate ? patchData.next_uncontacted_candidate : null;
+        if (nextCand && nextCand.id) {
+          const candRemaining = typeof patchData.remaining_uncontacted_candidates_count === 'number'
+            ? patchData.remaining_uncontacted_candidates_count
+            : null;
+          await advanceToCandidatePreview(nextCand, candRemaining, prevLeadName, 'Marked Lost');
+          return;
+        }
+
         leadStatusBadge.textContent = 'lost';
         leadStatusBadge.className = 'status-badge status-lost';
         playbookQuickStatusMsg.textContent = '✓ All uncontacted leads called!';
@@ -3593,28 +4831,197 @@
         await fetchLeadDetails();
       }
 
-      // Helper: One-Click Update Stage + Value + Log Call Note
+      // Helper: One-Click Update Stage + Value + Log Call Note (Works in Both Lead & Candidate Preview Modes)
       async function executePlaybookQuickOutcome({ status, value, note }) {
-        if (isCandidatePreview || !leadId) {
-          playbookQuickStatusMsg.textContent = 'Promote to Pipeline first';
-          showToast('Click Promote to Pipeline first to log outcomes.');
-          setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3200);
+        if (!isCandidatePreview && !leadId) {
+          showToast('Lead ID missing.');
+          return;
+        }
+        if (isCandidatePreview && !candidateId) {
+          showToast('Candidate ID missing.');
           return;
         }
         if (isSavingOutcome) return;
         isSavingOutcome = true;
         setOutcomeButtonsDisabled(true);
 
-        const targetLeadId = leadId;
-        const prevLeadName = (currentLead && currentLead.name) || 'lead';
+        const prevLeadName = (currentLead && (currentLead.company || currentLead.name)) || 'prospect';
 
         try {
+          // Zero-Friction Power Dialer Mode for Unpromoted Outreach Candidates
+          if (isCandidatePreview) {
+            if (status === 'lost') {
+              const dismissNote = note || 'Dismissed during power dialer call.';
+              const dismissRes = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId), {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'dismiss',
+                  note: dismissNote
+                })
+              });
+              if (dismissRes.status === 401) {
+                clearSensitiveLeadDom();
+                openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+                return;
+              }
+              if (!dismissRes.ok) {
+                playbookQuickStatusMsg.textContent = 'Error saving';
+                showToast('Could not dismiss candidate.');
+                return;
+              }
+              const patchData = await dismissRes.json().catch(() => ({}));
+              captureLeadEvent('playbook_outcome_logged', { status: 'dismissed', candidate_id: candidateId, value: 0 });
+
+              let nextCand = patchData && patchData.next_uncontacted_candidate ? patchData.next_uncontacted_candidate : null;
+              let remainingCandCount = typeof patchData.remaining_uncontacted_candidates_count === 'number'
+                ? patchData.remaining_uncontacted_candidates_count
+                : (typeof patchData.remaining_uncontacted_count === 'number'
+                  ? patchData.remaining_uncontacted_count
+                  : null);
+
+              if (!nextCand) {
+                try {
+                  const listRes = await fetch('/api/crm/outreach?status=uncontacted&contact=has_phone&limit=1', {
+                    credentials: 'same-origin'
+                  });
+                  if (listRes.ok) {
+                    const listData = await listRes.json().catch(() => ({}));
+                    const candidatesList = Array.isArray(listData.candidates) ? listData.candidates : [];
+                    nextCand = candidatesList.find((c) => String(c.id) !== String(candidateId)) || null;
+                    if (typeof listData.filteredTotal === 'number') {
+                      remainingCandCount = listData.filteredTotal;
+                    }
+                  }
+                } catch (_) {}
+              }
+
+              if (nextCand && nextCand.id) {
+                await advanceToCandidatePreview(nextCand, remainingCandCount, prevLeadName, 'Dismissed');
+                return;
+              }
+
+              // Terminal dismiss: update local candidate state, badge, and timeline cleanly
+              if (patchData && patchData.candidate) {
+                currentCandidate = patchData.candidate;
+              } else if (currentCandidate) {
+                currentCandidate.outreach_status = 'dismissed';
+                const prevNotes = currentCandidate.notes ? String(currentCandidate.notes).trim() : '';
+                currentCandidate.notes = prevNotes ? (prevNotes + '\n' + dismissNote) : dismissNote;
+              }
+              if (currentLead) {
+                currentLead.status = 'lost';
+              }
+              const terminalNotesText = (currentCandidate && currentCandidate.notes) || dismissNote;
+              const terminalNotes = terminalNotesText
+                ? [{
+                    author: 'Outreach Notes',
+                    created_at: (currentCandidate && (currentCandidate.updated_at || currentCandidate.created_at)) || new Date().toISOString(),
+                    content: terminalNotesText
+                  }]
+                : [];
+              renderTimeline(terminalNotes, currentLead || {});
+              leadStatusBadge.textContent = 'dismissed';
+              leadStatusBadge.className = 'status-badge status-lost';
+              playbookQuickStatusMsg.textContent = '✓ All uncontacted phone candidates called!';
+              setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 4200);
+              showToast('✓ All uncontacted phone candidates called!');
+              return;
+            }
+
+            // Positive/Active Outcomes ('contacted', 'qualified', 'proposal'): Auto-promote + log touch
+            const parsedExplicitVal = (value !== undefined && value !== null && String(value).trim() !== '')
+              ? Number(value)
+              : NaN;
+            const inferredLeadVal = (currentLead && Number(currentLead.estimated_value) > 0)
+              ? Number(currentLead.estimated_value)
+              : NaN;
+            const numericVal = Number.isFinite(parsedExplicitVal)
+              ? parsedExplicitVal
+              : (Number.isFinite(inferredLeadVal) ? inferredLeadVal : 500);
+
+            const touchRes = await fetch('/api/crm/outreach/' + encodeURIComponent(candidateId), {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'log_touch',
+                promote: true,
+                channel: 'call',
+                status,
+                estimated_value: numericVal,
+                note: note || ('Call Outcome: ' + status)
+              })
+            });
+            if (touchRes.status === 401) {
+              clearSensitiveLeadDom();
+              openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+              return;
+            }
+            const touchData = await touchRes.json().catch(() => ({}));
+            if (!touchRes.ok || !touchData.lead_id) {
+              playbookQuickStatusMsg.textContent = 'Error saving';
+              showToast(touchData.error || 'Could not log candidate outcome.');
+              return;
+            }
+
+            leadId = String(touchData.lead_id);
+            isCandidatePreview = false;
+
+            // Ensure target pipeline stage & exact selected tier deal value are persisted on the promoted lead
+            if (
+              touchData.estimated_value === undefined ||
+              Number(touchData.estimated_value) !== numericVal
+            ) {
+              try {
+                await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+                  method: 'PATCH',
+                  credentials: 'same-origin',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    status,
+                    estimated_value: numericVal,
+                    deal_value: numericVal
+                  })
+                });
+              } catch (_) {}
+            }
+
+            const nextParams = new URLSearchParams();
+            nextParams.set('id', leadId);
+            nextParams.set('playbook', '1');
+            const validRet = validateReturnUrl(rawReturnParam);
+            if (validRet) nextParams.set('return', validRet);
+            window.history.replaceState({ leadId }, '', window.location.pathname + '?' + nextParams.toString());
+
+            urlParams.set('id', leadId);
+            urlParams.set('playbook', '1');
+            urlParams.delete('candidate_id');
+
+            captureLeadEvent('playbook_outcome_logged', {
+              status,
+              value: numericVal,
+              promoted_from_preview: true
+            });
+
+            playbookQuickStatusMsg.textContent = '✓ Promoted & Logged (' + status.toUpperCase() + ')';
+            setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3200);
+            showToast('Promoted to pipeline & logged (' + status.toUpperCase() + ')!');
+            await fetchLeadDetails();
+            return;
+          }
+
+          // Active Pipeline Lead Mode
+          const targetLeadId = leadId;
           const patchPayload = { status };
-          if (value !== undefined && value !== null) {
-            const num = parseFloat(value);
-            patchPayload.estimated_value = num;
-            patchPayload.deal_value = num;
-            valueInput.value = num;
+          const parsedActiveVal = (value !== undefined && value !== null && String(value).trim() !== '')
+            ? parseFloat(value)
+            : NaN;
+          if (Number.isFinite(parsedActiveVal)) {
+            patchPayload.estimated_value = parsedActiveVal;
+            patchPayload.deal_value = parsedActiveVal;
+            valueInput.value = parsedActiveVal;
           }
           stageSelect.value = status;
 
@@ -3625,6 +5032,11 @@
             body: JSON.stringify(patchPayload)
           });
 
+          if (patchRes.status === 401) {
+            clearSensitiveLeadDom();
+            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            return;
+          }
           if (!patchRes.ok) {
             playbookQuickStatusMsg.textContent = 'Error saving';
             return;
@@ -3644,7 +5056,7 @@
             });
           }
 
-          captureLeadEvent('playbook_outcome_logged', { status, value: value || 0 });
+          captureLeadEvent('playbook_outcome_logged', { status, value: Number.isFinite(parsedActiveVal) ? parsedActiveVal : 0 });
 
           if (status === 'lost') {
             await advanceAfterLost(patchData, prevLeadName);
@@ -3653,7 +5065,7 @@
 
           playbookQuickStatusMsg.textContent = '✓ Logged (' + status.toUpperCase() + ')';
           setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3000);
-          fetchLeadDetails();
+          await fetchLeadDetails();
         } catch (err) {
           playbookQuickStatusMsg.textContent = 'Error saving';
         } finally {
@@ -3666,7 +5078,7 @@
         quickMarkLostBtn.addEventListener('click', () => {
           executePlaybookQuickOutcome({
             status: 'lost',
-            note: 'Call Outcome: Marked Lost.'
+            note: isCandidatePreview ? 'Dismissed during power dialer call.' : 'Call Outcome: Marked Lost.'
           });
         });
       }
@@ -3705,15 +5117,22 @@
         const poppedCandId = latestParams.get('candidate_id');
         Array.from(urlParams.keys()).forEach((k) => urlParams.delete(k));
         latestParams.forEach((v, k) => urlParams.set(k, v));
+        manualPlaybookModeOverride = null;
+        noteInput.value = '';
+        saveToast.style.display = 'none';
+        enrichResult.innerHTML = '';
 
         if (poppedLeadId) {
           leadId = poppedLeadId;
+          candidateId = null;
           isCandidatePreview = false;
           resetPlaybookGates();
           fetchLeadDetails();
         } else if (poppedCandId) {
           leadId = null;
+          candidateId = poppedCandId;
           isCandidatePreview = true;
+          resetPlaybookGates();
           fetchCandidatePreview();
         }
       });

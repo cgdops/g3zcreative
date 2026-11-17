@@ -998,6 +998,11 @@
       color: #d8b4fe;
       border: 1px solid rgba(168, 85, 247, 0.38);
     }
+    .cadence-step-4 {
+      background: rgba(236, 72, 153, 0.16);
+      color: #f9a8d4;
+      border: 1px solid rgba(236, 72, 153, 0.38);
+    }
     .due-badge-urgent {
       display: inline-flex;
       align-items: center;
@@ -1049,7 +1054,7 @@
     }
     .cadence-tabs-bar {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 6px;
       margin-bottom: 0.85rem;
       background: #0f172a;
@@ -1481,6 +1486,9 @@
       .modal-card {
         padding: 1.25rem !important;
       }
+      .cadence-tabs-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     /* =======================================================================
@@ -1869,8 +1877,9 @@
             <option value="step_0">0️⃣ Touch 0 (Uncontacted)</option>
             <option value="step_1">1️⃣ Touch 1 Sent (Audit Email)</option>
             <option value="step_2">2️⃣ Touch 2 Logged (Call/SMS)</option>
-            <option value="step_3">3️⃣ Touch 3 Sent (Map Math)</option>
-            <option value="in_cadence">🔄 Active in Cadence (1&ndash;2)</option>
+            <option value="step_3">3️⃣ Touch 3 Sent (Map &amp; AI Math)</option>
+            <option value="step_4">4️⃣ Touch 4 Sent (Breakup)</option>
+            <option value="in_cadence">🔄 Active in Cadence (1&ndash;3)</option>
           </select>
 
           <label for="outreachContactFilter" class="sr-only">Filter by contact availability</label>
@@ -2006,7 +2015,7 @@
             <span class="coverage-badge">South Florida (Miami-Dade, Broward, Palm Beach &amp; Keys)</span>
           </div>
           <div class="outreach-banner-desc" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;">
-            Targeting established contractors ranked <strong style="color: #fcd34d;">#6&ndash;#25</strong> on Google Maps bleeding calls to the Top 3 Map Pack &bull; Classified into <strong style="color: #ff85a9;">$3,000 Dynamic Web Platform</strong> (<code>platform_3k</code>) and <strong style="color: #6ee7b7;">$2,500/mo Growth Retainer</strong> (<code>retainer_2500</code>) offers across a 3-touch cadence.
+            Targeting established contractors ranked <strong style="color: #fcd34d;">#6&ndash;#25</strong> on Google Maps bleeding calls to the Top 3 Map Pack &bull; Classified into <strong style="color: #ff85a9;">$3,000 Dynamic Web Platform</strong> (<code>platform_3k</code>) and <strong style="color: #6ee7b7;">$2,500/mo Growth Retainer</strong> (<code>retainer_2500</code>) offers across a 4-touch cadence.
           </div>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
@@ -2152,7 +2161,10 @@
           2️⃣ Touch 2: Day +2 Call &amp; SMS Script
         </button>
         <button type="button" class="cadence-tab-btn" data-touch-key="touch_3_followup" id="cadenceTab3Btn">
-          3️⃣ Touch 3: Day +5 Map Pack Math
+          3️⃣ Touch 3: Day +5 Map &amp; AI Math
+        </button>
+        <button type="button" class="cadence-tab-btn" data-touch-key="touch_4_breakup" id="cadenceTab4Btn">
+          4️⃣ Touch 4: Day +9 Breakup
         </button>
       </div>
 
@@ -2161,15 +2173,17 @@
 
         <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
           <div>
-            <label for="composerToInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">To (Decision-Maker Email) *</label>
-            <input type="email" id="composerToInput" name="to" class="form-input" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" required placeholder="owner@domain.com">
+            <label for="composerToInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">To (Decision-Maker Email)</label>
+            <input type="email" id="composerToInput" name="to" class="form-input" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="owner@domain.com (optional if logging Call/SMS)">
+            <div id="composerPhoneOnlyHint" style="display: none; font-size: 0.72rem; color: #7dd3fc; margin-top: 4px; line-height: 1.35;"></div>
           </div>
           <div>
             <label for="composerTemplateSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Cadence Touch / Outreach Angle</label>
             <select id="composerTemplateSelect" name="template_key" class="form-input">
               <option value="touch_1_audit">1️⃣ Touch 1: Rank &amp; Competitor Gap Audit Email</option>
               <option value="touch_2_call_sms">2️⃣ Touch 2: Day +2 Owner Call &amp; 2-Sentence SMS Script</option>
-              <option value="touch_3_followup">3️⃣ Touch 3: Day +5 Map Pack Math Follow-Up Email</option>
+              <option value="touch_3_followup">3️⃣ Touch 3: Day +5 Map Pack &amp; AI Search Math Email</option>
+              <option value="touch_4_breakup">4️⃣ Touch 4: Day +9 Permission-Based Breakup Email</option>
               <option value="launchpad_mockup">⚡ Legacy: No-Fluff Search Demand (Direct)</option>
               <option value="local_demand_snapshot">📍 Legacy: Search Demand + City Snapshot</option>
               <option value="short_neighbor">🤝 Legacy: Owner-to-Owner + Industry Lingo</option>
@@ -2310,7 +2324,7 @@
 
       <div class="script-card">
         <div class="script-card-header">
-          <span class="script-card-label">3. Competitor Gap &amp; Technical Bottleneck Pitch ($3k Platform / $2.5k Retainer)</span>
+          <span class="script-card-label">3. 60-Sec Preview Micro-Commitment Pitch</span>
           <button type="button" class="btn btn-xs" id="copyPbDiscoveryBtn">📋 Copy</button>
         </div>
         <div class="script-card-body" id="pbDiscoveryText"></div>
@@ -2332,6 +2346,7 @@
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           <button type="button" class="btn btn-sm btn-accent-info" id="playbookLogTouch2Btn">✓ Log Call / SMS (Touch 2)</button>
+          <a href="#" class="btn btn-sm" id="playbookOpenDialerLink" style="border-color: rgba(56, 189, 248, 0.45); color: #7dd3fc;">⚡ Open Full Interactive Dialer</a>
           <a href="#" class="btn btn-primary btn-sm" id="playbookOpenExistingLink" style="display: none;">Open Lead Workspace &rarr;</a>
           <button type="button" class="btn btn-primary btn-sm" id="playbookPromoteOpenBtn">🚀 Promote &amp; Open Lead Workspace</button>
         </div>
@@ -2363,93 +2378,119 @@
         'Roofing': {
           serviceTerm: 'roofing services',
           topServiceQueries: 'roof repair, roof replacement, and local roofers',
+          audienceNoun: 'homeowners',
+          businessNoun: 'roofing company',
           lingoServices: 'full re-roofs, tile & metal replacements, and storm leak repairs',
-          lingoQuestion: 'Could you use a few more full re-roof or leak repair estimates coming in from online channels, or is your crew already booked out?',
-          searchDemand: { 'Broward County': 3570, 'Miami-Dade County': 6430, 'Palm Beach County': 2630, default: 3570 }
+          lingoQuestion: 'Could you use a few more full re-roof or leak repair estimates coming in from Google, or is your crew already booked out?',
+          searchDemand: { 'Broward County': 3570, 'Miami-Dade County': 6430, 'Palm Beach County': 2630, 'Monroe County': 660, default: 3570 }
         },
         'HVAC': {
           serviceTerm: 'AC & HVAC services',
           topServiceQueries: 'AC repair, HVAC installation, and emergency AC service',
+          audienceNoun: 'homeowners',
+          businessNoun: 'AC & HVAC company',
           lingoServices: 'AC changeouts, emergency no-cool service calls, and maintenance agreements',
-          lingoQuestion: 'Could you use more AC changeout and service calls from online channels right now, or are your techs already running at capacity?',
-          searchDemand: { 'Broward County': 8550, 'Miami-Dade County': 12860, 'Palm Beach County': 6340, default: 8550 }
+          lingoQuestion: 'Could you use more AC changeout and service calls from Google right now, or are your techs already running at capacity?',
+          searchDemand: { 'Broward County': 8550, 'Miami-Dade County': 12860, 'Palm Beach County': 6340, 'Monroe County': 1590, default: 8550 }
         },
         'Plumbing': {
           serviceTerm: 'plumbing services',
           topServiceQueries: 'emergency plumbers, drain cleaning, leak repair, and water heaters',
+          audienceNoun: 'homeowners',
+          businessNoun: 'plumbing company',
           lingoServices: 'emergency service calls, slab leaks, repipes, and water heater installs',
-          lingoQuestion: 'Could you use more high-ticket repipe, water heater, or emergency dispatch calls from online channels, or is your board already full?',
-          searchDemand: { 'Broward County': 11910, 'Miami-Dade County': 17210, 'Palm Beach County': 8540, default: 11910 }
+          lingoQuestion: 'Could you use more high-ticket repipe, water heater, or emergency dispatch calls from Google, or is your board already full?',
+          searchDemand: { 'Broward County': 11910, 'Miami-Dade County': 17210, 'Palm Beach County': 8540, 'Monroe County': 2140, default: 11910 }
         },
         'Electrical': {
           serviceTerm: 'electrical services',
           topServiceQueries: 'local electricians, panel upgrades, and generator installation',
+          audienceNoun: 'homeowners',
+          businessNoun: 'electrical contractor',
           lingoServices: 'panel upgrades, whole-home generator installs, EV chargers, and commercial buildouts',
-          lingoQuestion: 'Could you use more panel upgrade, generator install, or service calls from online channels, or are you mostly booked through GCs and referrals?',
-          searchDemand: { 'Broward County': 3860, 'Miami-Dade County': 6050, 'Palm Beach County': 3450, default: 3860 }
+          lingoQuestion: 'Could you use more panel upgrade, generator install, or service calls from Google, or are you mostly booked through GCs and referrals?',
+          searchDemand: { 'Broward County': 3860, 'Miami-Dade County': 6050, 'Palm Beach County': 3450, 'Monroe County': 860, default: 3860 }
         },
         'Landscaping & Lawn': {
           serviceTerm: 'landscaping & hardscape services',
           topServiceQueries: 'landscaping, lawn care, tree service, and paver installation',
+          audienceNoun: 'homeowners',
+          businessNoun: 'landscaping company',
           lingoServices: 'HOA/commercial maintenance accounts, paver & travertine installs, and sod/design jobs',
-          lingoQuestion: 'Are you looking to add more recurring route density and paver/design installs from online channels, or is your schedule already packed?',
-          searchDemand: { 'Broward County': 2270, 'Miami-Dade County': 3870, 'Palm Beach County': 2030, default: 2270 }
+          lingoQuestion: 'Are you looking to add more recurring route density and paver/design installs from Google, or is your schedule already packed?',
+          searchDemand: { 'Broward County': 2270, 'Miami-Dade County': 3870, 'Palm Beach County': 2030, 'Monroe County': 510, default: 2270 }
         },
         'Construction & Remodeling': {
           serviceTerm: 'remodeling & contracting services',
           topServiceQueries: 'kitchen & bath remodeling, impact windows, and general contractors',
+          audienceNoun: 'homeowners',
+          businessNoun: 'remodeling contractor',
           lingoServices: 'kitchen & bath gut-remodels, impact windows & doors, and residential additions',
-          lingoQuestion: 'Could you use more qualified homeowner estimates for remodels or impact jobs from online channels, or is your pipeline booked out on referrals?',
-          searchDemand: { 'Broward County': 3650, 'Miami-Dade County': 4330, 'Palm Beach County': 2330, default: 3650 }
+          lingoQuestion: 'Could you use more qualified homeowner estimates for remodels or impact jobs from Google, or is your pipeline booked out on referrals?',
+          searchDemand: { 'Broward County': 3650, 'Miami-Dade County': 4330, 'Palm Beach County': 2330, 'Monroe County': 580, default: 3650 }
         },
         'Pool & Outdoor': {
           serviceTerm: 'pool & outdoor living services',
           topServiceQueries: 'pool cleaning, pool repair, resurfacing, and custom pool builders',
+          audienceNoun: 'homeowners',
+          businessNoun: 'pool & outdoor company',
           lingoServices: 'diamond brite resurfacing, custom pool builds, screen enclosures, and weekly route accounts',
-          lingoQuestion: 'Could you use more pool resurfacing, remodel, or weekly route leads from online channels right now?',
-          searchDemand: { 'Broward County': 1300, 'Miami-Dade County': 1290, 'Palm Beach County': 840, default: 1300 }
+          lingoQuestion: 'Could you use more pool resurfacing, remodel, or weekly route leads from Google right now?',
+          searchDemand: { 'Broward County': 1300, 'Miami-Dade County': 1290, 'Palm Beach County': 840, 'Monroe County': 210, default: 1300 }
         },
         'Pest Control & Mold': {
           serviceTerm: 'pest control & remediation services',
           topServiceQueries: 'pest control, termite treatment, mold remediation, and water damage restoration',
+          audienceNoun: 'homeowners',
+          businessNoun: 'pest & remediation company',
           lingoServices: 'recurring pest routes, termite treatments, water mitigation, and mold remediation jobs',
-          lingoQuestion: 'Could you use more emergency mitigation calls or recurring pest route signups from online channels?',
-          searchDemand: { 'Broward County': 3000, 'Miami-Dade County': 4690, 'Palm Beach County': 2530, default: 3000 }
+          lingoQuestion: 'Could you use more emergency mitigation calls or recurring pest route signups from Google?',
+          searchDemand: { 'Broward County': 3000, 'Miami-Dade County': 4690, 'Palm Beach County': 2530, 'Monroe County': 630, default: 3000 }
         },
         'Cleaning & Property Care': {
           serviceTerm: 'cleaning & property care services',
           topServiceQueries: 'house cleaning, commercial janitorial, and pressure washing',
+          audienceNoun: 'property owners',
+          businessNoun: 'cleaning company',
           lingoServices: 'commercial janitorial contracts, recurring residential cleanings, and roof/paver soft-washing',
-          lingoQuestion: 'Could you use more commercial walkthroughs or recurring residential bookings from online channels?',
-          searchDemand: { 'Broward County': 3350, 'Miami-Dade County': 4070, 'Palm Beach County': 2750, default: 3350 }
+          lingoQuestion: 'Could you use more commercial walkthroughs or recurring residential bookings from Google?',
+          searchDemand: { 'Broward County': 3350, 'Miami-Dade County': 4070, 'Palm Beach County': 2750, 'Monroe County': 690, default: 3350 }
         },
         'Medical, Dental & Wellness': {
           serviceTerm: 'dental, medical & wellness services',
           topServiceQueries: 'local dentists, dental implants, med spas, and chiropractors',
+          audienceNoun: 'patients',
+          businessNoun: 'practice',
           lingoServices: 'high-value Cash/PPO patient bookings, implant & cosmetic consults, and aesthetic treatments',
-          lingoQuestion: 'Could you use more private-pay consults and new patient bookings coming in from online search?',
-          searchDemand: { 'Broward County': 20700, 'Miami-Dade County': 24500, 'Palm Beach County': 17280, default: 20700 }
+          lingoQuestion: 'Could you use more private-pay consults and new patient bookings coming in from Google?',
+          searchDemand: { 'Broward County': 20700, 'Miami-Dade County': 24500, 'Palm Beach County': 17280, 'Monroe County': 4320, default: 20700 }
         },
         'Fitness & Studios': {
           serviceTerm: 'classes & studio memberships',
           topServiceQueries: 'local gyms, pilates & yoga studios, dance classes, and martial arts',
+          audienceNoun: 'members',
+          businessNoun: 'studio',
           lingoServices: 'paid intro trials, recurring monthly memberships, and youth/adult class enrollments',
-          lingoQuestion: 'Could you use more local intro-trial bookings and monthly members from online search as you fill up your class schedule?',
-          searchDemand: { 'Broward County': 20350, 'Miami-Dade County': 31000, 'Palm Beach County': 11790, default: 20350 }
+          lingoQuestion: 'Could you use more local intro-trial bookings and monthly members from Google as you fill up your class schedule?',
+          searchDemand: { 'Broward County': 20350, 'Miami-Dade County': 31000, 'Palm Beach County': 11790, 'Monroe County': 2950, default: 20350 }
         },
         'Legal & Accounting': {
           serviceTerm: 'legal & accounting services',
           topServiceQueries: 'local CPAs, tax accountants, bookkeeping, and attorneys',
+          audienceNoun: 'clients',
+          businessNoun: 'firm',
           lingoServices: 'qualified client retainers, business tax/advisory engagements, and high-intent case consults',
-          lingoQuestion: 'Could your practice use more qualified local client consultations coming in from online search?',
-          searchDemand: { 'Broward County': 1030, 'Miami-Dade County': 1330, 'Palm Beach County': 790, default: 1030 }
+          lingoQuestion: 'Could your practice use more qualified local client consultations coming in from Google?',
+          searchDemand: { 'Broward County': 1030, 'Miami-Dade County': 1330, 'Palm Beach County': 790, 'Monroe County': 200, default: 1030 }
         },
         'Auto & Marine': {
           serviceTerm: 'auto & marine services',
           topServiceQueries: 'auto repair, mobile detailing, mechanics, and boat repair',
+          audienceNoun: 'vehicle & boat owners',
+          businessNoun: 'shop',
           lingoServices: 'ceramic coating & detailing packages, marine/outboard service, and high-ticket repair tickets',
-          lingoQuestion: 'Could you use more high-ticket service bays or mobile bookings coming in from online channels?',
-          searchDemand: { 'Broward County': 5420, 'Miami-Dade County': 6280, 'Palm Beach County': 3690, default: 5420 }
+          lingoQuestion: 'Could you use more high-ticket service bays or mobile bookings coming in from Google?',
+          searchDemand: { 'Broward County': 5420, 'Miami-Dade County': 6280, 'Palm Beach County': 3690, 'Monroe County': 920, default: 5420 }
         }
       };
 
@@ -2571,7 +2612,9 @@
       const cadenceTab1Btn = document.getElementById('cadenceTab1Btn');
       const cadenceTab2Btn = document.getElementById('cadenceTab2Btn');
       const cadenceTab3Btn = document.getElementById('cadenceTab3Btn');
+      const cadenceTab4Btn = document.getElementById('cadenceTab4Btn');
       const composerToInput = document.getElementById('composerToInput');
+      const composerPhoneOnlyHint = document.getElementById('composerPhoneOnlyHint');
       const composerTemplateSelect = document.getElementById('composerTemplateSelect');
       const composerSubjectInput = document.getElementById('composerSubjectInput');
       const composerBodyInput = document.getElementById('composerBodyInput');
@@ -2608,6 +2651,7 @@
       const playbookCallLink = document.getElementById('playbookCallLink');
       const playbookSmsLink = document.getElementById('playbookSmsLink');
       const playbookLogTouch2Btn = document.getElementById('playbookLogTouch2Btn');
+      const playbookOpenDialerLink = document.getElementById('playbookOpenDialerLink');
       const playbookOpenExistingLink = document.getElementById('playbookOpenExistingLink');
       const playbookPromoteOpenBtn = document.getElementById('playbookPromoteOpenBtn');
 
@@ -3219,7 +3263,7 @@
         }
 
         const rawCadence = (params.get('cadence') || 'all').trim();
-        if (['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'in_cadence'].includes(rawCadence)) {
+        if (['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'step_4', 'in_cadence'].includes(rawCadence)) {
           state.outreachCadenceFilter = rawCadence;
           if (outreachCadenceFilter) outreachCadenceFilter.value = rawCadence;
         }
@@ -3589,12 +3633,10 @@
       function isCandidateDueFollowup(cand) {
         if (!cand || !cand.next_action_at) return false;
         if (cand.outreach_status === 'dismissed') return false;
-        if (Number(cand.cadence_step || 0) >= 3) return false;
+        if (Number(cand.cadence_step || 0) >= 4) return false;
         const parsed = parseDateSafe(cand.next_action_at);
         if (!parsed) return false;
-        const now = new Date();
-        const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
-        return parsed.getTime() <= endOfToday.getTime();
+        return parsed.getTime() <= Date.now();
       }
 
       function renderOutreachMetrics() {
@@ -3734,6 +3776,10 @@
           if (newStatus === 'lost' && opts.advanceToNextUncontacted !== false) {
             if (data && data.next_uncontacted_lead && data.next_uncontacted_lead.id) {
               window.location.href = buildLeadWorkspaceUrl(data.next_uncontacted_lead.id, { playbook: '1' });
+              return;
+            }
+            if (data && data.next_uncontacted_candidate && data.next_uncontacted_candidate.id) {
+              window.location.href = `/lead?candidate_id=${encodeURIComponent(data.next_uncontacted_candidate.id)}&playbook=1&return=${encodeURIComponent(getCurrentCrmRelativeUrl())}`;
               return;
             }
             showToast(`Moved ${lead.name || 'lead'} to Lost — no more uncontacted leads left!`);
@@ -4089,12 +4135,53 @@
         });
       }
 
-      // Niche Metadata & Template Interpolation
+      // South FL City/Zip -> County Inference & Niche Metadata
+      const MONROE_KEYS_ZIP_SET = new Set(['33036', '33037', '33040', '33042', '33043', '33050', '33051', '33070']);
+      const MIAMI_330_ZIP_SET = new Set([
+        '33010', '33012', '33013', '33014', '33015', '33016', '33018',
+        '33030', '33031', '33032', '33033', '33034', '33035', '33039',
+        '33054', '33055', '33056'
+      ]);
+      const MONROE_CITY_RE = /^(key\s*west|key\s*largo|islamorada|isla\s*morada|marathon|tavernier|big\s*pine\s*key|summerland\s*key|cudjoe\s*key|sugarloaf\s*key|ramrod\s*key|stock\s*island|plantation\s*key|duck\s*key|key\s*colony\s*beach|layton)$/i;
+      const PALM_BEACH_CITY_RE = /^(boca(\s*raton)?|delray(\s*beach)?|boynton(\s*beach)?|west\s*palm(\s*beach)?|wpb|lake\s*worth(\s*beach)?|palm\s*beach(\s*gardens)?|pbg|north\s*palm\s*beach|royal\s*palm(\s*beach)?|wellington|jupiter|greenacres|riviera\s*beach|lantana|palm\s*springs|tequesta|lake\s*park|juno\s*beach|palm\s*beach\s*shores|pahokee|belle\s*glade|south\s*bay|loxahatchee|atlantis|hypoluxo|ocean\s*ridge|manalapan|highland\s*beach)$/i;
+      const MIAMI_DADE_CITY_RE = /^(miami(\s*(beach|gardens|lakes|springs|shores))?|south\s*miami|north\s*miami(\s*beach)?|nmb|west\s*miami|coral\s*gables|doral|hialeah(\s*gardens)?|aventura|kendall|homestead|florida\s*city|sunny\s*isles(\s*beach)?|pinecrest|key\s*biscayne|bal\s*harbour|bay\s*harbor(\s*islands)?|surfside|golden\s*beach|cutler\s*bay|cutler\s*ridge|palmetto\s*bay|sweetwater|opa\s*locka|opalocka|medley|virginia\s*gardens|el\s*portal|biscayne\s*park|carol\s*city)$/i;
+
+      function inferSouthFlCounty(city, zip, explicitCounty) {
+        const rawCounty = String(explicitCounty || '').trim();
+        if (rawCounty) {
+          if (/monroe/i.test(rawCounty)) return 'Monroe County';
+          if (/palm\s*beach/i.test(rawCounty)) return 'Palm Beach County';
+          if (/miami|dade/i.test(rawCounty)) return 'Miami-Dade County';
+          if (/broward/i.test(rawCounty)) return 'Broward County';
+        }
+        const zipMatch = String(zip || '').trim().match(/\b(\d{5})\b/);
+        const zip5 = zipMatch ? zipMatch[1] : '';
+        if (zip5) {
+          if (MONROE_KEYS_ZIP_SET.has(zip5)) return 'Monroe County';
+          if (MIAMI_330_ZIP_SET.has(zip5) || zip5.startsWith('331') || zip5.startsWith('332')) return 'Miami-Dade County';
+          if (zip5.startsWith('334')) return 'Palm Beach County';
+          if (zip5.startsWith('333') || zip5.startsWith('330')) return 'Broward County';
+        }
+        const normCity = String(city || '')
+          .replace(/,.*$/, '')
+          .replace(/\b(?:FL|FLA|FLORIDA)\b.*$/i, '')
+          .replace(/[._-]+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        if (normCity) {
+          if (MONROE_CITY_RE.test(normCity)) return 'Monroe County';
+          if (PALM_BEACH_CITY_RE.test(normCity)) return 'Palm Beach County';
+          if (MIAMI_DADE_CITY_RE.test(normCity)) return 'Miami-Dade County';
+        }
+        return rawCounty || 'Broward County';
+      }
+
       function getClientNicheMeta(niche, county, cand) {
+        const countyKey = inferSouthFlCounty(cand && cand.city, cand && cand.zip, county || (cand && cand.county));
         const rule = CLIENT_NICHE_META[niche];
         let count = rule
-          ? (rule.searchDemand && (rule.searchDemand[county] || rule.searchDemand.default)) || 2500
-          : 1850;
+          ? (rule.searchDemand && (rule.searchDemand[countyKey] || rule.searchDemand.default)) || 2500
+          : (countyKey === 'Monroe County' ? 460 : 1850);
 
         if (cand && cand.enrichment_meta) {
           try {
@@ -4111,8 +4198,10 @@
           return {
             serviceTerm: 'local services',
             topServiceQueries: 'local services in your area',
+            audienceNoun: 'customers',
+            businessNoun: 'service business',
             lingoServices: 'new customer inquiries and local bookings',
-            lingoQuestion: 'Could you use any more leads from online channels, or are you already booked out?',
+            lingoQuestion: 'Could you use more customers finding you on Google right now, or are you already booked out?',
             searchersFormatted: count.toLocaleString('en-US')
           };
         }
@@ -4120,6 +4209,8 @@
         return {
           serviceTerm: rule.serviceTerm,
           topServiceQueries: rule.topServiceQueries || rule.serviceTerm,
+          audienceNoun: rule.audienceNoun || 'homeowners',
+          businessNoun: rule.businessNoun || (niche ? `${niche.toLowerCase()} company` : 'service business'),
           lingoServices: rule.lingoServices,
           lingoQuestion: rule.lingoQuestion,
           searchersFormatted: count.toLocaleString('en-US')
@@ -4159,33 +4250,37 @@
         return list
           .filter((item) => item && typeof item === 'object')
           .slice(0, 3)
-          .map((item, idx) => ({
-            rank: Number(item.rank || idx + 1),
-            name: String(item.name || item.title || `Map Pack Leader #${idx + 1}`).trim(),
-            rating: item.rating !== undefined && item.rating !== null ? Number(item.rating) : 4.9,
-            reviews: Number(item.reviews ?? item.review_count ?? 85)
-          }));
+          .map((item, idx) => {
+            const rawRating = item.rating;
+            const parsedRating = rawRating !== undefined && rawRating !== null && rawRating !== '' && Number(rawRating) > 0
+              ? Number(rawRating)
+              : null;
+            const rawReviews = item.reviews ?? item.review_count;
+            const parsedReviews = rawReviews !== undefined && rawReviews !== null && rawReviews !== '' && Number.isFinite(Number(rawReviews)) && Number(rawReviews) > 0
+              ? Math.round(Number(rawReviews))
+              : null;
+            return {
+              rank: Number(item.rank || idx + 1),
+              name: String(item.name || item.title || `Map Pack Leader #${idx + 1}`).trim(),
+              rating: parsedRating,
+              reviews: parsedReviews
+            };
+          });
       }
 
       function inferRecommendedTier(cand) {
-        if (!cand) return 'platform_3k';
+        if (!cand) return 'pilot_500';
         const explicit = String(cand.recommended_tier || '').trim();
         if (['platform_3k', 'retainer_2500', 'pilot_500'].includes(explicit)) {
           return explicit;
         }
-        const webStatus = String(cand.website_status || '').trim();
-        const lcpMs = Number(cand.lcp_ms || 0);
-        const rank = Number(cand.gbp_rank || 0);
-        if (!cand.website || webStatus === 'missing' || webStatus === 'broken' || lcpMs >= 4000) {
-          return 'platform_3k';
-        }
-        if (rank >= 6) {
-          return 'retainer_2500';
-        }
-        if (!rank && cand.doc_number && !webStatus) {
-          return 'pilot_500';
-        }
-        return 'platform_3k';
+        const reviews = Number(cand.review_count || 0);
+        const webStatus = String(cand.website_status || (cand.website ? 'unoptimized' : 'missing')).trim();
+        const lcpMs = cand.lcp_ms !== null && cand.lcp_ms !== undefined && cand.lcp_ms !== '' ? Number(cand.lcp_ms) : null;
+        const hasSevereWeb = !cand.website || ['missing', 'broken', 'slow'].includes(webStatus) || (lcpMs !== null && lcpMs >= 4000);
+        if (reviews >= 10 && hasSevereWeb) return 'platform_3k';
+        if (reviews >= 15 || (reviews >= 10 && ['unoptimized', 'healthy'].includes(webStatus))) return 'retainer_2500';
+        return 'pilot_500';
       }
 
       function getOfferTierMeta(tierKey) {
@@ -4204,7 +4299,7 @@
             badgeClass: 'tier-pilot_500',
             icon: '⚡',
             shortLabel: '$500 Pilot',
-            fullLabel: '$500 Fast-Track Launchpad Pilot'
+            fullLabel: '$500 48-Hour Quick-Win Pilot'
           };
         }
         return {
@@ -4264,23 +4359,31 @@
 
       const TOUCH_1_AUDIT_BODY =
         'Hi {{first_name}},\n\n' +
-        'I was looking at the {{city}} Google Maps results for {{top_service_queries}} (~{{searchers_count}} searches/mo) and noticed **{{business_name_clean}}** is sitting at **#{{gbp_rank}}** with {{review_count}} reviews—while **#1 {{top_competitor_1}}** ({{top_competitor_1_reviews}} reviews) is capturing the lion\'s share of the Top 3 Map Pack calls.\n\n' +
-        'When I ran a quick technical check on your listing, the main bottleneck holding you back is {{pain_hook}} ({{schema_gap}}).\n\n' +
-        'I put together a quick custom diagnostic & preview showing the exact fix to push {{business_name_clean}} into the {{city}} Top 3. Want me to send it over?\n\n' +
+        'I was looking at the {{city}} Google Maps results for {{top_service_queries}} (~{{searchers_count}} searches/mo) and noticed **{{business_name_clean}}** is sitting at **#{{gbp_rank}}** with {{review_count}} reviews—while **#1 {{top_competitor_1}}** ({{top_competitor_1_reviews}} reviews) is capturing most of the Top 3 Map Pack phone calls.\n\n' +
+        'When I checked what local {{audience_noun}} see on your listing, the biggest leak is {{pain_hook}}.\n\n' +
+        'I put together a custom 60-second preview & breakdown showing the exact fix to push {{business_name_clean}} into the {{city}} Top 3. Want me to send it over?\n\n' +
         'Christian Gomez\n' +
         'G3Z Creative • (786) 967-3699';
 
       const TOUCH_2_CALL_SMS_BODY =
-        '📱 **2-Sentence SMS (Copy & Text to {{business_name_clean}}):**\n' +
-        'Hey {{first_name}}, Christian here in South FL — sent you a quick note on why {{business_name_clean}} is ranked #{{gbp_rank}} in {{city}} behind {{top_competitor_1}} despite your {{review_count}} reviews ({{pain_hook}}). Mind if I text over the 60-sec breakdown?\n\n' +
-        '📞 **30-Second Owner-to-Owner Call Opener:**\n' +
-        '"Hey {{first_name}}, this is Christian Gomez calling locally here in South Florida. I\'ll be super brief—I was auditing the {{city}} Map Pack for {{service_term}} and saw {{business_name_clean}} sitting at #{{gbp_rank}} while {{top_competitor_1}} is sitting at #1. Even with your {{review_count}} reviews, Google is holding you back because of {{pain_hook}}. I already built out the {{recommended_offer}} blueprint for {{business_name_clean}}—do you have 2 minutes for me to show you how we fix that?"';
+        '📱 **2-Sentence "60-Sec Preview" SMS (Copy & Text to {{business_name_clean}}):**\n' +
+        'Hey {{first_name}}, Christian here in South FL — sent you a quick note on why {{business_name_clean}} is sitting at #{{gbp_rank}} in {{city}} behind {{top_competitor_1}} because of {{pain_short}}. Mind if I text over a 60-sec custom preview?\n\n' +
+        '📞 **<15s Owner-to-Owner Call Opener:**\n' +
+        '"Hey {{first_name}}, Christian Gomez calling locally in South Florida. I saw {{business_name_clean}} at #{{gbp_rank}} in {{city}} behind {{top_competitor_1}} because of {{pain_short}}. I built a 60-second preview showing the fix—can I text you the link?"';
 
       const TOUCH_3_FOLLOWUP_BODY =
         'Hi {{first_name}},\n\n' +
-        'Quick follow-up on {{business_name_clean}}. Across the ~{{searchers_count}} monthly searches for {{top_service_queries}} around {{city}}, over 70% of homeowner calls go straight to the Top 3 Map Pack (**{{top_competitor_1}}** at {{top_competitor_1_reviews}} reviews and **{{top_competitor_2}}** at {{top_competitor_2_reviews}} reviews).\n\n' +
-        'Right now at **#{{gbp_rank}}**, fixing {{pain_hook}} is the fastest lever to stop leaking those high-ticket jobs.\n\n' +
-        'I have a custom preview ready for {{business_name_clean}} ({{recommended_offer}}). Open to a no-obligation 5-minute walkthrough this week?\n\n' +
+        'Quick follow-up on {{business_name_clean}}. Across the ~{{searchers_count}} monthly searches for {{top_service_queries}} around {{city}}, over 70% of {{audience_noun}} call the Top 3 Map Pack (**#1 {{top_competitor_1}}** with {{top_competitor_1_reviews}} reviews and **#2 {{top_competitor_2}}** with {{top_competitor_2_reviews}} reviews).\n\n' +
+        'Even bigger right now: when local {{audience_noun}} ask ChatGPT or Google AI for the best {{business_noun}} in {{city}}, it recommends the same Top 3 businesses whose websites clearly list their local services and neighborhoods. Right now at **#{{gbp_rank}}**, {{schema_gap}} is costing you both Map Pack and AI Search calls.\n\n' +
+        'I have a 60-second custom preview link ready showing how {{business_name_clean}} can capture those calls. Want me to text or email the link over?\n\n' +
+        'Christian Gomez\n' +
+        'G3Z Creative • (786) 967-3699';
+
+      const TOUCH_4_BREAKUP_BODY =
+        'Hi {{first_name}},\n\n' +
+        'I haven\'t heard back after reaching out a few times, so I\'m assuming **{{business_name_clean}}** is booked solid on {{lingo_services}} right now.\n\n' +
+        'I\'m closing out the {{city}} diagnostic file and the custom 60-second preview built for {{business_name_clean}} before I offer our {{city}} slot to another local {{business_noun}}. That preview shows how to close the gap on **#1 {{top_competitor_1}}** by fixing {{pain_short}}.\n\n' +
+        'If you\'d like the 60-second breakdown link before I archive it, just reply **"send it"** and I\'ll send it right over. Either way, wishing you and your team a great season.\n\n' +
         'Christian Gomez\n' +
         'G3Z Creative • (786) 967-3699';
 
@@ -4294,8 +4397,12 @@
           body: TOUCH_2_CALL_SMS_BODY
         },
         touch_3_followup: {
-          subject: 'Re: {{business_name_clean}} / {{city}} Map Pack calls',
+          subject: 'Re: {{business_name_clean}} / {{city}} Map Pack & AI search calls',
           body: TOUCH_3_FOLLOWUP_BODY
+        },
+        touch_4_breakup: {
+          subject: 'Closing my {{city}} file on {{business_name_clean}}',
+          body: TOUCH_4_BREAKUP_BODY
         },
         launchpad_mockup: {
           subject: '{{business_name_clean}} — #{{gbp_rank}} in {{city}} Map Pack vs {{top_competitor_1}}',
@@ -4320,7 +4427,7 @@
 
         const businessClean = safeCand.business_name_clean || safeCand.business_name || 'your business';
         const city = safeCand.city || 'South Florida';
-        const county = safeCand.county || 'Broward County';
+        const county = inferSouthFlCounty(safeCand.city, safeCand.zip, safeCand.county);
         const niche = safeCand.niche || 'Local Business';
         const nicheLower = niche === 'Local Business' ? 'local services' : niche.toLowerCase();
         const nicheMeta = getClientNicheMeta(niche, county, safeCand);
@@ -4335,52 +4442,81 @@
 
         const topComps = parseTopCompetitors(safeCand.top_competitors);
         const hasComp1 = Boolean(topComps[0] && topComps[0].name);
-        const topComp1 = topComps[0] || { name: `the top ${city} ${nicheLower} leader`, reviews: '85+', rating: 4.9 };
-        const topComp2 = topComps[1] || { name: `local ${city} Map Pack leaders`, reviews: '60+', rating: 4.8 };
+        const hasComp2 = Boolean(topComps[1] && topComps[1].name);
+        const topComp1 = topComps[0] || { name: `the top ${city} ${nicheMeta.businessNoun}`, reviews: null, rating: null };
+        const topComp2 = topComps[1] || { name: `local ${city} Map Pack leaders`, reviews: null, rating: null };
+        const hasComp1Reviews = Boolean(topComp1.reviews && Number(topComp1.reviews) > 0);
+        const hasComp2Reviews = Boolean(topComp2.reviews && Number(topComp2.reviews) > 0);
 
         const hasRank =
           safeCand.gbp_rank !== null &&
           safeCand.gbp_rank !== undefined &&
           safeCand.gbp_rank !== '' &&
           Number(safeCand.gbp_rank) > 0;
-        const gbpRank = hasRank ? String(Math.round(Number(safeCand.gbp_rank))) : 'outside the Top 3 Map Pack';
+        const gbpRank = hasRank ? String(Math.round(Number(safeCand.gbp_rank))) : 'outside the Top 3';
 
         const hasReviews =
           safeCand.review_count !== null &&
           safeCand.review_count !== undefined &&
           safeCand.review_count !== '' &&
           Number(safeCand.review_count) > 0;
-        const reviewCount = hasReviews ? String(Math.round(Number(safeCand.review_count))) : 'growing local';
+        const reviewCount = hasReviews ? String(Math.round(Number(safeCand.review_count))) : '';
 
         const rating =
           safeCand.rating !== undefined && safeCand.rating !== null && Number(safeCand.rating) > 0
             ? Number(safeCand.rating).toFixed(1)
-            : '4.8';
+            : '';
 
         const webStatus = String(safeCand.website_status || (safeCand.website ? 'unoptimized' : 'missing')).trim();
-        const lcpMs = Number(safeCand.lcp_ms || 0);
-        const lcpSecNum = lcpMs > 0 ? (lcpMs / 1000).toFixed(1) : webStatus === 'slow' ? '5.2' : '4.8';
+        const hasMeasuredLcp =
+          safeCand.lcp_ms !== null &&
+          safeCand.lcp_ms !== undefined &&
+          safeCand.lcp_ms !== '' &&
+          Number(safeCand.lcp_ms) > 0;
+        const lcpMs = hasMeasuredLcp ? Number(safeCand.lcp_ms) : 0;
+        const lcpSecNum = hasMeasuredLcp ? (lcpMs / 1000).toFixed(1) : '';
         const lcpSeconds = lcpSecNum;
         const hasSchema = safeCand.has_schema === 1 || safeCand.has_schema === true;
+        const hasSsl = safeCand.has_ssl === undefined || safeCand.has_ssl === null ? true : Boolean(safeCand.has_ssl);
 
-        let schemaGap = 'missing LocalBusiness & Service JSON-LD schema';
-        if (webStatus === 'missing' || !safeCand.website) {
-          schemaGap = 'no active website or LocalBusiness schema linked to your Google Business Profile';
-        } else if (webStatus === 'broken') {
-          schemaGap = 'a broken website link on your Google Business Profile that fails on mobile';
-        } else if (hasSchema) {
-          schemaGap = 'thin neighborhood service-area entity signals vs. the Top 3 Map Pack';
-        }
+        let schemaGap = 'thinner city service coverage than the Top 3 leaders';
+        let painHook = hasMeasuredLcp
+          ? `a local authority gap on your site vs. the Top 3 Map Pack leaders (${lcpSecNum}s mobile load)`
+          : 'thinner local service pages than the Top 3 Map Pack leaders';
+        let painShort = 'thinner local service pages than the Top 3';
 
-        let painHook = `a local authority & entity-signal gap vs. the Top 3 Map Pack (${lcpSecNum}s mobile LCP)`;
         if (webStatus === 'missing' || !safeCand.website) {
-          painHook = 'having no dedicated website linked to your Google Business Profile';
+          schemaGap = 'having no dedicated website or city service pages for Google to verify what you do';
+          painHook = `having no dedicated website linked to your Google Business Profile, so local ${nicheMeta.audienceNoun} who click your listing bounce straight to a competitor`;
+          painShort = 'the missing website on your Google listing';
         } else if (webStatus === 'broken') {
-          painHook = 'your website link failing to load on mobile';
-        } else if (webStatus === 'slow' || lcpMs > 4000) {
-          painHook = `a slow ${lcpSecNum}s mobile load time (Google targets under 2.5s)`;
+          schemaGap = 'a broken mobile website';
+          painHook = `your website link failing to load on phones, causing local ${nicheMeta.audienceNoun} to hit the back button and call the next option`;
+          painShort = 'a broken mobile website link';
+        } else if (!hasSsl) {
+          schemaGap = 'an unsecure mobile link and missing local trust info';
+          painHook = `your website showing a security warning on phones, causing local ${nicheMeta.audienceNoun} to hit the back button and call the next option`;
+          painShort = 'an unsecure mobile website link';
+        } else if (webStatus === 'slow' || (hasMeasuredLcp && lcpMs > 4000)) {
+          schemaGap = hasSchema
+            ? 'slow mobile page speed'
+            : 'slow mobile speed and missing local info';
+          painHook = hasMeasuredLcp
+            ? `your mobile site taking ${lcpSecNum}s to load—over half of visitors tap the back button after 3 seconds and call the next company`
+            : 'a slow mobile load time causing visitors to tap the back button and call the next company';
+          painShort = hasMeasuredLcp ? `a ${lcpSecNum}s mobile load time` : 'a slow mobile site';
         } else if (webStatus === 'unoptimized' || !hasSchema) {
-          painHook = `unindexed service-area pages (${lcpSecNum}s mobile LCP) and missing entity signals`;
+          schemaGap = 'lack of dedicated city and service pages on your website';
+          painHook = hasMeasuredLcp
+            ? `your site taking ${lcpSecNum}s on phones and missing the neighborhood service pages Google uses to rank the Top 3 Map Pack`
+            : 'your site missing dedicated city and service pages that Google uses to rank the Top 3 Map Pack';
+          painShort = 'missing city service pages';
+        } else {
+          schemaGap = 'thinner city service coverage than the Top 3 leaders';
+          painHook = hasMeasuredLcp
+            ? `a local authority gap on your site vs. the Top 3 Map Pack leaders (${lcpSecNum}s mobile load)`
+            : 'thinner local service pages than the Top 3 Map Pack leaders';
+          painShort = 'thinner local service pages than the Top 3';
         }
 
         const tierKey = inferRecommendedTier(safeCand);
@@ -4396,6 +4532,8 @@
           county,
           niche,
           niche_lower: nicheLower,
+          audience_noun: nicheMeta.audienceNoun,
+          business_noun: nicheMeta.businessNoun,
           service_term: nicheMeta.serviceTerm,
           top_service_queries: nicheMeta.topServiceQueries,
           lingo_services: nicheMeta.lingoServices,
@@ -4406,43 +4544,66 @@
           review_count: reviewCount,
           rating,
           top_competitor_1: topComp1.name,
-          top_competitor_1_reviews: String(topComp1.reviews),
+          top_competitor_1_reviews: hasComp1Reviews ? String(topComp1.reviews) : '',
           top_competitor_2: topComp2.name,
-          top_competitor_2_reviews: String(topComp2.reviews),
+          top_competitor_2_reviews: hasComp2Reviews ? String(topComp2.reviews) : '',
           lcp_seconds: lcpSeconds,
           schema_gap: schemaGap,
           pain_hook: painHook,
+          pain_short: painShort,
           pain_summary: painSummary,
           recommended_offer: tierMeta.fullLabel
         };
 
-        const rep = (s) => {
+        const rep = (s, isSubject = false) => {
           let out = String(s || '');
           if (!hasRank) {
-            out = out
-              .replace(/sitting at \*\*#\{\{gbp_rank\}\}\*\*/g, 'sitting **{{gbp_rank}}**')
-              .replace(/sitting at #\{\{gbp_rank\}\}/g, 'sitting {{gbp_rank}}')
-              .replace(/Right now at \*\*#\{\{gbp_rank\}\}\*\*/g, 'Right now **{{gbp_rank}}**')
-              .replace(/ranked #\{\{gbp_rank\}\}/g, 'ranked {{gbp_rank}}')
-              .replace(/#\{\{gbp_rank\}\} in \{\{city\}\} Map Pack/g, '{{gbp_rank}} in {{city}}')
-              .replace(/#\{\{gbp_rank\}\}/g, '{{gbp_rank}}');
+            if (isSubject && /#\{\{gbp_rank\}\}/.test(out)) {
+              out = '{{business_name_clean}} — showing up on Google in {{city}}';
+            } else {
+              out = out
+                .replace(/is sitting at \*\*#\{\{gbp_rank\}\}\*\*/g, 'is **not yet showing in the {{city}} Top 3 Map Pack**')
+                .replace(/sitting at \*\*#\{\{gbp_rank\}\}\*\*/g, '**not yet showing in the {{city}} Top 3 Map Pack**')
+                .replace(/is sitting at #\{\{gbp_rank\}\} in \{\{city\}\}/g, 'is outside the Top 3 Map Pack in {{city}}')
+                .replace(/sitting at #\{\{gbp_rank\}\} in \{\{city\}\}/g, 'outside the Top 3 Map Pack in {{city}}')
+                .replace(/at #\{\{gbp_rank\}\} in \{\{city\}\}/g, 'outside the Top 3 Map Pack in {{city}}')
+                .replace(/right now at \*\*#\{\{gbp_rank\}\}\*\*/g, 'right now outside the **{{city}} Top 3 Map Pack**')
+                .replace(/Right now at \*\*#\{\{gbp_rank\}\}\*\*/g, 'Right now outside the **{{city}} Top 3 Map Pack**')
+                .replace(/sitting at #\{\{gbp_rank\}\}/g, 'outside the Top 3 Map Pack')
+                .replace(/ranked #\{\{gbp_rank\}\}/g, 'outside the Top 3 Map Pack')
+                .replace(/#\{\{gbp_rank\}\} in \{\{city\}\} Map Pack/g, 'outside the Top 3 Map Pack in {{city}}')
+                .replace(/#\{\{gbp_rank\}\}/g, '{{gbp_rank}}');
+            }
           }
           if (!hasReviews) {
             out = out
-              .replace(/with \*\*\{\{review_count\}\} reviews\*\*( \(\{\{rating\}\}★\))?/g, 'with your current Google Business Profile')
-              .replace(/with \{\{review_count\}\} reviews( \(\{\{rating\}\}★\))?/g, 'with your current Google Business Profile')
-              .replace(/despite your \{\{review_count\}\} reviews/g, 'on your current Google Business Profile')
-              .replace(/Even with your \{\{review_count\}\} reviews/g, 'Right now on your Google Business Profile');
+              .replace(/\s+with \*\*\{\{review_count\}\} reviews\*\*(?: \(\{\{rating\}\}★\))?/g, '')
+              .replace(/\s+with \{\{review_count\}\} reviews(?: \(\{\{rating\}\}★\))?/g, '')
+              .replace(/\s+despite your \{\{review_count\}\} reviews/g, '')
+              .replace(/Even with your \{\{review_count\}\} reviews,?\s*/g, 'Right now, ');
           }
           if (!hasComp1) {
             out = out.replace(/#1\s+\{\{top_competitor_1\}\}/g, '{{top_competitor_1}}');
+          }
+          if (!hasComp2) {
+            out = out.replace(/#2\s+\{\{top_competitor_2\}\}/g, '{{top_competitor_2}}');
+          }
+          if (!hasComp1Reviews) {
+            out = out
+              .replace(/\s*\(\{\{top_competitor_1_reviews\}\}\s+reviews\)/g, '')
+              .replace(/\s+with\s+\{\{top_competitor_1_reviews\}\}\s+reviews/g, '');
+          }
+          if (!hasComp2Reviews) {
+            out = out
+              .replace(/\s*\(\{\{top_competitor_2_reviews\}\}\s+reviews\)/g, '')
+              .replace(/\s+with\s+\{\{top_competitor_2_reviews\}\}\s+reviews/g, '');
           }
           return out.replace(/\{\{(\w+)\}\}/g, (_, k) => (map[k] !== undefined ? map[k] : ''));
         };
 
         return {
-          subject: rep(tpl.subject),
-          body: rep(tpl.body)
+          subject: rep(tpl.subject, true),
+          body: rep(tpl.body, false)
         };
       }
 
@@ -4566,7 +4727,8 @@
           const rawFounder = String(cand.founder_name || '').trim();
           const isGenericOwner = isGenericFounderName(rawFounder, bizName);
           const displayFounder = !isGenericOwner ? rawFounder : 'Owner / Decision Maker';
-          const nicheMeta = getClientNicheMeta(cand.niche, cand.county, cand);
+          const inferredCounty = inferSouthFlCounty(cand.city, cand.zip, cand.county);
+          const nicheMeta = getClientNicheMeta(cand.niche, inferredCounty, cand);
           const filingDisplay = cand.filing_date ? formatCalendarDate(cand.filing_date) : 'Recent';
 
           // 1. GBP Rank & Top Competitor Benchmark (with legacy Sunbiz fallback)
@@ -4578,15 +4740,18 @@
           if (gbpRank > 0) {
             const rankBadgeClass =
               gbpRank <= 5 ? 'gbp-rank-top' : gbpRank <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep';
-            const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.7';
+            const ratingStr = cand.rating && Number(cand.rating) > 0 ? Number(cand.rating).toFixed(1) : '';
             const reviewsNum = Number(cand.review_count || 0);
+            const hasRevMeta = Boolean(ratingStr || reviewsNum > 0);
             rankAndSourceHtml = `
               <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:5px;">
                 <span class="gbp-rank-badge ${rankBadgeClass}">📍 #${gbpRank} in ${escapeHtml(cand.city || 'South FL')}</span>
-                <span style="font-size:0.74rem; color:#fde68a; font-weight:700;">⭐ ${escapeHtml(ratingStr)} <span style="color:#cbd5e1; font-weight:600;">(${reviewsNum.toLocaleString('en-US')} reviews)</span></span>
+                ${hasRevMeta
+                  ? `<span style="font-size:0.74rem; color:#fde68a; font-weight:700;">${ratingStr ? `⭐ ${escapeHtml(ratingStr)} ` : ''}${reviewsNum > 0 ? `<span style="color:#cbd5e1; font-weight:600;">(${reviewsNum.toLocaleString('en-US')} reviews)</span>` : ''}</span>`
+                  : ''}
               </div>
               ${topComp1
-                ? `<div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">vs #1 <strong style="color:#e2e8f0;">${escapeHtml(topComp1.name)}</strong> (${Number(topComp1.reviews).toLocaleString('en-US')} rev)</div>`
+                ? `<div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">vs #1 <strong style="color:#e2e8f0;">${escapeHtml(topComp1.name)}</strong>${topComp1.reviews ? ` (${Number(topComp1.reviews).toLocaleString('en-US')} rev)` : ''}</div>`
                 : ''}
             `;
           } else {
@@ -4659,15 +4824,16 @@
           const rawStep = Number(cand.cadence_step || 0);
           const effectiveStep =
             rawStep > 0
-              ? Math.min(3, rawStep)
+              ? Math.min(4, rawStep)
               : cand.outreach_status === 'emailed' || cand.outreach_status === 'in_cadence'
                 ? 1
                 : 0;
           const cadenceMap = {
-            0: { cls: 'cadence-step-0', label: 'Step 0/3 • Uncontacted' },
-            1: { cls: 'cadence-step-1', label: 'Touch 1/3 • Audit Sent' },
-            2: { cls: 'cadence-step-2', label: 'Touch 2/3 • Call/SMS Logged' },
-            3: { cls: 'cadence-step-3', label: 'Touch 3/3 • Map Math Sent' }
+            0: { cls: 'cadence-step-0', label: 'Step 0/4 • Uncontacted' },
+            1: { cls: 'cadence-step-1', label: 'Touch 1/4 • Audit Sent' },
+            2: { cls: 'cadence-step-2', label: 'Touch 2/4 • Call/SMS Logged' },
+            3: { cls: 'cadence-step-3', label: 'Touch 3/4 • Map & AI Math' },
+            4: { cls: 'cadence-step-4', label: 'Touch 4/4 • Breakup Sent' }
           };
           const cadenceInfo = cadenceMap[effectiveStep] || cadenceMap[0];
           const isDueToday = isCandidateDueFollowup(cand);
@@ -4675,7 +4841,7 @@
           const showUpcomingAction =
             Boolean(nextActionDisplay) &&
             cand.outreach_status !== 'dismissed' &&
-            Number(cand.cadence_step || 0) < 3;
+            Number(cand.cadence_step || 0) < 4;
 
           tr.innerHTML = `
             <td data-label="Business & GBP Rank">
@@ -4705,7 +4871,7 @@
                 <span class="score-pill ${scoreClass}"><span aria-hidden="true">${scoreIcon}</span> Score ${score}</span>
                 <span class="card-service">${escapeHtml(cand.niche || 'Local Business')}</span>
               </div>
-              <div style="font-size:0.71rem; color:#7dd3fc; font-weight:600;" title="Monthly local searchers in ${escapeHtml(cand.county || 'South FL')}">
+              <div style="font-size:0.71rem; color:#7dd3fc; font-weight:600;" title="Monthly local searchers in ${escapeHtml(inferredCounty)}">
                 <span aria-hidden="true">📈</span> ~${escapeHtml(nicheMeta.searchersFormatted)} searches/mo
               </div>
             </td>
@@ -5050,61 +5216,84 @@
         const gkTarget = !isGenericOwner ? firstName : 'the owner';
 
         const city = cand.city || 'South Florida';
-        const county = cand.county || 'Broward County';
+        const county = inferSouthFlCounty(cand.city, cand.zip, cand.county);
         const niche = cand.niche || 'Local Business';
         const meta = getClientNicheMeta(niche, county, cand);
 
         const gbpRank = Number(cand.gbp_rank || 0);
-        const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.8';
+        const ratingStr = cand.rating && Number(cand.rating) > 0 ? Number(cand.rating).toFixed(1) : '';
         const reviewsCount = Number(cand.review_count || 0);
         const hasReviews = reviewsCount > 0;
         const topComps = parseTopCompetitors(cand.top_competitors);
-        const topComp1 = topComps[0] || { name: `the #1 ${city} Map Pack leader`, reviews: 92 };
+        const topComp1 = topComps[0] || null;
+        const compLabel = topComp1 ? topComp1.name : `the #1 ${city} Map Pack leader`;
+        const compRevSuffix = topComp1 && topComp1.reviews ? ` (${topComp1.reviews} reviews)` : '';
+        const compRevShort = topComp1 && topComp1.reviews ? ` (${topComp1.reviews} rev)` : '';
         const tierKey = inferRecommendedTier(cand);
         const tierMeta = getOfferTierMeta(tierKey);
-        const painSummary = computeFallbackPainSummary(cand, topComp1);
         const webStatus = String(cand.website_status || (cand.website ? 'unoptimized' : 'missing')).trim();
-        const lcpSec = Number(cand.lcp_ms) > 0 ? `${(Number(cand.lcp_ms) / 1000).toFixed(1)}s` : '4.8s';
-        const schemaGap =
-          cand.has_schema === 1 || cand.has_schema === true
-            ? 'service-area schema gap'
-            : 'missing LocalBusiness JSON-LD schema';
-        const techDetailLabel =
-          webStatus === 'missing' || !cand.website
-            ? 'no website linked to your Google Business Profile and missing LocalBusiness JSON-LD schema'
-            : `${lcpSec} mobile load & ${schemaGap}`;
-        const reputationLabel = hasReviews
-          ? `a strong ${ratingStr}★ reputation (${reviewsCount} reviews)`
-          : 'an active Google Business Profile';
+        const hasMeasuredLcp =
+          cand.lcp_ms !== null &&
+          cand.lcp_ms !== undefined &&
+          cand.lcp_ms !== '' &&
+          Number(cand.lcp_ms) > 0;
+        const lcpMs = hasMeasuredLcp ? Number(cand.lcp_ms) : 0;
+        const lcpSec = hasMeasuredLcp ? `${(lcpMs / 1000).toFixed(1)}s` : '';
+        const hasSchema = cand.has_schema === 1 || cand.has_schema === true;
+        const hasSsl = cand.has_ssl === undefined || cand.has_ssl === null ? true : Boolean(cand.has_ssl);
+
+        let plainHook = '';
+        let plainShortBottleneck = '';
+        if (webStatus === 'missing' || !cand.website) {
+          plainHook = 'no website is linked to your Google listing';
+          plainShortBottleneck = 'no website linked to Google Maps';
+        } else if (webStatus === 'broken' || !hasSsl) {
+          plainHook = 'your website link fails on mobile';
+          plainShortBottleneck = 'a broken mobile website link';
+        } else if (webStatus === 'slow' || (hasMeasuredLcp && lcpMs >= 4000)) {
+          plainHook = hasMeasuredLcp
+            ? `your mobile site takes ${lcpSec} to load`
+            : 'your mobile site loads slowly';
+          plainShortBottleneck = hasMeasuredLcp
+            ? `${lcpSec} slow mobile loading causing ${meta.audienceNoun} to bounce`
+            : `slow mobile loading causing ${meta.audienceNoun} to bounce`;
+        } else if (webStatus === 'unoptimized' || !hasSchema) {
+          plainHook = 'your site lacks local service pages';
+          plainShortBottleneck = 'missing city service pages Google uses to rank the Top 3';
+        } else {
+          plainHook = 'competitors have deeper local service pages';
+          plainShortBottleneck = 'thinner local service-area coverage vs. the Top 3';
+        }
 
         playbookModalTitle.textContent = company;
         playbookModalDemandBadge.textContent =
           gbpRank > 0
             ? `📍 Ranked #${gbpRank} in ${city} • ${tierMeta.shortLabel}`
             : `📈 ~${meta.searchersFormatted} searches/mo in ${county}`;
+        const compHeading = topComp1 ? `#1 ${compLabel}` : compLabel;
         playbookModalSubtitle.textContent =
           gbpRank > 0
-            ? `Decision-Maker: ${ownerDisplay} • #${gbpRank}${hasReviews ? ` (${ratingStr}★, ${reviewsCount} reviews)` : ''} vs #1 ${topComp1.name} (${topComp1.reviews} rev)`
-            : `Decision-Maker: ${ownerDisplay} (${cand.founder_title || 'MGR'}) • ${city}, FL • Sunbiz #${cand.doc_number || 'N/A'}`;
+            ? `Decision-Maker: ${ownerDisplay} • #${gbpRank}${hasReviews ? ` (${ratingStr ? `${ratingStr}★, ` : ''}${reviewsCount} reviews)` : ''} vs ${compHeading}${compRevShort}`
+            : `Decision-Maker: ${ownerDisplay} (${cand.founder_title || 'MGR'}) • ${city}, FL • ${cand.doc_number ? `Sunbiz #${cand.doc_number}` : tierMeta.shortLabel}`;
 
         if (gbpRank > 0) {
           pbOpenerText.textContent =
-            `"Hey ${firstName}, Christian calling locally here in Miramar. Did I catch the owner of ${company}? I sent over a quick diagnostic on your #${gbpRank} Google Maps ranking in ${city} behind ${topComp1.name}—do you have 25 seconds?"`;
+            `"Hey ${firstName}, Christian Gomez calling locally in South Florida. Did I catch the owner of ${company}?"`;
           pbGatekeeperText.textContent =
-            `"Hey there, this is Christian calling locally from Miramar for ${gkTarget} regarding the Google Maps & website speed diagnostic we ran on ${company} in ${city}—nothing urgent at all. Is ${gkTarget} free for 20 seconds, or is there a better cell number to text?"`;
+            `"Hey there, Christian calling locally in South Florida for ${gkTarget} regarding ${company}'s ${city} Google listing—nothing urgent. Is ${gkTarget} free for 20 seconds, or is there a better cell to text?"`;
           pbDiscoveryText.textContent =
-            `"I know I'm calling out of the blue—if this isn't useful, tell me no and we'll hang up. You guys have ${reputationLabel}, but you're sitting at #${gbpRank} on Google Maps in ${city} while ${topComp1.name} (${topComp1.reviews} reviews) takes the Top 3 calls across ~${meta.searchersFormatted} monthly searches. Our audit flagged ${painSummary} (${techDetailLabel}). We deploy a ${tierMeta.fullLabel} specifically to fix that bottleneck and push ${company} into the Top 3 Map Pack. ${meta.lingoQuestion}"`;
+            `"Saw ${company} at #${gbpRank} in ${city} behind ${compLabel}—${plainHook}. Built a 60-second custom preview to win Top 3 calls—want me to text it?"`;
           pbVoicemailText.textContent =
-            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in Miramar (G3Z Creative) — just left you a quick note about ${company} ranking #${gbpRank} in ${city} Google Maps behind ${topComp1.name} (${topComp1.reviews} reviews). Our technical audit flagged ${painSummary} (${techDetailLabel}) — want me to text over the 90-second diagnostic walkthrough for our ${tierMeta.fullLabel}? (786) 967-3699`;
+            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in South Florida (G3Z Creative) — noticed ${company} sitting at #${gbpRank} in ${city} behind ${compLabel}${compRevSuffix} (${plainShortBottleneck}). I put together a quick 60-second custom preview showing the fix—mind if I text you the link? (786) 967-3699`;
         } else {
           pbOpenerText.textContent =
-            `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web & Maps specialist here in Miramar. Did I catch the owner of ${company}?"`;
+            `"Hey ${firstName}, Christian Gomez calling locally in South Florida. Did I catch the owner of ${company}?"`;
           pbGatekeeperText.textContent =
-            `"Hey there, this is Christian calling locally from Miramar for ${gkTarget} regarding ${company}'s ${city} Google Maps diagnostic & filing—nothing urgent at all. Is ${gkTarget} free for 20 seconds, or is there a better number to text?"`;
+            `"Hey there, Christian calling locally in South Florida for ${gkTarget} regarding ${company}'s new ${city} business listing—nothing urgent. Is ${gkTarget} free for 20 seconds, or is there a better number to text?"`;
           pbDiscoveryText.textContent =
-            `"I know I'm calling out of the blue—if this isn't useful, tell me no and I'll hang up. There are ~${meta.searchersFormatted} local Google searches a month in ${county} for ${meta.topServiceQueries}, and our diagnostic flagged ${painSummary}. We build high-converting ${tierMeta.fullLabel} systems that capture ${meta.lingoServices}. ${meta.lingoQuestion}"`;
+            `"Saw ${company}'s new ${city} filing. Google takes 30–60 days to list new businesses for ~${meta.searchersFormatted} monthly searches—I built a 60-second $500 48-Hour Launchpad preview. Want me to text it?"`;
           pbVoicemailText.textContent =
-            `Hey ${firstName}, Christian here in Miramar (G3Z Creative). Saw ${company} in ${city}—there are ~${meta.searchersFormatted} searches/mo locally for ${meta.topServiceQueries}, and we flagged ${painSummary}. Call or text me back at (786) 967-3699 if you want to see our 90-second ${tierMeta.shortLabel} walkthrough!`;
+            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in South Florida (G3Z Creative) — saw ${company}'s new ${city} filing. Google takes 30–60 days to start ranking new businesses across ~${meta.searchersFormatted} monthly searches, so I put together a 60-second 48-Hour Launchpad preview for you—mind if I text the link? (786) 967-3699`;
         }
 
         const cleanPhone = extractValidPhone(cand.phone, '');
@@ -5121,6 +5310,14 @@
         if (playbookLogTouch2Btn) {
           playbookLogTouch2Btn.disabled = false;
           playbookLogTouch2Btn.textContent = '✓ Log Call / SMS (Touch 2)';
+        }
+
+        const directDialerUrl = cand.lead_id
+          ? `/lead?id=${encodeURIComponent(cand.lead_id)}&playbook=1&return=${encodeURIComponent(getCurrentCrmRelativeUrl())}`
+          : `/lead?candidate_id=${encodeURIComponent(cand.id)}&playbook=1&return=${encodeURIComponent(getCurrentCrmRelativeUrl())}`;
+        if (playbookOpenDialerLink) {
+          playbookOpenDialerLink.href = directDialerUrl;
+          playbookOpenDialerLink.style.display = 'inline-flex';
         }
 
         if (cand.lead_id) {
@@ -5219,6 +5416,9 @@
       }
 
       function getStepAndChannelFromTemplateKey(templateKey, cand) {
+        if (templateKey === 'touch_4_breakup') {
+          return { step: 4, channel: 'email' };
+        }
         if (templateKey === 'touch_2_call_sms' || templateKey === 'local_demand_snapshot') {
           return { step: 2, channel: 'call' };
         }
@@ -5229,34 +5429,53 @@
           return { step: 1, channel: 'email' };
         }
         const currentStep = Number((cand && cand.cadence_step) || 0);
-        return { step: Math.min(3, Math.max(1, currentStep + 1)), channel: 'email' };
+        return { step: Math.min(4, Math.max(1, currentStep + 1)), channel: 'email' };
       }
 
       function syncCadenceTabsUi(templateKey) {
-        [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn].forEach((btn) => {
+        [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn, cadenceTab4Btn].forEach((btn) => {
           if (!btn) return;
           const key = btn.getAttribute('data-touch-key');
           btn.classList.toggle('active', key === templateKey);
         });
-        const { step, channel } = getStepAndChannelFromTemplateKey(templateKey, state.currentOutreachCandidate);
+        const cand = state.currentOutreachCandidate;
+        const { step, channel } = getStepAndChannelFromTemplateKey(templateKey, cand);
         const isEmailTouch = channel === 'email';
+        const toVal = composerToInput ? composerToInput.value.trim() : String((cand && cand.email) || '').trim();
+        const hasEmail = Boolean(toVal && toVal.includes('@'));
+        const cleanPhone = cand ? extractValidPhone(cand.phone, '') : '';
+        const hasPhone = Boolean(cleanPhone);
+        const isPhoneOnly = !hasEmail && hasPhone;
+
         if (composerSendBtn) {
           composerSendBtn.style.display = isEmailTouch ? 'inline-flex' : 'none';
+          composerSendBtn.title = isPhoneOnly
+            ? 'Enter an email address above to send via API, or log via Call/SMS on the right'
+            : 'Send HTML email directly via API, log touch, schedule next follow-up, and promote to Contacted';
         }
         if (composerMailtoBtn) {
           composerMailtoBtn.style.display = isEmailTouch ? 'inline-flex' : 'none';
         }
+        if (composerPhoneOnlyHint) {
+          if (isPhoneOnly) {
+            composerPhoneOnlyHint.textContent = `📞 Phone-only candidate (${cand.phone || cleanPhone}) — click "Log Touch ${step} (Call/SMS)" below without needing an email, or paste an email above to send.`;
+            composerPhoneOnlyHint.style.display = 'block';
+          } else {
+            composerPhoneOnlyHint.textContent = '';
+            composerPhoneOnlyHint.style.display = 'none';
+          }
+        }
         if (composerMarkPromotedBtn) {
-          composerMarkPromotedBtn.textContent = isEmailTouch
-            ? `✓ Log Touch ${step} & Advance Cadence`
-            : `✓ Log Touch ${step} (Call/SMS) & Advance Cadence`;
+          composerMarkPromotedBtn.textContent = (!isEmailTouch || isPhoneOnly)
+            ? `✓ Log Touch ${step} (Call/SMS) & Advance Cadence`
+            : `✓ Log Touch ${step} & Advance Cadence`;
         }
       }
 
       function renderComposerDiagnosticScorecard(cand) {
         if (!composerDiagnosticScorecard || !cand) return;
         const gbpRank = Number(cand.gbp_rank || 0);
-        const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.8';
+        const ratingStr = cand.rating && Number(cand.rating) > 0 ? Number(cand.rating).toFixed(1) : '';
         const reviewsNum = Number(cand.review_count || 0);
         const lcpMs = Number(cand.lcp_ms || 0);
         const lcpLabel = lcpMs > 0 ? `${(lcpMs / 1000).toFixed(1)}s LCP` : cand.website ? 'Unmeasured LCP' : 'No Website';
@@ -5273,12 +5492,12 @@
                   (comp, idx) => `
                   <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:0.74rem; padding:3px 0; border-bottom:1px solid rgba(51,65,85,0.45);">
                     <span style="color:#f8fafc; font-weight:700;">#${Number(comp.rank || idx + 1)} ${escapeHtml(comp.name)}</span>
-                    <span style="color:#fde68a; white-space:nowrap;">⭐ ${escapeHtml(Number(comp.rating || 4.9).toFixed(1))} (${Number(comp.reviews || 0).toLocaleString('en-US')} rev)</span>
+                    <span style="color:#fde68a; white-space:nowrap;">${comp.rating ? `⭐ ${escapeHtml(comp.rating.toFixed(1))}` : ''}${comp.reviews ? ` (${Number(comp.reviews).toLocaleString('en-US')} rev)` : (!comp.rating ? 'Top 3 Leader' : '')}</span>
                   </div>
                 `
                 )
                 .join('')
-            : `<div style="font-size:0.74rem; color:var(--text-muted);">Top 3 Map Pack leaders average 65–120+ reviews &amp; &lt;2.5s mobile LCP with LocalBusiness schema.</div>`;
+            : `<div style="font-size:0.74rem; color:var(--text-muted);">Top 3 Map Pack leaders average &lt;2.5s mobile LCP with LocalBusiness schema.</div>`;
 
         composerDiagnosticScorecard.innerHTML = `
           <div>
@@ -5289,7 +5508,7 @@
               <span class="gbp-rank-badge ${gbpRank > 0 && gbpRank <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep'}">
                 ${gbpRank > 0 ? `📍 Rank #${gbpRank}` : `🏛️ Sunbiz #${escapeHtml(cand.doc_number || 'Filing')}`}
               </span>
-              ${gbpRank > 0 && reviewsNum > 0 ? `<span class="tech-pill tech-pill-ok">⭐ ${escapeHtml(ratingStr)} (${reviewsNum.toLocaleString('en-US')} rev)</span>` : ''}
+              ${gbpRank > 0 && (ratingStr || reviewsNum > 0) ? `<span class="tech-pill tech-pill-ok">${ratingStr ? `⭐ ${escapeHtml(ratingStr)} ` : ''}${reviewsNum > 0 ? `(${reviewsNum.toLocaleString('en-US')} rev)` : ''}</span>` : ''}
               <span class="tech-pill ${lcpMs >= 4000 || !cand.website ? 'tech-pill-danger' : 'tech-pill-warn'}">⚡ ${escapeHtml(lcpLabel)}</span>
               <span class="tech-pill ${hasSchema ? 'tech-pill-ok' : 'tech-pill-danger'}">${hasSchema ? 'Schema ✓' : 'No Schema ❌'}</span>
               <span class="tier-pill ${tierMeta.badgeClass}">${tierMeta.icon} ${escapeHtml(tierMeta.shortLabel)}</span>
@@ -5316,10 +5535,20 @@
         composerBodyInput.value = rendered.body;
       }
 
+      let isComposerSubmitting = false;
+
+      function setComposerSubmittingState(busy) {
+        isComposerSubmitting = Boolean(busy);
+        if (composerSendBtn) composerSendBtn.disabled = isComposerSubmitting;
+        if (composerMailtoBtn) composerMailtoBtn.disabled = isComposerSubmitting;
+        if (composerMarkPromotedBtn) composerMarkPromotedBtn.disabled = isComposerSubmitting;
+      }
+
       function openOutreachEmailComposer(candidateId) {
         const cand = state.outreachCandidates.find((c) => c.id === candidateId);
         if (!cand) return;
 
+        setComposerSubmittingState(false);
         state.currentOutreachCandidate = cand;
         composerCandidateId.value = cand.id;
         const bizClean = cand.business_name_clean || cand.business_name || 'Diagnostic & Cadence Composer';
@@ -5338,8 +5567,8 @@
         const gbpRank = Number(cand.gbp_rank || 0);
         composerSubtitle.textContent =
           gbpRank > 0
-            ? `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} • Ranked #${gbpRank} in ${cand.city || 'South FL'} • Step ${Number(cand.cadence_step || 0)}/3`
-            : `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number || 'N/A'} • Step ${Number(cand.cadence_step || 0)}/3`;
+            ? `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} • Ranked #${gbpRank} in ${cand.city || 'South FL'} • Step ${Number(cand.cadence_step || 0)}/4`
+            : `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number || 'N/A'} • Step ${Number(cand.cadence_step || 0)}/4`;
 
         renderComposerDiagnosticScorecard(cand);
 
@@ -5351,21 +5580,30 @@
         const initialTemplate =
           currentStep === 1
             ? 'touch_2_call_sms'
-            : currentStep >= 2
+            : currentStep === 2
               ? 'touch_3_followup'
-              : 'touch_1_audit';
+              : currentStep >= 3
+                ? 'touch_4_breakup'
+                : 'touch_1_audit';
         applyComposerTemplate(initialTemplate);
 
         openModal(outreachEmailModalOverlay, cand.email ? composerSubjectInput : composerToInput);
       }
 
-      [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn].forEach((btn) => {
+      [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn, cadenceTab4Btn].forEach((btn) => {
         if (!btn) return;
         btn.addEventListener('click', () => {
           const touchKey = btn.getAttribute('data-touch-key');
           if (touchKey) applyComposerTemplate(touchKey);
         });
       });
+
+      if (composerToInput) {
+        composerToInput.addEventListener('input', () => {
+          if (!state.currentOutreachCandidate) return;
+          syncCadenceTabsUi(composerTemplateSelect.value);
+        });
+      }
 
       composerTemplateSelect.addEventListener('change', () => {
         if (!state.currentOutreachCandidate) return;
@@ -5389,6 +5627,7 @@
       // Form Submit = "Open in Mail App" (Plain text mailto, NO premature promotion)
       outreachEmailForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (isComposerSubmitting) return;
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
@@ -5398,7 +5637,10 @@
 
         composerErrorBox.style.display = 'none';
         if (!to || !to.includes('@')) {
-          composerErrorBox.textContent = 'Please enter a valid recipient email address first.';
+          const hasPhone = Boolean(extractValidPhone(cand.phone, ''));
+          composerErrorBox.textContent = hasPhone
+            ? 'Enter a valid email address to open a Mail draft (or click "Log Touch (Call/SMS)" on the right for phone-only outreach).'
+            : 'Please enter a valid recipient email address first.';
           composerErrorBox.style.display = 'block';
           composerToInput.focus();
           return;
@@ -5409,32 +5651,40 @@
           return;
         }
 
-        if (to !== (cand.email || '')) {
-          await patchOutreachCandidate(cand.id, { email: to }, { silent: true });
-          cand.email = to;
-          renderOutreachTable();
-        }
+        setComposerSubmittingState(true);
+        try {
+          if (to !== (cand.email || '')) {
+            await patchOutreachCandidate(cand.id, { email: to }, { silent: true });
+            cand.email = to;
+            renderOutreachTable();
+          }
 
-        captureCrmEvent('outreach_mailto_opened', { candidate_id: cand.id });
-        const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
-        window.location.href = mailtoUrl;
-        showToast('Opened plain-text draft in Mail App — click "Log Touch & Advance Cadence" once sent!');
+          captureCrmEvent('outreach_mailto_opened', { candidate_id: cand.id });
+          const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
+          window.location.href = mailtoUrl;
+          showToast('Opened plain-text draft in Mail App — click "Log Touch & Advance Cadence" once sent!');
+        } finally {
+          setComposerSubmittingState(false);
+        }
       });
 
-      // Log Touch 1 / Touch 2 / Touch 3 & Advance Cadence
+      // Log Touch 1 / Touch 2 / Touch 3 / Touch 4 & Advance Cadence
       composerMarkPromotedBtn.addEventListener('click', async () => {
+        if (isComposerSubmitting) return;
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
         const templateKey = composerTemplateSelect.value;
-        const { step, channel } = getStepAndChannelFromTemplateKey(templateKey, cand);
+        const { step, channel: defaultChannel } = getStepAndChannelFromTemplateKey(templateKey, cand);
         const to = composerToInput.value.trim();
+        const hasValidEmail = Boolean(to && to.includes('@'));
+        const hasPhone = Boolean(extractValidPhone(cand.phone, ''));
         const subject = stripMarkdownBold(composerSubjectInput.value.trim());
         const plainBody = stripMarkdownBold(composerBodyInput.value.trim());
 
         composerErrorBox.style.display = 'none';
-        if (channel === 'email' && (!to || !to.includes('@'))) {
-          composerErrorBox.textContent = 'A valid recipient email address is required to log an email touch (or switch to Touch 2 Call/SMS).';
+        if (!hasValidEmail && !hasPhone) {
+          composerErrorBox.textContent = 'Enter a valid email address or add a phone number on the candidate row before logging this touch.';
           composerErrorBox.style.display = 'block';
           composerToInput.focus();
           return;
@@ -5445,18 +5695,22 @@
           return;
         }
 
-        composerMarkPromotedBtn.disabled = true;
+        const effectiveChannel = !hasValidEmail
+          ? (templateKey === 'touch_2_call_sms' || templateKey === 'local_demand_snapshot' ? 'sms' : 'call')
+          : defaultChannel;
+
+        setComposerSubmittingState(true);
         composerMarkPromotedBtn.textContent = `⏳ Logging Touch ${step}...`;
 
         try {
-          if (to && to !== (cand.email || '')) {
+          if (hasValidEmail && to !== (cand.email || '')) {
             await patchOutreachCandidate(cand.id, { email: to }, { silent: true });
             cand.email = to;
           }
 
           const res = await logCandidateCadenceTouch(cand, {
             step,
-            channel,
+            channel: effectiveChannel,
             to,
             subject,
             body: plainBody
@@ -5468,21 +5722,22 @@
             return;
           }
 
-          captureCrmEvent('outreach_touch_logged', { step, channel, template_key: templateKey });
+          captureCrmEvent('outreach_touch_logged', { step, channel: effectiveChannel, template_key: templateKey });
           closeModal(outreachEmailModalOverlay);
-          showToast(`✓ Logged Touch ${step} (${channel.toUpperCase()}) for ${cand.business_name_clean || 'candidate'} & advanced cadence!`);
+          showToast(`✓ Logged Touch ${step} (${effectiveChannel.toUpperCase()}) for ${cand.business_name_clean || 'candidate'} & advanced cadence!`);
           await Promise.all([fetchOutreach(), fetchLeads()]);
         } catch (_) {
           composerErrorBox.textContent = 'Network error while logging cadence touch.';
           composerErrorBox.style.display = 'block';
         } finally {
-          composerMarkPromotedBtn.disabled = false;
+          setComposerSubmittingState(false);
           syncCadenceTabsUi(composerTemplateSelect.value);
         }
       });
 
       // Direct HTML Dispatch via Configured Email API (preserves **bold** -> <strong>, logs touch & schedules next follow-up)
       composerSendBtn.addEventListener('click', async () => {
+        if (isComposerSubmitting) return;
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
@@ -5494,7 +5749,10 @@
 
         composerErrorBox.style.display = 'none';
         if (!to || !to.includes('@')) {
-          composerErrorBox.textContent = 'Please enter a valid recipient email address.';
+          const hasPhone = Boolean(extractValidPhone(cand.phone, ''));
+          composerErrorBox.textContent = hasPhone
+            ? 'Enter a valid email address to send via API (or click "Log Touch (Call/SMS)" on the right for phone-only outreach).'
+            : 'Please enter a valid recipient email address.';
           composerErrorBox.style.display = 'block';
           composerToInput.focus();
           return;
@@ -5505,7 +5763,7 @@
           return;
         }
 
-        composerSendBtn.disabled = true;
+        setComposerSubmittingState(true);
         composerSendBtn.textContent = '⏳ Sending...';
 
         try {
@@ -5536,7 +5794,7 @@
           composerErrorBox.textContent = 'Network error while sending email.';
           composerErrorBox.style.display = 'block';
         } finally {
-          composerSendBtn.disabled = false;
+          setComposerSubmittingState(false);
           composerSendBtn.textContent = '⚡ Send Email via API';
         }
       });
