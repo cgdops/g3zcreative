@@ -1,20 +1,19 @@
 # G3Z Creative — $4,000/Month Revenue Goal Tracker
 
 **Target Monthly Revenue:** `$4,000 / month`  
-**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,657.15` (`91.4%` of goal; includes `$400` Vivelo recovery + 4 Fajardo drafts) / `$3,257.15` safe base (`81.4%`)  
+**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,017.15` (`75.43%` of goal; includes `$400` Vivelo reminder today) / `$2,617.15` safe base (`65.43%`)  
 **Collected (Paid) MTD:** `$1,210.90` (`30.27%`)  
 - `#1605` William McConnell / Remember Me: `$412.50` (Collected ✅ — cleared ahead of Nov 20 auto-charge)  
 - `#1596` MV Almer Productions / Miriam: `$342.40` (Collected Nov 11 ✅)  
 - `#1594` Ancat Media Group: `$308.00` (Collected Nov 2 ✅)  
 - `#1583` Shiny Paws LLC: `$99.00` (Collected Nov 2 ✅)  
 - `#1585` BroadbandQ Wireless: `$49.00` (Collected Nov 2 ✅)  
-**Immediate Recoverable / In-Flight (Nov 2026):** `$2,446.25`  
+**Immediate Recoverable / In-Flight (Nov 2026):** `$1,806.25`  
 - **Confirmed In-Flight (`$1,406.25`)**: Towing One `#1604` (`$1,406.25`, outstanding / WIP deliverable, due Dec 05, spoke to Fausto ✅)  
-- **Action Required — Unsent Drafts (`$640.00`)**: Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` @ `$160.00` each drafted in Bonsai — `#1590` was due Nov 14!)  
-- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 13d overdue — due Nov 04)  
-- **Deferred / Suspended (`$685.00` removed from Nov)**: Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
-**New Business Gap to `$4,000`:** **`$342.85`** (if Vivelo clears + 4 Fajardo drafts) to **`$742.85`** (safe base) -> solved by **1 to 2 × `$500` Pilot landing page builds**  
-**Last Check-In:** `2026-11-17T09:00:00-05:00`  
+- **Overdue — Reminder Going Out Today (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 13d overdue — due Nov 04; Chris sending reminder Nov 17)  
+- **Deferred / Suspended / Archived (`$1,325.00` removed from Nov)**: Fajardo Elite `#1584`, `#1587`, `#1588`, `#1590` (`$640.00` archived Nov 17), Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
+**New Business Gap to `$4,000`:** **`$982.85`** (with Vivelo `$400`) to **`$1,382.85`** (safe base) -> solved by **2 to 3 × `$500` Pilot builds** (or **1 × `$1,500–$3,000` Scale/Launchpad deal**)  
+**Last Check-In:** `2026-11-17T09:25:00-05:00`  
 **Schedule:** Hourly (`9:00 AM – 5:00 PM`, Mon–Fri, `America/New_York`)
 
 ---
@@ -27,12 +26,12 @@ Based on live pricing in `pricing.html`:
 - **Tier 3 — Turbo (Growth Retainer)**: `$2,500/mo` recurring
 
 ### Fastest Paths to $4,000/Month:
-1. **Path A (Book Collection + 1 Pilot — Highest Probability)**:
-   - Collect In-Flight Pipeline (`$1,210.90` collected + `$1,406.25` Towing One + `$640.00` Fajardo drafts + `$400.00` Vivelo) = **`$3,657.15`**
-   - Close **1 × `$500` Pilot Landing Page** from D1 Outbound Leads = **`$4,157.15`** (Surpasses goal by `$157.15`)
-2. **Path B (Book Collection Safe Base + 2 Pilots)**:
-   - Conservative book (`$1,210.90` collected + `$1,406.25` Towing One + `$480.00` Fajardo) = **`$3,097.15`**
-   - Close **2 × `$500` Pilots** = **`$4,097.15`** (Hit goal without relying on Vivelo)
+1. **Path A (Book Collection + 2 Pilots — Highest Probability)**:
+   - Collect In-Flight Pipeline (`$1,210.90` collected + `$1,406.25` Towing One + `$400.00` Vivelo) = **`$3,017.15`**
+   - Close **2 × `$500` Pilot Landing Pages** from D1 Outbound Leads = **`$4,017.15`** (Surpasses goal by `$17.15`)
+2. **Path B (Book Collection Safe Base + 3 Pilots or 1 Launchpad)**:
+   - Conservative book (`$1,210.90` collected + `$1,406.25` Towing One) = **`$2,617.15`**
+   - Close **3 × `$500` Pilots** (`$4,117.15`) or **1 × `$1,500` Launchpad** (`$4,117.15`)
 3. **Path C (1 Scale Platform Deal)**:
    - 1 Scale Platform (`$3,000`) + Live Collected (`$1,210.90`) = **`$4,210.90`** (Exceeds goal immediately)
 
@@ -42,14 +41,35 @@ Based on live pricing in `pricing.html`:
 
 | Priority | Task | Revenue Leverage | Current Status | Next Concrete Action |
 | :---: | :--- | :--- | :--- | :--- |
-| **P0** | **Resolve & Send Fajardo Elite Invoices (`#1584`–`#1590`)** | **`$640.00`** cash recovery | 4 weekly invoices ($160/wk) still `drafted` (`#1590` 3d past Nov 14 due date; `#1578` Oct 10 also `drafted`) | Send in Bonsai (`eliteintdance@icloud.com`) today or confirm if retainer is paused/cancelled so pipeline isn't inflated. |
-| **P1** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 13 days overdue (due Nov 04) | Email `info@viveloweekender.com` / text Manny with Bonsai invoice `#1589` (`https://app.hellobonsai.com/invoices/2766350`). |
-| **P2** | **Dial Philip Parisi & Francesco Villalba + Enrich Fresh Sunbiz** | **`$500 – $3,000`** (closes Nov gap) | Philip Parisi (`new` since Nov 13) & Francesco Villalba (`uncontacted`) are the only 2 uncalled phone leads; 777 new Sunbiz synced Nov 16 | Call `561-788-2424` & `786-609-2373` now; enrich top Nov 16 Sunbiz batch (`AL CESAR ELECTRIC`, `SOFLO ROOFING`, `LEGEND TREE`) in `crm.html`. |
-| **P3** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight (`outstanding`, due Dec 05 — 13 days left in Nov) | Finish Google Ads / website optimization milestone before Nov 30 so payment clears in November, not December. |
+| **P0** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 13 days overdue (due Nov 04) — Chris sending reminder today | Email `info@viveloweekender.com` / text Manny with Bonsai invoice `#1589` (`https://app.hellobonsai.com/invoices/2766350`). |
+| **P1** | **Close 2–3 New Deals (`$1,000 – $1,500`) from D1 Outbound** | **`$500 – $3,000`** (closes `$982.85–$1,382.85` Nov gap) | 4 uncalled high-score phone leads queued in D1 (`Philip Parisi`, `Zuf Graziani`, `Dianelys Betancourt`, `Francesco Villalba`) | Dial all 4 verified phone leads + 3 warm follow-ups (`Andy Rivera`, `Paul Silva`, `Jona Elisco`) in `crm.html` / `lead.html`. |
+| **P2** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight (`outstanding`, due Dec 05 — 13 days left in Nov) | Finish Google Ads / website optimization milestone before Nov 30 so payment clears in November, not December. |
 
 ---
 
 ## 3. Hourly Check-In Log
+
+### `2026-11-17 09:25 AM EST` — Fajardo Elite Archived ($640 Removed), Vivelo Reminder Queued & 2 New Phone Leads Enriched
+- **Pipeline Calibration Update**:
+  - **Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` — `$640.00`)**: Archived per Chris's confirmation and removed from November collectible projections.
+  - **Vivelo Weekender (`#1589` — `$400.00`)**: Chris confirmed sending overdue payment reminder to Manny today (`info@viveloweekender.com` / `https://app.hellobonsai.com/invoices/2766350`).
+  - **Updated November Math**:
+    - Collected MTD: **`$1,210.90`** (`30.27%`)
+    - Confirmed In-Flight: **`$1,406.25`** (Towing One `#1604`, due Dec 05)
+    - Overdue Reminder Today: **`$400.00`** (Vivelo Weekender `#1589`)
+    - **Active Collectible Pipeline**: **`$3,017.15`** (`75.43%` of goal) / **`$2,617.15`** safe base (`65.43%`)
+    - **True New-Business Gap to `$4,000/mo`**: **`$982.85`** (with Vivelo) to **`$1,382.85`** (safe base) -> **2 to 3 × `$500` Pilot builds** (or **1 × `$1,500–$3,000` Scale/Launchpad build**).
+- **CRM Cleanup & Batch Enrichment Executed (25 Top Contractors)**:
+  - Marked `Lisa Moore` (`Design Gratuit` vendor spam) as `spam` in D1.
+  - Enriched top 25 unattempted South Florida contractor filings (`score >= 92`) and uncovered **2 brand-new verified phone leads**:
+    1. **Zuf Graziani** — `FORMA ROOFING & CONSTRUCTION INC` (`sbz_p26000052899`): **`754-227-3258`** (Fort Lauderdale, Roofing — 3,570 searches/mo, Score 96, filed 2026-11-05).
+    2. **Dianelys D Betancourt** — `AAA AIR CONDITIONING LLC` (`sbz_l26000569164`): **`(305) 654-4455`** (Miami, HVAC — 12,860 searches/mo, Score 95, filed Nov 2026).
+- **Live Outbound Call Block (4 Uncalled + 3 Follow-Up Phone Leads)**:
+  1. **Philip Parisi** — Breezy Does It Air Conditioning Services: **`561-788-2424`** (Pembroke Pines, HVAC, Score 98)
+  2. **Zuf Graziani** — Forma Roofing & Construction Inc: **`754-227-3258`** (Fort Lauderdale, Roofing, Score 96 — **NEW**)
+  3. **Dianelys D Betancourt** — AAA Air Conditioning LLC: **`(305) 654-4455`** (Miami, HVAC, Score 95 — **NEW**)
+  4. **Francesco Villalba** — Pro Services Group General Construction LLC: **`786-609-2373`** (Miramar, Construction, Score 94)
+  5. **Warm Follow-Ups (`contacted`, 0 call notes)**: **Andy Rivera** `(954) 544-4872`, **Paul Silva** `(954) 807-1300`, **Jona Elisco** `+19547868525` (`jona@aawimpact.com`).
 
 ### `2026-11-17 09:00 AM EST` — Tuesday Morning Accountability Check-In (13 Days Left in Nov — Stalled 4 Days)
 - **Live Pipeline & Cash Reconciliation**:
