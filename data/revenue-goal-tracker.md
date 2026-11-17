@@ -11,10 +11,10 @@
 **Immediate Recoverable / In-Flight (Nov 2026):** `$2,446.25`  
 - **Confirmed In-Flight (`$1,406.25`)**: Towing One `#1604` (`$1,406.25`, outstanding / WIP deliverable, due Dec 05, spoke to Fausto ✅)  
 - **Action Required — Unsent Drafts (`$640.00`)**: Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` @ `$160.00` each drafted in Bonsai — `#1590` was due Nov 14!)  
-- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 12d overdue — due Nov 04)  
+- **Overdue Unconfirmed (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 13d overdue — due Nov 04)  
 - **Deferred / Suspended (`$685.00` removed from Nov)**: Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
 **New Business Gap to `$4,000`:** **`$342.85`** (if Vivelo clears + 4 Fajardo drafts) to **`$742.85`** (safe base) -> solved by **1 to 2 × `$500` Pilot landing page builds**  
-**Last Check-In:** `2026-11-16T09:00:00-05:00`  
+**Last Check-In:** `2026-11-17T09:00:00-05:00`  
 **Schedule:** Hourly (`9:00 AM – 5:00 PM`, Mon–Fri, `America/New_York`)
 
 ---
@@ -42,14 +42,36 @@ Based on live pricing in `pricing.html`:
 
 | Priority | Task | Revenue Leverage | Current Status | Next Concrete Action |
 | :---: | :--- | :--- | :--- | :--- |
-| **P0** | **Send Fajardo Elite Invoices (`#1584`–`#1590`)** | **`$640.00`** cash recovery | 4 weekly invoices ($160/wk) drafted in Bonsai (`#1590` was due Nov 14) | Email all 4 invoice links directly to `eliteintdance@icloud.com` or send via Bonsai. |
-| **P1** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 12 days overdue (due Nov 04) | Email `info@viveloweekender.com` / text Manny with payment link: `https://app.hellobonsai.com/invoices/2766350`. |
-| **P2** | **Dial Fresh Leads in D1 (Philip Parisi & Francesco Villalba)** | **`$500 – $3,000`** (closes Nov gap) | Philip Parisi (HVAC, Score 98, new LLC) & Francesco Villalba (Construction, Score 94, uncontacted) | Call Philip Parisi (`561-788-2424`) and Francesco Villalba (`786-609-2373`) with $500 launchpad offer. |
-| **P3** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight / on track (due Dec 05) | Wrap up Google Ads / website milestone to trigger client sign-off and early collection. |
+| **P0** | **Resolve & Send Fajardo Elite Invoices (`#1584`–`#1590`)** | **`$640.00`** cash recovery | 4 weekly invoices ($160/wk) still `drafted` (`#1590` 3d past Nov 14 due date; `#1578` Oct 10 also `drafted`) | Send in Bonsai (`eliteintdance@icloud.com`) today or confirm if retainer is paused/cancelled so pipeline isn't inflated. |
+| **P1** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 13 days overdue (due Nov 04) | Email `info@viveloweekender.com` / text Manny with Bonsai invoice `#1589` (`https://app.hellobonsai.com/invoices/2766350`). |
+| **P2** | **Dial Philip Parisi & Francesco Villalba + Enrich Fresh Sunbiz** | **`$500 – $3,000`** (closes Nov gap) | Philip Parisi (`new` since Nov 13) & Francesco Villalba (`uncontacted`) are the only 2 uncalled phone leads; 777 new Sunbiz synced Nov 16 | Call `561-788-2424` & `786-609-2373` now; enrich top Nov 16 Sunbiz batch (`AL CESAR ELECTRIC`, `SOFLO ROOFING`, `LEGEND TREE`) in `crm.html`. |
+| **P3** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight (`outstanding`, due Dec 05 — 13 days left in Nov) | Finish Google Ads / website optimization milestone before Nov 30 so payment clears in November, not December. |
 
 ---
 
 ## 3. Hourly Check-In Log
+
+### `2026-11-17 09:00 AM EST` — Tuesday Morning Accountability Check-In (13 Days Left in Nov — Stalled 4 Days)
+- **Live Pipeline & Cash Reconciliation**:
+  - **Cash Collected MTD**: **`$1,210.90` (30.27% of `$4,000`)** — unchanged since Nov 13 (Day 17 of 30 = `56.7%` of month elapsed; linear pace target is `$2,267`, behind by `$1,056`).
+  - **In-Flight / Active Receivables (`$2,446.25`)**:
+    - `#1604` Towing One (Fausto): **`$1,406.25`** `outstanding` (due Dec 05 — needs Nov completion to count in Nov cash).
+    - `#1584`, `#1587`, `#1588`, `#1590` Fajardo Elite (Alexis Romero): **`$640.00`** across 4 `drafted` weekly retainers (`$160/ea`; `#1590` is now 3d past its Nov 14 due date; older `#1578` `$160` due Oct 10 also `drafted`).
+    - `#1589` Vivelo Weekender (Manny): **`$400.00`** `overdue` (due Nov 04 — now 13 days overdue).
+  - **Total Active Collectible Pipeline**: **`$3,657.15` (91.43%)** (`$3,257.15` safe base without Vivelo).
+  - **Gap to `$4,000.00/mo`**: **`$342.85`** (with Vivelo) to **`$742.85`** (without Vivelo) -> **1 to 2 × `$500` Pilot builds**.
+- **Cloudflare D1 CRM Audit (`g3zcreative-crm`)**:
+  - **Fresh Sunbiz Batch Ingested**: `2026-11-16 22:28 UTC` sync added **777 new businesses** (`3,161` `uncontacted` total; `3,111` `unattempted` enrichment).
+  - **Outbound Bottleneck**: Zero calls/emails logged in D1 since Nov 12. Only **2 uncalled verified-phone Sunbiz leads** are currently queued:
+    1. **Philip Parisi** (Breezy Does It Air Conditioning Services) — `561-788-2424` (Pembroke Pines, HVAC, Score 98, `new` since Nov 13).
+    2. **Francesco Villalba** (Pro Services Group General Construction LLC) — `786-609-2373` (Miramar, Construction, Score 94, `uncontacted`).
+  - **Follow-Ups (`contacted`, no call notes)**: Andy Rivera (`(954) 544-4872`), Paul Silva (`(954) 807-1300`), Jona Elisco (`+19547868525` / `jona@aawimpact.com`).
+  - **Overnight Inbound Spam**: `Lisa Moore` (`Design Gratuit`, `support@designgratuit.com`, India IP, `2026-11-17 06:02 UTC`) submitted a white-label design solicitation on `/` — mark `spam`/`lost`.
+  - **Top Unenriched Fresh Sunbiz Filings (Score 95–98)**: `AL CESAR ELECTRIC LLC` (98), `ARDEN AUTOMOTIVE COOLING LLC` (96), `FORMA ROOFING & CONSTRUCTION INC` (96), `CYPRESS ROOFING GROUP INC.` (96), `SOFLO ROOFING SERVICES LLC` (95), `LEGEND TREE SERVICE AND LANDSCAPING LLC` (95), `NEXUM CONSTRUCTION & PLUMBING LLC` (95).
+- **9:00 AM – 10:00 AM Accountability Mandate**:
+  1. **Unblock the 4-day Receivables Stall (`$1,040`)**: Send or explicitly confirm status of Fajardo Elite (`#1584`, `#1587`, `#1588`, `#1590` — `$640`) and send overdue nudge to Manny (`#1589` — `$400`).
+  2. **Dial Queue**: Call Philip Parisi (`561-788-2424`) and Francesco Villalba (`786-609-2373`), then enrich 10+ top Nov 16 Sunbiz filings in `crm.html` so the dial queue isn't starved.
+  3. **Towing One (`$1,406.25`)**: Confirm remaining deliverable checklist to pull collection inside November.
 
 ### `2026-11-16 09:00 AM EST` — Monday Morning Kickoff: $342.85 Gap to $4,000/mo & Outbound Dial Sprint
 - **Live Pipeline & Cash Reconciliation**:
