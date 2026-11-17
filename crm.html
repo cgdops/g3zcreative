@@ -891,6 +891,195 @@
     }
     .score-high { background: rgba(34, 197, 94, 0.16); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.32); }
     .score-med { background: rgba(56, 189, 248, 0.15); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.28); }
+
+    /* GBP Rank, Technical Diagnostic, Offer Tier & Cadence Pills */
+    .gbp-rank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .gbp-rank-bleeder {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.42);
+    }
+    .gbp-rank-deep {
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .gbp-rank-top {
+      background: rgba(34, 197, 94, 0.16);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.69rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      white-space: nowrap;
+    }
+    .tech-pill-danger {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.38);
+    }
+    .tech-pill-warn {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.38);
+    }
+    .tech-pill-ok {
+      background: rgba(34, 197, 94, 0.15);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.32);
+    }
+    .tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .tier-platform_3k {
+      background: rgba(218, 16, 77, 0.2);
+      color: #ff85a9;
+      border: 1px solid rgba(218, 16, 77, 0.45);
+    }
+    .tier-retainer_2500 {
+      background: rgba(16, 185, 129, 0.18);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .tier-pilot_500 {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .cadence-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .cadence-step-0 {
+      background: rgba(148, 163, 184, 0.16);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .cadence-step-1 {
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .cadence-step-2 {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.38);
+    }
+    .cadence-step-3 {
+      background: rgba(168, 85, 247, 0.18);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.38);
+    }
+    .due-badge-urgent {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      white-space: nowrap;
+    }
+    .due-badge-upcoming {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .website-domain-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #7dd3fc;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .website-domain-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+    .diagnostic-scorecard-bar {
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.9rem;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 0.85rem;
+    }
+    .scorecard-competitors-col {
+      border-left: 1px solid var(--border);
+      padding-left: 0.75rem;
+    }
+    .cadence-tabs-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 0.85rem;
+      background: #0f172a;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .cadence-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.45rem 0.55rem;
+      border-radius: 7px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .cadence-tab-btn:hover {
+      color: #ffffff;
+      background: rgba(51, 65, 85, 0.4);
+    }
+    .cadence-tab-btn.active {
+      background: var(--surface);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
     .inline-contact-row {
       display: flex;
       align-items: center;
@@ -1262,6 +1451,7 @@
       .btn-sm,
       .btn-xs,
       .view-btn,
+      .cadence-tab-btn,
       .filter-select,
       .page-size-select,
       .card-action-btn,
@@ -1423,8 +1613,16 @@
         width: 100%;
         flex: 1;
       }
-      .modal-grid-2 {
+      .modal-grid-2,
+      .diagnostic-scorecard-bar,
+      .cadence-tabs-bar {
         grid-template-columns: 1fr;
+      }
+      .scorecard-competitors-col {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid var(--border);
+        padding-top: 0.65rem;
       }
 
       /* Responsive Stacked Cards for Tables on < 640px */
@@ -1453,6 +1651,17 @@
         min-width: 0 !important;
         max-width: 100% !important;
       }
+      .list-view tbody td[data-label]::before,
+      .outreach-view tbody td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.68rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        margin-bottom: 0.2rem;
+      }
     }
   </style>
 </head>
@@ -1464,7 +1673,7 @@
     <div class="login-card">
       <img src="/images/favicon.png" alt="G3Z Creative logo" width="48" height="48" style="border-radius: 10px; margin-bottom: 0.85rem;">
       <h2 id="loginModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.45rem; margin-bottom: 0.4rem;">G3Z Creative CRM</h2>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">Enter your admin passcode to access pipeline leads and Sunbiz outreach.</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Enter your admin passcode to access pipeline leads and Local Maps &amp; Diagnostic Outreach.</p>
       <form id="loginForm" method="POST" action="/api/crm/auth" novalidate>
         <input type="text" name="username" value="admin" autocomplete="username" class="sr-only" tabindex="-1" aria-hidden="true">
         <div class="login-field-group">
@@ -1506,7 +1715,7 @@
     </div>
     <nav class="nav-actions" aria-label="CRM actions">
       <button type="button" class="btn btn-sm btn-accent-info" id="openSunbizImportBtn">
-        <span aria-hidden="true">🏛️</span> <span class="btn-text-hide">Sunbiz </span>Sync
+        <span aria-hidden="true">📍</span> <span class="btn-text-hide">Maps </span>Sync
       </button>
       <button type="button" class="btn btn-primary btn-sm" id="newLeadBtn">
         <span aria-hidden="true">+</span> <span class="btn-text-hide">New </span>Lead
@@ -1554,24 +1763,27 @@
     <!-- Outreach KPI Metrics -->
     <div class="metrics-grid" id="outreachMetricsGrid" style="display: none;">
       <div class="metric-card">
-        <div class="metric-label">Uncontacted Filings</div>
+        <div class="metric-label">Page 2 Bleeders / Uncontacted</div>
         <div class="metric-value" id="kpiOutreachUncontacted" style="color: var(--info);">0</div>
-        <div class="metric-sub">South FL operating businesses</div>
+        <div class="metric-sub" id="kpiOutreachBleedersSub">Ranked #6&ndash;#25 in South FL</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">High-Priority Niches</div>
+        <div class="metric-label">Offer Breakdown ($3k / $2.5k)</div>
         <div class="metric-value" id="kpiOutreachHighPriority" style="color: #f472b6;">0</div>
-        <div class="metric-sub">Score 80+ (Trades, Clinics, Studios)</div>
+        <div class="metric-sub" id="kpiOutreachOfferSub">0 $3k Platform &bull; 0 $2.5k Retainer</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">Enriched Contacts</div>
-        <div class="metric-value" id="kpiOutreachEnriched" style="color: var(--success);">0</div>
-        <div class="metric-sub" id="kpiOutreachPhoneSub">0 with phone numbers</div>
+        <div class="metric-label">Due Follow-Ups &amp; Cadence</div>
+        <div class="metric-value" style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+          <span id="kpiOutreachDueFollowup" style="color: var(--warning);">0</span>
+          <span style="font-family: 'Figtree', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">due &bull; <span id="kpiOutreachEnriched" style="color: var(--success);">0</span> email</span>
+        </div>
+        <div class="metric-sub" id="kpiOutreachPhoneSub">0 due follow-ups today &bull; 0 with phone</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">Emailed &amp; Promoted</div>
-        <div class="metric-value" id="kpiOutreachEmailed" style="color: var(--warning);">0</div>
-        <div class="metric-sub">Moved to active pipeline</div>
+        <div class="metric-label">In Cadence &amp; Promoted</div>
+        <div class="metric-value" id="kpiOutreachEmailed" style="color: var(--success);">0</div>
+        <div class="metric-sub" id="kpiOutreachCadenceSub">Moved to active pipeline</div>
       </div>
     </div>
 
@@ -1631,6 +1843,36 @@
             <option value="all">All South FL Cities</option>
           </select>
 
+          <label for="outreachTierFilter" class="sr-only">Filter by offer tier</label>
+          <select id="outreachTierFilter" name="tier" class="filter-select" style="display: none;">
+            <option value="all">All Offer Tiers</option>
+            <option value="platform_3k">💻 $3k Web Platform</option>
+            <option value="retainer_2500">📈 $2.5k/mo Retainer</option>
+            <option value="pilot_500">⚡ $500 Pilot / Starter</option>
+          </select>
+
+          <label for="outreachWebsiteFilter" class="sr-only">Filter by website health</label>
+          <select id="outreachWebsiteFilter" name="webstatus" class="filter-select" style="display: none;">
+            <option value="all">All Website Health</option>
+            <option value="needs_fix">🚨 Any Technical Issue</option>
+            <option value="missing">❌ No Website / Social Only</option>
+            <option value="broken">⚠️ Broken / SSL Error</option>
+            <option value="slow">🐢 Slow Mobile LCP (&gt;4s)</option>
+            <option value="unoptimized">🧩 Missing Local Schema</option>
+            <option value="healthy">✅ Healthy Site</option>
+          </select>
+
+          <label for="outreachCadenceFilter" class="sr-only">Filter by cadence stage</label>
+          <select id="outreachCadenceFilter" name="cadence" class="filter-select" style="display: none;">
+            <option value="all">All Cadence Stages</option>
+            <option value="due_today">⏰ Due Follow-Up Today</option>
+            <option value="step_0">0️⃣ Touch 0 (Uncontacted)</option>
+            <option value="step_1">1️⃣ Touch 1 Sent (Audit Email)</option>
+            <option value="step_2">2️⃣ Touch 2 Logged (Call/SMS)</option>
+            <option value="step_3">3️⃣ Touch 3 Sent (Map Math)</option>
+            <option value="in_cadence">🔄 Active in Cadence (1&ndash;2)</option>
+          </select>
+
           <label for="outreachContactFilter" class="sr-only">Filter by contact availability</label>
           <select id="outreachContactFilter" name="contact" class="filter-select" style="display: none;">
             <option value="all">All Contact States</option>
@@ -1644,6 +1886,7 @@
           <select id="outreachStatusFilter" name="ostatus" class="filter-select" style="display: none;">
             <option value="active">Active Candidates</option>
             <option value="uncontacted">Uncontacted Only</option>
+            <option value="in_cadence">In Cadence</option>
             <option value="emailed">Emailed</option>
             <option value="promoted">Promoted to Pipeline</option>
             <option value="dismissed">Dismissed</option>
@@ -1754,31 +1997,31 @@
       </div>
     </div>
 
-    <!-- Sunbiz Outreach View -->
+    <!-- Local Maps & Diagnostic Outreach View -->
     <div class="outreach-view" id="outreachView">
       <div class="outreach-banner">
         <div>
           <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
-            <h2 class="outreach-heading"><span aria-hidden="true">🏛️</span> Florida Sunbiz New Business Outreach</h2>
+            <h2 class="outreach-heading">📍 South Florida Maps &ldquo;Page 2 Bleeders&rdquo; &amp; Technical Diagnostic Outreach</h2>
             <span class="coverage-badge">South Florida (Miami-Dade, Broward, Palm Beach &amp; Keys)</span>
           </div>
           <div class="outreach-banner-desc" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;">
-            Approach: <strong style="color: #f8fafc;">Direct Owner-to-Owner + DataForSEO Local Search Demand &amp; Industry Lingo</strong> &bull; Sending via API or clicking Mark Emailed promotes the founder to <strong style="color: var(--warning);">Contacted</strong>.
+            Targeting established contractors ranked <strong style="color: #fcd34d;">#6&ndash;#25</strong> on Google Maps bleeding calls to the Top 3 Map Pack &bull; Classified into <strong style="color: #ff85a9;">$3,000 Dynamic Web Platform</strong> (<code>platform_3k</code>) and <strong style="color: #6ee7b7;">$2,500/mo Growth Retainer</strong> (<code>retainer_2500</code>) offers across a 3-touch cadence.
           </div>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <button type="button" class="btn btn-sm" id="batchEnrichBtn" title="Run waterfall enrichment on top 5 unenriched candidates on this page">
-            <span aria-hidden="true">✨</span> Enrich Top 5
+          <button type="button" class="btn btn-sm" id="batchEnrichBtn" title="Run live technical audit &amp; contact enrichment on top 5 candidates on this page">
+            <span aria-hidden="true">🔍</span> Audit / Enrich Top 5
           </button>
           <button type="button" class="btn btn-sm btn-accent-info" id="importSunbizBtn">
-            <span aria-hidden="true">📥</span> Import / Sync Sunbiz
+            <span aria-hidden="true">📍</span> Maps / Outreach Sync
           </button>
         </div>
       </div>
 
       <!-- Top Pagination Bar -->
       <div class="pagination-bar" id="outreachPaginationTop">
-        <div id="outreachSummaryTop" style="font-weight: 600; color: #e2e8f0;">Showing 0 of 0 filings</div>
+        <div id="outreachSummaryTop" style="font-weight: 600; color: #e2e8f0;">Showing 0 of 0 candidates</div>
         <div class="pagination-controls">
           <label for="outreachPageSizeSelect" style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">Per page:</label>
           <select id="outreachPageSizeSelect" name="limit" class="page-size-select">
@@ -1793,16 +2036,16 @@
         </div>
       </div>
 
-      <div class="table-container" role="region" aria-label="Sunbiz outreach filings table" tabindex="0">
+      <div class="table-container" role="region" aria-label="Local Maps and Diagnostic Outreach candidates table" tabindex="0">
         <table>
-          <caption class="sr-only">South Florida Sunbiz business filings</caption>
+          <caption class="sr-only">South Florida Local Maps and Diagnostic Outreach candidates</caption>
           <thead>
             <tr>
-              <th scope="col">Business &amp; Sunbiz Filing</th>
-              <th scope="col">Founder &amp; Location</th>
-              <th scope="col">Niche &amp; Priority</th>
-              <th scope="col">Email &amp; Phone (Inline Edit / Enrich)</th>
-              <th scope="col">Stage</th>
+              <th scope="col">Business &amp; GBP Rank</th>
+              <th scope="col">Technical Diagnostic &amp; Website</th>
+              <th scope="col">Offer Tier &amp; Score</th>
+              <th scope="col">Decision-Maker &amp; Contact</th>
+              <th scope="col">Multi-Touch Cadence</th>
               <th scope="col">Outreach Actions</th>
             </tr>
           </thead>
@@ -1812,7 +2055,7 @@
 
       <!-- Bottom Pagination Bar -->
       <nav class="pagination-bar pagination-bar-bottom" id="outreachPaginationBottom" aria-label="Outreach pagination">
-        <div id="outreachSummaryBottom" style="font-weight: 600; color: #e2e8f0;">Showing 0 of 0 filings</div>
+        <div id="outreachSummaryBottom" style="font-weight: 600; color: #e2e8f0;">Showing 0 of 0 candidates</div>
         <div class="pagination-controls">
           <span id="outreachPageIndicatorBottom" style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;">Page 1 of 1</span>
           <button type="button" class="btn btn-sm" id="outreachPrevBottomBtn" disabled>&larr; Prev</button>
@@ -1880,20 +2123,37 @@
     </div>
   </div>
 
-  <!-- CRO Outreach Email Composer Modal -->
+  <!-- Upgraded Candidate Diagnostic & Multi-Touch Cadence Modal -->
   <div class="drawer-overlay" id="outreachEmailModalOverlay" role="dialog" aria-modal="true" aria-labelledby="composerBusinessTitle">
-    <div class="modal-card" style="max-width: 740px; padding: 1.75rem;">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 1rem;">
+    <div class="modal-card" style="max-width: 820px; padding: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 0.85rem;">
         <div>
           <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
-            <h2 style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.3rem;" id="composerBusinessTitle">Compose Outreach Email</h2>
+            <h2 style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.3rem;" id="composerBusinessTitle">Diagnostic &amp; Cadence Composer</h2>
             <span class="score-pill score-high" id="composerNicheBadge">Local Business</span>
+            <span class="tier-pill tier-platform_3k" id="composerOfferBadge">💻 $3,000 Web Platform</span>
           </div>
           <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;" id="composerSubtitle">
-            Founder: &mdash;
+            Decision-Maker: &mdash;
           </div>
         </div>
-        <button type="button" class="drawer-close" id="closeComposerModalBtn" aria-label="Close email composer"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="drawer-close" id="closeComposerModalBtn" aria-label="Close diagnostic composer"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+      <!-- Diagnostic Scorecard Bar (Candidate vs Top 3 Map Pack Leaders) -->
+      <div class="diagnostic-scorecard-bar" id="composerDiagnosticScorecard" aria-label="Technical diagnostic scorecard vs Top 3 Map Pack"></div>
+
+      <!-- 1-Click Cadence Touch Tabs -->
+      <div class="cadence-tabs-bar" role="group" aria-label="Select multi-touch cadence step">
+        <button type="button" class="cadence-tab-btn active" data-touch-key="touch_1_audit" id="cadenceTab1Btn">
+          1️⃣ Touch 1: Rank &amp; Gap Audit Email
+        </button>
+        <button type="button" class="cadence-tab-btn" data-touch-key="touch_2_call_sms" id="cadenceTab2Btn">
+          2️⃣ Touch 2: Day +2 Call &amp; SMS Script
+        </button>
+        <button type="button" class="cadence-tab-btn" data-touch-key="touch_3_followup" id="cadenceTab3Btn">
+          3️⃣ Touch 3: Day +5 Map Pack Math
+        </button>
       </div>
 
       <form id="outreachEmailForm">
@@ -1901,29 +2161,32 @@
 
         <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
           <div>
-            <label for="composerToInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">To (Founder Email) *</label>
-            <input type="email" id="composerToInput" name="to" class="form-input" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" required placeholder="founder@domain.com">
+            <label for="composerToInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">To (Decision-Maker Email) *</label>
+            <input type="email" id="composerToInput" name="to" class="form-input" autocomplete="email" autocorrect="off" autocapitalize="none" spellcheck="false" required placeholder="owner@domain.com">
           </div>
           <div>
-            <label for="composerTemplateSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Owner-to-Owner Outreach Angle</label>
+            <label for="composerTemplateSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Cadence Touch / Outreach Angle</label>
             <select id="composerTemplateSelect" name="template_key" class="form-input">
-              <option value="launchpad_mockup">⚡ Default: No-Fluff Search Demand (Direct)</option>
-              <option value="local_demand_snapshot">📍 Angle 2: No-Fluff Search Demand + City</option>
-              <option value="short_neighbor">🤝 Angle 3: Owner-to-Owner + Industry Lingo</option>
+              <option value="touch_1_audit">1️⃣ Touch 1: Rank &amp; Competitor Gap Audit Email</option>
+              <option value="touch_2_call_sms">2️⃣ Touch 2: Day +2 Owner Call &amp; 2-Sentence SMS Script</option>
+              <option value="touch_3_followup">3️⃣ Touch 3: Day +5 Map Pack Math Follow-Up Email</option>
+              <option value="launchpad_mockup">⚡ Legacy: No-Fluff Search Demand (Direct)</option>
+              <option value="local_demand_snapshot">📍 Legacy: Search Demand + City Snapshot</option>
+              <option value="short_neighbor">🤝 Legacy: Owner-to-Owner + Industry Lingo</option>
             </select>
           </div>
         </div>
 
         <div style="margin-bottom: 0.85rem;">
-          <label for="composerSubjectInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Subject Line *</label>
+          <label for="composerSubjectInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Subject Line / Script Header *</label>
           <input type="text" id="composerSubjectInput" name="subject" class="form-input" required>
         </div>
 
         <div style="margin-bottom: 1rem;">
           <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 4px;">
-            <label for="composerBodyInput" style="font-size: 0.78rem; font-weight: 600; color: #cbd5e1;">Personalized Outreach Message *</label>
+            <label for="composerBodyInput" style="font-size: 0.78rem; font-weight: 600; color: #cbd5e1;">Personalized Diagnostic Message / Script *</label>
             <span id="composerFormatHint" style="font-size: 0.72rem; color: var(--text-muted);">
-              <code>**bold**</code> renders in HTML via <strong>Send via Resend API</strong> (stripped to plain text for Mail App &amp; Copy)
+              <code>**bold**</code> renders in HTML via <strong>Send Email via API</strong> (stripped to plain text for Mail App &amp; Copy)
             </span>
           </div>
           <textarea id="composerBodyInput" name="body" class="form-input" rows="11" style="line-height: 1.55; resize: vertical;" aria-describedby="composerFormatHint" required></textarea>
@@ -1934,17 +2197,17 @@
         <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--border); padding-top: 1rem;">
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button type="button" class="btn btn-sm" id="cancelComposerModalBtn">Cancel</button>
-            <button type="button" class="btn btn-sm" id="composerCopyBtn" title="Copy plain-text Subject and Body to clipboard">📋 Copy Plain Text</button>
-            <button type="button" class="btn btn-sm btn-accent-info" id="composerSendBtn" title="Send HTML email directly via Resend API and promote to Contacted">
-              ⚡ Send via Resend API
+            <button type="button" class="btn btn-sm" id="composerCopyBtn" title="Copy plain-text Subject and Body/Script to clipboard">📋 Copy Touch Script / Email</button>
+            <button type="button" class="btn btn-sm btn-accent-info" id="composerSendBtn" title="Send HTML email directly via API, log touch, schedule next follow-up, and promote to Contacted">
+              ⚡ Send Email via API
             </button>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button type="submit" class="btn btn-sm" id="composerMailtoBtn" title="Open plain-text draft in your Mail client without prematurely promoting">
               📬 Open in Mail App
             </button>
-            <button type="button" class="btn btn-primary btn-sm" id="composerMarkPromotedBtn" title="Verify recipient domain, log outbound email, and promote candidate to Contacted">
-              ✓ Mark Emailed &amp; Promote
+            <button type="button" class="btn btn-primary btn-sm" id="composerMarkPromotedBtn" title="Log current touch step, schedule next follow-up date, and advance cadence">
+              ✓ Log Touch 1 &amp; Advance Cadence
             </button>
           </div>
         </div>
@@ -1952,24 +2215,24 @@
     </div>
   </div>
 
-  <!-- Sunbiz Import / Sync Modal -->
+  <!-- Maps & Outreach Sync / Import Modal -->
   <div class="drawer-overlay" id="sunbizImportModalOverlay" role="dialog" aria-modal="true" aria-labelledby="sunbizImportModalTitle">
-    <div class="modal-card" style="max-width: 660px; padding: 1.75rem;">
+    <div class="modal-card" style="max-width: 680px; padding: 1.75rem;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 1rem;">
         <div>
-          <h2 id="sunbizImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">🏛️ Sync / Import Sunbiz Businesses</h2>
+          <h2 id="sunbizImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">📍 Sync Google Maps &ldquo;Page 2 Bleeders&rdquo; &amp; Outreach</h2>
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
-            Auto-filters to South Florida (Miami-Dade, Broward, Palm Beach &amp; Keys) operating businesses, strips holding shells, and scores niches.
+            Pull South Florida Google Maps contractors ranked <code>#6&ndash;#25</code>, audit mobile LCP + LocalBusiness schema, and classify into <strong>$3,000 Web Platform</strong> vs <strong>$2,500/mo Growth Retainer</strong> offers.
           </p>
         </div>
-        <button type="button" class="drawer-close" id="closeSunbizImportBtn" aria-label="Close Sunbiz import dialog"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="drawer-close" id="closeSunbizImportBtn" aria-label="Close Maps sync dialog"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div style="background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
-        <div>
-          <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff;">⚡ Automated Official Sunbiz SFTP Sync</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">
-            Run <code style="color: #7dd3fc;">npm run sync:sunbiz</code> locally or via GitHub Actions to pull today's Florida DOS SFTP feed.
+        <div style="flex: 1 1 320px;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff;">⚡ CLI Google Maps &amp; Technical Diagnostic Sync</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45;">
+            Run <code style="color: #7dd3fc;">npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code> (or <code style="color: #94a3b8;">npm run sync:sunbiz</code>) to discover Maps #6&ndash;#25 bleeders &amp; audit their websites.
           </div>
         </div>
         <button type="button" class="btn btn-sm" id="loadSampleSunbizBtn" style="border-color: var(--primary); color: #ff85a9;">
@@ -1979,14 +2242,14 @@
 
       <div style="margin-bottom: 1rem;">
         <label for="sunbizFileInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: #cbd5e1;">
-          Option 1: Upload Sunbiz Daily File (<code>.txt</code> fixed-width or <code>.csv</code>)
+          Option 1: Upload Outreach CSV / JSON or Sunbiz Daily File (<code>.csv</code>, <code>.txt</code>)
         </label>
-        <input type="file" id="sunbizFileInput" name="sunbiz_file" accept=".txt,.csv,.dat" class="form-input" style="padding: 0.45rem;">
+        <input type="file" id="sunbizFileInput" name="sunbiz_file" accept=".txt,.csv,.dat,.json" class="form-input" style="padding: 0.45rem;">
       </div>
 
       <div style="margin-bottom: 1rem;">
         <label for="sunbizRawTextInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
-          Option 2: Paste Raw Sunbiz Fixed-Width Lines or CSV Rows
+          Option 2: Paste CSV Rows or Fixed-Width Lines
         </label>
         <textarea id="sunbizRawTextInput" name="raw_text" class="form-input" rows="5" placeholder="doc_number,business_name,founder_name,founder_title,principal_address,city,zip,email,phone&#10;L26000194821,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,MGR,14200 SW 27TH ST,MIRAMAR,33027,,"></textarea>
       </div>
@@ -1998,7 +2261,7 @@
         </label>
         <label for="autoEnrichTopCheckbox" class="sunbiz-check-label">
           <input type="checkbox" id="autoEnrichTopCheckbox" name="auto_enrich_top" class="sunbiz-checkbox" checked>
-          <span>Smart Hybrid: Auto-enrich top niches (Score 80+)</span>
+          <span>Smart Hybrid: Auto-audit &amp; enrich top candidates (Score 80+)</span>
         </label>
       </div>
 
@@ -2009,29 +2272,29 @@
     </div>
   </div>
 
-  <!-- Non-Mutating Outreach Call Playbook Modal -->
+  <!-- Touch 2 Call & SMS Playbook Modal -->
   <div class="drawer-overlay" id="outreachPlaybookModalOverlay" role="dialog" aria-modal="true" aria-labelledby="playbookModalTitle">
-    <div class="modal-card" style="max-width: 680px; padding: 1.75rem;">
+    <div class="modal-card" style="max-width: 720px; padding: 1.75rem;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 0.9rem;">
         <div>
           <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
-            <h2 id="playbookModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.3rem;">Call Playbook</h2>
+            <h2 id="playbookModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.3rem;">Touch 2 Call &amp; SMS Playbook</h2>
             <span class="score-pill score-high" id="playbookModalDemandBadge">📈 Local Demand</span>
           </div>
           <div id="playbookModalSubtitle" style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
-            Founder &bull; Location &bull; Sunbiz Filing
+            Owner &bull; GBP Rank &bull; Technical Bottleneck
           </div>
         </div>
         <button type="button" class="drawer-close" id="closePlaybookModalBtn" aria-label="Close call playbook dialog"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div style="background: rgba(56, 189, 248, 0.09); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 0.55rem 0.8rem; margin-bottom: 0.9rem; font-size: 0.78rem; color: #bae6fd;">
-        Previewing this playbook does <strong>not</strong> create a pipeline lead until you click <strong>Promote &amp; Open Lead Workspace</strong>.
+        Previewing this playbook does <strong>not</strong> mutate pipeline leads. Click <strong>✓ Log Call / SMS (Touch 2)</strong> after calling/texting to advance cadence to Step 2 and schedule Touch 3 (+3 days).
       </div>
 
       <div class="script-card">
         <div class="script-card-header">
-          <span class="script-card-label">1. Disarming Opener (Owner Check)</span>
+          <span class="script-card-label">1. Disarming Owner Opener (Maps Rank Check)</span>
           <button type="button" class="btn btn-xs" id="copyPbOpenerBtn">📋 Copy</button>
         </div>
         <div class="script-card-body" id="pbOpenerText"></div>
@@ -2039,7 +2302,7 @@
 
       <div class="script-card">
         <div class="script-card-header">
-          <span class="script-card-label">2. Gatekeeper / Receptionist Script</span>
+          <span class="script-card-label">2. Gatekeeper / Dispatcher Script</span>
           <button type="button" class="btn btn-xs" id="copyPbGatekeeperBtn">📋 Copy</button>
         </div>
         <div class="script-card-body" id="pbGatekeeperText"></div>
@@ -2047,7 +2310,7 @@
 
       <div class="script-card">
         <div class="script-card-header">
-          <span class="script-card-label">3. Easy-"No" Discovery &amp; Flat-Rate Pitch</span>
+          <span class="script-card-label">3. Competitor Gap &amp; Technical Bottleneck Pitch ($3k Platform / $2.5k Retainer)</span>
           <button type="button" class="btn btn-xs" id="copyPbDiscoveryBtn">📋 Copy</button>
         </div>
         <div class="script-card-body" id="pbDiscoveryText"></div>
@@ -2055,7 +2318,7 @@
 
       <div class="script-card" style="margin-bottom: 1rem;">
         <div class="script-card-header">
-          <span class="script-card-label">4. Voicemail / Follow-Up SMS</span>
+          <span class="script-card-label">4. Touch 2 Voicemail &amp; 2-Sentence Owner SMS</span>
           <button type="button" class="btn btn-xs" id="copyPbVoicemailBtn">📋 Copy</button>
         </div>
         <div class="script-card-body" id="pbVoicemailText"></div>
@@ -2064,10 +2327,11 @@
       <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--border); padding-top: 1rem;">
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           <button type="button" class="btn btn-sm" id="cancelPlaybookModalBtn">Close</button>
-          <a href="#" class="btn btn-sm btn-accent-success" id="playbookCallLink" style="display: none;">📞 Call Founder</a>
+          <a href="#" class="btn btn-sm btn-accent-success" id="playbookCallLink" style="display: none;">📞 Call Owner</a>
           <a href="#" class="btn btn-sm" id="playbookSmsLink" style="display: none;">💬 Send SMS</a>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button type="button" class="btn btn-sm btn-accent-info" id="playbookLogTouch2Btn">✓ Log Call / SMS (Touch 2)</button>
           <a href="#" class="btn btn-primary btn-sm" id="playbookOpenExistingLink" style="display: none;">Open Lead Workspace &rarr;</a>
           <button type="button" class="btn btn-primary btn-sm" id="playbookPromoteOpenBtn">🚀 Promote &amp; Open Lead Workspace</button>
         </div>
@@ -2207,6 +2471,9 @@
         statusFilter: 'all',
         outreachNicheFilter: 'all',
         outreachCityFilter: 'all',
+        outreachTierFilter: 'all',
+        outreachWebsiteFilter: 'all',
+        outreachCadenceFilter: 'all',
         outreachContactFilter: 'all',
         outreachStatusFilter: 'active',
         outreachLimit: 50,
@@ -2256,6 +2523,9 @@
       const statusFilter = document.getElementById('statusFilter');
       const outreachNicheFilter = document.getElementById('outreachNicheFilter');
       const outreachCityFilter = document.getElementById('outreachCityFilter');
+      const outreachTierFilter = document.getElementById('outreachTierFilter');
+      const outreachWebsiteFilter = document.getElementById('outreachWebsiteFilter');
+      const outreachCadenceFilter = document.getElementById('outreachCadenceFilter');
       const outreachContactFilter = document.getElementById('outreachContactFilter');
       const outreachStatusFilter = document.getElementById('outreachStatusFilter');
 
@@ -2295,7 +2565,12 @@
       const composerCandidateId = document.getElementById('composerCandidateId');
       const composerBusinessTitle = document.getElementById('composerBusinessTitle');
       const composerNicheBadge = document.getElementById('composerNicheBadge');
+      const composerOfferBadge = document.getElementById('composerOfferBadge');
       const composerSubtitle = document.getElementById('composerSubtitle');
+      const composerDiagnosticScorecard = document.getElementById('composerDiagnosticScorecard');
+      const cadenceTab1Btn = document.getElementById('cadenceTab1Btn');
+      const cadenceTab2Btn = document.getElementById('cadenceTab2Btn');
+      const cadenceTab3Btn = document.getElementById('cadenceTab3Btn');
       const composerToInput = document.getElementById('composerToInput');
       const composerTemplateSelect = document.getElementById('composerTemplateSelect');
       const composerSubjectInput = document.getElementById('composerSubjectInput');
@@ -2332,6 +2607,7 @@
       const copyPbVoicemailBtn = document.getElementById('copyPbVoicemailBtn');
       const playbookCallLink = document.getElementById('playbookCallLink');
       const playbookSmsLink = document.getElementById('playbookSmsLink');
+      const playbookLogTouch2Btn = document.getElementById('playbookLogTouch2Btn');
       const playbookOpenExistingLink = document.getElementById('playbookOpenExistingLink');
       const playbookPromoteOpenBtn = document.getElementById('playbookPromoteOpenBtn');
 
@@ -2687,6 +2963,9 @@
           state.searchQuery,
           state.outreachNicheFilter,
           state.outreachCityFilter,
+          state.outreachTierFilter,
+          state.outreachWebsiteFilter,
+          state.outreachCadenceFilter,
           state.outreachContactFilter,
           state.outreachStatusFilter,
           state.outreachLimit,
@@ -2713,6 +2992,15 @@
         }
         if (state.outreachCityFilter && state.outreachCityFilter !== 'all') {
           params.set('city', state.outreachCityFilter);
+        }
+        if (state.outreachTierFilter && state.outreachTierFilter !== 'all') {
+          params.set('tier', state.outreachTierFilter);
+        }
+        if (state.outreachWebsiteFilter && state.outreachWebsiteFilter !== 'all') {
+          params.set('webstatus', state.outreachWebsiteFilter);
+        }
+        if (state.outreachCadenceFilter && state.outreachCadenceFilter !== 'all') {
+          params.set('cadence', state.outreachCadenceFilter);
         }
         if (state.outreachContactFilter && state.outreachContactFilter !== 'all') {
           params.set('contact', state.outreachContactFilter);
@@ -2752,6 +3040,10 @@
           params.set('status', state.outreachStatusFilter || 'active');
           params.set('niche', state.outreachNicheFilter || 'all');
           params.set('city', state.outreachCityFilter || 'all');
+          params.set('tier', state.outreachTierFilter || 'all');
+          params.set('webstatus', state.outreachWebsiteFilter || 'all');
+          params.set('website_status', state.outreachWebsiteFilter || 'all');
+          params.set('cadence', state.outreachCadenceFilter || 'all');
           params.set('contact', state.outreachContactFilter || 'all');
         } else {
           params.set('view', 'leads');
@@ -2776,6 +3068,9 @@
           Boolean(state.searchQuery) ||
           state.outreachNicheFilter !== 'all' ||
           state.outreachCityFilter !== 'all' ||
+          state.outreachTierFilter !== 'all' ||
+          state.outreachWebsiteFilter !== 'all' ||
+          state.outreachCadenceFilter !== 'all' ||
           state.outreachContactFilter !== 'all' ||
           state.outreachStatusFilter !== 'active'
         );
@@ -2790,6 +3085,9 @@
         if (state.activeView === 'outreach') {
           if (state.outreachNicheFilter !== 'all') activeFilterCount++;
           if (state.outreachCityFilter !== 'all') activeFilterCount++;
+          if (state.outreachTierFilter !== 'all') activeFilterCount++;
+          if (state.outreachWebsiteFilter !== 'all') activeFilterCount++;
+          if (state.outreachCadenceFilter !== 'all') activeFilterCount++;
           if (state.outreachContactFilter !== 'all') activeFilterCount++;
           if (state.outreachStatusFilter !== 'active') activeFilterCount++;
         } else if (state.statusFilter !== 'all') {
@@ -2862,6 +3160,9 @@
         statusFilter.style.display = isOutreach ? 'none' : 'inline-flex';
         outreachNicheFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         outreachCityFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        if (outreachTierFilter) outreachTierFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        if (outreachWebsiteFilter) outreachWebsiteFilter.style.display = isOutreach ? 'inline-flex' : 'none';
+        if (outreachCadenceFilter) outreachCadenceFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         outreachContactFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         outreachStatusFilter.style.display = isOutreach ? 'inline-flex' : 'none';
 
@@ -2900,9 +3201,27 @@
         }
 
         const rawOStatus = (params.get('ostatus') || 'active').trim();
-        if (['active', 'uncontacted', 'emailed', 'promoted', 'dismissed', 'all'].includes(rawOStatus)) {
+        if (['active', 'uncontacted', 'in_cadence', 'emailed', 'promoted', 'dismissed', 'all'].includes(rawOStatus)) {
           state.outreachStatusFilter = rawOStatus;
           outreachStatusFilter.value = rawOStatus;
+        }
+
+        const rawTier = (params.get('tier') || 'all').trim();
+        if (['all', 'platform_3k', 'retainer_2500', 'pilot_500'].includes(rawTier)) {
+          state.outreachTierFilter = rawTier;
+          if (outreachTierFilter) outreachTierFilter.value = rawTier;
+        }
+
+        const rawWebStatus = (params.get('webstatus') || params.get('website_status') || 'all').trim();
+        if (['all', 'needs_fix', 'missing', 'broken', 'slow', 'unoptimized', 'healthy'].includes(rawWebStatus)) {
+          state.outreachWebsiteFilter = rawWebStatus;
+          if (outreachWebsiteFilter) outreachWebsiteFilter.value = rawWebStatus;
+        }
+
+        const rawCadence = (params.get('cadence') || 'all').trim();
+        if (['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'in_cadence'].includes(rawCadence)) {
+          state.outreachCadenceFilter = rawCadence;
+          if (outreachCadenceFilter) outreachCadenceFilter.value = rawCadence;
         }
 
         const rawContact = (params.get('contact') || 'all').trim();
@@ -2977,12 +3296,18 @@
         state.searchQuery = '';
         state.outreachNicheFilter = 'all';
         state.outreachCityFilter = 'all';
+        state.outreachTierFilter = 'all';
+        state.outreachWebsiteFilter = 'all';
+        state.outreachCadenceFilter = 'all';
         state.outreachContactFilter = 'all';
         state.outreachStatusFilter = 'active';
         state.outreachOffset = 0;
         searchInput.value = '';
         outreachNicheFilter.value = 'all';
         outreachCityFilter.value = 'all';
+        if (outreachTierFilter) outreachTierFilter.value = 'all';
+        if (outreachWebsiteFilter) outreachWebsiteFilter.value = 'all';
+        if (outreachCadenceFilter) outreachCadenceFilter.value = 'all';
         outreachContactFilter.value = 'all';
         outreachStatusFilter.value = 'active';
         syncUrlFromState();
@@ -3127,7 +3452,7 @@
         openModal(loginModal, passcodeInput);
       });
 
-      // Data Fetching: Pipeline Leads & Sunbiz Outreach
+      // Data Fetching: Pipeline Leads & Local Maps / Sunbiz Outreach
       async function fetchLeads() {
         try {
           const sig = getLeadsSignature();
@@ -3167,6 +3492,10 @@
             q: state.searchQuery,
             niche: state.outreachNicheFilter,
             city: state.outreachCityFilter,
+            tier: state.outreachTierFilter,
+            webstatus: state.outreachWebsiteFilter,
+            website_status: state.outreachWebsiteFilter,
+            cadence: state.outreachCadenceFilter,
             contact: state.outreachContactFilter,
             status: state.outreachStatusFilter,
             limit: String(state.outreachLimit),
@@ -3257,14 +3586,82 @@
           `${wonCount.toLocaleString('en-US')} deal${wonCount === 1 ? '' : 's'} closed`;
       }
 
+      function isCandidateDueFollowup(cand) {
+        if (!cand || !cand.next_action_at) return false;
+        if (cand.outreach_status === 'dismissed') return false;
+        if (Number(cand.cadence_step || 0) >= 3) return false;
+        const parsed = parseDateSafe(cand.next_action_at);
+        if (!parsed) return false;
+        const now = new Date();
+        const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+        return parsed.getTime() <= endOfToday.getTime();
+      }
+
       function renderOutreachMetrics() {
         const c = state.outreachCounts || {};
-        document.getElementById('kpiOutreachUncontacted').textContent = Number(c.uncontacted || 0).toLocaleString('en-US');
-        document.getElementById('kpiOutreachHighPriority').textContent = Number(c.high_priority || 0).toLocaleString('en-US');
-        document.getElementById('kpiOutreachEnriched').textContent = Number(c.has_email || 0).toLocaleString('en-US');
-        document.getElementById('kpiOutreachPhoneSub').textContent = `${Number(c.has_phone || 0).toLocaleString('en-US')} with phone numbers`;
-        document.getElementById('kpiOutreachEmailed').textContent = Number(c.emailed || 0).toLocaleString('en-US');
-        outreachTabBadge.textContent = Number(c.uncontacted || 0).toLocaleString('en-US');
+        const uncontactedCount = Number(c.uncontacted || 0);
+        const bleedersCount = Number(
+          c.page2_bleeders ??
+            c.bleeders ??
+            state.outreachCandidates.filter((x) => Number(x.gbp_rank) >= 6 && Number(x.gbp_rank) <= 25).length
+        );
+        const platform3kCount = Number(
+          c.platform_3k ??
+            state.outreachCandidates.filter((x) => x.recommended_tier === 'platform_3k').length
+        );
+        const retainer2500Count = Number(
+          c.retainer_2500 ??
+            state.outreachCandidates.filter((x) => x.recommended_tier === 'retainer_2500').length
+        );
+        const offerTotal =
+          platform3kCount + retainer2500Count > 0
+            ? platform3kCount + retainer2500Count
+            : Number(c.high_priority || 0);
+        const dueFollowupCount = Number(
+          c.due_followup ??
+            state.outreachCandidates.filter((x) => isCandidateDueFollowup(x)).length
+        );
+        const hasEmailCount = Number(c.has_email || 0);
+        const hasPhoneCount = Number(c.has_phone || 0);
+        const inCadenceCount = Number(
+          c.in_cadence ??
+            state.outreachCandidates.filter(
+              (x) =>
+                (Number(x.cadence_step) >= 1 || x.outreach_status === 'in_cadence') &&
+                x.outreach_status !== 'dismissed'
+            ).length
+        );
+        const emailedPromotedCount = Number(c.emailed || 0);
+
+        document.getElementById('kpiOutreachUncontacted').textContent = uncontactedCount.toLocaleString('en-US');
+        const bleedersSubEl = document.getElementById('kpiOutreachBleedersSub');
+        if (bleedersSubEl) {
+          bleedersSubEl.textContent =
+            bleedersCount > 0
+              ? `${bleedersCount.toLocaleString('en-US')} Page 2 Bleeders (Ranked #6–#25 in South FL)`
+              : 'Ranked #6–#25 in South FL';
+        }
+
+        document.getElementById('kpiOutreachHighPriority').textContent = offerTotal.toLocaleString('en-US');
+        const offerSubEl = document.getElementById('kpiOutreachOfferSub');
+        if (offerSubEl) {
+          offerSubEl.textContent = `${platform3kCount.toLocaleString('en-US')} $3k Platform • ${retainer2500Count.toLocaleString('en-US')} $2.5k Retainer`;
+        }
+
+        const dueEl = document.getElementById('kpiOutreachDueFollowup');
+        if (dueEl) dueEl.textContent = dueFollowupCount.toLocaleString('en-US');
+        document.getElementById('kpiOutreachEnriched').textContent = hasEmailCount.toLocaleString('en-US');
+        document.getElementById('kpiOutreachPhoneSub').textContent =
+          `${dueFollowupCount.toLocaleString('en-US')} due today • ${hasPhoneCount.toLocaleString('en-US')} with phone`;
+
+        document.getElementById('kpiOutreachEmailed').textContent =
+          Math.max(emailedPromotedCount, inCadenceCount).toLocaleString('en-US');
+        const cadenceSubEl = document.getElementById('kpiOutreachCadenceSub');
+        if (cadenceSubEl) {
+          cadenceSubEl.textContent = `${inCadenceCount.toLocaleString('en-US')} in cadence • ${emailedPromotedCount.toLocaleString('en-US')} touched/promoted`;
+        }
+
+        outreachTabBadge.textContent = uncontactedCount.toLocaleString('en-US');
       }
 
       // Stage Update with Optimistic KPI Calculation + Server Sync
@@ -3729,23 +4126,271 @@
         };
       }
 
-      function interpolateClientTemplate(templateKey, cand) {
-        const tpl = (state.outreachTemplates && state.outreachTemplates[templateKey]) || {
-          subject: '{{business_name_clean}}',
-          body: 'Hi {{first_name}},\n\nThere are {{searchers_count}} monthly Google searches in {{county}} for {{top_service_queries}}.\n\nAre you interested in capturing some of this local business?\n\nChristian\n(786) 967-3699'
+      // Safe URL Validator, Diagnostic Helpers & Client-Side Template Interpolation
+      function buildSafeExternalUrl(rawWebsite) {
+        if (!rawWebsite) return null;
+        const trimmed = String(rawWebsite).trim();
+        if (!trimmed || /^(?:javascript|data|vbscript|file):/i.test(trimmed)) return null;
+        const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+        try {
+          const parsed = new URL(withProtocol);
+          if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
+          if (!parsed.hostname || !parsed.hostname.includes('.')) return null;
+          return {
+            href: parsed.href,
+            domain: parsed.hostname.replace(/^www\./i, '')
+          };
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function parseTopCompetitors(rawTopCompetitors) {
+        if (!rawTopCompetitors) return [];
+        let list = rawTopCompetitors;
+        if (typeof rawTopCompetitors === 'string') {
+          try {
+            list = JSON.parse(rawTopCompetitors);
+          } catch (_) {
+            return [];
+          }
+        }
+        if (!Array.isArray(list)) return [];
+        return list
+          .filter((item) => item && typeof item === 'object')
+          .slice(0, 3)
+          .map((item, idx) => ({
+            rank: Number(item.rank || idx + 1),
+            name: String(item.name || item.title || `Map Pack Leader #${idx + 1}`).trim(),
+            rating: item.rating !== undefined && item.rating !== null ? Number(item.rating) : 4.9,
+            reviews: Number(item.reviews ?? item.review_count ?? 85)
+          }));
+      }
+
+      function inferRecommendedTier(cand) {
+        if (!cand) return 'platform_3k';
+        const explicit = String(cand.recommended_tier || '').trim();
+        if (['platform_3k', 'retainer_2500', 'pilot_500'].includes(explicit)) {
+          return explicit;
+        }
+        const webStatus = String(cand.website_status || '').trim();
+        const lcpMs = Number(cand.lcp_ms || 0);
+        const rank = Number(cand.gbp_rank || 0);
+        if (!cand.website || webStatus === 'missing' || webStatus === 'broken' || lcpMs >= 4000) {
+          return 'platform_3k';
+        }
+        if (rank >= 6) {
+          return 'retainer_2500';
+        }
+        if (!rank && cand.doc_number && !webStatus) {
+          return 'pilot_500';
+        }
+        return 'platform_3k';
+      }
+
+      function getOfferTierMeta(tierKey) {
+        if (tierKey === 'retainer_2500') {
+          return {
+            key: 'retainer_2500',
+            badgeClass: 'tier-retainer_2500',
+            icon: '📈',
+            shortLabel: '$2,500/mo Retainer',
+            fullLabel: '$2,500/mo Growth Retainer'
+          };
+        }
+        if (tierKey === 'pilot_500') {
+          return {
+            key: 'pilot_500',
+            badgeClass: 'tier-pilot_500',
+            icon: '⚡',
+            shortLabel: '$500 Pilot',
+            fullLabel: '$500 Fast-Track Launchpad Pilot'
+          };
+        }
+        return {
+          key: 'platform_3k',
+          badgeClass: 'tier-platform_3k',
+          icon: '💻',
+          shortLabel: '$3,000 Web Platform',
+          fullLabel: '$3,000 Dynamic Web Platform'
         };
-        const firstName = cand.founder_first_name || String(cand.founder_name || 'there').trim().split(/\s+/)[0] || 'there';
-        const businessClean = cand.business_name_clean || cand.business_name || 'your business';
-        const city = cand.city || 'South Florida';
-        const county = cand.county || 'Broward County';
-        const niche = cand.niche || 'Local Business';
+      }
+
+      function computeFallbackPainSummary(cand, topComp1) {
+        if (cand && cand.pain_summary && String(cand.pain_summary).trim()) {
+          return String(cand.pain_summary).trim();
+        }
+        const webStatus = String((cand && cand.website_status) || '').trim();
+        const lcpMs = Number((cand && cand.lcp_ms) || 0);
+        const hasSchema = Boolean(cand && (cand.has_schema === 1 || cand.has_schema === true));
+        const rank = Number((cand && cand.gbp_rank) || 0);
+        const compLabel = topComp1 && topComp1.name ? topComp1.name : 'Top 3 Map Pack leaders';
+
+        if (!cand || (!cand.website && webStatus !== 'healthy')) {
+          return rank > 0
+            ? `Ranked #${rank} with no dedicated website linked to Google Maps — bleeding calls to ${compLabel}`
+            : 'No dedicated conversion website or LocalBusiness schema linked to Google Maps';
+        }
+        if (webStatus === 'broken' || cand.has_ssl === 0) {
+          return `SSL / broken website error suppressing Map Pack trust vs ${compLabel}`;
+        }
+        if (lcpMs >= 4000 || webStatus === 'slow') {
+          const sec = lcpMs > 0 ? `${(lcpMs / 1000).toFixed(1)}s` : '>4.5s';
+          return `Slow ${sec} mobile LCP${!hasSchema ? ' + missing LocalBusiness JSON-LD schema' : ''} holding #${rank || 'Page 2'} back`;
+        }
+        if (!hasSchema || webStatus === 'unoptimized') {
+          return `Missing LocalBusiness & Service JSON-LD schema + authority gap vs ${compLabel}`;
+        }
+        return rank > 0
+          ? `Page 2 Map Pack authority & velocity gap (#${rank} vs ${compLabel})`
+          : 'Needs local search conversion architecture & Map Pack schema';
+      }
+
+      function isGenericFounderName(rawName, bizName = '') {
+        const trimmed = String(rawName || '').trim();
+        if (!trimmed || trimmed.length < 2) return true;
+        if (
+          /^(owner(\s*\/\s*decision\s*maker)?|decision\s*maker|manager|founder|president|principal|admin|team|director|member|mgr|ambr|ra|unknown|n\/a|none|null|undefined|there)$/i.test(
+            trimmed
+          )
+        ) {
+          return true;
+        }
+        if (bizName && trimmed.toLowerCase() === String(bizName).trim().toLowerCase()) {
+          return true;
+        }
+        return false;
+      }
+
+      const TOUCH_1_AUDIT_BODY =
+        'Hi {{first_name}},\n\n' +
+        'I was looking at the {{city}} Google Maps results for {{top_service_queries}} (~{{searchers_count}} searches/mo) and noticed **{{business_name_clean}}** is sitting at **#{{gbp_rank}}** with {{review_count}} reviews—while **#1 {{top_competitor_1}}** ({{top_competitor_1_reviews}} reviews) is capturing the lion\'s share of the Top 3 Map Pack calls.\n\n' +
+        'When I ran a quick technical check on your listing, the main bottleneck holding you back is {{pain_hook}} ({{schema_gap}}).\n\n' +
+        'I put together a quick custom diagnostic & preview showing the exact fix to push {{business_name_clean}} into the {{city}} Top 3. Want me to send it over?\n\n' +
+        'Christian Gomez\n' +
+        'G3Z Creative • (786) 967-3699';
+
+      const TOUCH_2_CALL_SMS_BODY =
+        '📱 **2-Sentence SMS (Copy & Text to {{business_name_clean}}):**\n' +
+        'Hey {{first_name}}, Christian here in South FL — sent you a quick note on why {{business_name_clean}} is ranked #{{gbp_rank}} in {{city}} behind {{top_competitor_1}} despite your {{review_count}} reviews ({{pain_hook}}). Mind if I text over the 60-sec breakdown?\n\n' +
+        '📞 **30-Second Owner-to-Owner Call Opener:**\n' +
+        '"Hey {{first_name}}, this is Christian Gomez calling locally here in South Florida. I\'ll be super brief—I was auditing the {{city}} Map Pack for {{service_term}} and saw {{business_name_clean}} sitting at #{{gbp_rank}} while {{top_competitor_1}} is sitting at #1. Even with your {{review_count}} reviews, Google is holding you back because of {{pain_hook}}. I already built out the {{recommended_offer}} blueprint for {{business_name_clean}}—do you have 2 minutes for me to show you how we fix that?"';
+
+      const TOUCH_3_FOLLOWUP_BODY =
+        'Hi {{first_name}},\n\n' +
+        'Quick follow-up on {{business_name_clean}}. Across the ~{{searchers_count}} monthly searches for {{top_service_queries}} around {{city}}, over 70% of homeowner calls go straight to the Top 3 Map Pack (**{{top_competitor_1}}** at {{top_competitor_1_reviews}} reviews and **{{top_competitor_2}}** at {{top_competitor_2_reviews}} reviews).\n\n' +
+        'Right now at **#{{gbp_rank}}**, fixing {{pain_hook}} is the fastest lever to stop leaking those high-ticket jobs.\n\n' +
+        'I have a custom preview ready for {{business_name_clean}} ({{recommended_offer}}). Open to a no-obligation 5-minute walkthrough this week?\n\n' +
+        'Christian Gomez\n' +
+        'G3Z Creative • (786) 967-3699';
+
+      const DEFAULT_OUTREACH_TEMPLATES = {
+        touch_1_audit: {
+          subject: '{{business_name_clean}} — #{{gbp_rank}} in {{city}} Map Pack vs {{top_competitor_1}}',
+          body: TOUCH_1_AUDIT_BODY
+        },
+        touch_2_call_sms: {
+          subject: 'Quick text / call script for {{business_name_clean}} ({{city}})',
+          body: TOUCH_2_CALL_SMS_BODY
+        },
+        touch_3_followup: {
+          subject: 'Re: {{business_name_clean}} / {{city}} Map Pack calls',
+          body: TOUCH_3_FOLLOWUP_BODY
+        },
+        launchpad_mockup: {
+          subject: '{{business_name_clean}} — #{{gbp_rank}} in {{city}} Map Pack vs {{top_competitor_1}}',
+          body: TOUCH_1_AUDIT_BODY
+        },
+        local_demand_snapshot: {
+          subject: 'Quick question re: {{business_name_clean}} in {{city}}',
+          body: TOUCH_2_CALL_SMS_BODY
+        },
+        short_neighbor: {
+          subject: 'Re: {{business_name_clean}} ({{city}})',
+          body: TOUCH_3_FOLLOWUP_BODY
+        }
+      };
+
+      function interpolateClientTemplate(templateKey, cand) {
+        const safeCand = cand || {};
+        const tpl =
+          (state.outreachTemplates && state.outreachTemplates[templateKey]) ||
+          DEFAULT_OUTREACH_TEMPLATES[templateKey] ||
+          DEFAULT_OUTREACH_TEMPLATES.touch_1_audit;
+
+        const businessClean = safeCand.business_name_clean || safeCand.business_name || 'your business';
+        const city = safeCand.city || 'South Florida';
+        const county = safeCand.county || 'Broward County';
+        const niche = safeCand.niche || 'Local Business';
         const nicheLower = niche === 'Local Business' ? 'local services' : niche.toLowerCase();
-        const nicheMeta = getClientNicheMeta(niche, county, cand);
+        const nicheMeta = getClientNicheMeta(niche, county, safeCand);
+
+        const rawFounder = String(safeCand.founder_name || '').trim();
+        const rawFirst = String(safeCand.founder_first_name || '').trim();
+        const candidateFirstToken = rawFirst || rawFounder.split(/\s+/)[0] || '';
+        const isGenericOwner =
+          isGenericFounderName(candidateFirstToken, businessClean) ||
+          isGenericFounderName(rawFounder, businessClean);
+        const firstName = !isGenericOwner ? candidateFirstToken : 'there';
+
+        const topComps = parseTopCompetitors(safeCand.top_competitors);
+        const hasComp1 = Boolean(topComps[0] && topComps[0].name);
+        const topComp1 = topComps[0] || { name: `the top ${city} ${nicheLower} leader`, reviews: '85+', rating: 4.9 };
+        const topComp2 = topComps[1] || { name: `local ${city} Map Pack leaders`, reviews: '60+', rating: 4.8 };
+
+        const hasRank =
+          safeCand.gbp_rank !== null &&
+          safeCand.gbp_rank !== undefined &&
+          safeCand.gbp_rank !== '' &&
+          Number(safeCand.gbp_rank) > 0;
+        const gbpRank = hasRank ? String(Math.round(Number(safeCand.gbp_rank))) : 'outside the Top 3 Map Pack';
+
+        const hasReviews =
+          safeCand.review_count !== null &&
+          safeCand.review_count !== undefined &&
+          safeCand.review_count !== '' &&
+          Number(safeCand.review_count) > 0;
+        const reviewCount = hasReviews ? String(Math.round(Number(safeCand.review_count))) : 'growing local';
+
+        const rating =
+          safeCand.rating !== undefined && safeCand.rating !== null && Number(safeCand.rating) > 0
+            ? Number(safeCand.rating).toFixed(1)
+            : '4.8';
+
+        const webStatus = String(safeCand.website_status || (safeCand.website ? 'unoptimized' : 'missing')).trim();
+        const lcpMs = Number(safeCand.lcp_ms || 0);
+        const lcpSecNum = lcpMs > 0 ? (lcpMs / 1000).toFixed(1) : webStatus === 'slow' ? '5.2' : '4.8';
+        const lcpSeconds = lcpSecNum;
+        const hasSchema = safeCand.has_schema === 1 || safeCand.has_schema === true;
+
+        let schemaGap = 'missing LocalBusiness & Service JSON-LD schema';
+        if (webStatus === 'missing' || !safeCand.website) {
+          schemaGap = 'no active website or LocalBusiness schema linked to your Google Business Profile';
+        } else if (webStatus === 'broken') {
+          schemaGap = 'a broken website link on your Google Business Profile that fails on mobile';
+        } else if (hasSchema) {
+          schemaGap = 'thin neighborhood service-area entity signals vs. the Top 3 Map Pack';
+        }
+
+        let painHook = `a local authority & entity-signal gap vs. the Top 3 Map Pack (${lcpSecNum}s mobile LCP)`;
+        if (webStatus === 'missing' || !safeCand.website) {
+          painHook = 'having no dedicated website linked to your Google Business Profile';
+        } else if (webStatus === 'broken') {
+          painHook = 'your website link failing to load on mobile';
+        } else if (webStatus === 'slow' || lcpMs > 4000) {
+          painHook = `a slow ${lcpSecNum}s mobile load time (Google targets under 2.5s)`;
+        } else if (webStatus === 'unoptimized' || !hasSchema) {
+          painHook = `unindexed service-area pages (${lcpSecNum}s mobile LCP) and missing entity signals`;
+        }
+
+        const tierKey = inferRecommendedTier(safeCand);
+        const tierMeta = getOfferTierMeta(tierKey);
+        const painSummary = computeFallbackPainSummary(safeCand, topComp1);
 
         const map = {
           first_name: firstName,
-          founder_name: cand.founder_name || firstName,
-          business_name: cand.business_name || businessClean,
+          founder_name: !isGenericOwner ? rawFounder : 'Owner / Decision Maker',
+          business_name: safeCand.business_name || businessClean,
           business_name_clean: businessClean,
           city,
           county,
@@ -3756,10 +4401,45 @@
           lingo_services: nicheMeta.lingoServices,
           lingo_question: nicheMeta.lingoQuestion,
           searchers_count: nicheMeta.searchersFormatted,
-          doc_number: cand.doc_number || ''
+          doc_number: safeCand.doc_number || '',
+          gbp_rank: gbpRank,
+          review_count: reviewCount,
+          rating,
+          top_competitor_1: topComp1.name,
+          top_competitor_1_reviews: String(topComp1.reviews),
+          top_competitor_2: topComp2.name,
+          top_competitor_2_reviews: String(topComp2.reviews),
+          lcp_seconds: lcpSeconds,
+          schema_gap: schemaGap,
+          pain_hook: painHook,
+          pain_summary: painSummary,
+          recommended_offer: tierMeta.fullLabel
         };
 
-        const rep = (s) => String(s || '').replace(/\{\{(\w+)\}\}/g, (_, k) => (map[k] !== undefined ? map[k] : ''));
+        const rep = (s) => {
+          let out = String(s || '');
+          if (!hasRank) {
+            out = out
+              .replace(/sitting at \*\*#\{\{gbp_rank\}\}\*\*/g, 'sitting **{{gbp_rank}}**')
+              .replace(/sitting at #\{\{gbp_rank\}\}/g, 'sitting {{gbp_rank}}')
+              .replace(/Right now at \*\*#\{\{gbp_rank\}\}\*\*/g, 'Right now **{{gbp_rank}}**')
+              .replace(/ranked #\{\{gbp_rank\}\}/g, 'ranked {{gbp_rank}}')
+              .replace(/#\{\{gbp_rank\}\} in \{\{city\}\} Map Pack/g, '{{gbp_rank}} in {{city}}')
+              .replace(/#\{\{gbp_rank\}\}/g, '{{gbp_rank}}');
+          }
+          if (!hasReviews) {
+            out = out
+              .replace(/with \*\*\{\{review_count\}\} reviews\*\*( \(\{\{rating\}\}★\))?/g, 'with your current Google Business Profile')
+              .replace(/with \{\{review_count\}\} reviews( \(\{\{rating\}\}★\))?/g, 'with your current Google Business Profile')
+              .replace(/despite your \{\{review_count\}\} reviews/g, 'on your current Google Business Profile')
+              .replace(/Even with your \{\{review_count\}\} reviews/g, 'Right now on your Google Business Profile');
+          }
+          if (!hasComp1) {
+            out = out.replace(/#1\s+\{\{top_competitor_1\}\}/g, '{{top_competitor_1}}');
+          }
+          return out.replace(/\{\{(\w+)\}\}/g, (_, k) => (map[k] !== undefined ? map[k] : ''));
+        };
+
         return {
           subject: rep(tpl.subject),
           body: rep(tpl.body)
@@ -3773,7 +4453,7 @@
         const offset = Number(state.outreachOffset || 0);
         const rowCount = state.outreachCandidates.length;
 
-        let summaryText = 'Showing 0 of 0 filings';
+        let summaryText = 'Showing 0 of 0 candidates';
         let pageText = 'Page 1 of 1';
         let hasPrev = false;
         let hasNext = false;
@@ -3783,7 +4463,7 @@
           const end = Math.min(offset + rowCount, total);
           const currentPage = Math.floor(offset / limit) + 1;
           const totalPages = Math.max(1, Math.ceil(total / limit));
-          summaryText = `Showing ${start.toLocaleString('en-US')}–${end.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} filing${total === 1 ? '' : 's'}`;
+          summaryText = `Showing ${start.toLocaleString('en-US')}–${end.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} candidate${total === 1 ? '' : 's'}`;
           pageText = `Page ${currentPage.toLocaleString('en-US')} of ${totalPages.toLocaleString('en-US')}`;
           hasPrev = offset > 0;
           hasNext = offset + limit < total;
@@ -3802,7 +4482,7 @@
         }
       }
 
-      // Outreach Table Renderer (WCAG 2.2 AA Labeled Inline Controls, Focus Preservation, Copy Doc#, Undo Dismiss)
+      // Outreach Table Renderer (Local Maps Bleeders + Legacy Sunbiz Fallback, Strict XSS Escaping)
       function renderOutreachTable() {
         const activeEl = document.activeElement;
         let savedOutreachFocus = null;
@@ -3827,9 +4507,9 @@
           if (isOutreachFiltered() || anyRecordsInDb) {
             tr.innerHTML = `
               <td colspan="6" style="text-align:center; padding:2.75rem 1.5rem;">
-                <div class="empty-state-title">No Sunbiz Filings Match Your Current Filters</div>
+                <div class="empty-state-title">No Outreach Candidates Match Your Current Filters</div>
                 <div class="empty-state-desc">
-                  Try clearing your search query or resetting niche, city, contact, or status filters to view South Florida candidates.
+                  Try clearing your search query or resetting offer tier, website health, cadence, niche, city, or status filters.
                 </div>
                 <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px;">
                   <button type="button" class="btn btn-primary btn-sm" id="outreachZeroMatchResetBtn">✕ Reset Outreach Filters</button>
@@ -3855,11 +4535,11 @@
           } else {
             tr.innerHTML = `
               <td colspan="6" style="text-align:center; padding:3rem 1.5rem;">
-                <div class="empty-state-title">No Sunbiz Outreach Candidates Yet</div>
+                <div class="empty-state-title">No Local Maps or Diagnostic Outreach Candidates Yet</div>
                 <div class="empty-state-desc">
-                  Import a daily Sunbiz filing file, run <code>npm run sync:sunbiz</code>, or load the South Florida starter batch to begin outreach.
+                  Run <code>npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code>, or load the South Florida Google Maps Page 2 Bleeders sample batch in 1 click.
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" id="emptyStateImportBtn">🏛️ Load / Import Sunbiz Businesses</button>
+                <button type="button" class="btn btn-primary btn-sm" id="emptyStateImportBtn">📍 Load South FL Maps Bleeders Batch</button>
               </td>
             `;
             outreachTableBody.appendChild(tr);
@@ -3883,53 +4563,163 @@
           const emailInputId = `outreach-email-${domSlug}`;
           const phoneInputId = `outreach-phone-${domSlug}`;
           const bizName = cand.business_name_clean || cand.business_name || 'Business';
-          const founderName = cand.founder_name || 'Founder';
+          const rawFounder = String(cand.founder_name || '').trim();
+          const isGenericOwner = isGenericFounderName(rawFounder, bizName);
+          const displayFounder = !isGenericOwner ? rawFounder : 'Owner / Decision Maker';
           const nicheMeta = getClientNicheMeta(cand.niche, cand.county, cand);
           const filingDisplay = cand.filing_date ? formatCalendarDate(cand.filing_date) : 'Recent';
 
-          const googleQuery = encodeURIComponent(`"${founderName}" "${cand.city || ''}" FL email OR phone OR "${bizName}"`);
-          const linkedinQuery = encodeURIComponent(`${founderName} ${cand.city || ''} Florida`);
-          const fastPeopleName = encodeURIComponent(String(founderName).toLowerCase().trim().replace(/\s+/g, '-'));
-          const fastPeopleCity = encodeURIComponent(String(cand.city || 'fl').toLowerCase().trim().replace(/\s+/g, '-'));
-          const pipelineWorkspaceUrl = cand.lead_id ? buildLeadWorkspaceUrl(cand.lead_id) : '';
+          // 1. GBP Rank & Top Competitor Benchmark (with legacy Sunbiz fallback)
+          const gbpRank = Number(cand.gbp_rank || 0);
+          const topComps = parseTopCompetitors(cand.top_competitors);
+          const topComp1 = topComps[0] || null;
 
-          tr.innerHTML = `
-            <td data-label="Business & Filing" style="min-width:225px;">
-              <div style="font-weight:700; color:#ffffff; font-size:0.94rem;">${escapeHtml(bizName)}</div>
-              <div style="font-size:0.73rem; color:var(--text-muted); margin-top:2px;">${escapeHtml(cand.business_name || '')}</div>
-              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:5px;">
-                <a href="${sunbizSearchUrl}" target="_blank" rel="noopener noreferrer" class="doc-link" data-doc-number="${escapeHtml(cand.doc_number || '')}">#${escapeHtml(cand.doc_number || 'N/A')}<span class="sr-only"> — copy Sunbiz document number and open search</span></a>
+          let rankAndSourceHtml = '';
+          if (gbpRank > 0) {
+            const rankBadgeClass =
+              gbpRank <= 5 ? 'gbp-rank-top' : gbpRank <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep';
+            const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.7';
+            const reviewsNum = Number(cand.review_count || 0);
+            rankAndSourceHtml = `
+              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:5px;">
+                <span class="gbp-rank-badge ${rankBadgeClass}">📍 #${gbpRank} in ${escapeHtml(cand.city || 'South FL')}</span>
+                <span style="font-size:0.74rem; color:#fde68a; font-weight:700;">⭐ ${escapeHtml(ratingStr)} <span style="color:#cbd5e1; font-weight:600;">(${reviewsNum.toLocaleString('en-US')} reviews)</span></span>
+              </div>
+              ${topComp1
+                ? `<div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">vs #1 <strong style="color:#e2e8f0;">${escapeHtml(topComp1.name)}</strong> (${Number(topComp1.reviews).toLocaleString('en-US')} rev)</div>`
+                : ''}
+            `;
+          } else {
+            rankAndSourceHtml = `
+              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:5px;">
+                <a href="${sunbizSearchUrl}" target="_blank" rel="noopener noreferrer" class="doc-link" data-doc-number="${escapeHtml(cand.doc_number || '')}">🏛️ Sunbiz #${escapeHtml(cand.doc_number || 'N/A')}<span class="sr-only"> — copy Sunbiz document number and open search</span></a>
                 <span style="font-size:0.72rem; color:#94a3b8;">&bull; Filed ${escapeHtml(filingDisplay)}</span>
               </div>
+            `;
+          }
+
+          // 2. Technical Diagnostic & Website Health
+          const safeWeb = buildSafeExternalUrl(cand.website);
+          const webStatus = String(cand.website_status || (safeWeb ? 'unoptimized' : 'missing')).trim();
+          const lcpMs = Number(cand.lcp_ms || 0);
+          const lcpSecStr = lcpMs > 0 ? `${(lcpMs / 1000).toFixed(1)}s` : '';
+          const hasSchema = cand.has_schema === 1 || cand.has_schema === true;
+          const hasSsl = cand.has_ssl === undefined || cand.has_ssl === null ? Boolean(safeWeb && safeWeb.href.startsWith('https://')) : Boolean(cand.has_ssl);
+
+          let statusPillHtml = '';
+          if (!safeWeb || webStatus === 'missing') {
+            statusPillHtml = `<span class="tech-pill tech-pill-danger">❌ No Website</span>`;
+          } else if (webStatus === 'broken' || !hasSsl) {
+            statusPillHtml = `<span class="tech-pill tech-pill-danger">⚠️ Broken/No SSL</span>`;
+          } else if (webStatus === 'slow' || lcpMs >= 4000) {
+            statusPillHtml = `<span class="tech-pill tech-pill-danger">🐢 LCP ${escapeHtml(lcpSecStr || '>4.0s')}</span>`;
+          } else if (webStatus === 'unoptimized' || !hasSchema) {
+            statusPillHtml = `<span class="tech-pill tech-pill-warn">🧩 No Schema</span>`;
+          } else {
+            statusPillHtml = `<span class="tech-pill tech-pill-ok">✅ Healthy</span>`;
+          }
+
+          const metricPills = [];
+          if (lcpMs > 0 && webStatus !== 'slow' && lcpMs < 4000) {
+            const lcpCls = lcpMs >= 2500 ? 'tech-pill-warn' : 'tech-pill-ok';
+            metricPills.push(`<span class="tech-pill ${lcpCls}">LCP ${escapeHtml(lcpSecStr)}</span>`);
+          }
+          if (safeWeb) {
+            metricPills.push(
+              hasSchema
+                ? `<span class="tech-pill tech-pill-ok">Schema ✓</span>`
+                : `<span class="tech-pill tech-pill-warn">No JSON-LD Schema</span>`
+            );
+            metricPills.push(
+              hasSsl
+                ? `<span class="tech-pill tech-pill-ok">SSL ✓</span>`
+                : `<span class="tech-pill tech-pill-danger">No SSL</span>`
+            );
+          }
+
+          const painSnippet = computeFallbackPainSummary(cand, topComp1);
+
+          // 3. Offer Tier & Score
+          const tierKey = inferRecommendedTier(cand);
+          const tierMeta = getOfferTierMeta(tierKey);
+
+          // 4. OSINT Links
+          const googleQuery = encodeURIComponent(
+            !isGenericOwner
+              ? `"${rawFounder}" "${cand.city || ''}" FL email OR phone OR "${bizName}"`
+              : `"${bizName}" "${cand.city || ''}" FL owner OR email OR phone`
+          );
+          const mapsQuery = encodeURIComponent(`${bizName} ${cand.city || ''} FL`);
+          const linkedinQuery = encodeURIComponent(
+            !isGenericOwner ? `${rawFounder} ${cand.city || ''} Florida` : `${bizName} ${cand.city || ''} Florida`
+          );
+          const pipelineWorkspaceUrl = cand.lead_id ? buildLeadWorkspaceUrl(cand.lead_id) : '';
+
+          // 5. Multi-Touch Cadence Status
+          const rawStep = Number(cand.cadence_step || 0);
+          const effectiveStep =
+            rawStep > 0
+              ? Math.min(3, rawStep)
+              : cand.outreach_status === 'emailed' || cand.outreach_status === 'in_cadence'
+                ? 1
+                : 0;
+          const cadenceMap = {
+            0: { cls: 'cadence-step-0', label: 'Step 0/3 • Uncontacted' },
+            1: { cls: 'cadence-step-1', label: 'Touch 1/3 • Audit Sent' },
+            2: { cls: 'cadence-step-2', label: 'Touch 2/3 • Call/SMS Logged' },
+            3: { cls: 'cadence-step-3', label: 'Touch 3/3 • Map Math Sent' }
+          };
+          const cadenceInfo = cadenceMap[effectiveStep] || cadenceMap[0];
+          const isDueToday = isCandidateDueFollowup(cand);
+          const nextActionDisplay = cand.next_action_at ? formatCalendarDate(cand.next_action_at) : '';
+          const showUpcomingAction =
+            Boolean(nextActionDisplay) &&
+            cand.outreach_status !== 'dismissed' &&
+            Number(cand.cadence_step || 0) < 3;
+
+          tr.innerHTML = `
+            <td data-label="Business & GBP Rank">
+              <div style="font-weight:700; color:#ffffff; font-size:0.93rem;">${escapeHtml(bizName)}</div>
+              ${cand.gbp_category ? `<div style="font-size:0.71rem; color:var(--text-muted); margin-top:1px;">${escapeHtml(cand.gbp_category)} &bull; ${escapeHtml(cand.city || 'South FL')}, FL</div>` : ''}
+              ${rankAndSourceHtml}
             </td>
 
-            <td data-label="Founder & Location" style="min-width:205px;">
-              <div style="font-weight:700; color:#7dd3fc; font-size:0.9rem;">
-                <span aria-hidden="true">👤</span> ${escapeHtml(founderName)}
-                <span style="font-size:0.68rem; color:var(--text-muted); font-weight:600; background:#0f172a; padding:1px 5px; border-radius:4px; margin-left:4px;">${escapeHtml(cand.founder_title || 'MGR')}</span>
+            <td data-label="Technical Diagnostic & Website">
+              <div style="margin-bottom:4px;">
+                ${safeWeb
+                  ? `<a href="${escapeHtml(safeWeb.href)}" target="_blank" rel="noopener noreferrer" class="website-domain-link"><span aria-hidden="true">🌐</span> ${escapeHtml(safeWeb.domain)} <span aria-hidden="true" style="font-size:0.68rem;">↗</span></a>`
+                  : `<span style="font-size:0.76rem; color:#fca5a5; font-weight:700;">No Website Linked</span>`}
               </div>
-              <div style="font-size:0.78rem; color:#e2e8f0; margin-top:3px;">
-                <span aria-hidden="true">📍</span> ${escapeHtml(cand.city || 'South FL')}, FL ${escapeHtml(cand.zip || '')}
+              <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
+                ${statusPillHtml}
+                ${metricPills.join('')}
               </div>
-              ${cand.principal_address ? `<div style="font-size:0.72rem; color:var(--text-muted); margin-top:2px;">${escapeHtml(cand.principal_address)}</div>` : ''}
+              <div style="font-size:0.72rem; color:#cbd5e1; line-height:1.35;">${escapeHtml(painSnippet)}</div>
             </td>
 
-            <td data-label="Niche & Priority" style="min-width:165px;">
-              <div><span class="card-service" style="margin-bottom:5px;">${escapeHtml(cand.niche || 'Local Business')}</span></div>
-              <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+            <td data-label="Offer Tier & Score">
+              <div style="margin-bottom:5px;">
+                <span class="tier-pill ${tierMeta.badgeClass}"><span aria-hidden="true">${tierMeta.icon}</span> ${escapeHtml(tierMeta.shortLabel)}</span>
+              </div>
+              <div style="display:flex; flex-wrap:wrap; gap:4px; align-items:center; margin-bottom:4px;">
                 <span class="score-pill ${scoreClass}"><span aria-hidden="true">${scoreIcon}</span> Score ${score}</span>
-                <span style="font-size:0.72rem; color:#7dd3fc; font-weight:600;" title="Monthly local searchers in ${escapeHtml(cand.county || 'South FL')} via DataForSEO">
-                  <span aria-hidden="true">📈</span> ~${escapeHtml(nicheMeta.searchersFormatted)} searches/mo
-                </span>
+                <span class="card-service">${escapeHtml(cand.niche || 'Local Business')}</span>
+              </div>
+              <div style="font-size:0.71rem; color:#7dd3fc; font-weight:600;" title="Monthly local searchers in ${escapeHtml(cand.county || 'South FL')}">
+                <span aria-hidden="true">📈</span> ~${escapeHtml(nicheMeta.searchersFormatted)} searches/mo
               </div>
             </td>
 
-            <td data-label="Email & Phone" style="min-width:260px;">
+            <td data-label="Decision-Maker & Contact">
+              <div style="font-weight:700; color:#7dd3fc; font-size:0.84rem; margin-bottom:4px;">
+                <span aria-hidden="true">👤</span> ${escapeHtml(displayFounder)}
+                ${cand.founder_title ? `<span style="font-size:0.66rem; color:var(--text-muted); font-weight:600; background:#0f172a; padding:1px 5px; border-radius:4px; margin-left:4px;">${escapeHtml(cand.founder_title)}</span>` : ''}
+              </div>
               <div class="inline-contact-row">
                 <span aria-hidden="true" style="font-size:0.8rem;">✉️</span>
                 <label for="${emailInputId}" class="sr-only">Email address for ${escapeHtml(bizName)}</label>
                 <input type="email" id="${emailInputId}" name="outreach_email_${domSlug}" class="inline-contact-input" data-field="email" data-id="${escapeHtml(cand.id)}" value="${escapeHtml(cand.email || '')}" autocomplete="off" spellcheck="false" placeholder="+ Add or enrich email...">
-                ${cand.enrichment_source ? `<span style="font-size:0.66rem; color:#86efac; background:rgba(34,197,94,0.15); padding:2px 5px; border-radius:4px;">${escapeHtml(cand.enrichment_source)}</span>` : ''}
+                ${cand.enrichment_source ? `<span style="font-size:0.65rem; color:#86efac; background:rgba(34,197,94,0.15); padding:2px 5px; border-radius:4px;">${escapeHtml(cand.enrichment_source)}</span>` : ''}
               </div>
               <div class="inline-contact-row">
                 <span aria-hidden="true" style="font-size:0.8rem;">📞</span>
@@ -3937,28 +4727,40 @@
                 <input type="tel" id="${phoneInputId}" name="outreach_phone_${domSlug}" class="inline-contact-input" data-field="phone" data-id="${escapeHtml(cand.id)}" value="${escapeHtml(cand.phone || '')}" autocomplete="off" placeholder="+ Add or enrich phone...">
               </div>
               <div class="osint-links">
-                <a href="https://www.google.com/search?q=${googleQuery}" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">🔍</span> Google<span class="sr-only"> search ${escapeHtml(founderName)} in ${escapeHtml(cand.city || 'FL')}</span></a>
-                <a href="https://www.linkedin.com/search/results/people/?keywords=${linkedinQuery}" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">💼</span> LinkedIn<span class="sr-only"> search ${escapeHtml(founderName)}</span></a>
-                <a href="https://www.fastpeoplesearch.com/name/${fastPeopleName}_${fastPeopleCity}-fl" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">📒</span> PeopleLookup<span class="sr-only"> ${escapeHtml(founderName)} in ${escapeHtml(cand.city || 'FL')}</span></a>
+                <a href="https://www.google.com/search?q=${googleQuery}" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">🔍</span> Google<span class="sr-only"> search ${escapeHtml(bizName)}</span></a>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=${mapsQuery}" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">📍</span> Maps<span class="sr-only"> open ${escapeHtml(bizName)} on Google Maps</span></a>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=${linkedinQuery}" target="_blank" rel="noopener noreferrer" class="osint-pill"><span aria-hidden="true">💼</span> LinkedIn<span class="sr-only"> search ${escapeHtml(displayFounder)}</span></a>
               </div>
             </td>
 
-            <td data-label="Stage">
-              <span class="status-badge status-${escapeHtml(cand.outreach_status || 'uncontacted')}">${escapeHtml(cand.outreach_status || 'uncontacted')}</span>
-              ${cand.emailed_at ? `<div style="font-size:0.69rem; color:var(--text-muted); margin-top:4px;">Sent ${escapeHtml(timeAgo(cand.emailed_at))}</div>` : ''}
-              ${pipelineWorkspaceUrl ? `<div style="margin-top:4px;"><a href="${escapeHtml(pipelineWorkspaceUrl)}" class="pipeline-jump-link"><span aria-hidden="true">👉</span> View in Pipeline<span class="sr-only"> (${escapeHtml(bizName)})</span></a></div>` : ''}
+            <td data-label="Multi-Touch Cadence">
+              <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-start;">
+                <span class="cadence-badge ${cadenceInfo.cls}">${escapeHtml(cadenceInfo.label)}</span>
+                <span class="status-badge status-${escapeHtml(cand.outreach_status || 'uncontacted')}">${escapeHtml(cand.outreach_status || 'uncontacted')}</span>
+                ${isDueToday
+                  ? `<span class="due-badge-urgent">⏰ Due Today</span>`
+                  : showUpcomingAction
+                    ? `<span class="due-badge-upcoming">🗓️ Next: ${escapeHtml(nextActionDisplay)}</span>`
+                    : ''}
+                ${cand.last_contacted_at || cand.emailed_at
+                  ? `<div style="font-size:0.68rem; color:var(--text-muted);">Last touch ${escapeHtml(timeAgo(cand.last_contacted_at || cand.emailed_at))}</div>`
+                  : ''}
+                ${pipelineWorkspaceUrl
+                  ? `<div><a href="${escapeHtml(pipelineWorkspaceUrl)}" class="pipeline-jump-link"><span aria-hidden="true">👉</span> View in Pipeline<span class="sr-only"> (${escapeHtml(bizName)})</span></a></div>`
+                  : ''}
+              </div>
             </td>
 
-            <td data-label="Outreach Actions" style="min-width:210px;">
+            <td data-label="Outreach Actions">
               <div style="display:flex; flex-wrap:wrap; gap:5px;">
                 <button type="button" class="btn btn-primary btn-sm outreach-email-btn" data-id="${escapeHtml(cand.id)}">
-                  <span aria-hidden="true">✉️</span> Email<span class="sr-only"> ${escapeHtml(bizName)}</span>
+                  <span aria-hidden="true">🎯</span> Diagnostic &amp; Cadence<span class="sr-only"> for ${escapeHtml(bizName)}</span>
                 </button>
                 <button type="button" class="btn btn-sm outreach-playbook-btn" data-id="${escapeHtml(cand.id)}" style="border-color:rgba(218, 16, 77, 0.5); color:#ff85a9;">
-                  <span aria-hidden="true">📖</span> Playbook<span class="sr-only"> for ${escapeHtml(bizName)}</span>
+                  <span aria-hidden="true">📖</span> Call/SMS Script<span class="sr-only"> for ${escapeHtml(bizName)}</span>
                 </button>
                 <button type="button" class="btn btn-sm outreach-enrich-btn" data-id="${escapeHtml(cand.id)}">
-                  <span aria-hidden="true">✨</span> Enrich<span class="sr-only"> ${escapeHtml(bizName)}</span>
+                  <span aria-hidden="true">🔍</span> Audit / Enrich<span class="sr-only"> ${escapeHtml(bizName)}</span>
                 </button>
                 ${cleanPhone ? `<a href="tel:${escapeHtml(cleanPhone)}" class="btn btn-sm" aria-label="Call ${escapeHtml(bizName)} at ${escapeHtml(cand.phone || cleanPhone)}"><span aria-hidden="true">📞</span></a>` : ''}
                 ${cleanPhone ? `<a href="sms:${escapeHtml(cleanPhone)}" class="btn btn-sm" aria-label="Send SMS to ${escapeHtml(bizName)}"><span aria-hidden="true">💬</span></a>` : ''}
@@ -4036,21 +4838,21 @@
           }
         }
 
-        // Email Composer Modal
+        // Diagnostic & Cadence Composer Modal
         outreachTableBody.querySelectorAll('.outreach-email-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
             openOutreachEmailComposer(btn.getAttribute('data-id'));
           });
         });
 
-        // Non-Mutating Call Playbook Modal (BUG-06)
+        // Touch 2 Call/SMS Playbook Modal
         outreachTableBody.querySelectorAll('.outreach-playbook-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
             openOutreachPlaybookModal(btn.getAttribute('data-id'));
           });
         });
 
-        // Automated Enrichment Waterfall
+        // Automated Technical Audit & Enrichment Waterfall
         outreachTableBody.querySelectorAll('.outreach-enrich-btn').forEach((btn) => {
           btn.addEventListener('click', async () => {
             await triggerSingleEnrich(btn.getAttribute('data-id'), btn);
@@ -4117,7 +4919,7 @@
       }
 
       async function triggerSingleEnrich(id, btnEl) {
-        const originalHtml = btnEl ? btnEl.innerHTML : '<span aria-hidden="true">✨</span> Enrich';
+        const originalHtml = btnEl ? btnEl.innerHTML : '<span aria-hidden="true">🔍</span> Audit / Enrich';
         if (btnEl) {
           btnEl.disabled = true;
           btnEl.textContent = '⏳...';
@@ -4131,18 +4933,18 @@
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
-            showToast(data.error || 'Enrichment requires an API key or manual OSINT lookup.');
-          } else if (data.candidate && (data.candidate.email || data.candidate.phone)) {
-            captureCrmEvent('outreach_enrichment_completed', { contact_found: true });
-            showToast(`Found contact info via ${(data.enrichment && data.enrichment.source) || 'enrichment'}!`);
+            showToast(data.error || 'Audit/Enrichment requires an API key or manual OSINT lookup.');
+          } else if (data.candidate && (data.candidate.email || data.candidate.phone || data.candidate.website_status)) {
+            captureCrmEvent('outreach_enrichment_completed', { contact_found: Boolean(data.candidate.email || data.candidate.phone) });
+            showToast(`Updated diagnostic & contact info via ${(data.enrichment && data.enrichment.source) || 'live audit'}!`);
             await fetchOutreach();
           } else {
             captureCrmEvent('outreach_enrichment_completed', { contact_found: false });
-            showToast('No public email/phone found via API — try the 1-click Google/PeopleLookup pills!');
+            showToast('No public email/phone found via API — try the 1-click Google/Maps/LinkedIn pills!');
             await fetchOutreach();
           }
         } catch (_) {
-          showToast('Enrichment request failed.');
+          showToast('Audit / Enrichment request failed.');
         } finally {
           if (btnEl && document.contains(btnEl)) {
             btnEl.disabled = false;
@@ -4155,7 +4957,10 @@
         if (btnEl) btnEl.disabled = true;
         try {
           const existingCand = state.outreachCandidates.find((c) => c.id === id);
-          const targetStage = existingCand && existingCand.outreach_status === 'emailed' ? 'contacted' : 'new';
+          const targetStage =
+            existingCand && (existingCand.outreach_status === 'emailed' || Number(existingCand.cadence_step) >= 1)
+              ? 'contacted'
+              : 'new';
           const res = await fetch(`/api/crm/outreach/${encodeURIComponent(id)}`, {
             method: 'POST',
             credentials: 'same-origin',
@@ -4179,33 +4984,128 @@
         }
       }
 
-      // Non-Mutating Call Playbook Modal (BUG-06)
+      // Helper to log a multi-touch cadence step (POST action: 'log_touch', with graceful fallback)
+      async function logCandidateCadenceTouch(cand, { step = 1, channel = 'email', to = '', subject = '', body = '' } = {}) {
+        if (!cand || !cand.id) return { ok: false, error: 'Candidate not selected.' };
+        try {
+          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'log_touch',
+              step,
+              channel,
+              to: to || cand.email || '',
+              subject,
+              body
+            })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (res.ok) {
+            return { ok: true, data };
+          }
+          if (res.status === 400 && /Unknown action:\s*log_touch/i.test(String(data.error || ''))) {
+            // Fallback for legacy backend: if email is present and channel === 'email', log via send_email log_only, else PATCH status
+            if (channel === 'email' && (to || cand.email)) {
+              const fallbackRes = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action: 'send_email',
+                  mode: 'log_only',
+                  to: to || cand.email,
+                  subject: subject || `Touch ${step} Outreach`,
+                  body: body || `Logged Touch ${step}`
+                })
+              });
+              const fbData = await fallbackRes.json().catch(() => ({}));
+              if (fallbackRes.ok) return { ok: true, data: fbData };
+            }
+            const patchOk = await patchOutreachCandidate(cand.id, { outreach_status: 'emailed' }, { silent: true });
+            return { ok: patchOk, data: {} };
+          }
+          return { ok: false, error: data.error || 'Could not log cadence touch.' };
+        } catch (_) {
+          return { ok: false, error: 'Network error while logging cadence touch.' };
+        }
+      }
+
+      // Upgraded Touch 2 Call/SMS Playbook Modal (Google Maps Bleeder + Technical Diagnostic Scripts)
       function openOutreachPlaybookModal(candidateId) {
         const cand = state.outreachCandidates.find((c) => c.id === candidateId);
         if (!cand) return;
 
         state.currentPlaybookCandidate = cand;
-        const firstName = cand.founder_first_name || String(cand.founder_name || 'there').trim().split(/\s+/)[0] || 'there';
         const company = cand.business_name_clean || cand.business_name || 'your business';
+        const rawFounder = String(cand.founder_name || '').trim();
+        const rawFirst = String(cand.founder_first_name || '').trim();
+        const candidateFirstToken = rawFirst || rawFounder.split(/\s+/)[0] || '';
+        const isGenericOwner =
+          isGenericFounderName(candidateFirstToken, company) ||
+          isGenericFounderName(rawFounder, company);
+        const firstName = !isGenericOwner ? candidateFirstToken : 'there';
+        const ownerDisplay = !isGenericOwner ? rawFounder : 'Owner / Decision Maker';
+        const gkTarget = !isGenericOwner ? firstName : 'the owner';
+
         const city = cand.city || 'South Florida';
         const county = cand.county || 'Broward County';
         const niche = cand.niche || 'Local Business';
-        const nicheLower = niche === 'Local Business' ? 'local service' : niche.toLowerCase();
         const meta = getClientNicheMeta(niche, county, cand);
 
-        playbookModalTitle.textContent = company;
-        playbookModalDemandBadge.textContent = `📈 ~${meta.searchersFormatted} searches/mo in ${county}`;
-        playbookModalSubtitle.textContent =
-          `Founder: ${cand.founder_name || firstName} (${cand.founder_title || 'MGR'}) • ${city}, FL • Sunbiz #${cand.doc_number || 'N/A'}`;
+        const gbpRank = Number(cand.gbp_rank || 0);
+        const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.8';
+        const reviewsCount = Number(cand.review_count || 0);
+        const hasReviews = reviewsCount > 0;
+        const topComps = parseTopCompetitors(cand.top_competitors);
+        const topComp1 = topComps[0] || { name: `the #1 ${city} Map Pack leader`, reviews: 92 };
+        const tierKey = inferRecommendedTier(cand);
+        const tierMeta = getOfferTierMeta(tierKey);
+        const painSummary = computeFallbackPainSummary(cand, topComp1);
+        const webStatus = String(cand.website_status || (cand.website ? 'unoptimized' : 'missing')).trim();
+        const lcpSec = Number(cand.lcp_ms) > 0 ? `${(Number(cand.lcp_ms) / 1000).toFixed(1)}s` : '4.8s';
+        const schemaGap =
+          cand.has_schema === 1 || cand.has_schema === true
+            ? 'service-area schema gap'
+            : 'missing LocalBusiness JSON-LD schema';
+        const techDetailLabel =
+          webStatus === 'missing' || !cand.website
+            ? 'no website linked to your Google Business Profile and missing LocalBusiness JSON-LD schema'
+            : `${lcpSec} mobile load & ${schemaGap}`;
+        const reputationLabel = hasReviews
+          ? `a strong ${ratingStr}★ reputation (${reviewsCount} reviews)`
+          : 'an active Google Business Profile';
 
-        pbOpenerText.textContent =
-          `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web guy here in Miramar. Did I catch the owner of ${company}?"`;
-        pbGatekeeperText.textContent =
-          `"Hey there, this is Christian calling locally from Miramar for ${firstName} regarding ${company}'s new ${city} business filing—nothing urgent at all. Is ${firstName} free for 20 seconds, or is there a better number to text?"`;
-        pbDiscoveryText.textContent =
-          `"I know I'm calling out of the blue—if this isn't useful, tell me no and I'll hang up. I saw ${company} on the new ${city} business list. There are ~${meta.searchersFormatted} local Google searches a month for ${meta.topServiceQueries}, and I build simple flat-rate websites ($500 Starter—$250 to start, $250 when you love it, ready in 2 days) that bring in ${meta.lingoServices}. ${meta.lingoQuestion}"`;
-        pbVoicemailText.textContent =
-          `Hey ${firstName}, Christian here in Miramar (G3Z Creative). Saw ${company}'s new filing in ${city}—congrats! There are ~${meta.searchersFormatted} searches/mo locally for ${meta.topServiceQueries}. I build clean flat-rate sites for local ${nicheLower} owners starting at $500 flat ($250 to start, ready in 48 hrs, zero contracts). Call or text me back at (786) 967-3699 if you want to see a quick example!`;
+        playbookModalTitle.textContent = company;
+        playbookModalDemandBadge.textContent =
+          gbpRank > 0
+            ? `📍 Ranked #${gbpRank} in ${city} • ${tierMeta.shortLabel}`
+            : `📈 ~${meta.searchersFormatted} searches/mo in ${county}`;
+        playbookModalSubtitle.textContent =
+          gbpRank > 0
+            ? `Decision-Maker: ${ownerDisplay} • #${gbpRank}${hasReviews ? ` (${ratingStr}★, ${reviewsCount} reviews)` : ''} vs #1 ${topComp1.name} (${topComp1.reviews} rev)`
+            : `Decision-Maker: ${ownerDisplay} (${cand.founder_title || 'MGR'}) • ${city}, FL • Sunbiz #${cand.doc_number || 'N/A'}`;
+
+        if (gbpRank > 0) {
+          pbOpenerText.textContent =
+            `"Hey ${firstName}, Christian calling locally here in Miramar. Did I catch the owner of ${company}? I sent over a quick diagnostic on your #${gbpRank} Google Maps ranking in ${city} behind ${topComp1.name}—do you have 25 seconds?"`;
+          pbGatekeeperText.textContent =
+            `"Hey there, this is Christian calling locally from Miramar for ${gkTarget} regarding the Google Maps & website speed diagnostic we ran on ${company} in ${city}—nothing urgent at all. Is ${gkTarget} free for 20 seconds, or is there a better cell number to text?"`;
+          pbDiscoveryText.textContent =
+            `"I know I'm calling out of the blue—if this isn't useful, tell me no and we'll hang up. You guys have ${reputationLabel}, but you're sitting at #${gbpRank} on Google Maps in ${city} while ${topComp1.name} (${topComp1.reviews} reviews) takes the Top 3 calls across ~${meta.searchersFormatted} monthly searches. Our audit flagged ${painSummary} (${techDetailLabel}). We deploy a ${tierMeta.fullLabel} specifically to fix that bottleneck and push ${company} into the Top 3 Map Pack. ${meta.lingoQuestion}"`;
+          pbVoicemailText.textContent =
+            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in Miramar (G3Z Creative) — just left you a quick note about ${company} ranking #${gbpRank} in ${city} Google Maps behind ${topComp1.name} (${topComp1.reviews} reviews). Our technical audit flagged ${painSummary} (${techDetailLabel}) — want me to text over the 90-second diagnostic walkthrough for our ${tierMeta.fullLabel}? (786) 967-3699`;
+        } else {
+          pbOpenerText.textContent =
+            `"Hey ${firstName}, we haven't met—my name's Christian, I'm a local web & Maps specialist here in Miramar. Did I catch the owner of ${company}?"`;
+          pbGatekeeperText.textContent =
+            `"Hey there, this is Christian calling locally from Miramar for ${gkTarget} regarding ${company}'s ${city} Google Maps diagnostic & filing—nothing urgent at all. Is ${gkTarget} free for 20 seconds, or is there a better number to text?"`;
+          pbDiscoveryText.textContent =
+            `"I know I'm calling out of the blue—if this isn't useful, tell me no and I'll hang up. There are ~${meta.searchersFormatted} local Google searches a month in ${county} for ${meta.topServiceQueries}, and our diagnostic flagged ${painSummary}. We build high-converting ${tierMeta.fullLabel} systems that capture ${meta.lingoServices}. ${meta.lingoQuestion}"`;
+          pbVoicemailText.textContent =
+            `Hey ${firstName}, Christian here in Miramar (G3Z Creative). Saw ${company} in ${city}—there are ~${meta.searchersFormatted} searches/mo locally for ${meta.topServiceQueries}, and we flagged ${painSummary}. Call or text me back at (786) 967-3699 if you want to see our 90-second ${tierMeta.shortLabel} walkthrough!`;
+        }
 
         const cleanPhone = extractValidPhone(cand.phone, '');
         if (cleanPhone) {
@@ -4216,6 +5116,11 @@
         } else {
           playbookCallLink.style.display = 'none';
           playbookSmsLink.style.display = 'none';
+        }
+
+        if (playbookLogTouch2Btn) {
+          playbookLogTouch2Btn.disabled = false;
+          playbookLogTouch2Btn.textContent = '✓ Log Call / SMS (Touch 2)';
         }
 
         if (cand.lead_id) {
@@ -4252,10 +5157,38 @@
       closePlaybookModalBtn.addEventListener('click', () => closeModal(outreachPlaybookModalOverlay));
       cancelPlaybookModalBtn.addEventListener('click', () => closeModal(outreachPlaybookModalOverlay));
 
+      if (playbookLogTouch2Btn) {
+        playbookLogTouch2Btn.addEventListener('click', async () => {
+          const cand = state.currentPlaybookCandidate;
+          if (!cand) return;
+          playbookLogTouch2Btn.disabled = true;
+          playbookLogTouch2Btn.textContent = '⏳ Logging Touch 2...';
+          try {
+            const result = await logCandidateCadenceTouch(cand, {
+              step: 2,
+              channel: 'call',
+              subject: `Touch 2 Call/SMS (${cand.business_name_clean || cand.business_name})`,
+              body: pbVoicemailText ? pbVoicemailText.textContent : 'Logged Touch 2 Owner Call / SMS'
+            });
+            if (result.ok) {
+              captureCrmEvent('outreach_touch_logged', { step: 2, channel: 'call' });
+              closeModal(outreachPlaybookModalOverlay);
+              showToast(`✓ Logged Touch 2 (Call/SMS) for ${cand.business_name_clean || 'candidate'} — Touch 3 scheduled (+3d)!`);
+              await Promise.all([fetchOutreach(), fetchLeads()]);
+            } else {
+              showToast(result.error || 'Could not log Touch 2.');
+            }
+          } finally {
+            playbookLogTouch2Btn.disabled = false;
+            playbookLogTouch2Btn.textContent = '✓ Log Call / SMS (Touch 2)';
+          }
+        });
+      }
+
       playbookPromoteOpenBtn.addEventListener('click', async () => {
         const cand = state.currentPlaybookCandidate;
         if (!cand) return;
-        const targetStage = cand.outreach_status === 'emailed' ? 'contacted' : 'new';
+        const targetStage = cand.outreach_status === 'emailed' || Number(cand.cadence_step) >= 1 ? 'contacted' : 'new';
         playbookPromoteOpenBtn.disabled = true;
         playbookPromoteOpenBtn.textContent = '⏳ Promoting...';
         try {
@@ -4280,9 +5213,107 @@
         }
       });
 
-      // CRO Outreach Email Composer Modal (BUG-12: Plain-text mailto without premature auto-promote)
+      // Upgraded Diagnostic & Multi-Touch Cadence Composer Modal
       function stripMarkdownBold(str) {
         return String(str || '').replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*\*/g, '');
+      }
+
+      function getStepAndChannelFromTemplateKey(templateKey, cand) {
+        if (templateKey === 'touch_2_call_sms' || templateKey === 'local_demand_snapshot') {
+          return { step: 2, channel: 'call' };
+        }
+        if (templateKey === 'touch_3_followup' || templateKey === 'short_neighbor') {
+          return { step: 3, channel: 'email' };
+        }
+        if (templateKey === 'touch_1_audit' || templateKey === 'launchpad_mockup') {
+          return { step: 1, channel: 'email' };
+        }
+        const currentStep = Number((cand && cand.cadence_step) || 0);
+        return { step: Math.min(3, Math.max(1, currentStep + 1)), channel: 'email' };
+      }
+
+      function syncCadenceTabsUi(templateKey) {
+        [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn].forEach((btn) => {
+          if (!btn) return;
+          const key = btn.getAttribute('data-touch-key');
+          btn.classList.toggle('active', key === templateKey);
+        });
+        const { step, channel } = getStepAndChannelFromTemplateKey(templateKey, state.currentOutreachCandidate);
+        const isEmailTouch = channel === 'email';
+        if (composerSendBtn) {
+          composerSendBtn.style.display = isEmailTouch ? 'inline-flex' : 'none';
+        }
+        if (composerMailtoBtn) {
+          composerMailtoBtn.style.display = isEmailTouch ? 'inline-flex' : 'none';
+        }
+        if (composerMarkPromotedBtn) {
+          composerMarkPromotedBtn.textContent = isEmailTouch
+            ? `✓ Log Touch ${step} & Advance Cadence`
+            : `✓ Log Touch ${step} (Call/SMS) & Advance Cadence`;
+        }
+      }
+
+      function renderComposerDiagnosticScorecard(cand) {
+        if (!composerDiagnosticScorecard || !cand) return;
+        const gbpRank = Number(cand.gbp_rank || 0);
+        const ratingStr = cand.rating ? Number(cand.rating).toFixed(1) : '4.8';
+        const reviewsNum = Number(cand.review_count || 0);
+        const lcpMs = Number(cand.lcp_ms || 0);
+        const lcpLabel = lcpMs > 0 ? `${(lcpMs / 1000).toFixed(1)}s LCP` : cand.website ? 'Unmeasured LCP' : 'No Website';
+        const hasSchema = cand.has_schema === 1 || cand.has_schema === true;
+        const tierKey = inferRecommendedTier(cand);
+        const tierMeta = getOfferTierMeta(tierKey);
+        const topComps = parseTopCompetitors(cand.top_competitors);
+        const painSummary = computeFallbackPainSummary(cand, topComps[0]);
+
+        const compRowsHtml =
+          topComps.length > 0
+            ? topComps
+                .map(
+                  (comp, idx) => `
+                  <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:0.74rem; padding:3px 0; border-bottom:1px solid rgba(51,65,85,0.45);">
+                    <span style="color:#f8fafc; font-weight:700;">#${Number(comp.rank || idx + 1)} ${escapeHtml(comp.name)}</span>
+                    <span style="color:#fde68a; white-space:nowrap;">⭐ ${escapeHtml(Number(comp.rating || 4.9).toFixed(1))} (${Number(comp.reviews || 0).toLocaleString('en-US')} rev)</span>
+                  </div>
+                `
+                )
+                .join('')
+            : `<div style="font-size:0.74rem; color:var(--text-muted);">Top 3 Map Pack leaders average 65–120+ reviews &amp; &lt;2.5s mobile LCP with LocalBusiness schema.</div>`;
+
+        composerDiagnosticScorecard.innerHTML = `
+          <div>
+            <div style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#7dd3fc; margin-bottom:5px;">
+              🎯 Candidate Technical Scorecard
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
+              <span class="gbp-rank-badge ${gbpRank > 0 && gbpRank <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep'}">
+                ${gbpRank > 0 ? `📍 Rank #${gbpRank}` : `🏛️ Sunbiz #${escapeHtml(cand.doc_number || 'Filing')}`}
+              </span>
+              ${gbpRank > 0 && reviewsNum > 0 ? `<span class="tech-pill tech-pill-ok">⭐ ${escapeHtml(ratingStr)} (${reviewsNum.toLocaleString('en-US')} rev)</span>` : ''}
+              <span class="tech-pill ${lcpMs >= 4000 || !cand.website ? 'tech-pill-danger' : 'tech-pill-warn'}">⚡ ${escapeHtml(lcpLabel)}</span>
+              <span class="tech-pill ${hasSchema ? 'tech-pill-ok' : 'tech-pill-danger'}">${hasSchema ? 'Schema ✓' : 'No Schema ❌'}</span>
+              <span class="tier-pill ${tierMeta.badgeClass}">${tierMeta.icon} ${escapeHtml(tierMeta.shortLabel)}</span>
+            </div>
+            <div style="font-size:0.74rem; color:#e2e8f0; line-height:1.4;">
+              <strong style="color:#fca5a5;">Bottleneck:</strong> ${escapeHtml(painSummary)}
+            </div>
+          </div>
+          <div class="scorecard-competitors-col">
+            <div style="font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#fcd34d; margin-bottom:4px;">
+              🏆 Top 3 Map Pack Leaders (${escapeHtml(cand.city || 'South FL')})
+            </div>
+            ${compRowsHtml}
+          </div>
+        `;
+      }
+
+      function applyComposerTemplate(templateKey) {
+        if (!state.currentOutreachCandidate) return;
+        composerTemplateSelect.value = templateKey;
+        syncCadenceTabsUi(templateKey);
+        const rendered = interpolateClientTemplate(templateKey, state.currentOutreachCandidate);
+        composerSubjectInput.value = rendered.subject;
+        composerBodyInput.value = rendered.body;
       }
 
       function openOutreachEmailComposer(candidateId) {
@@ -4291,27 +5322,54 @@
 
         state.currentOutreachCandidate = cand;
         composerCandidateId.value = cand.id;
-        composerBusinessTitle.textContent = cand.business_name_clean || cand.business_name || 'Compose Outreach Email';
+        const bizClean = cand.business_name_clean || cand.business_name || 'Diagnostic & Cadence Composer';
+        composerBusinessTitle.textContent = bizClean;
         composerNicheBadge.textContent = `${cand.niche || 'Local Business'} • ${cand.city || 'FL'}`;
+
+        const tierKey = inferRecommendedTier(cand);
+        const tierMeta = getOfferTierMeta(tierKey);
+        if (composerOfferBadge) {
+          composerOfferBadge.className = `tier-pill ${tierMeta.badgeClass}`;
+          composerOfferBadge.textContent = `${tierMeta.icon} ${tierMeta.shortLabel}`;
+        }
+
+        const rawFounder = String(cand.founder_name || '').trim();
+        const isGenericOwner = isGenericFounderName(rawFounder, bizClean);
+        const gbpRank = Number(cand.gbp_rank || 0);
         composerSubtitle.textContent =
-          `Founder: ${cand.founder_name || '—'} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number || 'N/A'}`;
+          gbpRank > 0
+            ? `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} • Ranked #${gbpRank} in ${cand.city || 'South FL'} • Step ${Number(cand.cadence_step || 0)}/3`
+            : `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number || 'N/A'} • Step ${Number(cand.cadence_step || 0)}/3`;
+
+        renderComposerDiagnosticScorecard(cand);
+
         composerToInput.value = cand.email || '';
         composerErrorBox.style.display = 'none';
         composerErrorBox.textContent = '';
 
-        composerTemplateSelect.value = 'launchpad_mockup';
-        const rendered = interpolateClientTemplate('launchpad_mockup', cand);
-        composerSubjectInput.value = rendered.subject;
-        composerBodyInput.value = rendered.body;
+        const currentStep = Number(cand.cadence_step || 0);
+        const initialTemplate =
+          currentStep === 1
+            ? 'touch_2_call_sms'
+            : currentStep >= 2
+              ? 'touch_3_followup'
+              : 'touch_1_audit';
+        applyComposerTemplate(initialTemplate);
 
         openModal(outreachEmailModalOverlay, cand.email ? composerSubjectInput : composerToInput);
       }
 
+      [cadenceTab1Btn, cadenceTab2Btn, cadenceTab3Btn].forEach((btn) => {
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+          const touchKey = btn.getAttribute('data-touch-key');
+          if (touchKey) applyComposerTemplate(touchKey);
+        });
+      });
+
       composerTemplateSelect.addEventListener('change', () => {
         if (!state.currentOutreachCandidate) return;
-        const rendered = interpolateClientTemplate(composerTemplateSelect.value, state.currentOutreachCandidate);
-        composerSubjectInput.value = rendered.subject;
-        composerBodyInput.value = rendered.body;
+        applyComposerTemplate(composerTemplateSelect.value);
       });
 
       closeComposerModalBtn.addEventListener('click', () => closeModal(outreachEmailModalOverlay));
@@ -4322,7 +5380,7 @@
         const plainBody = stripMarkdownBold(composerBodyInput.value.trim());
         try {
           await navigator.clipboard.writeText(`Subject: ${plainSubject}\n\n${plainBody}`);
-          showToast('Copied plain-text outreach email to clipboard!');
+          showToast('Copied plain-text touch script / email to clipboard!');
         } catch (_) {
           showToast('Could not copy to clipboard.');
         }
@@ -4360,21 +5418,23 @@
         captureCrmEvent('outreach_mailto_opened', { candidate_id: cand.id });
         const mailtoUrl = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(plainBody)}`;
         window.location.href = mailtoUrl;
-        showToast('Opened plain-text draft in Mail App — click "Mark Emailed & Promote" once sent!');
+        showToast('Opened plain-text draft in Mail App — click "Log Touch & Advance Cadence" once sent!');
       });
 
-      // Explicit Manual Promotion after sending in external Mail App
+      // Log Touch 1 / Touch 2 / Touch 3 & Advance Cadence
       composerMarkPromotedBtn.addEventListener('click', async () => {
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
+        const templateKey = composerTemplateSelect.value;
+        const { step, channel } = getStepAndChannelFromTemplateKey(templateKey, cand);
         const to = composerToInput.value.trim();
         const subject = stripMarkdownBold(composerSubjectInput.value.trim());
         const plainBody = stripMarkdownBold(composerBodyInput.value.trim());
 
         composerErrorBox.style.display = 'none';
-        if (!to || !to.includes('@')) {
-          composerErrorBox.textContent = 'A valid recipient email address is required to log and promote.';
+        if (channel === 'email' && (!to || !to.includes('@'))) {
+          composerErrorBox.textContent = 'A valid recipient email address is required to log an email touch (or switch to Touch 2 Call/SMS).';
           composerErrorBox.style.display = 'block';
           composerToInput.focus();
           return;
@@ -4386,46 +5446,48 @@
         }
 
         composerMarkPromotedBtn.disabled = true;
-        composerMarkPromotedBtn.textContent = '⏳ Verifying & Promoting...';
+        composerMarkPromotedBtn.textContent = `⏳ Logging Touch ${step}...`;
 
         try {
-          const res = await fetch(`/api/crm/outreach/${encodeURIComponent(cand.id)}`, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'send_email',
-              mode: 'log_only',
-              to,
-              subject,
-              body: plainBody
-            })
+          if (to && to !== (cand.email || '')) {
+            await patchOutreachCandidate(cand.id, { email: to }, { silent: true });
+            cand.email = to;
+          }
+
+          const res = await logCandidateCadenceTouch(cand, {
+            step,
+            channel,
+            to,
+            subject,
+            body: plainBody
           });
-          const data = await res.json().catch(() => ({}));
+
           if (!res.ok) {
-            composerErrorBox.textContent = data.error || 'Could not validate recipient email.';
+            composerErrorBox.textContent = res.error || 'Could not log cadence touch.';
             composerErrorBox.style.display = 'block';
             return;
           }
 
-          captureCrmEvent('outreach_email_logged', { delivery_method: 'mail_app' });
+          captureCrmEvent('outreach_touch_logged', { step, channel, template_key: templateKey });
           closeModal(outreachEmailModalOverlay);
-          showToast(`✓ Marked ${cand.business_name_clean || 'candidate'} emailed & moved to Contacted!`);
+          showToast(`✓ Logged Touch ${step} (${channel.toUpperCase()}) for ${cand.business_name_clean || 'candidate'} & advanced cadence!`);
           await Promise.all([fetchOutreach(), fetchLeads()]);
         } catch (_) {
-          composerErrorBox.textContent = 'Network error while logging email and promoting candidate.';
+          composerErrorBox.textContent = 'Network error while logging cadence touch.';
           composerErrorBox.style.display = 'block';
         } finally {
           composerMarkPromotedBtn.disabled = false;
-          composerMarkPromotedBtn.textContent = '✓ Mark Emailed & Promote';
+          syncCadenceTabsUi(composerTemplateSelect.value);
         }
       });
 
-      // Direct HTML Dispatch via Resend / Configured Email API (preserves **bold** -> <strong>)
+      // Direct HTML Dispatch via Configured Email API (preserves **bold** -> <strong>, logs touch & schedules next follow-up)
       composerSendBtn.addEventListener('click', async () => {
         const cand = state.currentOutreachCandidate;
         if (!cand) return;
 
+        const templateKey = composerTemplateSelect.value;
+        const { step } = getStepAndChannelFromTemplateKey(templateKey, cand);
         const to = composerToInput.value.trim();
         const subject = composerSubjectInput.value.trim();
         const rawBody = composerBodyInput.value.trim();
@@ -4454,6 +5516,7 @@
             body: JSON.stringify({
               action: 'send_email',
               mode: 'send',
+              step,
               to,
               subject,
               body: rawBody
@@ -4464,9 +5527,9 @@
             composerErrorBox.textContent = data.error || 'Could not send email via API.';
             composerErrorBox.style.display = 'block';
           } else {
-            captureCrmEvent('outreach_email_sent', { delivery_method: data.provider || 'crm' });
+            captureCrmEvent('outreach_email_sent', { delivery_method: data.provider || 'crm', step });
             closeModal(outreachEmailModalOverlay);
-            showToast(`🚀 Email sent to ${cand.founder_name || to} & promoted to Contacted!`);
+            showToast(`🚀 Touch ${step} email sent to ${cand.founder_name || to} & follow-up scheduled!`);
             await Promise.all([fetchOutreach(), fetchLeads()]);
           }
         } catch (_) {
@@ -4474,11 +5537,11 @@
           composerErrorBox.style.display = 'block';
         } finally {
           composerSendBtn.disabled = false;
-          composerSendBtn.textContent = '⚡ Send via Resend API';
+          composerSendBtn.textContent = '⚡ Send Email via API';
         }
       });
 
-      // Sunbiz Import / Sync Modal & Batch Enrich
+      // Maps & Outreach Import / Sync Modal & Batch Audit/Enrich
       function openSunbizImportModal() {
         openModal(sunbizImportModalOverlay, loadSampleSunbizBtn);
       }
@@ -4500,7 +5563,7 @@
       submitSunbizImportBtn.addEventListener('click', async () => {
         const rawText = sunbizRawTextInput.value.trim();
         if (!rawText) {
-          showToast('Please select a file or paste Sunbiz lines first.');
+          showToast('Please select a file or paste candidate rows first.');
           sunbizRawTextInput.focus();
           return;
         }
@@ -4532,12 +5595,12 @@
             applyViewLayout('outreach');
             syncUrlFromState();
             await fetchOutreach();
-            showToast(`Imported ${data.inserted || 0} new South FL filings (${data.auto_enriched || 0} auto-enriched)!`);
+            showToast(`Imported ${data.inserted || 0} South FL candidates (${data.auto_enriched || 0} auto-enriched)!`);
           } else {
             showToast(data.error || 'Import failed.');
           }
         } catch (_) {
-          showToast('Failed to import Sunbiz data.');
+          showToast('Failed to import outreach candidates.');
         } finally {
           submitSunbizImportBtn.disabled = false;
           submitSunbizImportBtn.textContent = '📥 Parse & Import Candidates';
@@ -4549,13 +5612,223 @@
         loadSampleSunbizBtn.textContent = '⏳ Loading...';
         const today = new Date().toISOString().slice(0, 10);
         const starterCandidates = [
-          { doc_number: 'L26000418902', business_name: 'PINES APEX ROOFING & SOLAR LLC', filing_date: today, founder_name: 'Carlos M. Mendoza', founder_title: 'MGR', principal_address: '11402 Pines Blvd Suite 204', city: 'Pembroke Pines', state: 'FL', zip: '33026', email: '', phone: '(954) 612-8840' },
-          { doc_number: 'L26000418945', business_name: 'MIRAMAR BREEZE AIR CONDITIONING & HVAC LLC', filing_date: today, founder_name: 'David R. Castellanos', founder_title: 'AMBR', principal_address: '14850 SW 29th St', city: 'Miramar', state: 'FL', zip: '33027', email: '', phone: '(786) 493-2109' },
-          { doc_number: 'L26000419011', business_name: 'BROWARD ELITE DENTAL & AESTHETICS PLLC', filing_date: today, founder_name: 'Elena V. Navarro', founder_title: 'MGR', principal_address: '3900 Hollywood Blvd Suite 102', city: 'Hollywood', state: 'FL', zip: '33021', email: '', phone: '(954) 881-3490' },
-          { doc_number: 'L26000419088', business_name: 'DAVIE PRECISION PLUMBING & DRAIN SERVICES LLC', filing_date: today, founder_name: 'Marcus J. Vance', founder_title: 'MGR', principal_address: '6420 Griffin Rd', city: 'Davie', state: 'FL', zip: '33314', email: '', phone: '(954) 709-4412' },
-          { doc_number: 'L26000419134', business_name: 'WESTON RHYTHM & MOTION DANCE STUDIO LLC', filing_date: today, founder_name: 'Sofia L. Delgado', founder_title: 'MGR', principal_address: '1675 Market St', city: 'Weston', state: 'FL', zip: '33326', email: '', phone: '(954) 389-7721' },
-          { doc_number: 'L26000419205', business_name: 'LAS OLAS MASTER ELECTRICIANS & GENERATOR PROS LLC', filing_date: today, founder_name: 'Anthony G. Russo', founder_title: 'MGR', principal_address: '800 E Broward Blvd', city: 'Fort Lauderdale', state: 'FL', zip: '33301', email: '', phone: '' },
-          { doc_number: 'L26000419279', business_name: 'DORAL TROPICAL LANDSCAPE DESIGN & PAVERS LLC', filing_date: today, founder_name: 'Jorge A. Morales', founder_title: 'AMBR', principal_address: '8400 NW 36th St', city: 'Doral', state: 'FL', zip: '33166', email: '', phone: '(305) 592-6388' }
+          {
+            doc_number: 'MAP26001901',
+            place_id: 'ChIJ_PinesApexRoofing_01',
+            business_name: 'PINES APEX ROOFING & WATERPROOFING LLC',
+            filing_date: today,
+            founder_name: 'Carlos M. Mendoza',
+            founder_title: 'MGR',
+            principal_address: '11402 Pines Blvd Suite 204',
+            city: 'Pembroke Pines',
+            state: 'FL',
+            zip: '33026',
+            niche: 'Roofing',
+            gbp_category: 'Roofing contractor',
+            gbp_rank: 8,
+            rating: 4.8,
+            review_count: 34,
+            website: 'pinesapexroofing.com',
+            website_status: 'slow',
+            lcp_ms: 5840,
+            has_ssl: 1,
+            has_schema: 0,
+            recommended_tier: 'platform_3k',
+            pain_summary: '5.8s mobile LCP & missing LocalBusiness JSON-LD schema holding #8 rank behind #1',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'T&S Roofing Systems', rating: 4.9, reviews: 142 },
+              { rank: 2, name: 'Shield Proof Roofing', rating: 4.8, reviews: 98 },
+              { rank: 3, name: 'Broward Crown Roofing', rating: 4.8, reviews: 76 }
+            ]),
+            email: 'carlos@pinesapexroofing.com',
+            phone: '(954) 612-8840'
+          },
+          {
+            doc_number: 'MAP26001902',
+            place_id: 'ChIJ_MiramarBreezeHVAC_02',
+            business_name: 'MIRAMAR BREEZE AIR CONDITIONING & HVAC LLC',
+            filing_date: today,
+            founder_name: 'David R. Castellanos',
+            founder_title: 'AMBR',
+            principal_address: '14850 SW 29th St',
+            city: 'Miramar',
+            state: 'FL',
+            zip: '33027',
+            niche: 'HVAC',
+            gbp_category: 'HVAC contractor',
+            gbp_rank: 11,
+            rating: 4.9,
+            review_count: 52,
+            website: 'miramarbreezeac.com',
+            website_status: 'unoptimized',
+            lcp_ms: 2950,
+            has_ssl: 1,
+            has_schema: 0,
+            recommended_tier: 'retainer_2500',
+            pain_summary: 'Ranked #11 despite 4.9★ (52 reviews) — missing LocalBusiness schema & city service pages',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'Cool Air USA Miramar', rating: 4.9, reviews: 184 },
+              { rank: 2, name: ' Direct Air Conditioning', rating: 4.8, reviews: 129 },
+              { rank: 3, name: 'Arctic Breeze Pros', rating: 4.7, reviews: 88 }
+            ]),
+            email: 'david@miramarbreezeac.com',
+            phone: '(786) 493-2109'
+          },
+          {
+            doc_number: 'MAP26001903',
+            place_id: 'ChIJ_DaviePrecisionPlumbing_03',
+            business_name: 'DAVIE PRECISION PLUMBING & REPIPE PROS LLC',
+            filing_date: today,
+            founder_name: 'Marcus J. Vance',
+            founder_title: 'MGR',
+            principal_address: '6420 Griffin Rd',
+            city: 'Davie',
+            state: 'FL',
+            zip: '33314',
+            niche: 'Plumbing',
+            gbp_category: 'Plumber',
+            gbp_rank: 7,
+            rating: 4.7,
+            review_count: 41,
+            website: '',
+            website_status: 'missing',
+            lcp_ms: 0,
+            has_ssl: 0,
+            has_schema: 0,
+            recommended_tier: 'platform_3k',
+            pain_summary: 'Sitting at #7 in Davie with 41 reviews but NO website linked to Google Business Profile',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'All Year Cooling & Plumbing', rating: 4.9, reviews: 210 },
+              { rank: 2, name: 'Davie Master Plumbers', rating: 4.8, reviews: 95 },
+              { rank: 3, name: 'Flamingo Plumbing & Backflow', rating: 4.8, reviews: 74 }
+            ]),
+            email: '',
+            phone: '(954) 709-4412'
+          },
+          {
+            doc_number: 'MAP26001904',
+            place_id: 'ChIJ_HollywoodEliteDental_04',
+            business_name: 'BROWARD ELITE IMPLANT & COSMETIC DENTAL PLLC',
+            filing_date: today,
+            founder_name: 'Elena V. Navarro',
+            founder_title: 'MGR',
+            principal_address: '3900 Hollywood Blvd Suite 102',
+            city: 'Hollywood',
+            state: 'FL',
+            zip: '33021',
+            niche: 'Medical, Dental & Wellness',
+            gbp_category: 'Cosmetic dentist',
+            gbp_rank: 9,
+            rating: 4.9,
+            review_count: 68,
+            website: 'browardelitedental.com',
+            website_status: 'unoptimized',
+            lcp_ms: 3100,
+            has_ssl: 1,
+            has_schema: 0,
+            recommended_tier: 'retainer_2500',
+            pain_summary: 'Ranked #9 on Page 2 despite 68 4.9★ reviews — missing Dentist/MedicalClinic schema & velocity',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'Hollywood Smile Studio', rating: 4.9, reviews: 165 },
+              { rank: 2, name: 'Emerald Hills Dental Care', rating: 4.8, reviews: 118 },
+              { rank: 3, name: 'South FL Implant Center', rating: 4.8, reviews: 91 }
+            ]),
+            email: 'dr.navarro@browardelitedental.com',
+            phone: '(954) 881-3490'
+          },
+          {
+            doc_number: 'MAP26001905',
+            place_id: 'ChIJ_LasOlasElectric_05',
+            business_name: 'LAS OLAS MASTER ELECTRICIANS & GENERATOR PROS LLC',
+            filing_date: today,
+            founder_name: 'Anthony G. Russo',
+            founder_title: 'MGR',
+            principal_address: '800 E Broward Blvd',
+            city: 'Fort Lauderdale',
+            state: 'FL',
+            zip: '33301',
+            niche: 'Electrical',
+            gbp_category: 'Electrician',
+            gbp_rank: 14,
+            rating: 4.6,
+            review_count: 19,
+            website: 'lasolaselectricpros.com',
+            website_status: 'broken',
+            lcp_ms: 6420,
+            has_ssl: 0,
+            has_schema: 0,
+            recommended_tier: 'platform_3k',
+            pain_summary: 'Expired SSL warning + 6.4s mobile LCP suppressing #14 GBP listing in Fort Lauderdale',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'Mr. Sparky of Fort Lauderdale', rating: 4.8, reviews: 190 },
+              { rank: 2, name: 'Las Olas Power & Marine Electric', rating: 4.9, reviews: 87 },
+              { rank: 3, name: 'Broward Generator & Panel Pros', rating: 4.8, reviews: 64 }
+            ]),
+            email: 'anthony@lasolaselectricpros.com',
+            phone: '(954) 510-3390'
+          },
+          {
+            doc_number: 'MAP26001906',
+            place_id: 'ChIJ_DoralTropicalPavers_06',
+            business_name: 'DORAL TROPICAL HARDSCAPES & TRAVERTINE PAVERS LLC',
+            filing_date: today,
+            founder_name: 'Jorge A. Morales',
+            founder_title: 'AMBR',
+            principal_address: '8400 NW 36th St',
+            city: 'Doral',
+            state: 'FL',
+            zip: '33166',
+            niche: 'Landscaping & Lawn',
+            gbp_category: 'Landscape designer',
+            gbp_rank: 12,
+            rating: 4.8,
+            review_count: 28,
+            website: 'doraltropicalpavers.com',
+            website_status: 'slow',
+            lcp_ms: 5120,
+            has_ssl: 1,
+            has_schema: 0,
+            recommended_tier: 'platform_3k',
+            pain_summary: '5.1s uncompressed gallery LCP & zero LocalBusiness schema keeping them at #12 in Doral',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'Doral Luxury Pavers & Turf', rating: 4.9, reviews: 112 },
+              { rank: 2, name: 'Miami Tropical Hardscapes', rating: 4.8, reviews: 79 },
+              { rank: 3, name: 'Gables & Doral Landscape Group', rating: 4.8, reviews: 63 }
+            ]),
+            email: '',
+            phone: '(305) 592-6388'
+          },
+          {
+            doc_number: 'MAP26001907',
+            place_id: 'ChIJ_WestonImpactRemodel_07',
+            business_name: 'WESTON SIGNATURE IMPACT WINDOWS & REMODELING LLC',
+            filing_date: today,
+            founder_name: 'Sofia L. Delgado',
+            founder_title: 'MGR',
+            principal_address: '1675 Market St',
+            city: 'Weston',
+            state: 'FL',
+            zip: '33326',
+            niche: 'Construction & Remodeling',
+            gbp_category: 'General contractor',
+            gbp_rank: 19,
+            rating: 4.8,
+            review_count: 14,
+            website: 'westonsignatureremodel.com',
+            website_status: 'unoptimized',
+            lcp_ms: 3450,
+            has_ssl: 1,
+            has_schema: 0,
+            recommended_tier: 'retainer_2500',
+            pain_summary: 'Ranked #19 in Weston (14 reviews vs #1 at 84 reviews) — needs GBP authority & schema velocity',
+            top_competitors: JSON.stringify([
+              { rank: 1, name: 'Weston Kitchen & Impact Pros', rating: 4.9, reviews: 84 },
+              { rank: 2, name: 'Broward Luxury Builders', rating: 4.8, reviews: 61 },
+              { rank: 3, name: 'Emerald Estates Remodeling', rating: 4.8, reviews: 49 }
+            ]),
+            email: 'sofia@westonsignatureremodel.com',
+            phone: '(954) 389-7721'
+          }
         ];
 
         try {
@@ -4572,7 +5845,7 @@
             applyViewLayout('outreach');
             syncUrlFromState();
             await fetchOutreach();
-            showToast(`Loaded ${data.inserted || 0} South Florida Sunbiz candidates!`);
+            showToast(`Loaded ${data.inserted || starterCandidates.length} South FL Google Maps Bleeder candidates!`);
           } else {
             showToast(data.error || 'Failed to load starter batch.');
           }
@@ -4586,19 +5859,19 @@
 
       batchEnrichBtn.addEventListener('click', async () => {
         const unenriched = state.outreachCandidates
-          .filter((c) => !c.email && c.outreach_status === 'uncontacted')
+          .filter((c) => (!c.email || !c.website_status) && c.outreach_status !== 'dismissed')
           .slice(0, 5);
         if (unenriched.length === 0) {
-          showToast('All uncontacted candidates on this page already have emails!');
+          showToast('All candidates on this page have already been audited & enriched!');
           return;
         }
         batchEnrichBtn.disabled = true;
-        batchEnrichBtn.textContent = `⏳ Enriching ${unenriched.length}...`;
+        batchEnrichBtn.textContent = `⏳ Auditing ${unenriched.length}...`;
         for (const cand of unenriched) {
           await triggerSingleEnrich(cand.id, null);
         }
         batchEnrichBtn.disabled = false;
-        batchEnrichBtn.innerHTML = '<span aria-hidden="true">✨</span> Enrich Top 5';
+        batchEnrichBtn.innerHTML = '<span aria-hidden="true">🔍</span> Audit / Enrich Top 5';
         await fetchOutreach();
       });
 
@@ -4739,6 +6012,33 @@
         syncUrlFromState();
         if (state.authenticated) fetchOutreach();
       });
+
+      if (outreachTierFilter) {
+        outreachTierFilter.addEventListener('change', (e) => {
+          state.outreachTierFilter = e.target.value;
+          state.outreachOffset = 0;
+          syncUrlFromState();
+          if (state.authenticated) fetchOutreach();
+        });
+      }
+
+      if (outreachWebsiteFilter) {
+        outreachWebsiteFilter.addEventListener('change', (e) => {
+          state.outreachWebsiteFilter = e.target.value;
+          state.outreachOffset = 0;
+          syncUrlFromState();
+          if (state.authenticated) fetchOutreach();
+        });
+      }
+
+      if (outreachCadenceFilter) {
+        outreachCadenceFilter.addEventListener('change', (e) => {
+          state.outreachCadenceFilter = e.target.value;
+          state.outreachOffset = 0;
+          syncUrlFromState();
+          if (state.authenticated) fetchOutreach();
+        });
+      }
 
       outreachContactFilter.addEventListener('change', (e) => {
         state.outreachContactFilter = e.target.value;

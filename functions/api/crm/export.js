@@ -1,14 +1,18 @@
 /**
  * CRM Lead & Outreach Export API
- * GET /api/crm/export - Download filtered CSV of CRM leads or Sunbiz outreach candidates
+ * GET /api/crm/export - Download filtered CSV of CRM leads or Sunbiz / Google Maps outreach candidates
  */
 
 import { checkAuth, getCorsHeaders, handleCorsOptions } from './auth.js';
-import { buildOutreachWhereClause } from './_sunbiz.js';
+import { buildDiagnosticWhereClause, upgradeExistingOutreachTable } from './outreach/index.js';
 
 const ALLOWED_METHODS = 'GET, OPTIONS';
 const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
-const VALID_OUTREACH_STATUSES = new Set(['uncontacted', 'emailed', 'promoted', 'dismissed']);
+const VALID_OUTREACH_STATUS_FILTERS = new Set(['active', 'all', 'uncontacted', 'in_cadence', 'emailed', 'promoted', 'dismissed']);
+const VALID_CONTACT_FILTERS = new Set(['all', 'has_email', 'has_phone', 'has_any', 'needs_enrichment']);
+const VALID_TIER_FILTERS = new Set(['all', 'platform_3k', 'retainer_2500', 'pilot_500']);
+const VALID_WEBSITE_STATUS_FILTERS = new Set(['all', 'missing', 'broken', 'slow', 'unoptimized', 'healthy', 'needs_fix']);
+const VALID_CADENCE_FILTERS = new Set(['all', 'due_today', 'step_0', 'step_1', 'step_2', 'step_3', 'in_cadence']);
 
 const LEADING_WS_CTRL_BOM_RE = /^[\u0000-\u0020\u007F-\u009F\u00A0\u1680\u180E\u2000-\u200F\u2028-\u202F\u205F\u2060\u3000\uFEFF]+/;
 const LEADING_CTRL_OR_BOM_RE = /^[\u0000-\u001F\u007F-\u009F\u200B-\u200F\u2028-\u202F\u2060\uFEFF]/;
@@ -98,36 +102,76 @@ export async function onRequestGet(context) {
 
     if (view === 'outreach') {
       const status = (url.searchParams.get('status') || 'active').trim();
-      if (status !== 'active' && status !== 'all' && !VALID_OUTREACH_STATUSES.has(status)) {
+      if (!VALID_OUTREACH_STATUS_FILTERS.has(status)) {
         return jsonError(corsHeaders, 'Invalid outreach status filter.', 400);
       }
       const niche = (url.searchParams.get('niche') || 'all').trim();
       const city = (url.searchParams.get('city') || 'all').trim();
       const contactFilter = (url.searchParams.get('contact') || 'all').trim();
+      if (!VALID_CONTACT_FILTERS.has(contactFilter)) {
+        return jsonError(corsHeaders, 'Invalid outreach contact filter.', 400);
+      }
 
-      const { whereClause, params } = buildOutreachWhereClause({
+      const tier = (url.searchParams.get('tier') || url.searchParams.get('recommended_tier') || 'all').trim();
+      if (!VALID_TIER_FILTERS.has(tier)) {
+        return jsonError(corsHeaders, 'Invalid outreach tier filter.', 400);
+      }
+
+      const websiteStatus = (url.searchParams.get('website_status') || 'all').trim();
+      if (!VALID_WEBSITE_STATUS_FILTERS.has(websiteStatus)) {
+        return jsonError(corsHeaders, 'Invalid website_status filter.', 400);
+      }
+
+      const cadence = (url.searchParams.get('cadence') || url.searchParams.get('due_followup') || 'all').trim();
+      if (!VALID_CADENCE_FILTERS.has(cadence)) {
+        return jsonError(corsHeaders, 'Invalid outreach cadence filter.', 400);
+      }
+
+      const { whereClause, params } = buildDiagnosticWhereClause({
         search,
         status,
         niche,
         city,
-        contactFilter
+        contactFilter,
+        tier,
+        websiteStatus,
+        cadence
       });
 
-      let candidates = [];
-      try {
+      const runExportQuery = async () => {
         const res = await env.DB.prepare(`
           SELECT * FROM outreach_candidates
           ${whereClause}
           ORDER BY
-            CASE WHEN outreach_status = 'uncontacted' THEN 0 ELSE 1 END ASC,
+            CASE
+              WHEN outreach_status != 'dismissed' AND COALESCE(cadence_step, 0) < 3 AND next_action_at IS NOT NULL AND datetime(next_action_at) <= datetime('now') THEN 0
+              WHEN outreach_status = 'uncontacted' THEN 1
+              ELSE 2
+            END ASC,
             CASE WHEN email IS NOT NULL AND email != '' THEN 0 ELSE 1 END ASC,
             score DESC,
+            COALESCE(review_count, 0) DESC,
             filing_date DESC,
             id ASC
         `).bind(...params).all();
-        candidates = res.results || [];
+        return res.results || [];
+      };
+
+      let candidates = [];
+      try {
+        candidates = await runExportQuery();
       } catch (err) {
-        if (!/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
+        const errMsg = String(err?.message || err);
+        if (/no such table:\s*outreach_candidates/i.test(errMsg)) {
+          candidates = [];
+        } else if (/no such column/i.test(errMsg)) {
+          const upgraded = await upgradeExistingOutreachTable(env.DB);
+          if (upgraded) {
+            candidates = await runExportQuery();
+          } else {
+            throw err;
+          }
+        } else {
           throw err;
         }
       }
@@ -135,11 +179,18 @@ export async function onRequestGet(context) {
       const headers = [
         'ID', 'Doc Number', 'Business Name', 'Founder Name', 'Founder Title',
         'Email', 'Phone', 'Website', 'City', 'ZIP', 'County', 'Niche', 'Score',
+        'GBP Rank', 'Reviews', 'Rating', 'GBP Category',
+        'Website Status', 'LCP (ms)', 'Perf Score', 'Has Schema', 'Has SSL',
+        'Recommended Tier', 'Pain Summary', 'Top Competitors',
+        'Cadence Step', 'Last Channel', 'Next Action At',
         'Outreach Status', 'Enrichment Status', 'Filing Date', 'Principal Address', 'Lead ID'
       ];
 
       let csvContent = headers.map(escapeCsv).join(',') + '\n';
       for (const c of candidates) {
+        const topCompStr = Array.isArray(c.top_competitors)
+          ? JSON.stringify(c.top_competitors)
+          : (c.top_competitors ?? '');
         const row = [
           c.id,
           c.doc_number,
@@ -154,6 +205,21 @@ export async function onRequestGet(context) {
           c.county,
           c.niche,
           c.score ?? 0,
+          c.gbp_rank ?? '',
+          c.review_count ?? '',
+          c.rating ?? '',
+          c.gbp_category ?? '',
+          c.website_status ?? '',
+          c.lcp_ms ?? '',
+          c.performance_score ?? '',
+          c.has_schema ? 'Yes' : 'No',
+          c.has_ssl ? 'Yes' : 'No',
+          c.recommended_tier ?? '',
+          c.pain_summary ?? '',
+          topCompStr,
+          c.cadence_step ?? 0,
+          c.last_channel ?? '',
+          c.next_action_at ?? '',
           c.outreach_status,
           c.enrichment_status,
           c.filing_date,

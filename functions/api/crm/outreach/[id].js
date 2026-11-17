@@ -1,25 +1,43 @@
 /**
- * CRM Outreach Candidate Detail, Enrichment, Email Dispatch & Pipeline Promotion API
- * GET    /api/crm/outreach/:id - Fetch candidate + rendered templates
- * PATCH  /api/crm/outreach/:id - Update candidate (email, phone, website, status, notes)
+ * CRM Outreach Candidate Detail, Technical Audit, Enrichment, Multi-Touch Cadence & Pipeline Promotion API
+ * GET    /api/crm/outreach/:id - Fetch candidate + rendered diagnostic templates
+ * PATCH  /api/crm/outreach/:id - Update candidate contact, diagnostic, and cadence fields
  * DELETE /api/crm/outreach/:id - Delete candidate
- * POST   /api/crm/outreach/:id - Execute action: 'enrich' | 'send_email' | 'promote'
+ * POST   /api/crm/outreach/:id - Execute action: 'enrich' | 'audit' | 'send_email' | 'log_touch' | 'advance_cadence' | 'promote'
  */
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
 import { isValidCompanyDomain, normalizeDomain } from '../_enrich.js';
 import {
   enrichOutreachCandidate,
+  auditCandidateWebsite,
+  scoreAndClassifyCandidate,
   renderOutreachTemplate,
   verifyEmailDomainDns,
   normalizeSouthFlCity,
   matchSouthFloridaLocation,
   OUTREACH_TEMPLATES
 } from '../_sunbiz.js';
+import { upgradeExistingOutreachTable } from './index.js';
 
 const ALLOWED_METHODS = 'GET, POST, PATCH, DELETE, OPTIONS';
-const VALID_OUTREACH_STATUSES = new Set(['uncontacted', 'emailed', 'promoted', 'dismissed']);
+const VALID_OUTREACH_STATUSES = new Set(['uncontacted', 'in_cadence', 'emailed', 'promoted', 'dismissed']);
 const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
+const VALID_WEBSITE_STATUSES = new Set(['missing', 'broken', 'slow', 'unoptimized', 'healthy']);
+const VALID_TIERS = new Set(['platform_3k', 'retainer_2500', 'pilot_500']);
+const VALID_CHANNELS = new Set(['email', 'call', 'sms']);
+
+const TIER_ESTIMATED_VALUES = {
+  platform_3k: 3000,
+  retainer_2500: 2500,
+  pilot_500: 500
+};
+
+const TIER_LABELS = {
+  platform_3k: 'Web Platform Rebuild ($3k)',
+  retainer_2500: 'Local Maps & SEO Authority ($2.5k/mo)',
+  pilot_500: '30-Day Quick-Win Pilot ($500)'
+};
 
 function json(request, body, status = 200, methods = ALLOWED_METHODS, extraHeaders = {}) {
   return new Response(JSON.stringify(body), {
@@ -83,6 +101,17 @@ function generateId(prefix = 'lead_') {
   return `${prefix}${timestamp}_${randomStr}`;
 }
 
+function normalizeIsoDateTime(val) {
+  if (val === null || val === undefined) return null;
+  const trimmed = String(val).trim();
+  if (!trimmed) return null;
+  const parsed = new Date(trimmed);
+  if (!Number.isNaN(parsed.getTime())) {
+    return parsed.toISOString().replace('T', ' ').slice(0, 19);
+  }
+  return trimmed;
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str).replace(/[&<>"']/g, m => ({
@@ -107,6 +136,67 @@ function formatPersonalEmailHtml(plainText) {
     .join('');
 
   return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;color:#1e293b;max-width:620px;">${paragraphs}</div>`;
+}
+
+function renderAllTemplates(candidate) {
+  const renderedTemplates = {};
+  for (const key of Object.keys(OUTREACH_TEMPLATES)) {
+    renderedTemplates[key] = {
+      ...OUTREACH_TEMPLATES[key],
+      ...renderOutreachTemplate(key, candidate)
+    };
+  }
+  return renderedTemplates;
+}
+
+/**
+ * Deterministically recompute recommended_tier, pain_summary, website_status, and score from first principles
+ * via scoreAndClassifyCandidate without ratcheting existing scores upward.
+ */
+function deriveDiagnosticsFromAudit(candidate, audit = {}) {
+  const website = candidate.website || null;
+  const lcpMs = audit.lcp_ms !== undefined ? audit.lcp_ms : (audit.lcpMs !== undefined ? audit.lcpMs : null);
+  const performanceScore = audit.performance_score !== undefined
+    ? audit.performance_score
+    : (audit.performanceScore !== undefined ? audit.performanceScore : null);
+  const hasSchema = (audit.has_schema ?? audit.hasSchema) ? 1 : 0;
+  const hasSsl = (audit.has_ssl !== undefined || audit.hasSsl !== undefined)
+    ? ((audit.has_ssl ?? audit.hasSsl) ? 1 : 0)
+    : (website ? 1 : 0);
+  const websiteStatus = audit.website_status || audit.websiteStatus || null;
+
+  const scored = scoreAndClassifyCandidate({
+    ...candidate,
+    website,
+    lcp_ms: lcpMs,
+    performance_score: performanceScore,
+    has_schema: hasSchema,
+    has_ssl: hasSsl,
+    website_status: websiteStatus,
+    pain_summary: null,
+    recommended_tier: null
+  });
+
+  return {
+    ...candidate,
+    website,
+    lcp_ms: scored.lcp_ms,
+    performance_score: scored.performance_score,
+    has_schema: scored.has_schema,
+    has_ssl: scored.has_ssl,
+    website_status: scored.website_status,
+    recommended_tier: scored.recommended_tier,
+    pain_summary: scored.pain_summary,
+    score: scored.score
+  };
+}
+
+async function runLiveWebsiteAudit(candidate, env) {
+  const rawAudit = await auditCandidateWebsite(candidate.website, {
+    timeoutMs: 6000,
+    psiApiKey: env?.PSI_API_KEY || env?.PAGESPEED_API_KEY || null
+  });
+  return deriveDiagnosticsFromAudit(candidate, rawAudit || {});
 }
 
 export async function onRequestOptions(context) {
@@ -141,14 +231,7 @@ export async function onRequestGet(context) {
     const candidate = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(params.id).first();
     if (!candidate) return json(request, { error: 'Candidate not found' }, 404);
 
-    const renderedTemplates = {};
-    for (const key of Object.keys(OUTREACH_TEMPLATES)) {
-      renderedTemplates[key] = {
-        ...OUTREACH_TEMPLATES[key],
-        ...renderOutreachTemplate(key, candidate)
-      };
-    }
-
+    const renderedTemplates = renderAllTemplates(candidate);
     return json(request, { candidate, renderedTemplates });
   } catch (err) {
     if (/no such table:\s*outreach_candidates/i.test(String(err?.message || err))) {
@@ -179,6 +262,8 @@ export async function onRequestPatch(context) {
   if (!env.DB) return json(request, { error: 'Database not available' }, 500);
 
   try {
+    await upgradeExistingOutreachTable(env.DB);
+
     let existing;
     try {
       existing = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
@@ -194,7 +279,11 @@ export async function onRequestPatch(context) {
     const allowedFields = [
       'business_name_clean', 'founder_name', 'founder_first_name', 'founder_last_name',
       'founder_title', 'city', 'zip', 'county', 'niche', 'score', 'email', 'phone', 'website',
-      'outreach_status', 'notes'
+      'outreach_status', 'notes',
+      'gbp_rank', 'review_count', 'rating', 'gbp_category',
+      'lcp_ms', 'performance_score', 'has_schema', 'has_ssl',
+      'website_status', 'recommended_tier', 'pain_summary',
+      'cadence_step', 'next_action_at', 'last_channel'
     ];
 
     for (const field of allowedFields) {
@@ -210,14 +299,110 @@ export async function onRequestPatch(context) {
         }, 400);
       }
       body.outreach_status = body.outreach_status.trim();
+      if (
+        ['in_cadence', 'emailed', 'promoted'].includes(body.outreach_status) &&
+        body.cadence_step === undefined &&
+        Number(existing.cadence_step || 0) === 0
+      ) {
+        body.cadence_step = 1;
+      }
     }
 
     if (body.score !== undefined) {
       const scoreNum = Number(body.score);
-      if (body.score === null || !Number.isFinite(scoreNum) || scoreNum < 0 || scoreNum > 100) {
+      if (typeof body.score === 'boolean' || body.score === null || body.score === '' || !Number.isFinite(scoreNum) || scoreNum < 0 || scoreNum > 100) {
         return json(request, { error: 'Invalid score value (must be 0..100).' }, 400);
       }
       body.score = Math.round(scoreNum);
+    }
+
+    if (body.gbp_rank !== undefined) {
+      const rankNum = Number(body.gbp_rank);
+      if (typeof body.gbp_rank === 'boolean' || body.gbp_rank === null || body.gbp_rank === '' || !Number.isFinite(rankNum) || rankNum < 1 || rankNum > 200) {
+        return json(request, { error: 'Invalid gbp_rank value (must be 1..200).' }, 400);
+      }
+      body.gbp_rank = Math.round(rankNum);
+    }
+
+    if (body.review_count !== undefined) {
+      const revNum = Number(body.review_count);
+      if (typeof body.review_count === 'boolean' || body.review_count === null || body.review_count === '' || !Number.isFinite(revNum) || revNum < 0) {
+        return json(request, { error: 'Invalid review_count value (must be >= 0).' }, 400);
+      }
+      body.review_count = Math.round(revNum);
+    }
+
+    if (body.rating !== undefined) {
+      const ratingNum = Number(body.rating);
+      if (typeof body.rating === 'boolean' || body.rating === null || body.rating === '' || !Number.isFinite(ratingNum) || ratingNum < 0 || ratingNum > 5) {
+        return json(request, { error: 'Invalid rating value (must be 0..5).' }, 400);
+      }
+      body.rating = Math.round(ratingNum * 100) / 100;
+    }
+
+    if (body.lcp_ms !== undefined) {
+      const lcpNum = Number(body.lcp_ms);
+      if (typeof body.lcp_ms === 'boolean' || body.lcp_ms === null || body.lcp_ms === '' || !Number.isFinite(lcpNum) || lcpNum < 0) {
+        return json(request, { error: 'Invalid lcp_ms value (must be >= 0).' }, 400);
+      }
+      body.lcp_ms = Math.round(lcpNum);
+    }
+
+    if (body.performance_score !== undefined) {
+      const perfNum = Number(body.performance_score);
+      if (typeof body.performance_score === 'boolean' || body.performance_score === null || body.performance_score === '' || !Number.isFinite(perfNum) || perfNum < 0 || perfNum > 100) {
+        return json(request, { error: 'Invalid performance_score value (must be 0..100).' }, 400);
+      }
+      body.performance_score = Math.round(perfNum);
+    }
+
+    if (body.cadence_step !== undefined) {
+      const stepNum = Number(body.cadence_step);
+      if (typeof body.cadence_step === 'boolean' || body.cadence_step === null || body.cadence_step === '' || !Number.isFinite(stepNum) || stepNum < 0 || stepNum > 10) {
+        return json(request, { error: 'Invalid cadence_step value (must be 0..10).' }, 400);
+      }
+      body.cadence_step = Math.round(stepNum);
+    }
+
+    if (body.has_schema !== undefined) {
+      if (![0, 1, '0', '1', true, false].includes(body.has_schema)) {
+        return json(request, { error: 'Invalid has_schema value (must be 0, 1, or boolean).' }, 400);
+      }
+      body.has_schema = body.has_schema === true || body.has_schema === 1 || body.has_schema === '1' ? 1 : 0;
+    }
+
+    if (body.has_ssl !== undefined) {
+      if (![0, 1, '0', '1', true, false].includes(body.has_ssl)) {
+        return json(request, { error: 'Invalid has_ssl value (must be 0, 1, or boolean).' }, 400);
+      }
+      body.has_ssl = body.has_ssl === true || body.has_ssl === 1 || body.has_ssl === '1' ? 1 : 0;
+    }
+
+    if (body.website_status !== undefined) {
+      if (typeof body.website_status !== 'string' || !VALID_WEBSITE_STATUSES.has(body.website_status.trim())) {
+        return json(request, {
+          error: `Invalid website_status. Must be one of: ${[...VALID_WEBSITE_STATUSES].join(', ')}.`
+        }, 400);
+      }
+      body.website_status = body.website_status.trim();
+    }
+
+    if (body.recommended_tier !== undefined) {
+      if (typeof body.recommended_tier !== 'string' || !VALID_TIERS.has(body.recommended_tier.trim())) {
+        return json(request, {
+          error: `Invalid recommended_tier. Must be one of: ${[...VALID_TIERS].join(', ')}.`
+        }, 400);
+      }
+      body.recommended_tier = body.recommended_tier.trim();
+    }
+
+    if (body.last_channel !== undefined && body.last_channel !== null && body.last_channel !== '') {
+      if (typeof body.last_channel !== 'string' || !VALID_CHANNELS.has(body.last_channel.trim())) {
+        return json(request, {
+          error: `Invalid last_channel. Must be one of: ${[...VALID_CHANNELS].join(', ')}.`
+        }, 400);
+      }
+      body.last_channel = body.last_channel.trim();
     }
 
     if (body.website !== undefined && body.website !== null && body.website !== '') {
@@ -243,8 +428,11 @@ export async function onRequestPatch(context) {
             }
           }
         }
+        if (field === 'next_action_at') {
+          val = normalizeIsoDateTime(val);
+        }
         updates.push(`${field} = ?`);
-        values.push(val);
+        values.push(val === '' && (field === 'next_action_at' || field === 'last_channel') ? null : val);
       }
     }
 
@@ -324,8 +512,13 @@ export async function onRequestPost(context) {
   if (!env.DB) return json(request, { error: 'Database not available' }, 500, effectiveMethods);
 
   try {
+    await upgradeExistingOutreachTable(env.DB);
+
     const body = parsedBody.body;
-    const scalarActionFields = ['action', 'company_domain', 'website', 'status', 'note', 'to', 'subject', 'body', 'mode'];
+    const scalarActionFields = [
+      'action', 'company_domain', 'website', 'status', 'note', 'to', 'subject', 'body', 'mode',
+      'touch_number', 'cadence_step', 'step', 'channel', 'last_channel', 'next_action_at', 'promote'
+    ];
     for (const f of scalarActionFields) {
       if (body[f] !== undefined && body[f] !== null && typeof body[f] === 'object') {
         return json(request, { error: `Invalid non-primitive value for field "${f}".` }, 400, effectiveMethods);
@@ -346,10 +539,9 @@ export async function onRequestPost(context) {
     const action = String(params.action || body.action || 'enrich').trim();
 
     // -------------------------------------------------------------------------
-    // Action 1: Run Automated Contact Enrichment Waterfall
+    // Action 1: Run Automated Contact Enrichment Waterfall (+ Website Audit if needed)
     // -------------------------------------------------------------------------
     if (action === 'enrich') {
-      // Optional company_domain hint from B3 enrichment dialog
       const requestedDomain = normalizeDomain(body.company_domain || body.website || '');
       const validRequestedDomain = isValidCompanyDomain(requestedDomain) ? requestedDomain : '';
       if (validRequestedDomain) {
@@ -380,41 +572,151 @@ export async function onRequestPost(context) {
         .run();
 
       const enr = await enrichOutreachCandidate(candidate, env);
+      const effectiveWebsite = enr.website || (candidate.website !== 'google.com' ? candidate.website : null);
 
-      await env.DB.prepare(`
-        UPDATE outreach_candidates
-        SET founder_name = COALESCE(?, founder_name),
-            founder_first_name = COALESCE(?, founder_first_name),
-            founder_last_name = COALESCE(?, founder_last_name),
-            email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
-            phone = COALESCE(?, phone),
-            website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
-            enrichment_status = ?,
-            enrichment_source = ?,
-            enrichment_confidence = ?,
-            enrichment_meta = ?,
-            enriched_at = CURRENT_TIMESTAMP,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `).bind(
-        enr.resolvedFounder?.fullName || null,
-        enr.resolvedFounder?.firstName || null,
-        enr.resolvedFounder?.lastName || null,
-        enr.email, enr.phone, enr.website,
-        enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
-        candidateId
-      ).run();
+      let auditDiagnostics = null;
+      if (effectiveWebsite && (candidate.lcp_ms === null || candidate.lcp_ms === undefined)) {
+        try {
+          auditDiagnostics = await runLiveWebsiteAudit({ ...candidate, website: effectiveWebsite }, env);
+        } catch (auditErr) {
+          console.warn('Website audit during enrich skipped:', auditErr.message);
+        }
+      }
+
+      if (auditDiagnostics) {
+        await env.DB.prepare(`
+          UPDATE outreach_candidates
+          SET founder_name = COALESCE(?, founder_name),
+              founder_first_name = COALESCE(?, founder_first_name),
+              founder_last_name = COALESCE(?, founder_last_name),
+              email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
+              phone = COALESCE(?, phone),
+              website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
+              enrichment_status = ?,
+              enrichment_source = ?,
+              enrichment_confidence = ?,
+              enrichment_meta = ?,
+              lcp_ms = ?,
+              performance_score = ?,
+              has_schema = ?,
+              has_ssl = ?,
+              website_status = ?,
+              recommended_tier = ?,
+              pain_summary = ?,
+              score = ?,
+              enriched_at = CURRENT_TIMESTAMP,
+              updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).bind(
+          enr.resolvedFounder?.fullName || null,
+          enr.resolvedFounder?.firstName || null,
+          enr.resolvedFounder?.lastName || null,
+          enr.email, enr.phone, enr.website,
+          enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
+          auditDiagnostics.lcp_ms,
+          auditDiagnostics.performance_score,
+          auditDiagnostics.has_schema,
+          auditDiagnostics.has_ssl,
+          auditDiagnostics.website_status,
+          auditDiagnostics.recommended_tier,
+          auditDiagnostics.pain_summary,
+          auditDiagnostics.score,
+          candidateId
+        ).run();
+      } else {
+        await env.DB.prepare(`
+          UPDATE outreach_candidates
+          SET founder_name = COALESCE(?, founder_name),
+              founder_first_name = COALESCE(?, founder_first_name),
+              founder_last_name = COALESCE(?, founder_last_name),
+              email = COALESCE(?, CASE WHEN email LIKE '%@google.com' THEN NULL ELSE email END),
+              phone = COALESCE(?, phone),
+              website = COALESCE(?, CASE WHEN website = 'google.com' THEN NULL ELSE website END),
+              enrichment_status = ?,
+              enrichment_source = ?,
+              enrichment_confidence = ?,
+              enrichment_meta = ?,
+              enriched_at = CURRENT_TIMESTAMP,
+              updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).bind(
+          enr.resolvedFounder?.fullName || null,
+          enr.resolvedFounder?.firstName || null,
+          enr.resolvedFounder?.lastName || null,
+          enr.email, enr.phone, enr.website,
+          enr.status, enr.source, enr.confidence, JSON.stringify(enr.meta),
+          candidateId
+        ).run();
+      }
 
       const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
       return json(request, {
         success: true,
         enrichment: enr,
-        candidate: updated
+        ...(auditDiagnostics ? { audit: auditDiagnostics } : {}),
+        candidate: updated,
+        renderedTemplates: renderAllTemplates(updated || candidate)
       }, 200, effectiveMethods);
     }
 
     // -------------------------------------------------------------------------
-    // Action 2: Promote Candidate to Active Kanban Pipeline
+    // Action 2: Run Live Website Technical & Schema Audit
+    // -------------------------------------------------------------------------
+    if (action === 'audit') {
+      const requestedDomain = normalizeDomain(body.website || body.company_domain || '');
+      if (requestedDomain && isValidCompanyDomain(requestedDomain)) {
+        candidate.website = requestedDomain;
+      }
+
+      const audited = await runLiveWebsiteAudit(candidate, env);
+
+      await env.DB.prepare(`
+        UPDATE outreach_candidates
+        SET website = COALESCE(?, website),
+            lcp_ms = ?,
+            performance_score = ?,
+            has_schema = ?,
+            has_ssl = ?,
+            website_status = ?,
+            recommended_tier = ?,
+            pain_summary = ?,
+            score = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `).bind(
+        candidate.website || null,
+        audited.lcp_ms,
+        audited.performance_score,
+        audited.has_schema,
+        audited.has_ssl,
+        audited.website_status,
+        audited.recommended_tier,
+        audited.pain_summary,
+        audited.score,
+        candidateId
+      ).run();
+
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      const effectiveCandidate = updated || audited;
+      return json(request, {
+        success: true,
+        audit: {
+          lcp_ms: audited.lcp_ms,
+          performance_score: audited.performance_score,
+          has_schema: audited.has_schema,
+          has_ssl: audited.has_ssl,
+          website_status: audited.website_status,
+          recommended_tier: audited.recommended_tier,
+          pain_summary: audited.pain_summary,
+          score: audited.score
+        },
+        candidate: effectiveCandidate,
+        renderedTemplates: renderAllTemplates(effectiveCandidate)
+      }, 200, effectiveMethods);
+    }
+
+    // -------------------------------------------------------------------------
+    // Action 3: Promote Candidate to Active Kanban Pipeline
     // -------------------------------------------------------------------------
     if (action === 'promote') {
       const defaultPromoteStage = candidate.outreach_status === 'emailed' ? 'contacted' : 'new';
@@ -430,25 +732,129 @@ export async function onRequestPost(context) {
         status: targetStage,
         author: auth.user || 'Christian',
         noteType: 'note',
-        noteContent: String(body.note || '').trim() || `Promoted from Sunbiz Outreach (${candidate.doc_number} — Filed ${candidate.filing_date} in ${candidate.city}).`
+        noteContent: String(body.note || '').trim() || buildDefaultPromoteNote(candidate)
       });
 
       const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
       return json(request, {
         success: true,
         lead_id: promoted.leadId,
+        estimated_value: promoted.estimatedValue,
         candidate: updated
       }, 200, effectiveMethods);
     }
 
     // -------------------------------------------------------------------------
-    // Action 3: Send CRO Outreach Email + Auto-Promote to "Contacted" on Kanban
+    // Action 4: Log Multi-Touch Cadence Step ('log_touch' / 'advance_cadence')
+    // -------------------------------------------------------------------------
+    if (action === 'log_touch' || action === 'advance_cadence') {
+      const rawChannel = String(body.channel || body.last_channel || 'call').trim().toLowerCase();
+      if (!VALID_CHANNELS.has(rawChannel)) {
+        return json(request, {
+          error: `Invalid channel "${rawChannel}". Must be one of: ${[...VALID_CHANNELS].join(', ')}.`
+        }, 400, effectiveMethods);
+      }
+
+      const rawStep = body.step ?? body.cadence_step ?? body.touch_number ?? Math.min((Number(candidate.cadence_step) || 0) + 1, 3);
+      const stepNum = Number(rawStep);
+      if (typeof rawStep === 'boolean' || !Number.isFinite(stepNum) || ![1, 2, 3].includes(Math.round(stepNum))) {
+        return json(request, {
+          error: 'Invalid cadence step. Must be 1, 2, or 3.'
+        }, 400, effectiveMethods);
+      }
+      const step = Math.round(stepNum);
+      const effectiveCadenceStep = Math.max(Number(candidate.cadence_step) || 0, step);
+
+      let nextActionAt = null;
+      if (body.next_action_at !== undefined && body.next_action_at !== null && String(body.next_action_at).trim() !== '') {
+        nextActionAt = normalizeIsoDateTime(body.next_action_at);
+      } else if (step === 1) {
+        // After Touch 1 -> +2 days (Day +2 Call/SMS)
+        nextActionAt = new Date(Date.now() + 2 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
+      } else if (step === 2) {
+        // After Touch 2 (Day +2 Call/SMS) -> +3 days (Day +5 from Touch 1)
+        nextActionAt = new Date(Date.now() + 3 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
+      } else {
+        // After Touch 3 (Day +5 Follow-Up Email) -> null
+        nextActionAt = null;
+      }
+
+      const shouldPromote = body.promote !== false;
+      const nextOutreachStatus = body.promote === true
+        ? 'promoted'
+        : (step < 3 ? 'emailed' : (candidate.outreach_status === 'promoted' || candidate.lead_id ? 'promoted' : 'emailed'));
+
+      const customNote = String(body.note || '').trim();
+      const noteContent = customNote ||
+        `Cadence Touch #${step} logged via ${rawChannel.toUpperCase()} for ${candidate.business_name_clean} (${candidate.city || 'South Florida'}).` +
+        (nextActionAt ? ` Next follow-up scheduled for ${nextActionAt}.` : ' 3-touch cadence complete.');
+
+      let leadId = candidate.lead_id || null;
+
+      if (shouldPromote || candidate.lead_id) {
+        const promoted = await promoteCandidateToLead(env.DB, candidate, {
+          status: 'contacted',
+          author: auth.user || 'Christian',
+          outreachStatus: nextOutreachStatus,
+          noteType: rawChannel,
+          noteContent,
+          cadenceStep: effectiveCadenceStep,
+          lastChannel: rawChannel,
+          nextActionAt
+        });
+        leadId = promoted.leadId;
+      } else {
+        await env.DB.prepare(`
+          UPDATE outreach_candidates
+          SET cadence_step = ?,
+              last_channel = ?,
+              next_action_at = ?,
+              outreach_status = ?,
+              emailed_at = CASE WHEN ? = 'email' THEN CURRENT_TIMESTAMP ELSE emailed_at END,
+              updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `).bind(
+          effectiveCadenceStep,
+          rawChannel,
+          nextActionAt,
+          nextOutreachStatus,
+          rawChannel,
+          candidateId
+        ).run();
+      }
+
+      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      return json(request, {
+        success: true,
+        cadence_step: effectiveCadenceStep,
+        last_channel: rawChannel,
+        next_action_at: nextActionAt,
+        lead_id: leadId,
+        candidate: updated,
+        renderedTemplates: renderAllTemplates(updated || candidate)
+      }, 200, effectiveMethods);
+    }
+
+    // -------------------------------------------------------------------------
+    // Action 5: Send CRO Outreach Email + Update Cadence + Auto-Promote on Kanban
     // -------------------------------------------------------------------------
     if (action === 'send_email' || action === 'send-email') {
       const toEmail = String(body.to || candidate.email || '').trim();
       const subject = String(body.subject || '').trim();
       const emailBody = String(body.body || '').trim();
       const mode = String(body.mode || 'send').trim(); // 'send' (API dispatch) or 'log_only' (opened in mail client)
+
+      const rawTouch = body.touch_number ?? body.cadence_step ?? body.step;
+      let touchStep = 1;
+      if (rawTouch !== undefined && rawTouch !== null && rawTouch !== '') {
+        const parsedTouch = Number(rawTouch);
+        if (typeof rawTouch === 'boolean' || !Number.isFinite(parsedTouch) || ![1, 2, 3].includes(Math.round(parsedTouch))) {
+          return json(request, { error: 'Invalid touch_number / cadence_step. Must be 1, 2, or 3.' }, 400, effectiveMethods);
+        }
+        touchStep = Math.round(parsedTouch);
+      } else if (Number(candidate.cadence_step || 0) >= 2) {
+        touchStep = 3;
+      }
 
       if (!toEmail || !toEmail.includes('@')) {
         return json(request, { error: 'A valid recipient email address is required.' }, 400, effectiveMethods);
@@ -462,7 +868,7 @@ export async function onRequestPost(context) {
         const dnsCheck = await verifyEmailDomainDns(toEmail);
         if (!dnsCheck.valid) {
           return json(request, {
-            error: `Bounce protection: ${dnsCheck.reason}. This newly filed LLC likely hasn't set up their domain/email yet — try calling/texting or use the PeopleLookup pill to find the founder's personal Gmail/iCloud/Yahoo address.`,
+            error: `Bounce protection: ${dnsCheck.reason}. This business likely hasn't configured mail records on their domain yet — try calling/texting or use the PeopleLookup pill to find the owner's personal Gmail/iCloud/Yahoo address.`,
             dnsInvalid: true
           }, 400, effectiveMethods);
         }
@@ -495,6 +901,19 @@ export async function onRequestPost(context) {
         dispatchProvider = dispatchResult.provider;
       }
 
+      const effectiveCadenceStep = Math.max(Number(candidate.cadence_step) || 0, touchStep);
+      let nextActionAt = null;
+      if (body.next_action_at !== undefined && body.next_action_at !== null && String(body.next_action_at).trim() !== '') {
+        nextActionAt = normalizeIsoDateTime(body.next_action_at);
+      } else if (touchStep === 1) {
+        nextActionAt = new Date(Date.now() + 2 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
+      } else if (touchStep === 2) {
+        nextActionAt = new Date(Date.now() + 3 * 86400000).toISOString().replace('T', ' ').slice(0, 19);
+      } else {
+        // Touch 3 completes the 3-touch cadence unless a custom next_action_at was provided
+        nextActionAt = null;
+      }
+
       // Promote to CRM Kanban Pipeline under 'contacted' and log outbound email in lead_notes
       const promoted = await promoteCandidateToLead(env.DB, candidate, {
         status: 'contacted',
@@ -502,14 +921,21 @@ export async function onRequestPost(context) {
         outreachStatus: 'emailed',
         lastSubject: subject,
         noteType: 'email',
-        noteContent: `Outbound Sunbiz Outreach Email sent to ${toEmail} (${dispatchProvider}):\nSubject: ${subject}\n\n${emailBody}`
+        noteContent: `Outbound Outreach Email (Touch #${touchStep}) sent to ${toEmail} (${dispatchProvider}):\nSubject: ${subject}\n\n${emailBody}`,
+        cadenceStep: effectiveCadenceStep,
+        lastChannel: 'email',
+        nextActionAt
       });
 
       const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
       return json(request, {
         success: true,
         provider: dispatchProvider,
+        touch_number: touchStep,
+        cadence_step: effectiveCadenceStep,
+        next_action_at: nextActionAt,
         lead_id: promoted.leadId,
+        estimated_value: promoted.estimatedValue,
         candidate: updated
       }, 200, effectiveMethods);
     }
@@ -519,6 +945,57 @@ export async function onRequestPost(context) {
     console.error('Error executing outreach action:', err);
     return json(request, { error: 'Failed to execute outreach action.' }, 500, effectiveMethods);
   }
+}
+
+function getTierEstimatedValue(tier) {
+  return TIER_ESTIMATED_VALUES[tier] || 1500;
+}
+
+function getTierServiceInterest(candidate) {
+  const niche = candidate.niche || 'Local Business';
+  const tier = candidate.recommended_tier;
+  if (tier && TIER_LABELS[tier]) {
+    return `${TIER_LABELS[tier]} — ${niche}`;
+  }
+  return `Day-1 Launchpad (${niche})`;
+}
+
+function buildDiagnosticLeadMessage(candidate, canonicalCity) {
+  const parts = [];
+  if (candidate.place_id || candidate.gbp_rank) {
+    parts.push(`Google Maps Rank: #${candidate.gbp_rank || '?'} in ${canonicalCity} (${candidate.review_count ?? 0} reviews, ${candidate.rating ?? 'N/A'}★)`);
+  }
+  if (candidate.doc_number) {
+    parts.push(`Doc#: ${candidate.doc_number} (${candidate.entity_type || 'FL LLC'})`);
+  }
+  if (candidate.founder_name) {
+    parts.push(`Owner: ${candidate.founder_name} (${candidate.founder_title || 'MGR'})`);
+  }
+  if (candidate.website) {
+    const lcpLabel = candidate.lcp_ms ? `, LCP ${(Number(candidate.lcp_ms) / 1000).toFixed(1)}s` : '';
+    const perfLabel = candidate.performance_score !== null && candidate.performance_score !== undefined ? `, Perf ${candidate.performance_score}/100` : '';
+    const schemaLabel = candidate.has_schema ? ', Schema: Yes' : ', Schema: Missing';
+    parts.push(`Website: ${candidate.website} [${candidate.website_status || 'unoptimized'}${lcpLabel}${perfLabel}${schemaLabel}]`);
+  } else {
+    parts.push('Website: None (Missing)');
+  }
+  if (candidate.recommended_tier) {
+    parts.push(`Recommended Tier: ${TIER_LABELS[candidate.recommended_tier] || candidate.recommended_tier}`);
+  }
+  if (candidate.pain_summary) {
+    parts.push(`Diagnostic: ${candidate.pain_summary}`);
+  }
+  if (candidate.principal_address) {
+    parts.push(`Address: ${candidate.principal_address}, ${canonicalCity}, FL ${candidate.zip || ''}`);
+  }
+  return parts.join(' | ');
+}
+
+function buildDefaultPromoteNote(candidate) {
+  const canonicalCity = normalizeSouthFlCity(candidate.city, candidate.zip) || candidate.city || 'South Florida';
+  const tierLabel = TIER_LABELS[candidate.recommended_tier] || 'Day-1 Launchpad ($1,500)';
+  const diag = candidate.pain_summary ? `\nDiagnostic Summary: ${candidate.pain_summary}` : '';
+  return `Promoted from Diagnostic Outreach (${candidate.doc_number || candidate.place_id || candidate.id} — ${canonicalCity}) • Tier: ${tierLabel}.${diag}`;
 }
 
 /**
@@ -533,14 +1010,12 @@ async function promoteCandidateToLead(db, candidate, opts) {
 
   const canonicalCity = normalizeSouthFlCity(candidate.city, candidate.zip) || candidate.city || 'South Florida';
   const contactInfo = candidate.email || candidate.phone || `${canonicalCity}, FL (${candidate.doc_number})`;
-  const serviceInterest = `Day-1 Launchpad (${candidate.niche || 'Local Business'})`;
-  const sourcePage = `Sunbiz (${candidate.doc_number})`;
-  const contextMessage = [
-    `Sunbiz Doc#: ${candidate.doc_number} (${candidate.entity_type || 'FL LLC'})`,
-    `Filing Date: ${candidate.filing_date || 'Recent'}`,
-    `Founder: ${candidate.founder_name} (${candidate.founder_title || 'MGR'})`,
-    candidate.principal_address ? `Address: ${candidate.principal_address}, ${canonicalCity}, FL ${candidate.zip || ''}` : `City: ${canonicalCity}, FL`
-  ].join(' | ');
+  const serviceInterest = getTierServiceInterest(candidate);
+  const estimatedValue = getTierEstimatedValue(candidate.recommended_tier);
+  const sourcePage = candidate.place_id
+    ? `Google Maps (${candidate.place_id})`
+    : `Sunbiz (${candidate.doc_number})`;
+  const contextMessage = buildDiagnosticLeadMessage(candidate, canonicalCity);
 
   if (!existingLead) {
     leadId = generateId('lead_');
@@ -562,7 +1037,7 @@ async function promoteCandidateToLead(db, candidate, opts) {
       contextMessage,
       sourcePage,
       opts.status || 'contacted',
-      1500 // Default estimated starter package value ($1,500)
+      estimatedValue
     ).run();
   } else {
     await db.prepare(`
@@ -570,6 +1045,9 @@ async function promoteCandidateToLead(db, candidate, opts) {
       SET contact_info = COALESCE(?, contact_info),
           email = COALESCE(?, email),
           phone = COALESCE(?, phone),
+          service_interest = COALESCE(?, service_interest),
+          message = COALESCE(?, message),
+          estimated_value = CASE WHEN COALESCE(estimated_value, 0) <= 0 OR estimated_value = 1500 THEN ? ELSE estimated_value END,
           status = ?,
           updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
@@ -577,6 +1055,9 @@ async function promoteCandidateToLead(db, candidate, opts) {
       candidate.email || candidate.phone || null,
       candidate.email || null,
       candidate.phone || null,
+      serviceInterest,
+      contextMessage,
+      estimatedValue,
       opts.status || 'contacted',
       leadId
     ).run();
@@ -589,25 +1070,50 @@ async function promoteCandidateToLead(db, candidate, opts) {
     VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
   `).bind(noteId, leadId, opts.author || 'Christian', opts.noteType || 'email', opts.noteContent).run();
 
-  // Update outreach_candidates record
+  // Update outreach_candidates record (including cadence tracking if provided)
   const nextOutreachStatus = opts.outreachStatus || 'promoted';
-  await db.prepare(`
-    UPDATE outreach_candidates
-    SET outreach_status = ?,
-        emailed_at = CASE WHEN ? = 'emailed' THEN CURRENT_TIMESTAMP ELSE emailed_at END,
-        last_subject = COALESCE(?, last_subject),
-        lead_id = ?,
-        updated_at = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `).bind(
-    nextOutreachStatus,
-    nextOutreachStatus,
-    opts.lastSubject || null,
-    leadId,
-    candidate.id
-  ).run();
+  if (opts.cadenceStep !== undefined) {
+    await db.prepare(`
+      UPDATE outreach_candidates
+      SET outreach_status = ?,
+          emailed_at = CASE WHEN ? = 'emailed' OR ? = 'email' THEN CURRENT_TIMESTAMP ELSE emailed_at END,
+          last_subject = COALESCE(?, last_subject),
+          lead_id = ?,
+          cadence_step = MAX(COALESCE(cadence_step, 0), ?),
+          last_channel = COALESCE(?, last_channel),
+          next_action_at = ?,
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).bind(
+      nextOutreachStatus,
+      nextOutreachStatus,
+      opts.lastChannel || '',
+      opts.lastSubject || null,
+      leadId,
+      opts.cadenceStep,
+      opts.lastChannel || null,
+      opts.nextActionAt !== undefined ? opts.nextActionAt : candidate.next_action_at,
+      candidate.id
+    ).run();
+  } else {
+    await db.prepare(`
+      UPDATE outreach_candidates
+      SET outreach_status = ?,
+          emailed_at = CASE WHEN ? = 'emailed' THEN CURRENT_TIMESTAMP ELSE emailed_at END,
+          last_subject = COALESCE(?, last_subject),
+          lead_id = ?,
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).bind(
+      nextOutreachStatus,
+      nextOutreachStatus,
+      opts.lastSubject || null,
+      leadId,
+      candidate.id
+    ).run();
+  }
 
-  return { leadId };
+  return { leadId, estimatedValue };
 }
 
 /**
