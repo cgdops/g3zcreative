@@ -579,6 +579,290 @@
       white-space: pre-wrap;
     }
 
+    /* Follow-Up Tasks Panel */
+    #tasksSectionTitle {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #tasksSectionTitle:focus:not(:focus-visible) {
+      outline: none;
+    }
+    .task-count-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      white-space: nowrap;
+    }
+    .task-count-pill.is-empty {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.3);
+      color: #cbd5e1;
+    }
+    .task-count-pill.has-due {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: #fcd34d;
+    }
+    .lead-tasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .lead-tasks-empty {
+      background: #0f172a;
+      border: 1px dashed #334155;
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    .lead-task-item {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--info);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+    .lead-task-item.is-auto {
+      border-left-color: #c084fc;
+    }
+    .lead-task-item.is-due {
+      border-color: rgba(245, 158, 11, 0.45);
+      border-left-color: var(--warning);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.08) 0%, #0f172a 100%);
+    }
+    .lead-task-item.is-history {
+      border-left-color: #475569;
+      opacity: 0.9;
+    }
+    .lead-task-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+    }
+    .lead-task-title {
+      font-weight: 700;
+      font-size: 0.94rem;
+      color: #f8fafc;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      min-width: 0;
+    }
+    .lead-task-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+    .lead-task-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #334155;
+      background: #131b2e;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+    .lead-task-pill.is-auto {
+      background: rgba(192, 132, 252, 0.14);
+      border-color: rgba(192, 132, 252, 0.42);
+      color: #e9d5ff;
+    }
+    .lead-task-pill.is-due {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.48);
+      color: #fcd34d;
+    }
+    .lead-task-pill.is-overdue {
+      background: rgba(239, 68, 68, 0.16);
+      border-color: rgba(239, 68, 68, 0.48);
+      color: #fca5a5;
+    }
+    .lead-task-pill.priority-high {
+      background: rgba(239, 68, 68, 0.14);
+      border-color: rgba(239, 68, 68, 0.42);
+      color: #fca5a5;
+      text-transform: capitalize;
+    }
+    .lead-task-pill.priority-normal {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: #7dd3fc;
+      text-transform: capitalize;
+    }
+    .lead-task-pill.priority-low {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.3);
+      color: #cbd5e1;
+      text-transform: capitalize;
+    }
+    .lead-task-pill.status-completed {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.42);
+      color: #86efac;
+    }
+    .lead-task-pill.status-cancelled {
+      background: rgba(148, 163, 184, 0.12);
+      border-color: rgba(148, 163, 184, 0.35);
+      color: #cbd5e1;
+    }
+    .lead-task-desc {
+      font-size: 0.84rem;
+      color: #cbd5e1;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+    .lead-task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .lead-task-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .lead-task-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0.42rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      min-height: 36px;
+      border: 1px solid #475569;
+      background: #131b2e;
+      color: #e2e8f0;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .lead-task-btn:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: #94a3b8;
+      color: #ffffff;
+    }
+    .lead-task-btn-complete {
+      background: rgba(34, 197, 94, 0.14);
+      border-color: rgba(34, 197, 94, 0.42);
+      color: #86efac;
+    }
+    .lead-task-btn-complete:hover:not(:disabled) {
+      background: #22c55e;
+      border-color: #22c55e;
+      color: #052e16;
+    }
+    .lead-task-btn-snooze {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(56, 189, 248, 0.42);
+      color: #7dd3fc;
+    }
+    .lead-task-btn-snooze:hover:not(:disabled) {
+      background: rgba(56, 189, 248, 0.28);
+      border-color: var(--info);
+      color: #ffffff;
+    }
+    .lead-task-btn-dismiss {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(248, 113, 113, 0.42);
+      color: #fca5a5;
+    }
+    .lead-task-btn-dismiss:hover:not(:disabled) {
+      background: #b91c1c;
+      border-color: #b91c1c;
+      color: #ffffff;
+    }
+    .lead-task-btn-reopen {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.38);
+      color: #bae6fd;
+    }
+    .lead-task-btn-reopen:hover:not(:disabled) {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: var(--info);
+      color: #ffffff;
+    }
+    .lead-tasks-history {
+      margin-top: 0.9rem;
+      background: #0b0f17;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .lead-tasks-history[hidden] {
+      display: none;
+    }
+    .lead-tasks-history summary {
+      padding: 0.72rem 0.95rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      cursor: pointer;
+      background: rgba(30, 41, 59, 0.35);
+      min-height: 44px;
+      transition: background 0.15s ease;
+    }
+    .lead-tasks-history summary:hover {
+      background: rgba(30, 41, 59, 0.7);
+      color: #ffffff;
+    }
+    .lead-tasks-history .lead-tasks-list {
+      padding: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .lead-task-form {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      align-items: end;
+    }
+    .lead-task-title-field,
+    .lead-task-due-custom,
+    .lead-task-submit-wrap {
+      grid-column: 1 / -1;
+    }
+    .lead-task-due-custom[hidden] {
+      display: none;
+    }
+    .lead-task-submit-wrap {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .lead-task-form .input-field:user-invalid {
+      border-color: var(--danger);
+    }
+
     /* Danger Zone */
     .danger-zone {
       display: flex;
@@ -1435,7 +1719,9 @@
       .copy-btn,
       .outcome-pill-btn,
       .playbook-reset-btn,
-      .objection-summary {
+      .objection-summary,
+      .lead-task-btn,
+      .lead-tasks-history summary {
         min-height: 44px;
         min-width: 44px;
       }
@@ -1477,6 +1763,27 @@
       }
       .note-form {
         grid-template-columns: minmax(0, 1fr);
+      }
+      .lead-task-form {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .lead-task-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .lead-task-btn {
+        flex: 1 1 auto;
+        min-height: 44px;
+        min-width: 44px;
+      }
+      .lead-task-submit-wrap {
+        width: 100%;
+      }
+      #addLeadTaskBtn {
+        width: 100%;
+        min-height: 44px;
+        min-width: 44px;
       }
       .danger-zone {
         flex-direction: column;
@@ -1631,6 +1938,61 @@
         </div>
       </form>
       <div id="saveToast" role="status" aria-live="polite" aria-atomic="true" style="color: var(--success); font-size: 0.82rem; font-weight: 600; margin-top: 0.55rem; display: none;">&check; Updated successfully</div>
+    </div>
+
+    <!-- Follow-Up Tasks -->
+    <div class="card-section" id="tasksCardSection">
+      <h2 class="section-title" id="tasksSectionTitle" tabindex="-1">
+        ⏰ Follow-Up Tasks
+        <span id="leadTasksCountBadge" class="task-count-pill is-empty">0 pending</span>
+      </h2>
+      <div id="leadTasksStatusMsg" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+      <div id="leadTasksList" class="lead-tasks-list"></div>
+      <details id="leadTasksHistoryDetails" class="lead-tasks-history" hidden>
+        <summary id="leadTasksHistorySummary">Completed / Cancelled History (0)</summary>
+        <div id="leadTasksHistoryList" class="lead-tasks-list"></div>
+      </details>
+      <form id="leadTaskForm" class="lead-task-form" aria-labelledby="tasksSectionTitle">
+        <div class="field-group lead-task-title-field">
+          <label for="leadTaskTitleInput" class="field-label">Task Title</label>
+          <input type="text" id="leadTaskTitleInput" name="title" class="input-field" maxlength="300" placeholder="e.g., Follow up on proposal or check decision" required>
+        </div>
+        <div class="field-group">
+          <label for="leadTaskTypeSelect" class="field-label">Task Type</label>
+          <select id="leadTaskTypeSelect" name="task_type" class="input-field">
+            <option value="follow_up" selected>Follow-up</option>
+            <option value="call">Call</option>
+            <option value="email">Email</option>
+            <option value="sms">SMS</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="leadTaskPrioritySelect" class="field-label">Priority</label>
+          <select id="leadTaskPrioritySelect" name="priority" class="input-field">
+            <option value="normal" selected>Normal</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="leadTaskDueSelect" class="field-label">Due When</label>
+          <select id="leadTaskDueSelect" name="due_in_hours" class="input-field">
+            <option value="4">In 4 hours</option>
+            <option value="24" selected>In 24 hours</option>
+            <option value="48">In 48 hours</option>
+            <option value="168">In 7 days</option>
+            <option value="custom">Custom date/time</option>
+          </select>
+        </div>
+        <div class="field-group lead-task-due-custom" id="leadTaskDueCustomWrap" hidden>
+          <label for="leadTaskDueCustomInput" class="field-label">Custom Date &amp; Time</label>
+          <input type="datetime-local" id="leadTaskDueCustomInput" name="due_at" class="input-field">
+        </div>
+        <div class="lead-task-submit-wrap">
+          <button type="submit" class="btn-primary btn-sm" id="addLeadTaskBtn">+ Add Follow-Up Task</button>
+        </div>
+      </form>
     </div>
 
     <!-- Lead Information -->
@@ -2196,9 +2558,13 @@
 
       let currentLead = null;
       let currentCandidate = null;
+      let currentTasks = [];
       let currentPlaybookMode = 'launchpad';
       let manualPlaybookModeOverride = null;
       let activeLoadSeq = 0;
+      let isCreatingTask = false;
+      let isSavingOutcome = false;
+      const busyTaskIds = new Set();
 
       // Elements
       const skipLink = document.getElementById('skipLink');
@@ -2222,8 +2588,25 @@
       const candidatePreviewBanner = document.getElementById('candidatePreviewBanner');
       const promoteCandidateBtn = document.getElementById('promoteCandidateBtn');
       const stageCardSection = document.getElementById('stageCardSection');
+      const tasksCardSection = document.getElementById('tasksCardSection');
+      const tasksSectionTitle = document.getElementById('tasksSectionTitle');
       const notesCardSection = document.getElementById('notesCardSection');
       const dangerZoneSection = document.getElementById('dangerZoneSection');
+
+      const leadTasksCountBadge = document.getElementById('leadTasksCountBadge');
+      const leadTasksStatusMsg = document.getElementById('leadTasksStatusMsg');
+      const leadTasksList = document.getElementById('leadTasksList');
+      const leadTasksHistoryDetails = document.getElementById('leadTasksHistoryDetails');
+      const leadTasksHistorySummary = document.getElementById('leadTasksHistorySummary');
+      const leadTasksHistoryList = document.getElementById('leadTasksHistoryList');
+      const leadTaskForm = document.getElementById('leadTaskForm');
+      const leadTaskTitleInput = document.getElementById('leadTaskTitleInput');
+      const leadTaskTypeSelect = document.getElementById('leadTaskTypeSelect');
+      const leadTaskPrioritySelect = document.getElementById('leadTaskPrioritySelect');
+      const leadTaskDueSelect = document.getElementById('leadTaskDueSelect');
+      const leadTaskDueCustomWrap = document.getElementById('leadTaskDueCustomWrap');
+      const leadTaskDueCustomInput = document.getElementById('leadTaskDueCustomInput');
+      const addLeadTaskBtn = document.getElementById('addLeadTaskBtn');
 
       const leadName = document.getElementById('leadName');
       const leadStatusBadge = document.getElementById('leadStatusBadge');
@@ -2269,7 +2652,9 @@
       function updateBackNavigation(isOutreachContext) {
         const href = getSafeReturnHref(isOutreachContext);
         backBtn.setAttribute('href', href);
-        if (
+        if (/[?&#]tab=tasks\b/i.test(href) || /#tasks\b/i.test(href)) {
+          backBtn.textContent = '\u2190 Tasks';
+        } else if (
           /[?&#]tab=outreach\b/i.test(href) ||
           /#outreach\b/i.test(href) ||
           (!validateReturnUrl(rawReturnParam) && isOutreachContext)
@@ -2601,12 +2986,57 @@
         }
       }
 
+      function syncLeadTaskDueCustomVisibility() {
+        if (!leadTaskDueSelect || !leadTaskDueCustomWrap || !leadTaskDueCustomInput) return;
+        const isCustom = leadTaskDueSelect.value === 'custom';
+        leadTaskDueCustomWrap.hidden = !isCustom;
+        leadTaskDueCustomInput.required = isCustom && !leadTaskDueCustomInput.disabled;
+        if (!isCustom) {
+          leadTaskDueCustomInput.setCustomValidity('');
+          leadTaskDueCustomInput.removeAttribute('aria-invalid');
+        }
+      }
+
+      function resetLeadTaskForm() {
+        if (leadTaskForm) leadTaskForm.reset();
+        if (leadTaskTypeSelect) leadTaskTypeSelect.value = 'follow_up';
+        if (leadTaskPrioritySelect) leadTaskPrioritySelect.value = 'normal';
+        if (leadTaskDueSelect) leadTaskDueSelect.value = '24';
+        if (leadTaskTitleInput) {
+          leadTaskTitleInput.setCustomValidity('');
+          leadTaskTitleInput.removeAttribute('aria-invalid');
+        }
+        if (leadTaskDueCustomInput) {
+          leadTaskDueCustomInput.value = '';
+          leadTaskDueCustomInput.setCustomValidity('');
+          leadTaskDueCustomInput.removeAttribute('aria-invalid');
+        }
+        syncLeadTaskDueCustomVisibility();
+      }
+
       function clearSensitiveLeadDom() {
         activeLoadSeq += 1;
         currentLead = null;
         currentCandidate = null;
+        currentTasks = [];
         manualPlaybookModeOverride = null;
         currentPlaybookMode = 'launchpad';
+        isCreatingTask = false;
+        isSavingOutcome = false;
+        busyTaskIds.clear();
+        closeModalDialog(deleteConfirmModal, { restoreFocus: false });
+        if (deleteModalDesc) {
+          deleteModalDesc.textContent = 'Permanently remove this contact and activity history? This action cannot be undone.';
+        }
+        clearTimeout(toastTimer);
+        if (appToast) {
+          appToast.hidden = true;
+          appToast.textContent = '';
+        }
+        if (saveToast) saveToast.style.display = 'none';
+        if (typeof playbookQuickStatusMsg !== 'undefined' && playbookQuickStatusMsg) {
+          playbookQuickStatusMsg.textContent = '';
+        }
         leadWorkspace.classList.add('is-auth-pending');
         document.title = 'Lead Details — G3Z Creative CRM';
         leadName.textContent = 'Locked';
@@ -2624,6 +3054,19 @@
         detailService.textContent = '\u2014';
         detailSource.textContent = '\u2014';
         detailMessage.textContent = '\u2014';
+        if (leadTasksList) leadTasksList.innerHTML = '';
+        if (leadTasksHistoryList) leadTasksHistoryList.innerHTML = '';
+        if (leadTasksHistoryDetails) {
+          leadTasksHistoryDetails.hidden = true;
+          leadTasksHistoryDetails.open = false;
+        }
+        if (leadTasksHistorySummary) leadTasksHistorySummary.textContent = 'Completed / Cancelled History (0)';
+        if (leadTasksCountBadge) {
+          leadTasksCountBadge.textContent = '0 pending';
+          leadTasksCountBadge.className = 'task-count-pill is-empty';
+        }
+        if (leadTasksStatusMsg) leadTasksStatusMsg.textContent = '';
+        resetLeadTaskForm();
         timelineList.innerHTML = '';
         noteInput.value = '';
         valueInput.value = '';
@@ -2635,6 +3078,11 @@
         const diagBanner = document.getElementById('playbookDiagnosticBanner');
         if (diagBanner) diagBanner.hidden = true;
         renderPlaybookScripts();
+      }
+
+      function handleUnauthorizedSession() {
+        clearSensitiveLeadDom();
+        openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
       }
 
       function withPostHog(callback) {
@@ -2678,12 +3126,10 @@
             closeModalDialog(loginModal, { restoreFocus: false });
             loadActiveRecord();
           } else {
-            clearSensitiveLeadDom();
-            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            handleUnauthorizedSession();
           }
         } catch (e) {
-          clearSensitiveLeadDom();
-          openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+          handleUnauthorizedSession();
         }
       }
 
@@ -2705,6 +3151,11 @@
             leadWorkspace.classList.remove('is-auth-pending');
             closeModalDialog(loginModal, { restoreFocus: false });
             loadActiveRecord();
+            requestAnimationFrame(() => {
+              if (leadName && typeof leadName.focus === 'function') {
+                leadName.focus({ preventScroll: true });
+              }
+            });
           } else {
             loginError.textContent = data.error || 'Invalid passcode.';
             loginError.style.display = 'block';
@@ -2721,8 +3172,7 @@
         try {
           await fetch('/api/crm/auth', { method: 'DELETE', credentials: 'same-origin' });
         } catch (_) {}
-        clearSensitiveLeadDom();
-        openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+        handleUnauthorizedSession();
       });
 
       const TIER_VALUES = {
@@ -2797,8 +3247,7 @@
           const res = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), { credentials: 'same-origin' });
           if (seq !== activeLoadSeq) return;
           if (res.status === 401) {
-            clearSensitiveLeadDom();
-            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            handleUnauthorizedSession();
             return;
           }
           if (!res.ok) {
@@ -2811,7 +3260,7 @@
           currentCandidate = data.candidate || null;
           manualPlaybookModeOverride = null;
           isCandidatePreview = false;
-          renderLead(data.lead, data.notes || []);
+          renderLead(data.lead, data.notes || [], data.tasks || []);
         } catch (err) {
           if (seq !== activeLoadSeq) return;
           console.error(err);
@@ -2841,8 +3290,7 @@
           });
           if (seq !== activeLoadSeq) return;
           if (res.status === 401) {
-            clearSensitiveLeadDom();
-            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            handleUnauthorizedSession();
             return;
           }
           if (!res.ok) {
@@ -2949,7 +3397,7 @@
           const previewNotes = cand.notes
             ? [{ author: 'Outreach Notes', created_at: cand.updated_at || cand.created_at, content: cand.notes }]
             : [];
-          renderLead(previewLead, previewNotes);
+          renderLead(previewLead, previewNotes, []);
         } catch (err) {
           console.error(err);
           showToast('Unable to load candidate preview.');
@@ -2973,8 +3421,7 @@
           });
           const data = await res.json().catch(() => ({}));
           if (res.status === 401) {
-            clearSensitiveLeadDom();
-            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            handleUnauthorizedSession();
             return;
           }
           if (res.ok && data.lead_id) {
@@ -3003,7 +3450,9 @@
         }
       });
 
-      function renderLead(lead, notes) {
+      function renderLead(lead, notes, tasks) {
+        const safeTasks = Array.isArray(tasks) ? tasks : [];
+        currentTasks = safeTasks;
         const mergedLead = mergeLeadWithCandidate(lead, currentCandidate);
         currentLead = mergedLead;
         lead = mergedLead;
@@ -3037,6 +3486,13 @@
         noteInput.placeholder = isCandidatePreview
           ? 'Promote candidate above for manual notes, or use 1-click Call Outcomes →'
           : 'Log call notes, outreach details, or next steps...';
+        if (leadTaskTitleInput) leadTaskTitleInput.disabled = isCandidatePreview;
+        if (leadTaskTypeSelect) leadTaskTypeSelect.disabled = isCandidatePreview;
+        if (leadTaskPrioritySelect) leadTaskPrioritySelect.disabled = isCandidatePreview;
+        if (leadTaskDueSelect) leadTaskDueSelect.disabled = isCandidatePreview;
+        if (leadTaskDueCustomInput) leadTaskDueCustomInput.disabled = isCandidatePreview;
+        if (addLeadTaskBtn) addLeadTaskBtn.disabled = isCandidatePreview || isCreatingTask;
+        syncLeadTaskDueCustomVisibility();
         setOutcomeButtonsDisabled(isSavingOutcome);
 
         document.title = (lead.name || 'Lead') + ' — G3Z CRM';
@@ -3136,8 +3592,298 @@
 
         detailMessage.textContent = lead.message || 'No additional message provided.';
 
+        if (isCandidatePreview) {
+          if (leadTasksCountBadge) {
+            leadTasksCountBadge.textContent = '0 pending';
+            leadTasksCountBadge.className = 'task-count-pill is-empty';
+          }
+          if (leadTasksList) {
+            leadTasksList.innerHTML = '<div class="lead-tasks-empty">Promote candidate above or log a Contacted call outcome to auto-queue a 24h follow-up task.</div>';
+          }
+          if (leadTasksHistoryList) leadTasksHistoryList.innerHTML = '';
+          if (leadTasksHistoryDetails) {
+            leadTasksHistoryDetails.hidden = true;
+            leadTasksHistoryDetails.open = false;
+          }
+          if (leadTasksHistorySummary) leadTasksHistorySummary.textContent = 'Completed / Cancelled History (0)';
+        } else {
+          renderLeadTasks(safeTasks);
+        }
         renderTimeline(notes, lead);
         syncPlaybookFromLead(lead);
+      }
+
+      const TASK_TYPE_LABELS = {
+        follow_up: 'Follow-up',
+        call: 'Call',
+        email: 'Email',
+        sms: 'SMS',
+        general: 'General'
+      };
+
+      function formatLocalTaskTimestamp(dateObj) {
+        if (!dateObj || Number.isNaN(dateObj.getTime())) return '\u2014';
+        return dateObj.toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit'
+        });
+      }
+
+      function formatTaskDueStatus(dueDate, isDue) {
+        if (!dueDate || Number.isNaN(dueDate.getTime())) {
+          return {
+            badgeText: isDue ? 'Due Now' : 'Scheduled',
+            badgeClass: isDue ? 'is-due' : ''
+          };
+        }
+        const diffMs = dueDate.getTime() - Date.now();
+        if (isDue || diffMs <= 0) {
+          const isOverdue = diffMs < -3600000;
+          return {
+            badgeText: isOverdue ? 'Overdue' : 'Due Now',
+            badgeClass: isOverdue ? 'is-overdue' : 'is-due'
+          };
+        }
+        const mins = Math.max(1, Math.ceil(diffMs / 60000));
+        if (mins < 60) {
+          return { badgeText: 'Due in ' + mins + 'm', badgeClass: '' };
+        }
+        const hours = Math.ceil(diffMs / 3600000);
+        if (hours <= 48) {
+          return { badgeText: 'Due in ' + hours + 'h', badgeClass: '' };
+        }
+        const days = Math.ceil(diffMs / 86400000);
+        return { badgeText: 'Due in ' + days + 'd', badgeClass: '' };
+      }
+
+      function createTaskActionButton(opts) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'lead-task-btn ' + (opts.className || '');
+        btn.setAttribute('aria-label', opts.ariaLabel);
+        btn.innerHTML = opts.labelHtml;
+        btn.addEventListener('click', () => opts.onClick(btn));
+        return btn;
+      }
+
+      async function patchLeadTask(taskId, payload, announcementText, itemEl) {
+        const key = String(taskId || '');
+        if (!key || busyTaskIds.has(key)) return;
+        busyTaskIds.add(key);
+
+        const wasFocusInItem = Boolean(
+          itemEl && document.activeElement && itemEl.contains(document.activeElement)
+        );
+        const wasInHistory = Boolean(
+          wasFocusInItem && leadTasksHistoryList && leadTasksHistoryList.contains(itemEl)
+        );
+
+        const itemButtons = itemEl ? Array.from(itemEl.querySelectorAll('button')) : [];
+        itemButtons.forEach((b) => { b.disabled = true; });
+
+        try {
+          const res = await fetch('/api/crm/tasks/' + encodeURIComponent(key), {
+            method: 'PATCH',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.status === 401) {
+            handleUnauthorizedSession();
+            return;
+          }
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            const errMsg = data.error || (res.status === 409
+              ? 'Task conflict — already updated.'
+              : 'Could not update task.');
+            if (leadTasksStatusMsg) leadTasksStatusMsg.textContent = errMsg;
+            showToast(errMsg);
+            itemButtons.forEach((b) => { b.disabled = false; });
+            return;
+          }
+          if (leadTasksStatusMsg) leadTasksStatusMsg.textContent = announcementText;
+          showToast(announcementText);
+          await fetchLeadDetails();
+
+          const focusLostToBody = !document.activeElement || document.activeElement === document.body;
+          if (wasFocusInItem || focusLostToBody) {
+            const historyOpen = Boolean(
+              leadTasksHistoryDetails && !leadTasksHistoryDetails.hidden && leadTasksHistoryDetails.open
+            );
+            const nextFocusEl =
+              (wasInHistory && historyOpen && leadTasksHistoryList && leadTasksHistoryList.querySelector('.lead-task-btn:not([disabled])')) ||
+              (leadTasksList && leadTasksList.querySelector('.lead-task-btn:not([disabled])')) ||
+              (leadTaskTitleInput && !leadTaskTitleInput.disabled ? leadTaskTitleInput : null) ||
+              tasksSectionTitle;
+            if (nextFocusEl && typeof nextFocusEl.focus === 'function') {
+              nextFocusEl.focus({ preventScroll: true });
+            }
+          }
+        } catch (err) {
+          showToast('Could not update task.');
+          itemButtons.forEach((b) => { b.disabled = false; });
+        } finally {
+          busyTaskIds.delete(key);
+        }
+      }
+
+      function renderLeadTasks(tasks) {
+        const safeTasks = Array.isArray(tasks) ? tasks : [];
+        currentTasks = safeTasks;
+        if (!leadTasksList || !leadTasksHistoryList || !leadTasksHistoryDetails) return;
+
+        leadTasksList.innerHTML = '';
+        leadTasksHistoryList.innerHTML = '';
+
+        const pending = safeTasks.filter((t) => String(t && t.status || '').toLowerCase() === 'pending');
+        const history = safeTasks.filter((t) => {
+          const s = String(t && t.status || '').toLowerCase();
+          return s === 'completed' || s === 'cancelled';
+        });
+
+        let dueCount = 0;
+
+        if (pending.length === 0) {
+          leadTasksList.innerHTML = '<div class="lead-tasks-empty">No pending follow-up tasks. Moving a lead to Contacted automatically queues a 24-hour follow-up, or add one below.</div>';
+        } else {
+          pending.forEach((task) => {
+            const taskTitle = String(task.title || 'Follow-up task');
+            const taskType = String(task.task_type || 'follow_up').toLowerCase();
+            const typeLabel = TASK_TYPE_LABELS[taskType] || 'Follow-up';
+            const rawPriority = String(task.priority || 'normal').toLowerCase();
+            const safePriority = (rawPriority === 'high' || rawPriority === 'low') ? rawPriority : 'normal';
+            const isAuto = task.source === 'auto_contacted_24h';
+            const dueDate = parseUtcDate(task.due_at);
+            const isDue = Boolean(Number(task.is_due)) || (dueDate ? dueDate.getTime() <= Date.now() : false);
+            if (isDue) dueCount += 1;
+
+            const dueInfo = formatTaskDueStatus(dueDate, isDue);
+            const localDueStr = dueDate ? formatLocalTaskTimestamp(dueDate) : (task.due_at ? String(task.due_at) : '\u2014');
+            const agoText = isDue && dueDate && dueDate.getTime() < Date.now() - 60000 ? timeAgo(task.due_at) : '';
+            const dueMetaText = isDue
+              ? ('Due: ' + localDueStr + (agoText ? (' (' + agoText + ')') : ' (Due now)'))
+              : ('Due: ' + localDueStr);
+
+            const item = document.createElement('div');
+            item.className = 'lead-task-item' + (isAuto ? ' is-auto' : '') + (isDue ? ' is-due' : '');
+
+            const descHtml = (task.description && String(task.description).trim())
+              ? ('<div class="lead-task-desc">' + escapeHtml(String(task.description).trim()) + '</div>')
+              : '';
+
+            item.innerHTML =
+              '<div class="lead-task-top">' +
+                '<div class="lead-task-title">' + escapeHtml(taskTitle) + '</div>' +
+                '<div class="lead-task-badges">' +
+                  (isAuto ? '<span class="lead-task-pill is-auto">Auto 24h</span>' : '') +
+                  '<span class="lead-task-pill">' + escapeHtml(typeLabel) + '</span>' +
+                  '<span class="lead-task-pill priority-' + safePriority + '">' + escapeHtml(safePriority) + '</span>' +
+                  '<span class="lead-task-pill ' + dueInfo.badgeClass + '">' + escapeHtml(dueInfo.badgeText) + '</span>' +
+                '</div>' +
+              '</div>' +
+              descHtml +
+              '<div class="lead-task-meta"><span>' + escapeHtml(dueMetaText) + '</span></div>';
+
+            const actions = document.createElement('div');
+            actions.className = 'lead-task-actions';
+            actions.appendChild(createTaskActionButton({
+              labelHtml: '<span aria-hidden="true">✓</span> Complete',
+              ariaLabel: 'Complete: ' + taskTitle,
+              className: 'lead-task-btn-complete',
+              onClick: () => patchLeadTask(task.id, { status: 'completed' }, 'Task completed: ' + taskTitle, item)
+            }));
+            actions.appendChild(createTaskActionButton({
+              labelHtml: '<span aria-hidden="true">⏰</span> +24h',
+              ariaLabel: 'Snooze +24h: ' + taskTitle,
+              className: 'lead-task-btn-snooze',
+              onClick: () => patchLeadTask(task.id, { snooze_hours: 24 }, 'Task snoozed +24h: ' + taskTitle, item)
+            }));
+            actions.appendChild(createTaskActionButton({
+              labelHtml: '<span aria-hidden="true">✕</span> Dismiss',
+              ariaLabel: 'Dismiss: ' + taskTitle,
+              className: 'lead-task-btn-dismiss',
+              onClick: () => patchLeadTask(task.id, { status: 'cancelled' }, 'Task dismissed: ' + taskTitle, item)
+            }));
+
+            item.appendChild(actions);
+            leadTasksList.appendChild(item);
+          });
+        }
+
+        if (leadTasksCountBadge) {
+          if (pending.length === 0) {
+            leadTasksCountBadge.textContent = '0 pending';
+            leadTasksCountBadge.className = 'task-count-pill is-empty';
+          } else if (dueCount > 0) {
+            leadTasksCountBadge.textContent = pending.length + ' pending (' + dueCount + ' due)';
+            leadTasksCountBadge.className = 'task-count-pill has-due';
+          } else {
+            leadTasksCountBadge.textContent = pending.length + ' pending';
+            leadTasksCountBadge.className = 'task-count-pill';
+          }
+        }
+
+        if (history.length === 0) {
+          leadTasksHistoryDetails.hidden = true;
+          leadTasksHistoryDetails.open = false;
+          if (leadTasksHistorySummary) leadTasksHistorySummary.textContent = 'Completed / Cancelled History (0)';
+        } else {
+          leadTasksHistoryDetails.hidden = false;
+          if (leadTasksHistorySummary) {
+            leadTasksHistorySummary.textContent = 'Completed / Cancelled History (' + history.length + ')';
+          }
+          history.forEach((task) => {
+            const taskTitle = String(task.title || 'Follow-up task');
+            const status = String(task.status || '').toLowerCase();
+            const isCompleted = status === 'completed';
+            const isAuto = task.source === 'auto_contacted_24h';
+            const isAutoCancelled = !isCompleted && isAuto && currentLead && currentLead.status !== 'contacted';
+            const statusLabel = isCompleted ? 'Completed' : (isAutoCancelled ? 'Auto-Cancelled' : 'Dismissed');
+            const statusPillClass = isCompleted ? 'status-completed' : 'status-cancelled';
+            const taskType = String(task.task_type || 'follow_up').toLowerCase();
+            const typeLabel = TASK_TYPE_LABELS[taskType] || 'Follow-up';
+
+            const rawTs = task.completed_at || task.updated_at || task.created_at;
+            const completedDate = parseUtcDate(rawTs);
+            const tsFormatted = completedDate ? formatLocalTaskTimestamp(completedDate) : '\u2014';
+            const relAgo = rawTs ? timeAgo(rawTs) : '';
+            const metaLine = (isCompleted ? 'Completed: ' : 'Closed: ') + tsFormatted + (relAgo ? (' (' + relAgo + ')') : '');
+
+            const item = document.createElement('div');
+            item.className = 'lead-task-item is-history' + (isAuto ? ' is-auto' : '');
+
+            const descHtml = (task.description && String(task.description).trim())
+              ? ('<div class="lead-task-desc">' + escapeHtml(String(task.description).trim()) + '</div>')
+              : '';
+
+            item.innerHTML =
+              '<div class="lead-task-top">' +
+                '<div class="lead-task-title">' + escapeHtml(taskTitle) + '</div>' +
+                '<div class="lead-task-badges">' +
+                  '<span class="lead-task-pill ' + statusPillClass + '">' + escapeHtml(statusLabel) + '</span>' +
+                  (isAuto ? '<span class="lead-task-pill is-auto">Auto 24h</span>' : '') +
+                  '<span class="lead-task-pill">' + escapeHtml(typeLabel) + '</span>' +
+                '</div>' +
+              '</div>' +
+              descHtml +
+              '<div class="lead-task-meta"><span>' + escapeHtml(metaLine) + '</span></div>';
+
+            const actions = document.createElement('div');
+            actions.className = 'lead-task-actions';
+            actions.appendChild(createTaskActionButton({
+              labelHtml: '<span aria-hidden="true">↺</span> Reopen',
+              ariaLabel: 'Reopen: ' + taskTitle,
+              className: 'lead-task-btn-reopen',
+              onClick: () => patchLeadTask(task.id, { status: 'pending' }, 'Task reopened: ' + taskTitle, item)
+            }));
+
+            item.appendChild(actions);
+            leadTasksHistoryList.appendChild(item);
+          });
+        }
       }
 
       function renderTimeline(notes, lead) {
@@ -3216,6 +3962,10 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: val, contact_info: val })
             });
+            if (res.status === 401) {
+              handleUnauthorizedSession();
+              return;
+            }
             if (res.ok) {
               enrichResult.innerHTML = '<span style="color:var(--success);">&check; Email saved.</span>';
               showToast('Email saved.');
@@ -3312,8 +4062,12 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: enrichment.email })
             });
+            if (res.status === 401) {
+              handleUnauthorizedSession();
+              return;
+            }
             if (res.ok) {
-              await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
+              const noteRes = await fetch('/api/crm/leads/' + encodeURIComponent(leadId) + '/notes', {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: { 'Content-Type': 'application/json' },
@@ -3322,6 +4076,10 @@
                   content: 'Accepted enriched email ' + enrichment.email + '.'
                 })
               });
+              if (noteRes.status === 401) {
+                handleUnauthorizedSession();
+                return;
+              }
               enrichResult.innerHTML = '<span style="color:var(--success, #22c55e);">Saved to lead.</span>';
               showToast('Email saved.');
               loadActiveRecord();
@@ -3351,6 +4109,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ company_domain: cleanedDomain })
           });
+          if (res.status === 401) {
+            handleUnauthorizedSession();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok) {
@@ -3371,8 +4133,6 @@
       });
 
       // Save Stage & Valuation
-      let isSavingOutcome = false;
-
       stageForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (isCandidatePreview || !leadId) {
@@ -3398,6 +4158,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
+          if (res.status === 401) {
+            handleUnauthorizedSession();
+            return;
+          }
           if (res.ok) {
             const patchData = await res.json().catch(() => ({}));
             captureLeadEvent('lead_details_updated', { status: payload.status });
@@ -3409,7 +4173,13 @@
             leadStatusBadge.className = 'status-badge status-' + payload.status;
             saveToast.style.display = 'block';
             setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
-            fetchLeadDetails();
+            if (patchData.queued_task) {
+              if (leadTasksStatusMsg) leadTasksStatusMsg.textContent = '24h follow-up task auto-queued.';
+              showToast('Stage updated — 24h follow-up task queued!');
+            } else if (patchData.cancelled_task_count > 0 && leadTasksStatusMsg) {
+              leadTasksStatusMsg.textContent = 'Pending auto follow-up task cancelled.';
+            }
+            await fetchLeadDetails();
           } else {
             showToast('Could not update stage.');
           }
@@ -3420,6 +4190,116 @@
           setOutcomeButtonsDisabled(false);
         }
       });
+
+      // Follow-Up Tasks Form
+      if (leadTaskDueSelect) {
+        leadTaskDueSelect.addEventListener('change', syncLeadTaskDueCustomVisibility);
+      }
+      if (leadTaskTitleInput) {
+        leadTaskTitleInput.addEventListener('input', () => {
+          leadTaskTitleInput.setCustomValidity('');
+          leadTaskTitleInput.removeAttribute('aria-invalid');
+        });
+      }
+      if (leadTaskDueCustomInput) {
+        const clearCustomDueValidity = () => {
+          leadTaskDueCustomInput.setCustomValidity('');
+          leadTaskDueCustomInput.removeAttribute('aria-invalid');
+        };
+        leadTaskDueCustomInput.addEventListener('input', clearCustomDueValidity);
+        leadTaskDueCustomInput.addEventListener('change', clearCustomDueValidity);
+      }
+
+      if (leadTaskForm) {
+        leadTaskForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (isCandidatePreview || !leadId) {
+            showToast('Promote candidate above before adding manual tasks.');
+            return;
+          }
+          if (isCreatingTask) return;
+
+          const title = leadTaskTitleInput ? leadTaskTitleInput.value.trim() : '';
+          if (!title) {
+            if (leadTaskTitleInput) {
+              leadTaskTitleInput.setCustomValidity('Please enter a task title.');
+              leadTaskTitleInput.setAttribute('aria-invalid', 'true');
+              leadTaskTitleInput.reportValidity();
+              leadTaskTitleInput.focus();
+            }
+            return;
+          }
+
+          const payload = {
+            lead_id: leadId,
+            title: title,
+            task_type: leadTaskTypeSelect ? leadTaskTypeSelect.value : 'follow_up',
+            priority: leadTaskPrioritySelect ? leadTaskPrioritySelect.value : 'normal'
+          };
+
+          const dueChoice = leadTaskDueSelect ? leadTaskDueSelect.value : '24';
+          if (dueChoice === 'custom') {
+            const rawCustom = leadTaskDueCustomInput ? leadTaskDueCustomInput.value.trim() : '';
+            const parsedCustom = rawCustom ? new Date(rawCustom) : null;
+            if (!rawCustom || !parsedCustom || Number.isNaN(parsedCustom.getTime())) {
+              if (leadTaskDueCustomInput) {
+                leadTaskDueCustomInput.setCustomValidity('Please select a valid custom date and time.');
+                leadTaskDueCustomInput.setAttribute('aria-invalid', 'true');
+                leadTaskDueCustomInput.reportValidity();
+                leadTaskDueCustomInput.focus();
+              }
+              showToast('Please select a valid custom date and time.');
+              return;
+            }
+            payload.due_at = parsedCustom.toISOString();
+          } else {
+            const dueHours = Number(dueChoice);
+            payload.due_in_hours = Number.isFinite(dueHours) ? dueHours : 24;
+          }
+
+          isCreatingTask = true;
+          if (addLeadTaskBtn) {
+            addLeadTaskBtn.disabled = true;
+            addLeadTaskBtn.textContent = 'Adding...';
+          }
+
+          try {
+            const res = await fetch('/api/crm/tasks', {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (res.status === 401) {
+              handleUnauthorizedSession();
+              return;
+            }
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              showToast(data.error || 'Could not add follow-up task.');
+              return;
+            }
+            captureLeadEvent('lead_task_created', {
+              task_type: payload.task_type,
+              priority: payload.priority
+            });
+            resetLeadTaskForm();
+            if (leadTasksStatusMsg) {
+              leadTasksStatusMsg.textContent = 'Follow-up task added: ' + title;
+            }
+            showToast('Follow-up task added!');
+            await fetchLeadDetails();
+          } catch (err) {
+            showToast('Could not add follow-up task.');
+          } finally {
+            isCreatingTask = false;
+            if (addLeadTaskBtn) {
+              addLeadTaskBtn.disabled = isCandidatePreview;
+              addLeadTaskBtn.textContent = '+ Add Follow-Up Task';
+            }
+          }
+        });
+      }
 
       // Add Note
       noteForm.addEventListener('submit', async (e) => {
@@ -3438,6 +4318,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ content: content, author: 'Chris' })
           });
+          if (res.status === 401) {
+            handleUnauthorizedSession();
+            return;
+          }
           if (res.ok) {
             captureLeadEvent('lead_note_added', { note_type: 'manual' });
             noteInput.value = '';
@@ -3481,6 +4365,10 @@
             method: 'DELETE',
             credentials: 'same-origin'
           });
+          if (res.status === 401) {
+            handleUnauthorizedSession();
+            return;
+          }
           if (res.ok) {
             captureLeadEvent('lead_deleted');
             const dest = getSafeReturnHref(isOutreachLead(currentLead));
@@ -4740,6 +5628,7 @@
         urlParams.set('playbook', '1');
 
         resetPlaybookGates();
+        resetLeadTaskForm();
         noteInput.value = '';
         enrichResult.innerHTML = '';
         saveToast.style.display = 'none';
@@ -4789,12 +5678,13 @@
           urlParams.delete('candidate_id');
 
           resetPlaybookGates();
+          resetLeadTaskForm();
           noteInput.value = '';
           enrichResult.innerHTML = '';
           saveToast.style.display = 'none';
 
-          if (Array.isArray(patchData.next_uncontacted_lead_notes)) {
-            renderLead(nextLead, patchData.next_uncontacted_lead_notes);
+          if (Array.isArray(patchData.next_uncontacted_lead_notes) && Array.isArray(patchData.next_uncontacted_lead_tasks)) {
+            renderLead(nextLead, patchData.next_uncontacted_lead_notes, patchData.next_uncontacted_lead_tasks);
           } else {
             await fetchLeadDetails();
           }
@@ -4862,8 +5752,7 @@
                 })
               });
               if (dismissRes.status === 401) {
-                clearSensitiveLeadDom();
-                openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+                handleUnauthorizedSession();
                 return;
               }
               if (!dismissRes.ok) {
@@ -4886,6 +5775,10 @@
                   const listRes = await fetch('/api/crm/outreach?status=uncontacted&contact=has_phone&limit=1', {
                     credentials: 'same-origin'
                   });
+                  if (listRes.status === 401) {
+                    handleUnauthorizedSession();
+                    return;
+                  }
                   if (listRes.ok) {
                     const listData = await listRes.json().catch(() => ({}));
                     const candidatesList = Array.isArray(listData.candidates) ? listData.candidates : [];
@@ -4955,8 +5848,7 @@
               })
             });
             if (touchRes.status === 401) {
-              clearSensitiveLeadDom();
-              openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+              handleUnauthorizedSession();
               return;
             }
             const touchData = await touchRes.json().catch(() => ({}));
@@ -4975,7 +5867,7 @@
               Number(touchData.estimated_value) !== numericVal
             ) {
               try {
-                await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
+                const promotePatchRes = await fetch('/api/crm/leads/' + encodeURIComponent(leadId), {
                   method: 'PATCH',
                   credentials: 'same-origin',
                   headers: { 'Content-Type': 'application/json' },
@@ -4985,6 +5877,10 @@
                     deal_value: numericVal
                   })
                 });
+                if (promotePatchRes.status === 401) {
+                  handleUnauthorizedSession();
+                  return;
+                }
               } catch (_) {}
             }
 
@@ -5033,8 +5929,7 @@
           });
 
           if (patchRes.status === 401) {
-            clearSensitiveLeadDom();
-            openModalDialog(loginModal, { initialFocusEl: passcodeInput, allowEscape: false });
+            handleUnauthorizedSession();
             return;
           }
           if (!patchRes.ok) {
@@ -5044,7 +5939,7 @@
           const patchData = await patchRes.json().catch(() => ({}));
 
           if (note) {
-            await fetch('/api/crm/leads/' + encodeURIComponent(targetLeadId) + '/notes', {
+            const outcomeNoteRes = await fetch('/api/crm/leads/' + encodeURIComponent(targetLeadId) + '/notes', {
               method: 'POST',
               credentials: 'same-origin',
               headers: { 'Content-Type': 'application/json' },
@@ -5054,6 +5949,10 @@
                 content: note
               })
             });
+            if (outcomeNoteRes.status === 401) {
+              handleUnauthorizedSession();
+              return;
+            }
           }
 
           captureLeadEvent('playbook_outcome_logged', { status, value: Number.isFinite(parsedActiveVal) ? parsedActiveVal : 0 });
@@ -5063,6 +5962,11 @@
             return;
           }
 
+          if (patchData.queued_task && leadTasksStatusMsg) {
+            leadTasksStatusMsg.textContent = '24h follow-up task auto-queued.';
+          } else if (patchData.cancelled_task_count > 0 && leadTasksStatusMsg) {
+            leadTasksStatusMsg.textContent = 'Pending auto follow-up task cancelled.';
+          }
           playbookQuickStatusMsg.textContent = '✓ Logged (' + status.toUpperCase() + ')';
           setTimeout(() => { playbookQuickStatusMsg.textContent = ''; }, 3000);
           await fetchLeadDetails();
@@ -5118,6 +6022,7 @@
         Array.from(urlParams.keys()).forEach((k) => urlParams.delete(k));
         latestParams.forEach((v, k) => urlParams.set(k, v));
         manualPlaybookModeOverride = null;
+        resetLeadTaskForm();
         noteInput.value = '';
         saveToast.style.display = 'none';
         enrichResult.innerHTML = '';

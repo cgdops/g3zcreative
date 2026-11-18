@@ -6,6 +6,13 @@
  */
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
+import {
+  queueContactedFollowUpTask,
+  cancelPendingAutoFollowUpTasks,
+  getTaskBadgeCounts,
+  getTasksForLead,
+  isMissingTasksTableError
+} from '../_tasks.js';
 
 const ALLOWED_METHODS = 'GET, PATCH, DELETE, OPTIONS';
 const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
@@ -63,6 +70,9 @@ async function readJsonObject(request, auth, { allowEmpty = false } = {}) {
   if (!rawText.trim()) {
     if (auth?.method === 'cookie' && !ctHeader && !allowEmpty) {
       return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+    }
+    if (!allowEmpty) {
+      return { ok: false, status: 400, error: 'Request body cannot be empty.' };
     }
     return { ok: true, body: {} };
   }
@@ -127,9 +137,12 @@ export async function onRequestGet(context) {
       }
     }
 
+    const tasks = await getTasksForLead(env.DB, leadId);
+
     return json(request, {
       lead,
       notes: notes || [],
+      tasks,
       candidate: linkedCandidate || null
     });
 
@@ -169,6 +182,19 @@ export async function onRequestPatch(context) {
     }
 
     const body = { ...parsedBody.body };
+    const scalarCheckedFields = [
+      'name', 'contact_info', 'email', 'phone', 'company', 'company_domain',
+      'service_interest', 'message', 'status', 'estimated_value', 'deal_value', 'starred'
+    ];
+    for (const field of scalarCheckedFields) {
+      if (body[field] !== undefined && body[field] !== null && typeof body[field] === 'object') {
+        return json(request, { error: `Invalid non-primitive value for field "${field}".` }, 400);
+      }
+      if (field !== 'starred' && typeof body[field] === 'boolean') {
+        return json(request, { error: `Invalid boolean value for field "${field}".` }, 400);
+      }
+    }
+
     if (body.deal_value !== undefined && body.estimated_value === undefined) {
       body.estimated_value = body.deal_value;
     }
@@ -177,12 +203,6 @@ export async function onRequestPatch(context) {
       'name', 'contact_info', 'email', 'phone', 'company', 'company_domain',
       'service_interest', 'message', 'status', 'estimated_value', 'starred'
     ];
-
-    for (const field of allowedFields) {
-      if (body[field] !== undefined && body[field] !== null && typeof body[field] === 'object') {
-        return json(request, { error: `Invalid non-primitive value for field "${field}".` }, 400);
-      }
-    }
 
     if (body.status !== undefined) {
       if (typeof body.status !== 'string' || !VALID_LEAD_STATUSES.has(body.status.trim())) {
@@ -208,8 +228,15 @@ export async function onRequestPatch(context) {
     }
 
     if (body.estimated_value !== undefined) {
+      if (
+        body.estimated_value === null ||
+        typeof body.estimated_value === 'boolean' ||
+        String(body.estimated_value).trim() === ''
+      ) {
+        return json(request, { error: 'Invalid estimated_value.' }, 400);
+      }
       const numVal = Number(body.estimated_value);
-      if (body.estimated_value === null || !Number.isFinite(numVal) || numVal < 0) {
+      if (!Number.isFinite(numVal) || numVal < 0) {
         return json(request, { error: 'Invalid estimated_value.' }, 400);
       }
       body.estimated_value = numVal;
@@ -256,8 +283,19 @@ export async function onRequestPatch(context) {
 
     const updatedLead = await env.DB.prepare('SELECT * FROM leads WHERE id = ?').bind(leadId).first();
 
+    let queuedTask = null;
+    let cancelledTaskCount = 0;
+    if (body.status && body.status !== existing.status) {
+      if (body.status === 'contacted') {
+        queuedTask = await queueContactedFollowUpTask(env.DB, updatedLead);
+      } else if (existing.status === 'contacted') {
+        cancelledTaskCount = await cancelPendingAutoFollowUpTasks(env.DB, leadId);
+      }
+    }
+
     let nextUncontactedLead = null;
     let nextUncontactedLeadNotes = [];
+    let nextUncontactedLeadTasks = [];
     let remainingUncontactedCount = null;
     let nextUncontactedCandidate = null;
     let remainingUncontactedCandidatesCount = null;
@@ -311,10 +349,14 @@ export async function onRequestPatch(context) {
         }
 
         if (nextUncontactedLead) {
-          const { results: nextNotes } = await env.DB.prepare(
-            'SELECT * FROM lead_notes WHERE lead_id = ? ORDER BY created_at DESC'
-          ).bind(nextUncontactedLead.id).all();
-          nextUncontactedLeadNotes = nextNotes || [];
+          const [notesResult, nextLeadTasks] = await Promise.all([
+            env.DB.prepare(
+              'SELECT * FROM lead_notes WHERE lead_id = ? ORDER BY created_at DESC'
+            ).bind(nextUncontactedLead.id).all(),
+            getTasksForLead(env.DB, nextUncontactedLead.id)
+          ]);
+          nextUncontactedLeadNotes = notesResult?.results || [];
+          nextUncontactedLeadTasks = nextLeadTasks;
         }
       }
 
@@ -366,13 +408,23 @@ export async function onRequestPatch(context) {
       }
     }
 
+    const [taskCounts, leadTasks] = await Promise.all([
+      getTaskBadgeCounts(env.DB),
+      getTasksForLead(env.DB, leadId)
+    ]);
+
     return json(request, {
       success: true,
       lead: updatedLead,
+      queued_task: queuedTask,
+      cancelled_task_count: cancelledTaskCount,
+      tasks: leadTasks,
+      task_counts: taskCounts,
       ...(body.status === 'lost'
         ? {
             next_uncontacted_lead: nextUncontactedLead || null,
             next_uncontacted_lead_notes: nextUncontactedLeadNotes,
+            next_uncontacted_lead_tasks: nextUncontactedLeadTasks,
             remaining_uncontacted_count: remainingUncontactedCount,
             next_uncontacted_candidate: nextUncontactedCandidate || null,
             remaining_uncontacted_candidates_count: remainingUncontactedCandidatesCount
@@ -422,10 +474,19 @@ export async function onRequestDelete(context) {
       }
     }
 
+    try {
+      await env.DB.prepare('DELETE FROM lead_tasks WHERE lead_id = ?').bind(leadId).run();
+    } catch (err) {
+      if (!isMissingTasksTableError(err)) {
+        throw err;
+      }
+    }
+
     await env.DB.prepare('DELETE FROM lead_notes WHERE lead_id = ?').bind(leadId).run();
     await env.DB.prepare('DELETE FROM leads WHERE id = ?').bind(leadId).run();
+    const taskCounts = await getTaskBadgeCounts(env.DB);
 
-    return json(request, { success: true, message: 'Lead deleted' });
+    return json(request, { success: true, message: 'Lead deleted', task_counts: taskCounts });
   } catch (error) {
     console.error('Error deleting lead:', error);
     return json(request, { error: 'Failed to delete lead.' }, 500);

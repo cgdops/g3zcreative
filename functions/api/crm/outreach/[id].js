@@ -8,6 +8,7 @@
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
 import { isValidCompanyDomain, normalizeDomain } from '../_enrich.js';
+import { queueContactedFollowUpTask, cancelPendingAutoFollowUpTasks, getTaskBadgeCounts } from '../_tasks.js';
 import {
   enrichOutreachCandidate,
   auditCandidateWebsite,
@@ -829,11 +830,17 @@ export async function onRequestPost(context) {
         estimatedValue: parsedEstVal.value
       });
 
-      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      const [updated, taskCounts] = await Promise.all([
+        env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first(),
+        getTaskBadgeCounts(env.DB)
+      ]);
       return json(request, {
         success: true,
         lead_id: promoted.leadId,
         estimated_value: promoted.estimatedValue,
+        queued_task: promoted?.queuedTask || null,
+        cancelled_task_count: promoted?.cancelledTaskCount || 0,
+        task_counts: taskCounts,
         candidate: updated
       }, 200, effectiveMethods);
     }
@@ -919,9 +926,10 @@ export async function onRequestPost(context) {
 
       let leadId = candidate.lead_id || null;
       let promotedEstimatedValue;
+      let promoted = null;
 
       if (shouldPromote || candidate.lead_id) {
-        const promoted = await promoteCandidateToLead(env.DB, candidate, {
+        promoted = await promoteCandidateToLead(env.DB, candidate, {
           status: targetLeadStatus,
           explicitStatus: hasExplicitStatus,
           author: auth.user || 'Christian',
@@ -955,7 +963,10 @@ export async function onRequestPost(context) {
         ).run();
       }
 
-      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      const [updated, taskCounts] = await Promise.all([
+        env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first(),
+        getTaskBadgeCounts(env.DB)
+      ]);
       return json(request, {
         success: true,
         cadence_step: effectiveCadenceStep,
@@ -963,6 +974,9 @@ export async function onRequestPost(context) {
         next_action_at: nextActionAt,
         lead_id: leadId,
         ...(promotedEstimatedValue !== undefined ? { estimated_value: promotedEstimatedValue } : {}),
+        queued_task: promoted?.queuedTask || null,
+        cancelled_task_count: promoted?.cancelledTaskCount || 0,
+        task_counts: taskCounts,
         candidate: updated,
         renderedTemplates: renderAllTemplates(updated || candidate)
       }, 200, effectiveMethods);
@@ -1064,7 +1078,10 @@ export async function onRequestPost(context) {
         estimatedValue: parsedEstVal.value
       });
 
-      const updated = await env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first();
+      const [updated, taskCounts] = await Promise.all([
+        env.DB.prepare('SELECT * FROM outreach_candidates WHERE id = ?').bind(candidateId).first(),
+        getTaskBadgeCounts(env.DB)
+      ]);
       return json(request, {
         success: true,
         provider: dispatchProvider,
@@ -1073,6 +1090,9 @@ export async function onRequestPost(context) {
         next_action_at: nextActionAt,
         lead_id: promoted.leadId,
         estimated_value: promoted.estimatedValue,
+        queued_task: promoted?.queuedTask || null,
+        cancelled_task_count: promoted?.cancelledTaskCount || 0,
+        task_counts: taskCounts,
         candidate: updated
       }, 200, effectiveMethods);
     }
@@ -1157,9 +1177,12 @@ async function promoteCandidateToLead(db, candidate, opts) {
   const contextMessage = buildDiagnosticLeadMessage(candidate, canonicalCity);
 
   let persistedEstimatedValue = effectiveEstimatedValue;
+  let queuedTask = null;
+  let cancelledTaskCount = 0;
 
   if (!existingLead) {
     leadId = generateId('lead_');
+    const targetStatus = opts.status || 'contacted';
     await db.prepare(`
       INSERT INTO leads (
         id, name, contact_info, email, phone, company, company_domain,
@@ -1177,9 +1200,16 @@ async function promoteCandidateToLead(db, candidate, opts) {
       serviceInterest,
       contextMessage,
       sourcePage,
-      opts.status || 'contacted',
+      targetStatus,
       effectiveEstimatedValue
     ).run();
+
+    if (targetStatus === 'contacted') {
+      const createdLead = await db.prepare('SELECT * FROM leads WHERE id = ?').bind(leadId).first();
+      if (createdLead) {
+        queuedTask = await queueContactedFollowUpTask(db, createdLead);
+      }
+    }
   } else {
     const estimatedValueSql = hasEstimatedValueOverride
       ? 'estimated_value = ?,'
@@ -1210,6 +1240,17 @@ async function promoteCandidateToLead(db, candidate, opts) {
       nextLeadStatus,
       leadId
     ).run();
+
+    if (nextLeadStatus !== existingLead.status) {
+      if (nextLeadStatus === 'contacted') {
+        const updatedLead = await db.prepare('SELECT * FROM leads WHERE id = ?').bind(leadId).first();
+        if (updatedLead) {
+          queuedTask = await queueContactedFollowUpTask(db, updatedLead);
+        }
+      } else if (existingLead.status === 'contacted') {
+        cancelledTaskCount = await cancelPendingAutoFollowUpTasks(db, leadId);
+      }
+    }
 
     if (!hasEstimatedValueOverride) {
       const existingVal = Number(existingLead.estimated_value || 0);
@@ -1267,7 +1308,7 @@ async function promoteCandidateToLead(db, candidate, opts) {
     ).run();
   }
 
-  return { leadId, estimatedValue: persistedEstimatedValue };
+  return { leadId, estimatedValue: persistedEstimatedValue, queuedTask, cancelledTaskCount };
 }
 
 /**

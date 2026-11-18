@@ -450,6 +450,10 @@
       padding: 1px 6px;
       border-radius: 999px;
     }
+    .view-badge.is-zero {
+      background: rgba(148, 163, 184, 0.22);
+      color: #cbd5e1;
+    }
 
     /* Active Filter Banner & Empty State Panels */
     .filter-banner {
@@ -749,8 +753,9 @@
       cursor: default;
     }
 
-    /* List View & Outreach Table */
+    /* List View, Tasks Queue & Outreach Table */
     .list-view,
+    .tasks-view,
     .outreach-view {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -821,8 +826,9 @@
     .status-lost, .status-dismissed { background: rgba(100, 116, 139, 0.22); color: #cbd5e1; }
     .status-spam { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
 
-    /* Outreach Specific Components */
-    .outreach-banner {
+    /* Outreach & Tasks Queue Specific Components */
+    .outreach-banner,
+    .tasks-banner {
       background: linear-gradient(90deg, rgba(218, 16, 77, 0.14) 0%, rgba(56, 189, 248, 0.08) 100%);
       border-bottom: 1px solid var(--border);
       padding: 0.8rem 1.1rem;
@@ -832,11 +838,171 @@
       justify-content: space-between;
       gap: 10px;
     }
-    .outreach-heading {
+    .outreach-heading,
+    .tasks-heading {
       font-size: 0.95rem;
       font-weight: 700;
       color: #ffffff;
       margin: 0;
+    }
+    .tasks-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 0.7rem 1.1rem;
+      background: rgba(15, 23, 42, 0.45);
+      border-bottom: 1px solid var(--border);
+    }
+    .tasks-filter-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      color: #cbd5e1;
+      padding: 0.38rem 0.8rem;
+      min-height: 34px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .tasks-filter-pill:hover {
+      color: #ffffff;
+      border-color: #94a3b8;
+      background: var(--surface-hover);
+    }
+    .tasks-filter-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+    .tasks-pill-count {
+      background: rgba(148, 163, 184, 0.22);
+      color: #e2e8f0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+    .tasks-filter-pill.active .tasks-pill-count {
+      background: rgba(15, 23, 42, 0.36);
+      color: #ffffff;
+    }
+    .task-title-text {
+      font-weight: 700;
+      color: #ffffff;
+      font-size: 0.9rem;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .task-desc-text {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+    .task-badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+    }
+    .task-type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: #0f172a;
+      color: #cbd5e1;
+      border: 1px solid var(--border-strong);
+      white-space: nowrap;
+    }
+    .task-auto-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.69rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(245, 158, 11, 0.16);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.38);
+      white-space: nowrap;
+    }
+    .task-priority-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .task-priority-high {
+      background: rgba(239, 68, 68, 0.18);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .task-priority-normal {
+      background: rgba(56, 189, 248, 0.15);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.32);
+    }
+    .task-priority-low {
+      background: rgba(148, 163, 184, 0.18);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+    .task-due-upcoming {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      white-space: nowrap;
+    }
+    .task-status-completed {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(34, 197, 94, 0.16);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      white-space: nowrap;
+    }
+    .task-status-cancelled {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(100, 116, 139, 0.22);
+      color: #cbd5e1;
+      border: 1px solid rgba(100, 116, 139, 0.4);
+      white-space: nowrap;
     }
     .coverage-badge {
       font-size: 0.72rem;
@@ -1456,6 +1622,7 @@
       .btn-sm,
       .btn-xs,
       .view-btn,
+      .tasks-filter-pill,
       .cadence-tab-btn,
       .filter-select,
       .page-size-select,
@@ -1590,11 +1757,14 @@
       }
       .view-toggle {
         width: 100%;
+        flex-wrap: wrap;
       }
       .view-btn {
-        flex: 1;
+        flex: 1 1 auto;
+        min-width: max(44px, max-content);
         padding: 0.4rem 0.35rem;
-        font-size: 0.78rem;
+        font-size: 0.74rem;
+        gap: 4px;
       }
       .kanban-board {
         grid-template-columns: 1fr;
@@ -1608,8 +1778,13 @@
         min-height: 0;
         padding: 0.45rem 0.75rem;
       }
-      .outreach-banner {
+      .outreach-banner,
+      .tasks-banner {
         padding: 0.65rem 0.75rem;
+      }
+      .tasks-filter-bar {
+        padding: 0.6rem 0.75rem;
+        gap: 6px;
       }
       .outreach-banner-desc {
         display: none;
@@ -1635,31 +1810,38 @@
 
       /* Responsive Stacked Cards for Tables on < 640px */
       .list-view thead,
+      .tasks-view thead,
       .outreach-view thead {
         display: none;
       }
       .list-view table,
       .list-view tbody,
+      .tasks-view table,
+      .tasks-view tbody,
       .outreach-view table,
       .outreach-view tbody {
         display: block;
         width: 100%;
       }
       .list-view tbody tr,
+      .tasks-view tbody tr,
       .outreach-view tbody tr {
         display: block;
         border-bottom: 2px solid var(--border);
         padding: 0.75rem;
       }
       .list-view tbody td,
+      .tasks-view tbody td,
       .outreach-view tbody td {
         display: block;
         padding: 0.35rem 0;
         border-bottom: none;
         min-width: 0 !important;
         max-width: 100% !important;
+        overflow-wrap: anywhere;
       }
       .list-view tbody td[data-label]::before,
+      .tasks-view tbody td[data-label]::before,
       .outreach-view tbody td[data-label]::before {
         content: attr(data-label);
         display: block;
@@ -1795,6 +1977,30 @@
       </div>
     </div>
 
+    <!-- Tasks KPI Metrics -->
+    <div class="metrics-grid" id="tasksMetricsGrid" style="display: none;">
+      <div class="metric-card">
+        <div class="metric-label">Due Now</div>
+        <div class="metric-value" id="kpiTasksDueNow" style="color: #ff85a9;">0</div>
+        <div class="metric-sub" id="kpiTasksDueNowSub">All caught up right now</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Upcoming</div>
+        <div class="metric-value" id="kpiTasksUpcoming" style="color: var(--info);">0</div>
+        <div class="metric-sub" id="kpiTasksUpcomingSub">0 scheduled reminders</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">All Pending</div>
+        <div class="metric-value" id="kpiTasksPending" style="color: var(--warning);">0</div>
+        <div class="metric-sub" id="kpiTasksPendingSub">0 due now &bull; 0 upcoming</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Completed Today</div>
+        <div class="metric-value" id="kpiTasksCompletedToday" style="color: var(--success);">0</div>
+        <div class="metric-sub" id="kpiTasksCompletedSub">0 tasks cleared today</div>
+      </div>
+    </div>
+
     <!-- Filter & View Controls -->
     <search class="toolbar" aria-label="Search, filter, and switch CRM views">
       <div class="toolbar-search-row">
@@ -1901,15 +2107,18 @@
             <option value="dismissed">Dismissed</option>
             <option value="all">All Statuses</option>
           </select>
-
-          <button type="button" class="btn btn-sm" id="toolbarResetFiltersBtn" style="display: none;">
-            ✕ Reset
-          </button>
         </div>
+
+        <button type="button" class="btn btn-sm" id="toolbarResetFiltersBtn" style="display: none;">
+          ✕ Reset
+        </button>
 
         <div class="view-toggle" role="group" aria-label="CRM view mode">
           <button type="button" class="view-btn active" id="listToggleBtn" aria-pressed="true">List</button>
           <button type="button" class="view-btn" id="kanbanToggleBtn" aria-pressed="false">Kanban</button>
+          <button type="button" class="view-btn" id="tasksToggleBtn" aria-pressed="false">
+            <span aria-hidden="true">⏰</span> Tasks <span class="view-badge is-zero" id="tasksTabBadge">0</span>
+          </button>
           <button type="button" class="view-btn" id="outreachToggleBtn" aria-pressed="false">
             <span aria-hidden="true">🚀</span> Outreach <span class="view-badge" id="outreachTabBadge">0</span>
           </button>
@@ -2072,6 +2281,63 @@
         </div>
       </nav>
     </div>
+
+    <!-- Follow-Up Tasks Queue View -->
+    <div class="tasks-view" id="tasksView" style="display: none;">
+      <div class="tasks-banner">
+        <div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+            <h2 class="tasks-heading">⏰ Follow-Up Tasks Queue</h2>
+            <span class="coverage-badge" id="tasksQueueSummaryBadge">0 pending</span>
+          </div>
+          <div class="tasks-banner-desc" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 3px;">
+            24-hour follow-up queue for Contacted pipeline leads &amp; manual reminders
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button type="button" class="btn btn-primary btn-sm" id="openAddTaskModalBtn">
+            <span aria-hidden="true">+</span> Add Task
+          </button>
+        </div>
+      </div>
+
+      <div class="tasks-filter-bar" role="group" aria-label="Filter follow-up tasks">
+        <button type="button" class="tasks-filter-pill" data-task-filter="due_now" aria-pressed="false">
+          <span>Due Now</span>
+          <span class="tasks-pill-count" id="taskFilterCountDueNow">0</span>
+        </button>
+        <button type="button" class="tasks-filter-pill" data-task-filter="upcoming" aria-pressed="false">
+          <span>Upcoming</span>
+          <span class="tasks-pill-count" id="taskFilterCountUpcoming">0</span>
+        </button>
+        <button type="button" class="tasks-filter-pill active" data-task-filter="all_pending" aria-pressed="true">
+          <span>All Pending</span>
+          <span class="tasks-pill-count" id="taskFilterCountPending">0</span>
+        </button>
+        <button type="button" class="tasks-filter-pill" data-task-filter="completed" aria-pressed="false">
+          <span>Completed</span>
+          <span class="tasks-pill-count" id="taskFilterCountCompleted">0</span>
+        </button>
+      </div>
+
+      <div class="table-container" role="region" aria-label="Follow-up tasks table" tabindex="0">
+        <table>
+          <caption class="sr-only">Follow-up tasks</caption>
+          <thead>
+            <tr>
+              <th scope="col">Task &amp; Type</th>
+              <th scope="col">Linked Lead</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Priority</th>
+              <th scope="col">Due / Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tasksTableBody"></tbody>
+        </table>
+      </div>
+      <div id="tasksLiveStatus" class="sr-only" role="status" aria-live="polite"></div>
+    </div>
   </main>
 
   <!-- Manual New Lead Modal -->
@@ -2127,6 +2393,72 @@
         <div style="display: flex; justify-content: flex-end; gap: 8px;">
           <button type="button" class="btn" id="cancelManualModalBtn">Cancel</button>
           <button type="submit" class="btn btn-primary" id="submitManualLeadBtn">Create Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Follow-Up Task Modal -->
+  <div class="drawer-overlay" id="addTaskModalOverlay" role="dialog" aria-modal="true" aria-labelledby="addTaskModalTitle">
+    <div class="modal-card" style="max-width: 540px; padding: 1.75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h2 id="addTaskModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">Add Follow-Up Task</h2>
+        <button type="button" class="drawer-close" id="closeAddTaskModalBtn" aria-label="Close add task dialog"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <form id="addTaskForm">
+        <div style="margin-bottom: 0.85rem;">
+          <label for="addTaskTitleInput" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Task Title *</label>
+          <input type="text" id="addTaskTitleInput" name="title" class="form-input" maxlength="300" required placeholder="Follow up on web platform proposal...">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label for="addTaskLeadSelect" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Linked Lead</label>
+          <select id="addTaskLeadSelect" name="lead_id" class="form-input">
+            <option value="">&mdash; General Task (No Linked Lead) &mdash;</option>
+          </select>
+        </div>
+        <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
+          <div>
+            <label for="addTaskTypeSelect" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Task Type</label>
+            <select id="addTaskTypeSelect" name="task_type" class="form-input">
+              <option value="follow_up" selected>Follow-up</option>
+              <option value="call">Call</option>
+              <option value="email">Email</option>
+              <option value="sms">SMS</option>
+              <option value="general">General</option>
+            </select>
+          </div>
+          <div>
+            <label for="addTaskPrioritySelect" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Priority</label>
+            <select id="addTaskPrioritySelect" name="priority" class="form-input">
+              <option value="normal" selected>Normal</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label for="addTaskDuePreset" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Due Timing</label>
+          <select id="addTaskDuePreset" name="due_preset" class="form-input">
+            <option value="24" selected>In 24 hours</option>
+            <option value="4">In 4 hours</option>
+            <option value="48">In 48 hours</option>
+            <option value="72">In 3 days (72 hours)</option>
+            <option value="168">In 7 days (168 hours)</option>
+            <option value="custom">Custom date &amp; time...</option>
+          </select>
+        </div>
+        <div id="addTaskCustomDueWrap" style="margin-bottom: 0.85rem; display: none;">
+          <label for="addTaskCustomDueInput" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Custom Due Date &amp; Time *</label>
+          <input type="datetime-local" id="addTaskCustomDueInput" name="custom_due_at" class="form-input">
+        </div>
+        <div style="margin-bottom: 1.15rem;">
+          <label for="addTaskDescInput" style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Notes / Description</label>
+          <textarea id="addTaskDescInput" name="description" class="form-input" style="min-height: 76px; resize: vertical;" placeholder="Context, talking points, or reminder details..."></textarea>
+        </div>
+        <div id="addTaskFormError" role="alert" style="display: none; background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; padding: 0.55rem 0.75rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 0.85rem;"></div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button type="button" class="btn" id="cancelAddTaskModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="submitAddTaskBtn">Create Task</button>
         </div>
       </form>
     </div>
@@ -2494,12 +2826,20 @@
         }
       };
 
+      const VALID_TASK_FILTERS = ['due_now', 'upcoming', 'all_pending', 'completed'];
+
       const state = {
         authenticated: false,
         urlHydrated: false,
         leads: [],
+        allLeads: [],
         filteredLeadsTotal: 0,
         counts: {},
+        tasks: [],
+        tasksFilteredTotal: 0,
+        taskCounts: { dueNow: 0, upcoming: 0, pendingTotal: 0, completedToday: 0, total: 0 },
+        taskFilter: 'all_pending',
+        lastTasksSignature: null,
         outreachCandidates: [],
         outreachFilteredTotal: 0,
         outreachCounts: {},
@@ -2507,7 +2847,7 @@
         currentLead: null,
         currentOutreachCandidate: null,
         currentPlaybookCandidate: null,
-        activeView: 'list', // 'list' | 'kanban' | 'outreach'
+        activeView: 'list', // 'list' | 'kanban' | 'tasks' | 'outreach'
         searchQuery: '',
         statusFilter: 'all',
         outreachNicheFilter: 'all',
@@ -2538,6 +2878,7 @@
       // KPIs & Views DOM
       const pipelineMetricsGrid = document.getElementById('pipelineMetricsGrid');
       const outreachMetricsGrid = document.getElementById('outreachMetricsGrid');
+      const tasksMetricsGrid = document.getElementById('tasksMetricsGrid');
       const kanbanSection = document.getElementById('kanbanSection');
       const kanbanBoard = document.getElementById('kanbanBoard');
       const kanbanEmptyStatePanel = document.getElementById('kanbanEmptyStatePanel');
@@ -2547,12 +2888,24 @@
       const resetPipelineBannerBtn = document.getElementById('resetPipelineBannerBtn');
       const listView = document.getElementById('listView');
       const leadsTableBody = document.getElementById('leadsTableBody');
+      const tasksView = document.getElementById('tasksView');
+      const tasksTableBody = document.getElementById('tasksTableBody');
+      const tasksLiveStatus = document.getElementById('tasksLiveStatus');
+      const tasksQueueSummaryBadge = document.getElementById('tasksQueueSummaryBadge');
+      const openAddTaskModalBtn = document.getElementById('openAddTaskModalBtn');
+      const taskFilterButtons = Array.from(document.querySelectorAll('.tasks-filter-pill[data-task-filter]'));
+      const taskFilterCountDueNow = document.getElementById('taskFilterCountDueNow');
+      const taskFilterCountUpcoming = document.getElementById('taskFilterCountUpcoming');
+      const taskFilterCountPending = document.getElementById('taskFilterCountPending');
+      const taskFilterCountCompleted = document.getElementById('taskFilterCountCompleted');
       const outreachView = document.getElementById('outreachView');
       const outreachTableBody = document.getElementById('outreachTableBody');
 
       // Toolbar & View Toggle DOM
       const kanbanToggleBtn = document.getElementById('kanbanToggleBtn');
       const listToggleBtn = document.getElementById('listToggleBtn');
+      const tasksToggleBtn = document.getElementById('tasksToggleBtn');
+      const tasksTabBadge = document.getElementById('tasksTabBadge');
       const outreachToggleBtn = document.getElementById('outreachToggleBtn');
       const outreachTabBadge = document.getElementById('outreachTabBadge');
       const searchInput = document.getElementById('searchInput');
@@ -2598,6 +2951,21 @@
       const manualLeadName = document.getElementById('manualLeadName');
       const manualFormError = document.getElementById('manualFormError');
       const submitManualLeadBtn = document.getElementById('submitManualLeadBtn');
+
+      const addTaskModalOverlay = document.getElementById('addTaskModalOverlay');
+      const closeAddTaskModalBtn = document.getElementById('closeAddTaskModalBtn');
+      const cancelAddTaskModalBtn = document.getElementById('cancelAddTaskModalBtn');
+      const addTaskForm = document.getElementById('addTaskForm');
+      const addTaskTitleInput = document.getElementById('addTaskTitleInput');
+      const addTaskLeadSelect = document.getElementById('addTaskLeadSelect');
+      const addTaskTypeSelect = document.getElementById('addTaskTypeSelect');
+      const addTaskPrioritySelect = document.getElementById('addTaskPrioritySelect');
+      const addTaskDuePreset = document.getElementById('addTaskDuePreset');
+      const addTaskCustomDueWrap = document.getElementById('addTaskCustomDueWrap');
+      const addTaskCustomDueInput = document.getElementById('addTaskCustomDueInput');
+      const addTaskDescInput = document.getElementById('addTaskDescInput');
+      const addTaskFormError = document.getElementById('addTaskFormError');
+      const submitAddTaskBtn = document.getElementById('submitAddTaskBtn');
 
       const outreachEmailModalOverlay = document.getElementById('outreachEmailModalOverlay');
       const closeComposerModalBtn = document.getElementById('closeComposerModalBtn');
@@ -2857,6 +3225,7 @@
       const ALL_MODAL_OVERLAYS = [
         loginModal,
         manualModalOverlay,
+        addTaskModalOverlay,
         outreachEmailModalOverlay,
         sunbizImportModalOverlay,
         outreachPlaybookModalOverlay
@@ -2980,6 +3349,7 @@
       // Pointer-safe backdrop click dismissal on non-auth modals
       [
         manualModalOverlay,
+        addTaskModalOverlay,
         outreachEmailModalOverlay,
         sunbizImportModalOverlay,
         outreachPlaybookModalOverlay
@@ -3000,6 +3370,10 @@
       // URL State Sync, Export URL & Lead Return URL Builders (BUG-03, BUG-10)
       function getLeadsSignature() {
         return `${state.searchQuery}|${state.statusFilter}`;
+      }
+
+      function getTasksSignature() {
+        return `${state.searchQuery}|${state.taskFilter}`;
       }
 
       function getOutreachSignature() {
@@ -3027,6 +3401,9 @@
         }
         if (state.statusFilter && state.statusFilter !== 'all') {
           params.set('status', state.statusFilter);
+        }
+        if (state.taskFilter && state.taskFilter !== 'all_pending') {
+          params.set('tfilter', state.taskFilter);
         }
         if (state.outreachStatusFilter && state.outreachStatusFilter !== 'active') {
           params.set('ostatus', state.outreachStatusFilter);
@@ -3107,6 +3484,10 @@
         return state.statusFilter !== 'all' || Boolean(state.searchQuery);
       }
 
+      function isTasksFiltered() {
+        return state.taskFilter !== 'all_pending' || Boolean(state.searchQuery);
+      }
+
       function isOutreachFiltered() {
         return (
           Boolean(state.searchQuery) ||
@@ -3134,6 +3515,8 @@
           if (state.outreachCadenceFilter !== 'all') activeFilterCount++;
           if (state.outreachContactFilter !== 'all') activeFilterCount++;
           if (state.outreachStatusFilter !== 'active') activeFilterCount++;
+        } else if (state.activeView === 'tasks') {
+          if (state.taskFilter !== 'all_pending') activeFilterCount++;
         } else if (state.statusFilter !== 'all') {
           activeFilterCount++;
         }
@@ -3147,7 +3530,12 @@
           }
         }
 
-        const anyResettable = state.activeView === 'outreach' ? isOutreachFiltered() : isPipelineFiltered();
+        const anyResettable =
+          state.activeView === 'outreach'
+            ? isOutreachFiltered()
+            : state.activeView === 'tasks'
+              ? isTasksFiltered()
+              : isPipelineFiltered();
         if (toolbarResetFiltersBtn) {
           toolbarResetFiltersBtn.style.display = anyResettable ? 'inline-flex' : 'none';
         }
@@ -3175,15 +3563,30 @@
         selectEl.value = val;
       }
 
+      function syncTaskFilterPillsUi() {
+        taskFilterButtons.forEach((btn) => {
+          const isMatch = btn.getAttribute('data-task-filter') === state.taskFilter;
+          btn.classList.toggle('active', isMatch);
+          btn.setAttribute('aria-pressed', String(isMatch));
+        });
+      }
+
       function applyViewLayout(view) {
-        const validView = ['kanban', 'list', 'outreach'].includes(view) ? view : 'list';
+        const prevView = state.activeView;
+        const validView = ['kanban', 'list', 'tasks', 'outreach'].includes(view) ? view : 'list';
         state.activeView = validView;
         const isOutreach = validView === 'outreach';
+        const isTasks = validView === 'tasks';
+        const isPipeline = validView === 'kanban' || validView === 'list';
 
         kanbanToggleBtn.classList.toggle('active', validView === 'kanban');
         kanbanToggleBtn.setAttribute('aria-pressed', String(validView === 'kanban'));
         listToggleBtn.classList.toggle('active', validView === 'list');
         listToggleBtn.setAttribute('aria-pressed', String(validView === 'list'));
+        if (tasksToggleBtn) {
+          tasksToggleBtn.classList.toggle('active', isTasks);
+          tasksToggleBtn.setAttribute('aria-pressed', String(isTasks));
+        }
         outreachToggleBtn.classList.toggle('active', isOutreach);
         outreachToggleBtn.setAttribute('aria-pressed', String(isOutreach));
 
@@ -3196,12 +3599,14 @@
           kanbanEmptyStatePanel.style.display = 'none';
         }
         listView.style.display = validView === 'list' ? 'block' : 'none';
+        if (tasksView) tasksView.style.display = isTasks ? 'block' : 'none';
         outreachView.style.display = isOutreach ? 'block' : 'none';
 
-        pipelineMetricsGrid.style.display = isOutreach ? 'none' : 'grid';
+        pipelineMetricsGrid.style.display = isPipeline ? 'grid' : 'none';
+        if (tasksMetricsGrid) tasksMetricsGrid.style.display = isTasks ? 'grid' : 'none';
         outreachMetricsGrid.style.display = isOutreach ? 'grid' : 'none';
 
-        statusFilter.style.display = isOutreach ? 'none' : 'inline-flex';
+        statusFilter.style.display = isPipeline ? 'inline-flex' : 'none';
         outreachNicheFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         outreachCityFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         if (outreachTierFilter) outreachTierFilter.style.display = isOutreach ? 'inline-flex' : 'none';
@@ -3210,7 +3615,15 @@
         outreachContactFilter.style.display = isOutreach ? 'inline-flex' : 'none';
         outreachStatusFilter.style.display = isOutreach ? 'inline-flex' : 'none';
 
-        if (isOutreach && pipelineFilterBanner) {
+        if (isTasks || (prevView !== validView && (prevView === 'outreach' || isOutreach))) {
+          if (collapsibleFiltersPanel) collapsibleFiltersPanel.classList.remove('mobile-open');
+          if (mobileFiltersToggleBtn) mobileFiltersToggleBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (mobileFiltersToggleBtn) {
+          mobileFiltersToggleBtn.style.display = isTasks ? 'none' : '';
+        }
+
+        if (!isPipeline && pipelineFilterBanner) {
           pipelineFilterBanner.style.display = 'none';
         }
       }
@@ -3223,12 +3636,16 @@
         const rawTab = (params.get('tab') || params.get('view') || '').trim().toLowerCase();
         if (rawTab === 'outreach') {
           state.activeView = 'outreach';
+        } else if (rawTab === 'tasks') {
+          state.activeView = 'tasks';
         } else if (rawTab === 'kanban') {
           state.activeView = 'kanban';
         } else if (rawTab === 'list' || rawTab === 'leads') {
           state.activeView = 'list';
         } else if (window.location.hash === '#outreach') {
           state.activeView = 'outreach';
+        } else if (window.location.hash === '#tasks') {
+          state.activeView = 'tasks';
         } else if (window.location.hash === '#kanban') {
           state.activeView = 'kanban';
         } else {
@@ -3243,6 +3660,10 @@
           state.statusFilter = rawStatus;
           statusFilter.value = rawStatus;
         }
+
+        const rawTFilter = (params.get('tfilter') || 'all_pending').trim();
+        state.taskFilter = VALID_TASK_FILTERS.includes(rawTFilter) ? rawTFilter : 'all_pending';
+        syncTaskFilterPillsUi();
 
         const rawOStatus = (params.get('ostatus') || 'active').trim();
         if (['active', 'uncontacted', 'in_cadence', 'emailed', 'promoted', 'dismissed', 'all'].includes(rawOStatus)) {
@@ -3315,6 +3736,14 @@
             renderOutreachTable();
             renderOutreachPagination();
           }
+        } else if (view === 'tasks') {
+          if (state.lastTasksSignature !== getTasksSignature()) {
+            fetchTasks();
+          } else {
+            renderTaskBadge();
+            renderTasksMetrics();
+            renderTasksTable();
+          }
         } else {
           if (state.lastLeadsSignature !== getLeadsSignature()) {
             fetchLeads();
@@ -3334,6 +3763,15 @@
         statusFilter.value = 'all';
         syncUrlFromState();
         if (state.authenticated) fetchLeads();
+      }
+
+      function resetTaskFilters() {
+        state.searchQuery = '';
+        state.taskFilter = 'all_pending';
+        searchInput.value = '';
+        syncTaskFilterPillsUi();
+        syncUrlFromState();
+        if (state.authenticated) fetchTasks();
       }
 
       function resetOutreachFilters() {
@@ -3359,11 +3797,20 @@
       }
 
       // Auth & Lock Flows (SEC-02, BUG-01, A11Y-04)
+      let allLeadsDirSeq = 0;
+      let tasksLoadSeq = 0;
+
       function clearSensitiveStateAndRenderShell() {
         state.authenticated = false;
+        allLeadsDirSeq += 1;
+        tasksLoadSeq += 1;
         state.leads = [];
+        state.allLeads = [];
         state.filteredLeadsTotal = 0;
         state.counts = {};
+        state.tasks = [];
+        state.tasksFilteredTotal = 0;
+        state.taskCounts = { dueNow: 0, upcoming: 0, pendingTotal: 0, completedToday: 0, completedTotal: 0, total: 0 };
         state.outreachCandidates = [];
         state.outreachFilteredTotal = 0;
         state.outreachCounts = {};
@@ -3371,9 +3818,66 @@
         state.currentOutreachCandidate = null;
         state.currentPlaybookCandidate = null;
         state.lastLeadsSignature = null;
+        state.lastTasksSignature = null;
         state.lastOutreachSignature = null;
+        modalTriggerStack.clear();
+
+        if (addTaskForm) addTaskForm.reset();
+        syncAddTaskDuePresetUi();
+        if (addTaskFormError) {
+          addTaskFormError.textContent = '';
+          addTaskFormError.style.display = 'none';
+        }
+        if (manualLeadForm) manualLeadForm.reset();
+        if (manualFormError) {
+          manualFormError.textContent = '';
+          manualFormError.style.display = 'none';
+        }
+        if (outreachEmailForm) outreachEmailForm.reset();
+        if (composerCandidateId) composerCandidateId.value = '';
+        if (composerToInput) composerToInput.value = '';
+        if (composerErrorBox) {
+          composerErrorBox.textContent = '';
+          composerErrorBox.style.display = 'none';
+        }
+        if (composerPhoneOnlyHint) {
+          composerPhoneOnlyHint.textContent = '';
+          composerPhoneOnlyHint.style.display = 'none';
+        }
+        if (composerBusinessTitle) composerBusinessTitle.textContent = 'Diagnostic & Cadence Composer';
+        if (composerSubtitle) composerSubtitle.textContent = 'Decision-Maker: —';
+        if (composerDiagnosticScorecard) composerDiagnosticScorecard.innerHTML = '';
+        if (sunbizRawTextInput) sunbizRawTextInput.value = '';
+        if (sunbizFileInput) sunbizFileInput.value = '';
+        if (playbookModalTitle) playbookModalTitle.textContent = 'Touch 2 Call & SMS Playbook';
+        if (playbookModalSubtitle) playbookModalSubtitle.textContent = 'Owner • GBP Rank • Technical Bottleneck';
+        if (pbOpenerText) pbOpenerText.textContent = '';
+        if (pbGatekeeperText) pbGatekeeperText.textContent = '';
+        if (pbDiscoveryText) pbDiscoveryText.textContent = '';
+        if (pbVoicemailText) pbVoicemailText.textContent = '';
+        if (playbookCallLink) {
+          playbookCallLink.href = '#';
+          playbookCallLink.style.display = 'none';
+        }
+        if (playbookSmsLink) {
+          playbookSmsLink.href = '#';
+          playbookSmsLink.style.display = 'none';
+        }
+        if (playbookOpenDialerLink) playbookOpenDialerLink.href = '#';
+        if (playbookOpenExistingLink) {
+          playbookOpenExistingLink.href = '#';
+          playbookOpenExistingLink.style.display = 'none';
+        }
+
+        populateAddTaskLeadOptions();
+        if (tasksLiveStatus) tasksLiveStatus.textContent = '';
+        hideToast();
+        if (crmToast) crmToast.textContent = '';
 
         renderMetrics();
+        renderTaskBadge();
+        renderTasksMetrics();
+        renderTasksTable();
         renderOutreachMetrics();
         renderKanban();
         renderList();
@@ -3381,9 +3885,20 @@
         renderOutreachPagination();
       }
 
+      function handleUnauthorizedResponse() {
+        clearSensitiveStateAndRenderShell();
+        openModal(loginModal, passcodeInput);
+      }
+
       async function bootDashboardAfterAuth() {
         hydrateStateFromUrl();
-        await Promise.all([fetchLeads(), fetchOutreach()]);
+        const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+        await Promise.all([
+          fetchLeads(),
+          needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+          fetchOutreach(),
+          fetchTasks()
+        ]);
       }
 
       async function checkAuth() {
@@ -3510,23 +4025,489 @@
             cache: 'no-store'
           });
           if (res.status === 401) {
-            clearSensitiveStateAndRenderShell();
-            openModal(loginModal, passcodeInput);
+            handleUnauthorizedResponse();
             return;
           }
           if (!res.ok) return;
           const data = await res.json();
           state.leads = Array.isArray(data.leads) ? data.leads : [];
           state.filteredLeadsTotal = Number(data.filteredTotal ?? state.leads.length);
+          if (state.statusFilter === 'all' && !state.searchQuery) {
+            state.allLeads = state.leads.slice();
+            if (addTaskModalOverlay && addTaskModalOverlay.classList.contains('active') && addTaskLeadSelect) {
+              populateAddTaskLeadOptions(addTaskLeadSelect.value);
+            }
+          }
           state.counts = data.counts || {};
+          if (data.counts) {
+            mergeTaskCounts(data.counts);
+          }
           state.lastLeadsSignature = sig;
 
           renderMetrics();
+          renderTaskBadge();
+          renderTasksMetrics();
           renderKanban();
           renderList();
         } catch (err) {
           console.error('Failed to load leads:', err);
         }
+      }
+
+      async function fetchAllLeadsDirectory() {
+        const seq = ++allLeadsDirSeq;
+        try {
+          const res = await fetch('/api/crm/leads?status=all&q=&limit=500', {
+            credentials: 'same-origin',
+            cache: 'no-store'
+          });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
+          if (!res.ok) return;
+          const data = await res.json();
+          if (seq !== allLeadsDirSeq || !state.authenticated) return;
+          state.allLeads = Array.isArray(data.leads) ? data.leads : [];
+          if (addTaskModalOverlay && addTaskModalOverlay.classList.contains('active') && addTaskLeadSelect) {
+            populateAddTaskLeadOptions(addTaskLeadSelect.value);
+          }
+        } catch (err) {
+          console.error('Failed to load lead directory:', err);
+        }
+      }
+
+      const TASK_TYPE_META = {
+        follow_up: { icon: '🔁', label: 'Follow-up' },
+        call: { icon: '📞', label: 'Call' },
+        email: { icon: '✉️', label: 'Email' },
+        sms: { icon: '💬', label: 'SMS' },
+        general: { icon: '📝', label: 'General' }
+      };
+
+      function mergeTaskCounts(raw) {
+        if (!raw || typeof raw !== 'object') return;
+        const prev = state.taskCounts || {};
+        const next = {
+          dueNow: Number(raw.dueNow ?? raw.due_now ?? raw.dueTasks ?? prev.dueNow ?? 0),
+          upcoming: Number(raw.upcoming ?? raw.upcomingTasks ?? prev.upcoming ?? 0),
+          pendingTotal: Number(raw.pendingTotal ?? raw.pending_total ?? raw.pendingTasks ?? prev.pendingTotal ?? 0),
+          completedToday: Number(raw.completedToday ?? raw.completed_today ?? raw.completedTasksToday ?? prev.completedToday ?? 0),
+          total: Number(raw.total ?? prev.total ?? 0)
+        };
+        const completedTotalRaw =
+          raw.completedTotal ??
+          raw.completed_total ??
+          raw.completedTasksTotal ??
+          prev.completedTotal;
+        if (completedTotalRaw !== undefined && completedTotalRaw !== null) {
+          next.completedTotal = Number(completedTotalRaw);
+        }
+        state.taskCounts = next;
+      }
+
+      function renderTaskBadge() {
+        if (!tasksTabBadge) return;
+        const c = state.taskCounts || {};
+        const dueNow = Math.max(0, Number(c.dueNow || 0));
+        const pendingTotal = Math.max(0, Number(c.pendingTotal || 0));
+        tasksTabBadge.textContent = dueNow.toLocaleString('en-US');
+        tasksTabBadge.classList.toggle('is-zero', dueNow === 0);
+        const titleText = `${dueNow} due now • ${pendingTotal} total pending`;
+        tasksTabBadge.setAttribute('title', titleText);
+        if (tasksToggleBtn) {
+          tasksToggleBtn.setAttribute('title', `Follow-up tasks (${titleText})`);
+        }
+      }
+
+      function renderTasksMetrics() {
+        const c = state.taskCounts || {};
+        const dueNow = Math.max(0, Number(c.dueNow || 0));
+        const upcoming = Math.max(0, Number(c.upcoming || 0));
+        const pendingTotal = Math.max(0, Number(c.pendingTotal || 0));
+        const completedToday = Math.max(0, Number(c.completedToday || 0));
+        const completedPillCount = Math.max(
+          0,
+          Number(
+            c.completedTotal ??
+              c.completedTasksTotal ??
+              c.completed ??
+              completedToday ??
+              0
+          )
+        );
+
+        const dueEl = document.getElementById('kpiTasksDueNow');
+        const dueSubEl = document.getElementById('kpiTasksDueNowSub');
+        const upcomingEl = document.getElementById('kpiTasksUpcoming');
+        const upcomingSubEl = document.getElementById('kpiTasksUpcomingSub');
+        const pendingEl = document.getElementById('kpiTasksPending');
+        const pendingSubEl = document.getElementById('kpiTasksPendingSub');
+        const completedEl = document.getElementById('kpiTasksCompletedToday');
+        const completedSubEl = document.getElementById('kpiTasksCompletedSub');
+
+        if (dueEl) {
+          dueEl.textContent = dueNow.toLocaleString('en-US');
+          dueEl.style.color = dueNow > 0 ? '#ff85a9' : '#e2e8f0';
+        }
+        if (dueSubEl) {
+          dueSubEl.textContent = dueNow > 0 ? 'Requires immediate follow-up' : 'All caught up right now';
+        }
+        if (upcomingEl) upcomingEl.textContent = upcoming.toLocaleString('en-US');
+        if (upcomingSubEl) {
+          upcomingSubEl.textContent =
+            upcoming === 1 ? '1 scheduled reminder' : `${upcoming.toLocaleString('en-US')} scheduled reminders`;
+        }
+        if (pendingEl) pendingEl.textContent = pendingTotal.toLocaleString('en-US');
+        if (pendingSubEl) {
+          pendingSubEl.textContent = `${dueNow.toLocaleString('en-US')} due now • ${upcoming.toLocaleString('en-US')} upcoming`;
+        }
+        if (completedEl) completedEl.textContent = completedToday.toLocaleString('en-US');
+        if (completedSubEl) {
+          completedSubEl.textContent =
+            completedToday === 1 ? '1 task cleared today' : `${completedToday.toLocaleString('en-US')} tasks cleared today`;
+        }
+
+        if (tasksQueueSummaryBadge) {
+          tasksQueueSummaryBadge.textContent =
+            dueNow > 0
+              ? `${dueNow.toLocaleString('en-US')} due • ${pendingTotal.toLocaleString('en-US')} pending`
+              : `${pendingTotal.toLocaleString('en-US')} pending`;
+        }
+
+        if (taskFilterCountDueNow) taskFilterCountDueNow.textContent = dueNow.toLocaleString('en-US');
+        if (taskFilterCountUpcoming) taskFilterCountUpcoming.textContent = upcoming.toLocaleString('en-US');
+        if (taskFilterCountPending) taskFilterCountPending.textContent = pendingTotal.toLocaleString('en-US');
+        if (taskFilterCountCompleted) taskFilterCountCompleted.textContent = completedPillCount.toLocaleString('en-US');
+      }
+
+      function formatTaskDuration(absMs) {
+        const totalMins = Math.max(1, Math.round(absMs / 60000));
+        if (totalMins < 60) return `${totalMins}m`;
+        const totalHours = Math.round(totalMins / 60);
+        if (totalHours < 48) return `${totalHours}h`;
+        const days = Math.round(totalHours / 24);
+        return `${days}d`;
+      }
+
+      async function fetchTasks() {
+        const seq = ++tasksLoadSeq;
+        try {
+          const sig = getTasksSignature();
+          const params = new URLSearchParams({
+            filter: state.taskFilter || 'all_pending',
+            q: state.searchQuery || '',
+            limit: '200'
+          });
+          const res = await fetch(`/api/crm/tasks?${params.toString()}`, {
+            credentials: 'same-origin',
+            cache: 'no-store'
+          });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
+          if (!res.ok) return;
+          const data = await res.json();
+          if (seq !== tasksLoadSeq || !state.authenticated) return;
+          state.tasks = Array.isArray(data.tasks) ? data.tasks : [];
+          state.tasksFilteredTotal = Number(data.filteredTotal ?? state.tasks.length);
+          if (data.counts) {
+            mergeTaskCounts(data.counts);
+          }
+          state.lastTasksSignature = sig;
+
+          renderTaskBadge();
+          renderTasksMetrics();
+          renderTasksTable();
+        } catch (err) {
+          console.error('Failed to load follow-up tasks:', err);
+        }
+      }
+
+      async function patchTask(taskId, payload, opts = {}) {
+        const btnEl = opts.btnEl || null;
+        if (btnEl) btnEl.disabled = true;
+        try {
+          const res = await fetch(`/api/crm/tasks/${encodeURIComponent(taskId)}`, {
+            method: 'PATCH',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return false;
+          }
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            showToast(data.error || 'Could not update follow-up task.');
+            return false;
+          }
+
+          if (data.counts) {
+            mergeTaskCounts(data.counts);
+          }
+          state.lastTasksSignature = null;
+          renderTaskBadge();
+          renderTasksMetrics();
+          await fetchTasks();
+
+          if (tasksLiveStatus && opts.liveMessage) {
+            tasksLiveStatus.textContent = opts.liveMessage;
+          }
+          if (opts.toastMsg) {
+            showToast(opts.toastMsg, opts.toastOptions || {});
+          }
+          return true;
+        } catch (_) {
+          showToast('Network error while updating task.');
+          return false;
+        } finally {
+          if (btnEl && document.contains(btnEl)) {
+            btnEl.disabled = false;
+          }
+        }
+      }
+
+      function renderTasksTable() {
+        if (!tasksTableBody) return;
+        tasksTableBody.innerHTML = '';
+
+        if (state.tasks.length === 0) {
+          const tr = document.createElement('tr');
+          const filtered = isTasksFiltered();
+          const filterEmptyTitles = {
+            due_now: 'No Tasks Due Right Now',
+            upcoming: 'No Upcoming Follow-Ups Scheduled',
+            completed: 'No Completed Tasks Yet',
+            all_pending: 'No Pending Follow-Up Tasks'
+          };
+          const titleText = state.searchQuery
+            ? 'No Follow-Up Tasks Match Your Search'
+            : filterEmptyTitles[state.taskFilter] || 'No Follow-Up Tasks Found';
+          const descText = state.searchQuery
+            ? `No tasks matched "${escapeHtml(state.searchQuery)}".`
+            : state.taskFilter === 'due_now'
+              ? 'Your overdue and due-now queue is clear. Check Upcoming or add a manual reminder.'
+              : state.taskFilter === 'completed'
+                ? 'Tasks you mark as completed will appear here so you can review or reopen them.'
+                : 'Leads moved into Contacted automatically queue a 24-hour follow-up task here, or you can create one manually.';
+
+          tr.innerHTML = `
+            <td colspan="6" style="text-align:center; padding:2.75rem 1.5rem;">
+              <div class="empty-state-title">${escapeHtml(titleText)}</div>
+              <div class="empty-state-desc">${descText}</div>
+              <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px;">
+                ${filtered ? '<button type="button" class="btn btn-sm" id="tasksZeroMatchResetBtn">✕ Reset Task Filters</button>' : ''}
+                <button type="button" class="btn btn-primary btn-sm" id="tasksEmptyAddBtn">+ Add Task</button>
+              </div>
+            </td>
+          `;
+          tasksTableBody.appendChild(tr);
+
+          const resetBtn = document.getElementById('tasksZeroMatchResetBtn');
+          if (resetBtn) resetBtn.addEventListener('click', resetTaskFilters);
+          const addBtn = document.getElementById('tasksEmptyAddBtn');
+          if (addBtn) addBtn.addEventListener('click', () => openAddTaskModal());
+          return;
+        }
+
+        state.tasks.forEach((task) => {
+          const tr = document.createElement('tr');
+          const taskTitle = String(task.title || 'Follow-up task');
+          const taskTypeKey = String(task.task_type || 'follow_up');
+          const typeMeta = TASK_TYPE_META[taskTypeKey] || TASK_TYPE_META.follow_up;
+          const isAuto = task.source === 'auto_contacted_24h';
+          const priorityKey = ['high', 'normal', 'low'].includes(task.priority) ? task.priority : 'normal';
+          const priorityLabel = priorityKey === 'high' ? 'High' : priorityKey === 'low' ? 'Low' : 'Normal';
+          const priorityIcon = priorityKey === 'high' ? '🔥' : priorityKey === 'low' ? '○' : '●';
+
+          const hasLead = Boolean(task.lead_id);
+          const leadName = task.lead_name || (hasLead ? 'Linked Lead' : 'General Task');
+          const leadUrl = hasLead ? buildLeadWorkspaceUrl(task.lead_id) : '';
+          const leadStatus = task.lead_status ? String(task.lead_status) : '';
+          const leadEstVal = Number(task.lead_estimated_value || 0);
+
+          const cleanPhone = extractValidPhone(task.lead_phone, task.lead_contact_info);
+          const cleanEmail = extractValidEmail(task.lead_email, task.lead_contact_info);
+          const contactDisplay = cleanPhone && cleanEmail
+            ? `${cleanPhone} • ${cleanEmail}`
+            : cleanPhone || cleanEmail || task.lead_contact_info || '—';
+
+          const dueDate = parseDateSafe(task.due_at);
+          const dueFormatted = dueDate
+            ? dueDate.toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
+            : (task.due_at ? String(task.due_at) : '');
+
+          let dueStatusHtml = '';
+          if (task.status === 'completed') {
+            dueStatusHtml = `
+              <span class="task-status-completed">✓ Completed</span>
+              ${task.completed_at ? `<div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">${escapeHtml(timeAgo(task.completed_at))}</div>` : ''}
+            `;
+          } else if (task.status === 'cancelled') {
+            dueStatusHtml = `
+              <span class="task-status-cancelled">✕ Dismissed</span>
+              ${dueFormatted ? `<div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">Was due ${escapeHtml(dueFormatted)}</div>` : ''}
+            `;
+          } else {
+            const diffMs = dueDate ? dueDate.getTime() - Date.now() : 0;
+            const isDue = Boolean(task.is_due) || (dueDate !== null && diffMs <= 0);
+            if (isDue) {
+              const overdueLabel = dueDate && diffMs < -60000
+                ? `Overdue ${formatTaskDuration(Math.abs(diffMs))}`
+                : 'Due Now';
+              dueStatusHtml = `
+                <span class="due-badge-urgent">⏰ ${escapeHtml(overdueLabel)}</span>
+                ${dueFormatted ? `<div style="font-size:0.72rem; color:#fca5a5; margin-top:4px;">${escapeHtml(dueFormatted)}</div>` : ''}
+              `;
+            } else {
+              const countdownLabel = dueDate ? `In ${formatTaskDuration(diffMs)}` : 'Upcoming';
+              dueStatusHtml = `
+                <span class="task-due-upcoming">🗓️ ${escapeHtml(countdownLabel)}</span>
+                ${dueFormatted ? `<div style="font-size:0.72rem; color:var(--text-muted); margin-top:4px;">${escapeHtml(dueFormatted)}</div>` : ''}
+              `;
+            }
+          }
+
+          const isPending = task.status === 'pending';
+
+          tr.innerHTML = `
+            <td data-label="Task &amp; Type">
+              <div class="task-title-text">${escapeHtml(taskTitle)}</div>
+              ${task.description ? `<div class="task-desc-text">${escapeHtml(task.description)}</div>` : ''}
+              <div class="task-badges-row">
+                <span class="task-type-pill"><span aria-hidden="true">${typeMeta.icon}</span> ${escapeHtml(typeMeta.label)}</span>
+                ${isAuto ? '<span class="task-auto-badge"><span aria-hidden="true">⚡</span> Auto 24h</span>' : ''}
+              </div>
+            </td>
+            <td data-label="Linked Lead">
+              ${hasLead
+                ? `
+                  <div><a href="${escapeHtml(leadUrl)}" class="row-primary-link">${escapeHtml(leadName)}</a></div>
+                  ${task.lead_company ? `<div style="font-size:0.76rem; color:var(--text-muted); margin-top:2px;">${escapeHtml(task.lead_company)}</div>` : ''}
+                  <div style="display:flex; flex-wrap:wrap; gap:5px; align-items:center; margin-top:5px;">
+                    ${leadStatus ? `<span class="status-badge status-${escapeHtml(leadStatus)}">${escapeHtml(STAGE_LABELS[leadStatus] || leadStatus)}</span>` : ''}
+                    ${leadEstVal > 0 ? `<span class="card-value-pill">$${leadEstVal.toLocaleString('en-US')}</span>` : ''}
+                  </div>
+                `
+                : '<span style="color:var(--text-muted); font-size:0.8rem;">General Task (No linked lead)</span>'}
+            </td>
+            <td data-label="Contact" style="font-size:0.8rem; color:#e2e8f0; overflow-wrap:anywhere;">
+              ${escapeHtml(contactDisplay)}
+            </td>
+            <td data-label="Priority">
+              <span class="task-priority-pill task-priority-${escapeHtml(priorityKey)}"><span aria-hidden="true">${priorityIcon}</span> ${escapeHtml(priorityLabel)}</span>
+            </td>
+            <td data-label="Due / Status">
+              ${dueStatusHtml}
+            </td>
+            <td data-label="Actions">
+              <div style="display:flex; flex-wrap:wrap; gap:5px;">
+                ${isPending
+                  ? `
+                    <button type="button" class="btn btn-sm btn-accent-success task-complete-btn" data-task-id="${escapeHtml(task.id)}" aria-label="Complete task ${escapeHtml(taskTitle)}">
+                      <span aria-hidden="true">✓</span> Complete
+                    </button>
+                    <button type="button" class="btn btn-sm task-snooze-btn" data-task-id="${escapeHtml(task.id)}" aria-label="Snooze task ${escapeHtml(taskTitle)} by 24 hours">
+                      <span aria-hidden="true">⏰</span> +24h
+                    </button>
+                    <button type="button" class="btn btn-sm task-dismiss-btn" style="color:#cbd5e1;" data-task-id="${escapeHtml(task.id)}" aria-label="Dismiss task ${escapeHtml(taskTitle)}">
+                      <span aria-hidden="true">✕</span> Dismiss
+                    </button>
+                  `
+                  : `
+                    <button type="button" class="btn btn-sm btn-accent-info task-reopen-btn" data-task-id="${escapeHtml(task.id)}" aria-label="Reopen task ${escapeHtml(taskTitle)}">
+                      <span aria-hidden="true">↺</span> Reopen
+                    </button>
+                  `}
+                ${cleanPhone ? `<a href="tel:${escapeHtml(cleanPhone)}" class="btn btn-sm" aria-label="Call ${escapeHtml(leadName)}"><span aria-hidden="true">📞</span> Call</a>` : ''}
+                ${cleanEmail ? `<a href="mailto:${escapeHtml(cleanEmail)}" class="btn btn-sm" aria-label="Email ${escapeHtml(leadName)}"><span aria-hidden="true">✉️</span> Email</a>` : ''}
+                ${hasLead ? `<a href="${escapeHtml(leadUrl)}" class="btn btn-sm" aria-label="Open lead workspace for ${escapeHtml(leadName)}">Open Lead <span aria-hidden="true">&rarr;</span></a>` : ''}
+              </div>
+            </td>
+          `;
+
+          const completeBtn = tr.querySelector('.task-complete-btn');
+          if (completeBtn) {
+            completeBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              patchTask(
+                task.id,
+                { status: 'completed' },
+                {
+                  btnEl: completeBtn,
+                  toastMsg: `✓ Completed "${taskTitle}"`,
+                  liveMessage: `Task ${taskTitle} marked completed.`
+                }
+              );
+            });
+          }
+
+          const snoozeBtn = tr.querySelector('.task-snooze-btn');
+          if (snoozeBtn) {
+            snoozeBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              patchTask(
+                task.id,
+                { snooze_hours: 24 },
+                {
+                  btnEl: snoozeBtn,
+                  toastMsg: `⏰ Snoozed "${taskTitle}" by +24h`,
+                  liveMessage: `Task ${taskTitle} snoozed by 24 hours.`
+                }
+              );
+            });
+          }
+
+          const dismissBtn = tr.querySelector('.task-dismiss-btn');
+          if (dismissBtn) {
+            dismissBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              patchTask(
+                task.id,
+                { status: 'cancelled' },
+                {
+                  btnEl: dismissBtn,
+                  toastMsg: `Dismissed "${taskTitle}"`,
+                  liveMessage: `Task ${taskTitle} dismissed.`,
+                  toastOptions: {
+                    actionLabel: 'Undo',
+                    onAction: () => {
+                      patchTask(
+                        task.id,
+                        { status: 'pending' },
+                        {
+                          toastMsg: `Restored "${taskTitle}"`,
+                          liveMessage: `Task ${taskTitle} restored.`
+                        }
+                      );
+                    }
+                  }
+                }
+              );
+            });
+          }
+
+          const reopenBtn = tr.querySelector('.task-reopen-btn');
+          if (reopenBtn) {
+            reopenBtn.addEventListener('click', (ev) => {
+              ev.stopPropagation();
+              patchTask(
+                task.id,
+                { status: 'pending' },
+                {
+                  btnEl: reopenBtn,
+                  toastMsg: `↺ Reopened "${taskTitle}"`,
+                  liveMessage: `Task ${taskTitle} reopened.`
+                }
+              );
+            });
+          }
+
+          tasksTableBody.appendChild(tr);
+        });
       }
 
       async function fetchOutreach(allowSnapRetry = true) {
@@ -3550,8 +4531,7 @@
             cache: 'no-store'
           });
           if (res.status === 401) {
-            clearSensitiveStateAndRenderShell();
-            openModal(loginModal, passcodeInput);
+            handleUnauthorizedResponse();
             return;
           }
           if (!res.ok) return;
@@ -3764,14 +4744,27 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           if (!res.ok) {
             throw new Error('Stage update failed');
           }
+          const dirLead = state.allLeads.find((l) => l.id === leadId);
+          if (dirLead) dirLead.status = newStatus;
           const data = await res.json().catch(() => ({}));
           captureCrmEvent('lead_stage_updated', {
             previous_status: oldStatus,
             new_status: newStatus
           });
+
+          state.lastTasksSignature = null;
+          if (data && data.task_counts) {
+            mergeTaskCounts(data.task_counts);
+            renderTaskBadge();
+            renderTasksMetrics();
+          }
 
           if (newStatus === 'lost' && opts.advanceToNextUncontacted !== false) {
             if (data && data.next_uncontacted_lead && data.next_uncontacted_lead.id) {
@@ -3784,11 +4777,17 @@
             }
             showToast(`Moved ${lead.name || 'lead'} to Lost — no more uncontacted leads left!`);
             fetchLeads();
+            if (state.activeView === 'tasks') fetchTasks();
             return;
           }
 
-          showToast(`Moved ${lead.name || 'lead'} to ${STAGE_LABELS[newStatus] || newStatus}`);
+          const stageMsg =
+            newStatus === 'contacted' && data && data.queued_task
+              ? `Moved ${lead.name || 'lead'} to Contacted — 24h follow-up task queued!`
+              : `Moved ${lead.name || 'lead'} to ${STAGE_LABELS[newStatus] || newStatus}`;
+          showToast(stageMsg);
           fetchLeads();
+          if (state.activeView === 'tasks') fetchTasks();
         } catch (_) {
           lead.status = oldStatus;
           state.leads = prevLeads;
@@ -3799,6 +4798,7 @@
           showToast('Could not update lead stage — reverted.');
         }
       }
+      const updateLeadStatus = updateLeadStage;
 
       let dndInitialized = false;
       function setupKanbanDragAndDrop() {
@@ -3833,7 +4833,7 @@
         if (!pipelineFilterBanner) return;
         const showBanner =
           state.authenticated &&
-          state.activeView !== 'outreach' &&
+          (state.activeView === 'kanban' || state.activeView === 'list') &&
           isPipelineFiltered() &&
           state.leads.length > 0;
 
@@ -5068,6 +6068,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return false;
+          }
           if (!res.ok) return false;
           const data = await res.json().catch(() => ({}));
           const idx = state.outreachCandidates.findIndex((c) => c.id === id);
@@ -5097,6 +6101,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'enrich' })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
             showToast(data.error || 'Audit/Enrichment requires an API key or manual OSINT lookup.');
@@ -5133,11 +6141,27 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'promote', status: targetStage })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return null;
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
             captureCrmEvent('outreach_candidate_promoted', { target_status: targetStage });
+            state.lastTasksSignature = null;
+            if (data && (data.task_counts || data.counts)) {
+              mergeTaskCounts(data.task_counts || data.counts);
+              renderTaskBadge();
+              renderTasksMetrics();
+            }
             showToast(`Promoted to ${STAGE_LABELS[targetStage] || targetStage} in your pipeline!`);
-            await Promise.all([fetchOutreach(), fetchLeads()]);
+            const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+            await Promise.all([
+              fetchOutreach(),
+              fetchLeads(),
+              needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+              state.activeView === 'tasks' ? fetchTasks() : Promise.resolve()
+            ]);
             return data;
           }
           showToast(data.error || 'Failed to promote candidate.');
@@ -5167,6 +6191,10 @@
               body
             })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return { ok: false, unauthorized: true, error: 'Unauthorized' };
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
             return { ok: true, data };
@@ -5186,6 +6214,10 @@
                   body: body || `Logged Touch ${step}`
                 })
               });
+              if (fallbackRes.status === 401) {
+                handleUnauthorizedResponse();
+                return { ok: false, unauthorized: true, error: 'Unauthorized' };
+              }
               const fbData = await fallbackRes.json().catch(() => ({}));
               if (fallbackRes.ok) return { ok: true, data: fbData };
             }
@@ -5367,11 +6399,25 @@
               subject: `Touch 2 Call/SMS (${cand.business_name_clean || cand.business_name})`,
               body: pbVoicemailText ? pbVoicemailText.textContent : 'Logged Touch 2 Owner Call / SMS'
             });
+            if (result.unauthorized) return;
             if (result.ok) {
               captureCrmEvent('outreach_touch_logged', { step: 2, channel: 'call' });
+              state.lastTasksSignature = null;
+              const touchTaskCounts = result.data && (result.data.task_counts || result.data.counts);
+              if (touchTaskCounts) {
+                mergeTaskCounts(touchTaskCounts);
+                renderTaskBadge();
+                renderTasksMetrics();
+              }
               closeModal(outreachPlaybookModalOverlay);
               showToast(`✓ Logged Touch 2 (Call/SMS) for ${cand.business_name_clean || 'candidate'} — Touch 3 scheduled (+3d)!`);
-              await Promise.all([fetchOutreach(), fetchLeads()]);
+              const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+              await Promise.all([
+                fetchOutreach(),
+                fetchLeads(),
+                needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+                state.activeView === 'tasks' ? fetchTasks() : Promise.resolve()
+              ]);
             } else {
               showToast(result.error || 'Could not log Touch 2.');
             }
@@ -5395,6 +6441,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'promote', status: targetStage })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok && data.lead_id) {
             captureCrmEvent('outreach_candidate_promoted', { target_status: targetStage, source: 'playbook_modal' });
@@ -5716,6 +6766,7 @@
             body: plainBody
           });
 
+          if (res.unauthorized) return;
           if (!res.ok) {
             composerErrorBox.textContent = res.error || 'Could not log cadence touch.';
             composerErrorBox.style.display = 'block';
@@ -5723,9 +6774,22 @@
           }
 
           captureCrmEvent('outreach_touch_logged', { step, channel: effectiveChannel, template_key: templateKey });
+          state.lastTasksSignature = null;
+          const touchTaskCounts = res.data && (res.data.task_counts || res.data.counts);
+          if (touchTaskCounts) {
+            mergeTaskCounts(touchTaskCounts);
+            renderTaskBadge();
+            renderTasksMetrics();
+          }
           closeModal(outreachEmailModalOverlay);
           showToast(`✓ Logged Touch ${step} (${effectiveChannel.toUpperCase()}) for ${cand.business_name_clean || 'candidate'} & advanced cadence!`);
-          await Promise.all([fetchOutreach(), fetchLeads()]);
+          const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+          await Promise.all([
+            fetchOutreach(),
+            fetchLeads(),
+            needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+            state.activeView === 'tasks' ? fetchTasks() : Promise.resolve()
+          ]);
         } catch (_) {
           composerErrorBox.textContent = 'Network error while logging cadence touch.';
           composerErrorBox.style.display = 'block';
@@ -5780,15 +6844,31 @@
               body: rawBody
             })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (!res.ok) {
             composerErrorBox.textContent = data.error || 'Could not send email via API.';
             composerErrorBox.style.display = 'block';
           } else {
             captureCrmEvent('outreach_email_sent', { delivery_method: data.provider || 'crm', step });
+            state.lastTasksSignature = null;
+            if (data && (data.task_counts || data.counts)) {
+              mergeTaskCounts(data.task_counts || data.counts);
+              renderTaskBadge();
+              renderTasksMetrics();
+            }
             closeModal(outreachEmailModalOverlay);
             showToast(`🚀 Touch ${step} email sent to ${cand.founder_name || to} & follow-up scheduled!`);
-            await Promise.all([fetchOutreach(), fetchLeads()]);
+            const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+            await Promise.all([
+              fetchOutreach(),
+              fetchLeads(),
+              needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+              state.activeView === 'tasks' ? fetchTasks() : Promise.resolve()
+            ]);
           }
         } catch (_) {
           composerErrorBox.textContent = 'Network error while sending email.';
@@ -5839,6 +6919,10 @@
               auto_enrich_top: autoEnrichTopCheckbox.checked
             })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
             captureCrmEvent('outreach_candidates_imported', {
@@ -6096,6 +7180,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ candidates: starterCandidates, require_south_fl: true, auto_enrich_top: false })
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
             closeModal(sunbizImportModalOverlay);
@@ -6183,16 +7271,31 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
+          if (res.status === 401) {
+            handleUnauthorizedResponse();
+            return;
+          }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
             captureCrmEvent('crm_lead_created', {
               initial_status: payload.status,
               estimated_value: estimatedValue
             });
+            state.lastTasksSignature = null;
+            if (data && (data.task_counts || data.counts)) {
+              mergeTaskCounts(data.task_counts || data.counts);
+              renderTaskBadge();
+              renderTasksMetrics();
+            }
             manualLeadForm.reset();
             closeModal(manualModalOverlay);
             showToast(`Created lead ${payload.name}!`);
-            await fetchLeads();
+            const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+            await Promise.all([
+              fetchLeads(),
+              needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+              state.activeView === 'tasks' ? fetchTasks() : Promise.resolve()
+            ]);
           } else {
             manualFormError.textContent = data.error || 'Could not create lead.';
             manualFormError.style.display = 'block';
@@ -6206,9 +7309,220 @@
         }
       });
 
+      // Add Follow-Up Task Modal & Filter Pills
+      function populateAddTaskLeadOptions(selectedLeadId = '') {
+        if (!addTaskLeadSelect) return;
+        addTaskLeadSelect.innerHTML = '';
+        const emptyOpt = document.createElement('option');
+        emptyOpt.value = '';
+        emptyOpt.textContent = '— General Task (No Linked Lead) —';
+        addTaskLeadSelect.appendChild(emptyOpt);
+
+        const sourceLeads =
+          Array.isArray(state.allLeads) && state.allLeads.length > 0
+            ? state.allLeads
+            : state.leads || [];
+        const sortedLeads = [...sourceLeads].sort((a, b) => {
+          const nameA = String(a && a.name ? a.name : '').trim();
+          const nameB = String(b && b.name ? b.name : '').trim();
+          const cmp = nameA.localeCompare(nameB, undefined, { sensitivity: 'base' });
+          if (cmp !== 0) return cmp;
+          return String((a && a.company) || '').localeCompare(String((b && b.company) || ''), undefined, { sensitivity: 'base' });
+        });
+
+        sortedLeads.forEach((lead) => {
+          if (!lead || !lead.id) return;
+          const opt = document.createElement('option');
+          opt.value = String(lead.id);
+          const displayName = lead.name || 'Unnamed Lead';
+          opt.textContent = lead.company ? `${displayName} (${lead.company})` : displayName;
+          if (selectedLeadId && String(lead.id) === String(selectedLeadId)) {
+            opt.selected = true;
+          }
+          addTaskLeadSelect.appendChild(opt);
+        });
+      }
+
+      function formatLocalDatetimeInputValue(dateObj) {
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${dateObj.getFullYear()}-${pad(dateObj.getMonth() + 1)}-${pad(dateObj.getDate())}T${pad(dateObj.getHours())}:${pad(dateObj.getMinutes())}`;
+      }
+
+      function syncAddTaskDuePresetUi() {
+        const isCustom = addTaskDuePreset && addTaskDuePreset.value === 'custom';
+        if (addTaskCustomDueWrap) {
+          addTaskCustomDueWrap.style.display = isCustom ? 'block' : 'none';
+        }
+        if (addTaskCustomDueInput) {
+          addTaskCustomDueInput.required = Boolean(isCustom);
+          if (isCustom && !addTaskCustomDueInput.value) {
+            addTaskCustomDueInput.value = formatLocalDatetimeInputValue(new Date(Date.now() + 24 * 3600 * 1000));
+          }
+        }
+      }
+
+      function openAddTaskModal(defaultLeadId = '') {
+        if (!addTaskModalOverlay) return;
+        if (addTaskForm) addTaskForm.reset();
+        if (addTaskFormError) {
+          addTaskFormError.style.display = 'none';
+          addTaskFormError.textContent = '';
+        }
+        if (addTaskTypeSelect) addTaskTypeSelect.value = 'follow_up';
+        if (addTaskPrioritySelect) addTaskPrioritySelect.value = 'normal';
+        if (addTaskDuePreset) addTaskDuePreset.value = '24';
+        syncAddTaskDuePresetUi();
+        populateAddTaskLeadOptions(defaultLeadId);
+        openModal(addTaskModalOverlay, addTaskTitleInput);
+        if (state.authenticated && (!Array.isArray(state.allLeads) || state.allLeads.length === 0)) {
+          fetchAllLeadsDirectory();
+        }
+      }
+
+      if (openAddTaskModalBtn) {
+        openAddTaskModalBtn.addEventListener('click', () => openAddTaskModal());
+      }
+      if (closeAddTaskModalBtn) {
+        closeAddTaskModalBtn.addEventListener('click', () => closeModal(addTaskModalOverlay));
+      }
+      if (cancelAddTaskModalBtn) {
+        cancelAddTaskModalBtn.addEventListener('click', () => closeModal(addTaskModalOverlay));
+      }
+      if (addTaskDuePreset) {
+        addTaskDuePreset.addEventListener('change', syncAddTaskDuePresetUi);
+      }
+
+      let isAddTaskSubmitting = false;
+      if (addTaskForm) {
+        addTaskForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (isAddTaskSubmitting) return;
+          addTaskFormError.style.display = 'none';
+          addTaskFormError.textContent = '';
+
+          const title = addTaskTitleInput ? addTaskTitleInput.value.trim() : '';
+          if (!title) {
+            addTaskFormError.textContent = 'Task title is required.';
+            addTaskFormError.style.display = 'block';
+            if (addTaskTitleInput) addTaskTitleInput.focus();
+            return;
+          }
+
+          const payload = {
+            title,
+            task_type: addTaskTypeSelect ? addTaskTypeSelect.value : 'follow_up',
+            priority: addTaskPrioritySelect ? addTaskPrioritySelect.value : 'normal'
+          };
+
+          const leadId = addTaskLeadSelect ? addTaskLeadSelect.value.trim() : '';
+          if (leadId) {
+            payload.lead_id = leadId;
+          }
+
+          const desc = addTaskDescInput ? addTaskDescInput.value.trim() : '';
+          if (desc) {
+            payload.description = desc;
+          }
+
+          const preset = addTaskDuePreset ? addTaskDuePreset.value : '24';
+          if (preset === 'custom') {
+            const rawVal = addTaskCustomDueInput ? addTaskCustomDueInput.value.trim() : '';
+            if (!rawVal) {
+              addTaskFormError.textContent = 'Please select a custom due date and time.';
+              addTaskFormError.style.display = 'block';
+              if (addTaskCustomDueInput) addTaskCustomDueInput.focus();
+              return;
+            }
+            const parsedDate = new Date(rawVal);
+            if (Number.isNaN(parsedDate.getTime())) {
+              addTaskFormError.textContent = 'Please enter a valid custom due date and time.';
+              addTaskFormError.style.display = 'block';
+              if (addTaskCustomDueInput) addTaskCustomDueInput.focus();
+              return;
+            }
+            payload.due_at = parsedDate.toISOString();
+          } else {
+            payload.due_in_hours = Number(preset) || 24;
+          }
+
+          isAddTaskSubmitting = true;
+          if (submitAddTaskBtn) {
+            submitAddTaskBtn.disabled = true;
+            submitAddTaskBtn.textContent = 'Creating...';
+          }
+
+          try {
+            const res = await fetch('/api/crm/tasks', {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (res.status === 401) {
+              handleUnauthorizedResponse();
+              return;
+            }
+            const data = await res.json().catch(() => ({}));
+            if (res.ok) {
+              captureCrmEvent('crm_task_created', {
+                task_type: payload.task_type,
+                priority: payload.priority,
+                has_linked_lead: Boolean(payload.lead_id)
+              });
+              state.lastTasksSignature = null;
+              if (data && data.counts) {
+                mergeTaskCounts(data.counts);
+              }
+              addTaskForm.reset();
+              syncAddTaskDuePresetUi();
+              const modalTriggerEl = modalTriggerStack.get(addTaskModalOverlay);
+              if (modalTriggerEl && tasksTableBody && tasksTableBody.contains(modalTriggerEl) && openAddTaskModalBtn) {
+                modalTriggerStack.set(addTaskModalOverlay, openAddTaskModalBtn);
+              }
+              closeModal(addTaskModalOverlay);
+              renderTaskBadge();
+              renderTasksMetrics();
+              showToast(`Created task "${title}"!`);
+              if (tasksLiveStatus) {
+                tasksLiveStatus.textContent = `Created follow-up task ${title}.`;
+              }
+              if (state.activeView === 'tasks') {
+                await fetchTasks();
+              }
+            } else {
+              addTaskFormError.textContent = data.error || 'Could not create task.';
+              addTaskFormError.style.display = 'block';
+            }
+          } catch (_) {
+            addTaskFormError.textContent = 'Network error while creating task.';
+            addTaskFormError.style.display = 'block';
+          } finally {
+            isAddTaskSubmitting = false;
+            if (submitAddTaskBtn) {
+              submitAddTaskBtn.disabled = false;
+              submitAddTaskBtn.textContent = 'Create Task';
+            }
+          }
+        });
+      }
+
+      taskFilterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const nextFilter = btn.getAttribute('data-task-filter') || 'all_pending';
+          if (!VALID_TASK_FILTERS.includes(nextFilter)) return;
+          state.taskFilter = nextFilter;
+          syncTaskFilterPillsUi();
+          syncUrlFromState();
+          if (state.authenticated) fetchTasks();
+        });
+      });
+
       // View Switchers, Search, Collapsible Filters & Pagination Controls
       kanbanToggleBtn.addEventListener('click', () => switchView('kanban'));
       listToggleBtn.addEventListener('click', () => switchView('list'));
+      if (tasksToggleBtn) {
+        tasksToggleBtn.addEventListener('click', () => switchView('tasks'));
+      }
       outreachToggleBtn.addEventListener('click', () => switchView('outreach'));
 
       mobileFiltersToggleBtn.addEventListener('click', () => {
@@ -6233,6 +7547,8 @@
           if (!state.authenticated) return;
           if (state.activeView === 'outreach') {
             fetchOutreach();
+          } else if (state.activeView === 'tasks') {
+            fetchTasks();
           } else {
             fetchLeads();
           }
@@ -6315,6 +7631,8 @@
       toolbarResetFiltersBtn.addEventListener('click', () => {
         if (state.activeView === 'outreach') {
           resetOutreachFilters();
+        } else if (state.activeView === 'tasks') {
+          resetTaskFilters();
         } else {
           resetPipelineFilters();
         }
@@ -6355,7 +7673,13 @@
       refreshBtn.addEventListener('click', async () => {
         if (!state.authenticated) return;
         refreshBtn.disabled = true;
-        await Promise.all([fetchLeads(), fetchOutreach()]);
+        const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+        await Promise.all([
+          fetchLeads(),
+          needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+          fetchOutreach(),
+          fetchTasks()
+        ]);
         refreshBtn.disabled = false;
         showToast('Refreshed CRM data');
       });
@@ -6364,7 +7688,13 @@
         state.urlHydrated = false;
         hydrateStateFromUrl();
         if (state.authenticated) {
-          Promise.all([fetchLeads(), fetchOutreach()]);
+          const needsSeparateDirectory = state.statusFilter !== 'all' || Boolean(state.searchQuery);
+          Promise.all([
+            fetchLeads(),
+            needsSeparateDirectory ? fetchAllLeadsDirectory() : Promise.resolve(),
+            fetchOutreach(),
+            fetchTasks()
+          ]);
         }
       });
 

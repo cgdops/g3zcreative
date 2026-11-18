@@ -6,6 +6,7 @@
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from './auth.js';
 import { normalizeDomain } from './_enrich.js';
+import { queueContactedFollowUpTask, getTaskBadgeCounts } from './_tasks.js';
 
 const ALLOWED_METHODS = 'GET, POST, OPTIONS';
 const VALID_LEAD_STATUSES = new Set(['new', 'contacted', 'qualified', 'proposal', 'won', 'lost', 'spam']);
@@ -63,6 +64,9 @@ async function readJsonObject(request, auth, { allowEmpty = false } = {}) {
   if (!rawText.trim()) {
     if (auth?.method === 'cookie' && !ctHeader && !allowEmpty) {
       return { ok: false, status: 415, error: 'Unsupported Media Type: Content-Type must be application/json.' };
+    }
+    if (!allowEmpty) {
+      return { ok: false, status: 400, error: 'Request body cannot be empty.' };
     }
     return { ok: true, body: {} };
   }
@@ -154,7 +158,12 @@ export async function onRequestGet(context) {
         lost: 0,
         spam: 0,
         pipelineValue: 0,
-        wonValue: 0
+        wonValue: 0,
+        dueTasks: 0,
+        upcomingTasks: 0,
+        pendingTasks: 0,
+        completedTasksToday: 0,
+        completedTasksTotal: 0
       },
       error: 'D1 database binding "DB" is not configured.'
     });
@@ -181,8 +190,9 @@ export async function onRequestGet(context) {
     }
 
     if (search) {
-      conditions.push('(name LIKE ? OR contact_info LIKE ? OR email LIKE ? OR phone LIKE ? OR company LIKE ? OR message LIKE ? OR source_page LIKE ?)');
-      const term = `%${search}%`;
+      conditions.push("(name LIKE ? ESCAPE '\\' OR contact_info LIKE ? ESCAPE '\\' OR email LIKE ? ESCAPE '\\' OR phone LIKE ? ESCAPE '\\' OR company LIKE ? ESCAPE '\\' OR message LIKE ? ESCAPE '\\' OR source_page LIKE ? ESCAPE '\\')");
+      const escapedSearch = search.replace(/[\\%_]/g, '\\$&');
+      const term = `%${escapedSearch}%`;
       params.push(term, term, term, term, term, term, term);
     }
 
@@ -216,6 +226,7 @@ export async function onRequestGet(context) {
       FROM leads
     `;
     const countResult = await env.DB.prepare(countQuery).first();
+    const taskCounts = await getTaskBadgeCounts(env.DB);
 
     return json(request, {
       leads: leads || [],
@@ -232,7 +243,12 @@ export async function onRequestGet(context) {
         lost: Number(countResult?.lost_count || 0),
         spam: Number(countResult?.spam_count || 0),
         pipelineValue: Number(countResult?.pipeline_value || 0),
-        wonValue: Number(countResult?.won_value || 0)
+        wonValue: Number(countResult?.won_value || 0),
+        dueTasks: taskCounts.dueNow,
+        upcomingTasks: taskCounts.upcoming,
+        pendingTasks: taskCounts.pendingTotal,
+        completedTasksToday: taskCounts.completedToday,
+        completedTasksTotal: taskCounts.completedTotal
       }
     });
 
@@ -275,6 +291,9 @@ export async function onRequestPost(context) {
     for (const f of scalarFields) {
       if (body[f] !== undefined && body[f] !== null && typeof body[f] === 'object') {
         return json(request, { error: `Invalid non-primitive value for field "${f}".` }, 400);
+      }
+      if (typeof body[f] === 'boolean') {
+        return json(request, { error: `Invalid boolean value for field "${f}".` }, 400);
       }
     }
 
@@ -330,12 +349,18 @@ export async function onRequestPost(context) {
     `).bind(noteId, leadId, auth.user || 'Christian').run();
 
     const createdLead = await env.DB.prepare('SELECT * FROM leads WHERE id = ?').bind(leadId).first();
+    const queuedTask = status === 'contacted' && createdLead
+      ? await queueContactedFollowUpTask(env.DB, createdLead)
+      : null;
+    const taskCounts = await getTaskBadgeCounts(env.DB);
 
     return json(request, {
       success: true,
       lead_id: leadId,
       estimated_value: estimatedValue,
       lead: createdLead,
+      queued_task: queuedTask,
+      task_counts: taskCounts,
       message: 'Lead created successfully'
     }, 201);
 
