@@ -1,19 +1,21 @@
 # G3Z Creative — $4,000/Month Revenue Goal Tracker
 
 **Target Monthly Revenue:** `$4,000 / month`  
-**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,017.15` (`75.43%` of goal; includes `$400` Vivelo reminder today) / `$2,617.15` safe base (`65.43%`)  
+**Current Month (Nov 2026) Active Collectible Pipeline:** `$3,302.15` (`82.55%` of goal; includes `$400` Vivelo) / `$2,902.15` safe base (`72.55%`)  
 **Collected (Paid) MTD:** `$1,210.90` (`30.27%`)  
 - `#1605` William McConnell / Remember Me: `$412.50` (Collected ✅ — cleared ahead of Nov 20 auto-charge)  
 - `#1596` MV Almer Productions / Miriam: `$342.40` (Collected Nov 11 ✅)  
 - `#1594` Ancat Media Group: `$308.00` (Collected Nov 2 ✅)  
 - `#1583` Shiny Paws LLC: `$99.00` (Collected Nov 2 ✅)  
 - `#1585` BroadbandQ Wireless: `$49.00` (Collected Nov 2 ✅)  
-**Immediate Recoverable / In-Flight (Nov 2026):** `$1,806.25`  
-- **Confirmed In-Flight (`$1,406.25`)**: Towing One `#1604` (`$1,406.25`, outstanding / WIP deliverable, due Dec 05, spoke to Fausto ✅)  
-- **Overdue — Reminder Going Out Today (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 13d overdue — due Nov 04; Chris sending reminder Nov 17)  
-- **Deferred / Suspended / Archived (`$1,325.00` removed from Nov)**: Fajardo Elite `#1584`, `#1587`, `#1588`, `#1590` (`$640.00` archived Nov 17), Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned)  
-**New Business Gap to `$4,000`:** **`$982.85`** (with Vivelo `$400`) to **`$1,382.85`** (safe base) -> solved by **2 to 3 × `$500` Pilot builds** (or **1 × `$1,500–$3,000` Scale/Launchpad deal**)  
-**Last Check-In:** `2026-11-17T09:25:00-05:00`  
+**Immediate Recoverable / In-Flight (Nov 2026):** `$2,091.25`  
+- **Confirmed In-Flight (`$1,691.25`)**:  
+  - Shiny Paws LLC / Ross Yanke `#1606` (`$285.00`, outstanding — Website Support & Business Cards, sent Nov 17, **due TODAY Nov 18**)  
+  - Towing One `#1604` (`$1,406.25`, outstanding / WIP deliverable, due Dec 05, spoke to Fausto ✅)  
+- **Overdue (`$400.00`)**: Vivelo Weekender / Manny `#1589` (`$400.00`, 14d overdue — due Nov 04; link `https://app.hellobonsai.com/invoices/2766350`)  
+- **Deferred / Suspended / Archived (`$1,325.00` removed from Nov)**: Fajardo Elite `#1584`, `#1587`, `#1588`, `#1590` (`$640.00` archived Nov 17), Hospitality House / Natalie Lopez `#1593` (`$406.00`, deferred to Mar 2027), Raul Santiago `#1591` (`$279.00`, site shut down / churned); stale duplicate `#1595` MV Almer `$342.40` superseded by paid `#1596`  
+**New Business Gap to `$4,000`:** **`$697.85`** (with Vivelo `$400`) to **`$1,097.85`** (safe base) -> solved by **2 × `$500` Pilot builds** (or **1 × `$1,500–$3,000` Launchpad / Scale / Maps Retainer deal**)  
+**Last Check-In:** `2026-11-18T09:00:00-05:00`  
 **Schedule:** Hourly (`9:00 AM – 5:00 PM`, Mon–Fri, `America/New_York`)
 
 ---
@@ -27,13 +29,13 @@ Based on live pricing in `pricing.html`:
 
 ### Fastest Paths to $4,000/Month:
 1. **Path A (Book Collection + 2 Pilots — Highest Probability)**:
-   - Collect In-Flight Pipeline (`$1,210.90` collected + `$1,406.25` Towing One + `$400.00` Vivelo) = **`$3,017.15`**
-   - Close **2 × `$500` Pilot Landing Pages** from D1 Outbound Leads = **`$4,017.15`** (Surpasses goal by `$17.15`)
-2. **Path B (Book Collection Safe Base + 3 Pilots or 1 Launchpad)**:
-   - Conservative book (`$1,210.90` collected + `$1,406.25` Towing One) = **`$2,617.15`**
-   - Close **3 × `$500` Pilots** (`$4,117.15`) or **1 × `$1,500` Launchpad** (`$4,117.15`)
-3. **Path C (1 Scale Platform Deal)**:
-   - 1 Scale Platform (`$3,000`) + Live Collected (`$1,210.90`) = **`$4,210.90`** (Exceeds goal immediately)
+   - Collect In-Flight Pipeline (`$1,210.90` collected + `$285.00` Shiny Paws `#1606` + `$1,406.25` Towing One + `$400.00` Vivelo) = **`$3,302.15`**
+   - Close **2 × `$500` Pilot Landing Pages** from D1 Outbound Leads = **`$4,302.15`** (Surpasses goal by `$302.15`)
+2. **Path B (Safe Base + 3 Pilots or 1 Launchpad)**:
+   - Conservative book (`$1,210.90` collected + `$285.00` Shiny Paws `#1606` + `$1,406.25` Towing One) = **`$2,902.15`**
+   - Close **3 × `$500` Pilots** (`$4,402.15`) or **1 × `$1,500` Launchpad** (`$4,402.15`)
+3. **Path C (1 Scale Platform or Maps Retainer Deal)**:
+   - 1 Scale Platform (`$3,000`) or Growth Retainer (`$2,500/mo`) + Live Collected (`$1,210.90`) + Shiny Paws `#1606` (`$285.00`) = **`$3,995.90 – $4,495.90`**
 
 ---
 
@@ -41,13 +43,40 @@ Based on live pricing in `pricing.html`:
 
 | Priority | Task | Revenue Leverage | Current Status | Next Concrete Action |
 | :---: | :--- | :--- | :--- | :--- |
-| **P0** | **Send Overdue Notice for Vivelo Weekender (`#1589`)** | **`$400.00`** cash recovery | 13 days overdue (due Nov 04) — Chris sending reminder today | Email `info@viveloweekender.com` / text Manny with Bonsai invoice `#1589` (`https://app.hellobonsai.com/invoices/2766350`). |
-| **P1** | **Close 2–3 New Deals (`$1,000 – $1,500`) from D1 Outbound** | **`$500 – $3,000`** (closes `$982.85–$1,382.85` Nov gap) | 4 uncalled high-score phone leads queued in D1 (`Philip Parisi`, `Zuf Graziani`, `Dianelys Betancourt`, `Francesco Villalba`) | Dial all 4 verified phone leads + 3 warm follow-ups (`Andy Rivera`, `Paul Silva`, `Jona Elisco`) in `crm.html` / `lead.html`. |
-| **P2** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight (`outstanding`, due Dec 05 — 13 days left in Nov) | Finish Google Ads / website optimization milestone before Nov 30 so payment clears in November, not December. |
+| **P0** | **Collect Shiny Paws `#1606` (Due Today) & Confirm Vivelo `#1589`** | **`$685.00`** immediate cash (`$285` + `$400`) | `#1606` Shiny Paws (`$285.00`, Ross Yanke) sent Nov 17, due **TODAY Nov 18**; `#1589` Vivelo (`$400.00`, Manny) 14d overdue | Confirm Ross receives/pays `#1606` today (`https://app.hellobonsai.com/invoices/2790496`); verify if Manny responded to Nov 17 reminder (`https://app.hellobonsai.com/invoices/2766350`). |
+| **P1** | **Dial 2 Uncalled Sunbiz Leads + Sync Live Maps Bleeders** | **`$500 – $3,000`** (closes `$697.85–$1,097.85` Nov gap) | `Zuf Graziani` (`754-227-3258`) & `Dianelys Betancourt` (`305-654-4455`) still uncalled; 0 real Maps bleeders synced yet (7 `MAP26001901–07` rows are test fixtures) | Dial `Zuf Graziani` & `Dianelys Betancourt` + follow up `Francesco Villalba` (`786-609-2373`), then run `npm run sync:maps -- --city=top --niche=top` to load real DataForSEO bleeder leads. |
+| **P2** | **Advance Towing One Deliverable (`#1604`)** | **`$1,406.25`** pipeline | In-flight (`outstanding`, due Dec 05 — 12 days left in Nov) | Finish Google Ads (LSA) / website optimization milestone before Nov 30 so payment clears inside November. |
 
 ---
 
 ## 3. Hourly Check-In Log
+
+### `2026-11-18 09:00 AM EST` — Wednesday Morning Check-In: +$285 Invoiced (Due Today), CRM Pivoted to Maps Bleeders, & Real Dial Queue
+- **Live Pipeline & Cash Reconciliation (Day 18 of 30 — 60.0% Elapsed, 12 Days Left)**:
+  - **Cash Collected MTD**: **`$1,210.90` (`30.27%` of `$4,000`)** — behind linear pace (`$2,400.00`) by `$1,189.10`.
+  - **New Confirmed Receivable (`+$285.00`)**:
+    - **`#1606` Shiny Paws LLC (Ross Yanke)**: **`$285.00`** `outstanding` (`Website Support & Business Cards`), sent `2026-11-17 11:31 AM EST`, **due TODAY (`2026-11-18`)** (`https://app.hellobonsai.com/invoices/2790496`). Collecting this pushes Collected MTD to **`$1,495.90` (`37.40%`)**.
+  - **Existing In-Flight & Overdue**:
+    - **`#1604` Towing One LLC (Fausto)**: **`$1,406.25`** `outstanding` (due Dec 05 — needs Nov completion).
+    - **`#1589` Vivelo Weekender (Manny)**: **`$400.00`** `overdue` (now **14 days overdue** since Nov 04).
+  - **Updated November Math**:
+    - **Active Collectible Pipeline**: **`$3,302.15` (`82.55%`)** / **`$2,902.15` safe base (`72.55%`)** (excluding Vivelo).
+    - **New-Business Gap to `$4,000/mo`**: Shrunk to **`$697.85`** (with Vivelo) or **`$1,097.85`** (safe base) -> **2 × `$500` Pilots** or **1 × `$1,500–$3,000` Launchpad/Scale deal**.
+- **Yesterday's Execution & Cloudflare D1 CRM Audit (`g3zcreative-crm`)**:
+  - **Calls Logged Nov 17**:
+    - **Philip Parisi** (`Breezy Does It AC`, `561-788-2424`) — dialed 9:29 AM EST, logged `"Wrong number"` -> marked `lost`.
+    - **Francesco Villalba** (`Pro Services Group Construction`, `786-609-2373`) — promoted & dialed 9:33 AM EST, logged `"Left voicemail / sent friendly text."` -> status `contacted` (`$1,500`).
+  - **Major Infrastructure Shipped (`df75115`, `deb3862`)**: Upgraded `crm.html`, `lead.html`, and added `scripts/sync-maps-outreach.mjs` to pivot outbound to Google Maps "Page 2 Bleeders" + live LCP/Schema diagnostics + 4-touch cadence + interactive power dialer (`DATAFORSEO_LOGIN`/`PASSWORD` configured in `.env`).
+  - **Important Data Hygiene Flag**: The `7` `new` `"Google Maps"` leads promoted at `12:03 PM EST` yesterday (`MAP26001901`–`07`, `$19,500` est. value — Carlos Mendoza, David Castellanos, Marcus Vance, Elena Navarro, Anthony Russo, Jorge Morales, Sofia Delgado) are **starter UI test fixtures** from `loadSampleSunbizBtn` in `crm.html`, NOT real businesses. **Zero real DataForSEO Google Maps bleeders have been synced into D1 yet.**
+- **Live Outbound Call Block (Real Verified Numbers Only)**:
+  1. **Zuf Graziani** — `FORMA ROOFING & CONSTRUCTION INC` (`sbz_p26000052899`): **`754-227-3258`** (Fort Lauderdale, Roofing, Score 96, `uncontacted` — carried over from Nov 17).
+  2. **Dianelys D Betancourt** — `AAA AIR CONDITIONING LLC` (`sbz_l26000569164`): **`(305) 654-4455`** (Miami, HVAC, Score 95, `uncontacted` — carried over from Nov 17).
+  3. **Follow-Up Touches (`contacted`)**: **Francesco Villalba** (`786-609-2373`), **Andy Rivera** (`(954) 544-4872`), **Paul Silva** (`(954) 807-1300`), **Jona Elisco** (`+19547868525`).
+- **9:00 AM – 10:00 AM Accountability Mandate**:
+  1. **Collect/Confirm Cash Today (`$685`)**: Verify Ross Yanke pays `#1606` (`$285.00`, due today) and check Manny's status on `#1589` (`$400.00`).
+  2. **Dial the 2 Remaining Real Phone Leads (`10 min`)**: Call **Zuf Graziani** (`754-227-3258`) and **Dianelys Betancourt** (`(305) 654-4455`) + text/call follow-up on **Francesco Villalba** (`786-609-2373`).
+  3. **Populate Real Maps Bleeders (`2 min`)**: Run `npm run sync:maps -- --city=top --niche=top` (and clean up the 7 `MAP26001901–07` test fixture rows) so the new power dialer is loaded with real South Florida contractors.
+  4. **Towing One (`$1,406.25`)**: Confirm next milestone to pull collection inside November.
 
 ### `2026-11-17 09:25 AM EST` — Fajardo Elite Archived ($640 Removed), Vivelo Reminder Queued & 2 New Phone Leads Enriched
 - **Pipeline Calibration Update**:
