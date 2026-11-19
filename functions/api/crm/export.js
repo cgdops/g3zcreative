@@ -1,6 +1,6 @@
 /**
  * CRM Lead & Outreach Export API
- * GET /api/crm/export - Download filtered CSV of CRM leads or Sunbiz / Google Maps outreach candidates
+ * GET /api/crm/export - Download filtered CSV of CRM leads or Google Maps outreach candidates
  */
 
 import { checkAuth, getCorsHeaders, handleCorsOptions } from './auth.js';

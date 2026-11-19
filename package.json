@@ -4,7 +4,6 @@
   "description": "G3Z Creative website with automated blog system",
   "scripts": {
     "sync": "node scripts/sync-templates.js",
-    "sync:sunbiz": "node scripts/sync-sunbiz.mjs",
     "sync:outreach": "node scripts/sync-maps-outreach.mjs",
     "sync:maps": "node scripts/sync-maps-outreach.mjs",
     "build:pseo": "node scripts/build-pseo.js",

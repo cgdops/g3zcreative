@@ -1,9 +1,9 @@
 /**
- * Centralized Google Maps Bleeder Discovery, Technical Diagnostic, Scoring,
+ * Centralized Google Maps Bleeder Discovery, Business Listings Diagnostic, Scoring,
  * Multi-Stage Decision-Maker Enrichment & Multi-Touch Cadence Engine.
  *
- * Also preserves 100% backward compatibility with all legacy Sunbiz fixed-width/CSV
- * parsing, South Florida geographic normalization, and outreach helpers.
+ * Includes South Florida geographic normalization, Google Maps / Business Listings
+ * CSV/JSON parsing, technical site diagnostics, and multi-touch cadence helpers.
  */
 
 import { enrichLead, isValidCompanyDomain, normalizeDomain, splitName } from './_enrich.js';
@@ -1041,7 +1041,7 @@ export function scoreAndClassifyCandidate(candidateInput = {}, auditInput = null
   // Deterministic Offer Tier Classification:
   // 1. platform_3k ($3,000 Dynamic Web Platform): Established operator (review_count >= 10) with missing, broken, or slow site (or lcp_ms > 4000)
   // 2. retainer_2500 ($2,500/mo Growth Retainer): Established operator (review_count >= 15 with functional site, or review_count >= 10 with unoptimized/healthy site) bleeding calls at rank #4-#30
-  // 3. pilot_500 ($500 Quick-Win Pilot): Newer/smaller businesses (review_count < 10 or legacy Sunbiz Day-1 filings without GBP reviews)
+  // 3. pilot_500 ($500 Quick-Win Pilot): Newer/smaller businesses (review_count < 10 or newer listings without GBP reviews)
   let recommendedTier = 'pilot_500';
   const hasSevereWebBottleneck = ['missing', 'broken', 'slow'].includes(websiteStatus) || (lcpMs !== null && lcpMs > 4000);
   if (reviewCount >= 10 && hasSevereWebBottleneck) {
@@ -2082,137 +2082,11 @@ export async function discoverMapsBleedersViaDataForSeo(options = {}, envArg = n
 }
 
 // ---------------------------------------------------------------------------
-// 7. Sunbiz Fixed-Width (1440-byte cordata) & CSV/JSON Record Parsers
+// 7. Google Maps & Business Listings Candidate Builder & CSV/JSON Parsers
 // ---------------------------------------------------------------------------
 
-export function parseSunbizFixedWidthLine(line, options = { requireSouthFlorida: true, excludeShells: true }) {
-  if (!line || line.length < 200) return null;
-
-  const docNumber = line.slice(0, 12).trim();
-  const rawBusinessName = line.slice(12, 204).trim();
-  const status = line.slice(204, 205).trim();
-  const filingType = line.slice(205, 220).trim();
-
-  if (status && status !== 'A') return null;
-  if (!docNumber || !rawBusinessName) return null;
-
-  const principalAddress = toTitleCase(line.slice(220, 304).trim().replace(/\s+/g, ' '));
-  const principalCity = line.slice(304, 332).trim();
-  const principalState = line.slice(332, 334).trim() || 'FL';
-  const principalZip = line.slice(334, 344).trim();
-
-  const mailingAddress = toTitleCase(line.slice(346, 430).trim().replace(/\s+/g, ' '));
-  const mailingCity = line.slice(430, 458).trim();
-  const mailingState = line.slice(458, 460).trim();
-  const mailingZip = line.slice(460, 470).trim();
-
-  const rawDate = line.slice(472, 480).trim();
-  let filingDate = new Date().toISOString().slice(0, 10);
-  if (/^\d{8}$/.test(rawDate)) {
-    if (rawDate.startsWith('20') || rawDate.startsWith('19')) {
-      filingDate = `${rawDate.slice(0, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`;
-    } else {
-      filingDate = `${rawDate.slice(4, 8)}-${rawDate.slice(0, 2)}-${rawDate.slice(2, 4)}`;
-    }
-  }
-
-  const registeredAgent = toTitleCase(line.slice(544, 586).trim());
-  const raType = line.slice(586, 587).trim().toUpperCase();
-  const raCity = line.slice(629, 657).trim();
-  const raState = line.slice(657, 659).trim();
-  const raZip = line.slice(659, 668).trim();
-
-  const officers = [];
-  for (let i = 0; i < 6; i++) {
-    const base = 668 + i * 128;
-    if (line.length < base + 47) break;
-    const title = line.slice(base, base + 4).trim();
-    const personOrCorp = line.slice(base + 4, base + 5).trim().toUpperCase();
-    const lastName = line.slice(base + 5, base + 25).trim();
-    const firstName = line.slice(base + 25, base + 39).trim();
-    const middleName = line.slice(base + 39, base + 47).trim();
-
-    if (!lastName && !firstName) continue;
-    if (personOrCorp === 'C') continue;
-
-    const full = toTitleCase([firstName, middleName, lastName].filter(Boolean).join(' '));
-    if (CORPORATE_AGENT_PATTERNS.test(full)) continue;
-
-    officers.push({
-      title: title || 'MGR',
-      firstName: toTitleCase(firstName),
-      lastName: toTitleCase(lastName),
-      fullName: full
-    });
-  }
-
-  const nonHumanRaPattern = /\b(LLC|L\.L\.C|INC|CORP|CORPORATION|COMPANY|PA|P\.A|PLLC|P\.L\.L\.C|LLP|L\.L\.P|PL|P\.L|LP|L\.P|LAW GROUP|LAW FIRM|ATTORNEYS|ASSOCIATES|ACCOUNTING|CPA|TRUST|SERVICES|SOLUTIONS|MANAGEMENT|AGENCY)\b/i;
-  let primaryFounder = officers[0] || null;
-  if (
-    !primaryFounder &&
-    raType !== 'C' &&
-    registeredAgent &&
-    !CORPORATE_AGENT_PATTERNS.test(registeredAgent) &&
-    !nonHumanRaPattern.test(registeredAgent)
-  ) {
-    const rawRaLastField = line.slice(544, 564);
-    const raLast = rawRaLastField.trim();
-    const raFirst = line.slice(564, 578).trim();
-    const raMiddle = line.slice(578, 586).trim();
-    const isFixedWidthRa = Boolean(raLast && raFirst && /\s{2,}$/.test(rawRaLastField));
-
-    if (isFixedWidthRa) {
-      primaryFounder = {
-        title: 'RA / Founder',
-        firstName: toTitleCase(raFirst.split(/\s+/)[0]),
-        lastName: toTitleCase(raLast),
-        fullName: toTitleCase([raFirst, raMiddle, raLast].filter(Boolean).join(' '))
-      };
-    } else {
-      let formattedRa = registeredAgent;
-      if (formattedRa.includes(',')) {
-        const [last, first] = formattedRa.split(',').map(s => s.trim());
-        formattedRa = [first, last].filter(Boolean).join(' ');
-      }
-      const split = splitName(formattedRa);
-      if (split.ok) {
-        primaryFounder = {
-          title: 'RA / Founder',
-          firstName: toTitleCase(split.firstName),
-          lastName: toTitleCase(split.lastName),
-          fullName: toTitleCase(formattedRa)
-        };
-      }
-    }
-  }
-
-  if (!primaryFounder) return null;
-
-  const effectiveZip = principalZip || mailingZip || raZip;
-  const effectiveCity = normalizeSouthFlCity(principalCity || mailingCity || raCity, effectiveZip);
-  const effectiveState = principalState || mailingState || raState || 'FL';
-
-  return buildCandidateRecord({
-    doc_number: docNumber,
-    business_name: rawBusinessName,
-    entity_type: filingType.includes('LLC') || filingType === 'FLAL' || docNumber.startsWith('L') ? 'FL LLC' : 'FL Corp',
-    filing_date: filingDate,
-    founder_name: primaryFounder.fullName,
-    founder_first_name: primaryFounder.firstName,
-    founder_last_name: primaryFounder.lastName,
-    founder_title: primaryFounder.title,
-    secondary_officers: officers.slice(1),
-    registered_agent: registeredAgent,
-    principal_address: principalAddress || mailingAddress,
-    mailing_address: mailingAddress,
-    city: effectiveCity,
-    state: effectiveState,
-    zip: effectiveZip
-  }, options);
-}
-
 /**
- * Normalize & validate any raw candidate object (from Google Maps GBP, Sunbiz fixed-width, CSV, or JSON)
+ * Normalize & validate any raw candidate object (from Google Maps GBP, CSV, or JSON)
  * into a scored, tier-classified outreach candidate record.
  */
 export function buildCandidateRecord(raw, options = { requireSouthFlorida: true, excludeShells: true }) {
@@ -2224,7 +2098,7 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
   }
 
   const placeId = raw.place_id || raw.placeId || null;
-  let founderName = toTitleCase(raw.founder_name || raw.founderName || raw.officer_name || raw.name || (placeId ? 'Owner' : ''));
+  let founderName = toTitleCase(raw.founder_name || raw.founderName || raw.officer_name || raw.name || 'Owner');
   if (founderName.includes(',')) {
     const [last, first] = founderName.split(',').map(s => s.trim());
     founderName = [first, last].filter(Boolean).join(' ');
@@ -2263,7 +2137,7 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
   }, null, { recomputePainSummary: !raw.pain_summary });
 
   const docNumber = String(raw.doc_number || raw.docNumber || '').trim().toUpperCase() ||
-    (placeId ? buildCanonicalDocNumberFromPlaceId(placeId) : `SBZ_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6).toUpperCase()}`);
+    (placeId ? buildCanonicalDocNumberFromPlaceId(placeId) : `MAP_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6).toUpperCase()}`);
 
   const email = String(raw.email || '').trim().toLowerCase() || null;
   const phone = String(raw.phone || '').trim() || null;
@@ -2282,18 +2156,18 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
     : (['in_cadence', 'emailed', 'promoted'].includes(outreachStatus) ? 1 : 0);
 
   return {
-    id: raw.id || (placeId ? `gbp_${String(placeId).toLowerCase().replace(/[^a-z0-9]/g, '').slice(-20)}` : `sbz_${docNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}`),
+    id: raw.id || (placeId ? `gbp_${String(placeId).toLowerCase().replace(/[^a-z0-9]/g, '').slice(-20)}` : `map_${docNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}`),
     doc_number: docNumber,
     place_id: placeId ? String(placeId).trim() : null,
     cid: raw.cid ? String(raw.cid).trim() : null,
     business_name: businessName.toUpperCase(),
     business_name_clean: cleanName,
-    entity_type: raw.entity_type || (placeId ? 'Google Maps GBP' : (docNumber.startsWith('L') ? 'FL LLC' : 'FL Corp')),
+    entity_type: raw.entity_type || 'Google Maps GBP',
     filing_date: raw.filing_date || new Date().toISOString().slice(0, 10),
     founder_name: founderName,
     founder_first_name: firstName,
     founder_last_name: lastName,
-    founder_title: String(raw.founder_title || (placeId ? 'Owner' : 'MGR')).toUpperCase(),
+    founder_title: String(raw.founder_title || 'Owner').toUpperCase(),
     secondary_officers: typeof raw.secondary_officers === 'string' ? raw.secondary_officers : JSON.stringify(raw.secondary_officers || []),
     registered_agent: toTitleCase(raw.registered_agent || founderName),
     principal_address: toTitleCase(raw.principal_address || raw.address || ''),
@@ -2331,19 +2205,34 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
   };
 }
 
-export function parseSunbizBulkText(text, options = { requireSouthFlorida: true, excludeShells: true }) {
-  const lines = String(text || '').split(/\r?\n/).filter(l => l.trim().length > 0);
+export function parseOutreachBulkText(text, options = { requireSouthFlorida: true, excludeShells: true }) {
+  const trimmed = String(text || '').trim();
+  if (!trimmed) return [];
+
+  if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+    try {
+      const parsedJson = JSON.parse(trimmed);
+      const items = Array.isArray(parsedJson)
+        ? parsedJson
+        : (Array.isArray(parsedJson?.candidates) ? parsedJson.candidates : null);
+      if (items) {
+        return items
+          .filter(item => item && typeof item === 'object' && !Array.isArray(item))
+          .map(item => buildCandidateRecord(item, options))
+          .filter(Boolean);
+      }
+    } catch (_) {
+      // Fall through to CSV parser if input is not valid JSON
+    }
+  }
+
+  const lines = trimmed.split(/\r?\n/).filter(l => l.trim().length > 0);
   if (lines.length === 0) return [];
 
+  // Reject 1440-byte Sunbiz cordata fixed-width lines; outreach is Google Maps / Business Listings only
   const firstLine = lines[0];
   if (firstLine.length >= 400 && /^[LPFN]\d{9,11}/i.test(firstLine.trim())) {
-    const candidates = [];
-    for (const line of lines) {
-      const parsed = parseSunbizFixedWidthLine(line, options);
-      if (!parsed) continue;
-      candidates.push(parsed);
-    }
-    return candidates;
+    return [];
   }
 
   const rows = parseCsvLines(lines);
@@ -2366,8 +2255,8 @@ export function parseSunbizBulkText(text, options = { requireSouthFlorida: true,
       cid: obj.cid || null,
       business_name: obj.business_name || obj.entity_name || obj.company || obj.corporation_name || obj.name || obj.title,
       filing_date: obj.filing_date || obj.date_filed || obj.effective_date,
-      founder_name: obj.founder_name || obj.officer_name || obj.manager_name || obj.authorized_person || obj.founder || obj.registered_agent || (obj.place_id || obj.gbp_rank ? 'Owner' : ''),
-      founder_title: obj.founder_title || obj.title || 'MGR',
+      founder_name: obj.founder_name || obj.officer_name || obj.manager_name || obj.authorized_person || obj.founder || obj.registered_agent || 'Owner',
+      founder_title: obj.founder_title || obj.title || 'Owner',
       principal_address: obj.principal_address || obj.address || obj.street_address,
       city: normalizeSouthFlCity(obj.city || obj.principal_city, rawZip),
       state: obj.state || obj.principal_state || 'FL',

@@ -16,15 +16,15 @@ import { fileURLToPath } from 'url';
 import { execFileSync } from 'child_process';
 import dotenv from 'dotenv';
 import {
-  SOUTH_FL_CITIES as SUNBIZ_CITIES,
-  NICHE_RULES as SUNBIZ_NICHE_RULES,
-  normalizeSouthFlCity as sunbizNormalizeCity,
-  matchSouthFloridaLocation as sunbizMatchLocation,
-  cleanBusinessName as sunbizCleanBusinessName,
-  toTitleCase as sunbizToTitleCase,
-  getNicheOutreachMeta as sunbizGetNicheMeta,
-  enrichOutreachCandidate as sunbizEnrichCandidate
-} from '../functions/api/crm/_sunbiz.js';
+  SOUTH_FL_CITIES,
+  NICHE_RULES,
+  normalizeSouthFlCity,
+  matchSouthFloridaLocation,
+  cleanBusinessName,
+  toTitleCase,
+  getNicheOutreachMeta,
+  enrichOutreachCandidate
+} from '../functions/api/crm/_outreach_engine.js';
 import {
   normalizeDomain,
   isValidCompanyDomain
@@ -122,18 +122,18 @@ function normalizeNicheToken(rawNiche) {
   if (CANONICAL_NICHES_MAP.has(lower)) {
     return CANONICAL_NICHES_MAP.get(lower);
   }
-  const matchedRule = SUNBIZ_NICHE_RULES.find(
+  const matchedRule = NICHE_RULES.find(
     r => r.niche.toLowerCase() === lower || r.pattern.test(cleaned)
   );
   if (matchedRule) return matchedRule.niche;
-  return sunbizToTitleCase(cleaned);
+  return toTitleCase(cleaned);
 }
 
 function normalizeCityToken(rawCity) {
   const cleaned = String(rawCity || '').trim().replace(/^["']+|["']+$/g, '').trim();
   if (!cleaned) return '';
-  const normalized = sunbizNormalizeCity(cleaned);
-  return normalized || sunbizToTitleCase(cleaned);
+  const normalized = normalizeSouthFlCity(cleaned);
+  return normalized || toTitleCase(cleaned);
 }
 
 function clampInt(val, min, max, defaultVal) {
@@ -365,7 +365,7 @@ export function getSchemaInitSqlStatements() {
       doc_number TEXT UNIQUE,
       business_name TEXT NOT NULL,
       business_name_clean TEXT NOT NULL,
-      entity_type TEXT DEFAULT 'FL LLC',
+      entity_type TEXT DEFAULT 'Google Maps GBP',
       filing_date TEXT,
       founder_name TEXT NOT NULL,
       founder_first_name TEXT,
@@ -423,7 +423,7 @@ export function getSchemaInitSqlStatements() {
 
 /**
  * Build a safe, SQL-injection-proof D1 `INSERT INTO outreach_candidates ... ON CONFLICT(doc_number) DO UPDATE SET ...` statement
- * for a single candidate record, preserving all Sunbiz + Google Maps Diagnostic Pivot columns.
+ * for a single candidate record, preserving all Google Maps & Business Listings Diagnostic Pivot columns.
  */
 export function buildUpsertSqlForCandidate(c) {
   if (!c || typeof c !== 'object') {
@@ -437,7 +437,7 @@ export function buildUpsertSqlForCandidate(c) {
   const docNum = String(c.doc_number || fallbackDoc).trim();
   const id = String(c.id || `map_${docNum.toLowerCase().replace(/[^a-z0-9]/g, '')}`).trim();
   const businessName = String(c.business_name || c.business_name_clean || 'Local Business').trim();
-  const businessNameClean = String(c.business_name_clean || sunbizCleanBusinessName(businessName) || businessName).trim();
+  const businessNameClean = String(c.business_name_clean || cleanBusinessName(businessName) || businessName).trim();
   const founderName = String(c.founder_name || 'Owner').trim();
   const founderFirst = String(c.founder_first_name ?? (founderName === 'Owner' ? '' : founderName.split(/\s+/)[0] || '')).trim();
   const founderLast = String(c.founder_last_name ?? (founderName === 'Owner' ? '' : founderName.split(/\s+/).slice(1).join(' ') || '')).trim();
@@ -732,7 +732,7 @@ function fallbackScoreAndClassify(candidate) {
   const hasSchema = candidate.has_schema === 1 || candidate.has_schema === true ? 1 : 0;
   const hasSsl = candidate.has_ssl === 1 || candidate.has_ssl === true ? 1 : (website ? 1 : 0);
 
-  const cityMeta = sunbizMatchLocation(candidate.city || 'Pembroke Pines', candidate.zip || '', 'FL');
+  const cityMeta = matchSouthFloridaLocation(candidate.city || 'Pembroke Pines', candidate.zip || '', 'FL');
 
   // First-principles opportunity score (0..99):
   // Base 45 + Bleeder Rank Sweet Spot (#6..#15 = +18, #16..#25 = +12) + Review Authority + Technical Deficit Boost + City Priority
@@ -1089,7 +1089,7 @@ export async function runSyncMapsPipeline(optionsOrArgv = process.argv, customEn
       }
     }
 
-    const cityMeta = sunbizMatchLocation(scored.city || 'Pembroke Pines', scored.zip || '', 'FL');
+    const cityMeta = matchSouthFloridaLocation(scored.city || 'Pembroke Pines', scored.zip || '', 'FL');
     const canonicalPlaceId = String(scored.place_id || record?.place_id || '').trim();
     const canonicalDocFallback = canonicalPlaceId
       ? `MAP_${canonicalPlaceId.replace(/[^a-zA-Z0-9]/g, '').slice(-14).toUpperCase()}`
@@ -1099,7 +1099,7 @@ export async function runSyncMapsPipeline(optionsOrArgv = process.argv, customEn
       ? canonicalDocFallback
       : rawDocNum;
     const businessName = String(scored.business_name || scored.title || 'Local Business').trim();
-    const businessNameClean = String(scored.business_name_clean || sunbizCleanBusinessName(businessName) || businessName).trim();
+    const businessNameClean = String(scored.business_name_clean || cleanBusinessName(businessName) || businessName).trim();
     const founderName = String(record?.founder_name || scored.founder_name || 'Owner').trim();
     const founderFirst = String(record?.founder_first_name ?? scored.founder_first_name ?? (founderName === 'Owner' ? '' : founderName.split(/\s+/)[0] || '')).trim();
     const founderLast = String(record?.founder_last_name ?? scored.founder_last_name ?? (founderName === 'Owner' ? '' : founderName.split(/\s+/).slice(1).join(' ') || '')).trim();
@@ -1179,7 +1179,7 @@ export async function runSyncMapsPipeline(optionsOrArgv = process.argv, customEn
 
   // Step 5: Smart Contact Enrichment on top-scoring candidates when keys are configured and not offline
   const hasEnrichmentKeys = Boolean(env.ENRICHMENT_API_KEY || env.APOLLO_API_KEY || env.PDL_API_KEY);
-  const enrichFn = engine.enrichOutreachCandidate || sunbizEnrichCandidate;
+  const enrichFn = engine.enrichOutreachCandidate || enrichOutreachCandidate;
 
   if (!isOfflineFixture && hasEnrichmentKeys && args.maxEnrich > 0 && typeof enrichFn === 'function') {
     const toEnrich = candidates.filter(c => !c.email).slice(0, args.maxEnrich);

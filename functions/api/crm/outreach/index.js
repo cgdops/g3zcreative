@@ -1,20 +1,20 @@
 /**
- * Sunbiz & Google Maps Diagnostic Outreach Candidates API
+ * Google Maps & Business Listings Diagnostic Outreach Candidates API
  * GET  /api/crm/outreach - Fetch outreach candidates, filters, KPI counts, and diagnostic templates
- * POST /api/crm/outreach - Add single candidate, bulk import Sunbiz/Maps records, or run live Maps Bleeder discovery
+ * POST /api/crm/outreach - Add single candidate, bulk import Google Maps / Business Listings records, or run live Maps Bleeder discovery
  */
 
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
 import {
   buildCandidateRecord,
-  parseSunbizBulkText,
+  parseOutreachBulkText,
   enrichOutreachCandidate,
   buildOutreachWhereClause,
   discoverMapsBleedersViaDataForSeo,
   auditCandidateWebsite,
   scoreAndClassifyCandidate,
   OUTREACH_TEMPLATES
-} from '../_sunbiz.js';
+} from '../_outreach_engine.js';
 
 const ALLOWED_METHODS = 'GET, POST, OPTIONS';
 const MAX_IMPORT_RECORDS = 2000;
@@ -277,7 +277,7 @@ function normalizeCandidateDiagnosticFields(rec, raw = {}) {
   // Deterministic doc_number for Google Maps records without an explicit doc_number
   const callerDocNumber = String(raw.doc_number ?? raw.docNumber ?? '').trim().toUpperCase();
   let docNumber = callerDocNumber || rec.doc_number;
-  if (placeId && (!callerDocNumber || docNumber.startsWith('SBZ_') || docNumber.startsWith('GBP_'))) {
+  if (placeId && (!callerDocNumber || docNumber.startsWith('GBP_'))) {
     const cleanPlace = placeId.replace(/[^a-zA-Z0-9]/g, '').slice(-14).toUpperCase();
     docNumber = `MAP_${cleanPlace || Date.now().toString(36).toUpperCase()}`;
   }
@@ -372,7 +372,7 @@ function normalizeCandidateDiagnosticFields(rec, raw = {}) {
 
   return {
     ...rec,
-    id: placeId && (!raw.id && (rec.id.startsWith('sbz_') || rec.id.startsWith('gbp_')))
+    id: placeId && (!raw.id && rec.id.startsWith('gbp_'))
       ? `map_${docNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}`
       : rec.id,
     doc_number: docNumber,
@@ -551,7 +551,7 @@ export async function ensureOutreachSchema(db) {
       doc_number TEXT UNIQUE,
       business_name TEXT NOT NULL,
       business_name_clean TEXT NOT NULL,
-      entity_type TEXT DEFAULT 'FL LLC',
+      entity_type TEXT DEFAULT 'Google Maps GBP',
       filing_date TEXT,
       founder_name TEXT NOT NULL,
       founder_first_name TEXT,
@@ -896,7 +896,7 @@ export async function onRequestPost(context) {
         if (normalized) rawRecords.push(normalized);
       }
     } else if (typeof body.raw_text === 'string' && body.raw_text.trim()) {
-      const parsed = parseSunbizBulkText(body.raw_text, {
+      const parsed = parseOutreachBulkText(body.raw_text, {
         requireSouthFlorida,
         excludeShells
       });

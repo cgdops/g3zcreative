@@ -19,7 +19,7 @@ import {
   normalizeSouthFlCity,
   matchSouthFloridaLocation,
   OUTREACH_TEMPLATES
-} from '../_sunbiz.js';
+} from '../_outreach_engine.js';
 import { upgradeExistingOutreachTable } from './index.js';
 
 const ALLOWED_METHODS = 'GET, POST, PATCH, DELETE, OPTIONS';
@@ -1123,10 +1123,10 @@ function buildDiagnosticLeadMessage(candidate, canonicalCity) {
     parts.push(`Google Maps Rank: #${candidate.gbp_rank || '?'} in ${canonicalCity} (${candidate.review_count ?? 0} reviews, ${candidate.rating ?? 'N/A'}★)`);
   }
   if (candidate.doc_number) {
-    parts.push(`Doc#: ${candidate.doc_number} (${candidate.entity_type || 'FL LLC'})`);
+    parts.push(`Doc#: ${candidate.doc_number} (${candidate.entity_type || 'Google Maps GBP'})`);
   }
   if (candidate.founder_name) {
-    parts.push(`Owner: ${candidate.founder_name} (${candidate.founder_title || 'MGR'})`);
+    parts.push(`Owner: ${candidate.founder_name} (${candidate.founder_title || 'Owner'})`);
   }
   if (candidate.website) {
     const lcpLabel = candidate.lcp_ms ? `, LCP ${(Number(candidate.lcp_ms) / 1000).toFixed(1)}s` : '';
@@ -1171,9 +1171,7 @@ async function promoteCandidateToLead(db, candidate, opts) {
   const hasEstimatedValueOverride = opts.estimatedValue !== undefined && opts.estimatedValue !== null;
   const defaultEstimatedValue = getTierEstimatedValue(candidate.recommended_tier);
   const effectiveEstimatedValue = hasEstimatedValueOverride ? opts.estimatedValue : defaultEstimatedValue;
-  const sourcePage = candidate.place_id
-    ? `Google Maps (${candidate.place_id})`
-    : `Sunbiz (${candidate.doc_number})`;
+  const sourcePage = `Google Maps (${candidate.place_id || candidate.doc_number || candidate.id})`;
   const contextMessage = buildDiagnosticLeadMessage(candidate, canonicalCity);
 
   let persistedEstimatedValue = effectiveEstimatedValue;

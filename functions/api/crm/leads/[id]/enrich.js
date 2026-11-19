@@ -16,7 +16,7 @@ import {
   enrichOutreachCandidate,
   normalizeSouthFlCity,
   matchSouthFloridaLocation
-} from '../../_sunbiz.js';
+} from '../../_outreach_engine.js';
 
 const ALLOWED_METHODS = 'POST, OPTIONS';
 
@@ -102,15 +102,15 @@ async function readJsonObject(request, auth, { allowEmpty = true } = {}) {
 }
 
 /**
- * Parse address/city/zip/title hints out of a Sunbiz-promoted lead.message if no
+ * Parse address/city/zip/title hints out of an outreach-promoted lead.message if no
  * outreach_candidates row is linked.
- * Example: "Sunbiz Doc#: L26000561337 (FL LLC) | Filing Date: 2026-11-04 | Founder: Lazaro A Brito (AMBR) | Address: 12324 Sw 18 Th Terra, Miami, FL 33175"
+ * Example: "Google Maps Rank: #8 in Pembroke Pines (34 reviews, 4.8★) | Owner: Carlos M. Mendoza (Owner) | Address: 11402 Pines Blvd, Pembroke Pines, FL 33026"
  */
-function parseSunbizLeadHints(message) {
+function parseOutreachLeadHints(message) {
   const text = String(message || '');
-  const hints = { principal_address: '', city: '', zip: '', founder_title: 'Founder' };
+  const hints = { principal_address: '', city: '', zip: '', founder_title: 'Owner' };
 
-  const titleMatch = text.match(/Founder:\s*[^(|]+\(([^)]+)\)/i);
+  const titleMatch = text.match(/(?:Owner|Founder):\s*[^(|]+\(([^)]+)\)/i);
   if (titleMatch) hints.founder_title = titleMatch[1].trim();
 
   const addrMatch = text.match(/Address:\s*([^,|]+),\s*([^,|]+),\s*FL\s*(\d{5})?/i);
@@ -118,6 +118,12 @@ function parseSunbizLeadHints(message) {
     hints.principal_address = addrMatch[1].trim();
     hints.zip = (addrMatch[3] || '').trim();
     hints.city = normalizeSouthFlCity(addrMatch[2].trim(), hints.zip);
+    return hints;
+  }
+
+  const mapsCityMatch = text.match(/Google Maps Rank:\s*#?\d*\s+in\s+([^|(,\n]+?)(?:\s*\(|\||\n|$)/i);
+  if (mapsCityMatch) {
+    hints.city = normalizeSouthFlCity(mapsCityMatch[1].trim(), hints.zip);
     return hints;
   }
 
@@ -224,7 +230,7 @@ export async function onRequestPost(context) {
       // outreach_candidates table might not exist in older environments
     }
 
-    const parsedHints = parseSunbizLeadHints(lead.message);
+    const parsedHints = parseOutreachLeadHints(lead.message);
     const nameSplit = splitName(lead.name);
     const effectiveDomain = isValidCompanyDomain(lead.company_domain) ? normalizeDomain(lead.company_domain) : '';
 

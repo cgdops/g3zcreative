@@ -1326,13 +1326,13 @@
     .pipeline-jump-link:hover {
       text-decoration: underline;
     }
-    .sunbiz-check-label {
+    .outreach-check-label {
       display: inline-flex;
       align-items: flex-start;
       gap: 8px;
       cursor: pointer;
     }
-    .sunbiz-checkbox {
+    .outreach-checkbox {
       width: 18px;
       height: 18px;
       margin-top: 2px;
@@ -1609,11 +1609,11 @@
         min-height: 44px;
         min-width: 44px;
       }
-      .sunbiz-check-label {
+      .outreach-check-label {
         min-height: 44px;
         align-items: center;
       }
-      .sunbiz-checkbox {
+      .outreach-checkbox {
         width: 20px;
         height: 20px;
         margin-top: 0;
@@ -1904,7 +1904,7 @@
       </h1>
     </div>
     <nav class="nav-actions" aria-label="CRM actions">
-      <button type="button" class="btn btn-sm btn-accent-info" id="openSunbizImportBtn">
+      <button type="button" class="btn btn-sm btn-accent-info" id="openMapsImportBtn">
         <span aria-hidden="true">📍</span> <span class="btn-text-hide">Maps </span>Sync
       </button>
       <button type="button" class="btn btn-primary btn-sm" id="newLeadBtn">
@@ -2231,7 +2231,7 @@
           <button type="button" class="btn btn-sm" id="batchEnrichBtn" title="Run live technical audit &amp; contact enrichment on top 5 candidates on this page">
             <span aria-hidden="true">🔍</span> Audit / Enrich Top 5
           </button>
-          <button type="button" class="btn btn-sm btn-accent-info" id="importSunbizBtn">
+          <button type="button" class="btn btn-sm btn-accent-info" id="importMapsBtn">
             <span aria-hidden="true">📍</span> Maps / Outreach Sync
           </button>
         </div>
@@ -2562,58 +2562,58 @@
   </div>
 
   <!-- Maps & Outreach Sync / Import Modal -->
-  <div class="drawer-overlay" id="sunbizImportModalOverlay" role="dialog" aria-modal="true" aria-labelledby="sunbizImportModalTitle">
+  <div class="drawer-overlay" id="mapsImportModalOverlay" role="dialog" aria-modal="true" aria-labelledby="mapsImportModalTitle">
     <div class="modal-card" style="max-width: 680px; padding: 1.75rem;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 1rem;">
         <div>
-          <h2 id="sunbizImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">📍 Sync Google Maps &ldquo;Page 2 Bleeders&rdquo; &amp; Outreach</h2>
+          <h2 id="mapsImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">📍 Sync Google Maps &ldquo;Page 2 Bleeders&rdquo; &amp; Outreach</h2>
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
             Pull South Florida Google Maps contractors ranked <code>#6&ndash;#25</code>, audit mobile LCP + LocalBusiness schema, and classify into <strong>$3,000 Web Platform</strong> vs <strong>$2,500/mo Growth Retainer</strong> offers.
           </p>
         </div>
-        <button type="button" class="drawer-close" id="closeSunbizImportBtn" aria-label="Close Maps sync dialog"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="drawer-close" id="closeMapsImportBtn" aria-label="Close Maps sync dialog"><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div style="background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
         <div style="flex: 1 1 320px;">
           <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff;">⚡ CLI Google Maps &amp; Technical Diagnostic Sync</div>
           <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45;">
-            Run <code style="color: #7dd3fc;">npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code> (or <code style="color: #94a3b8;">npm run sync:sunbiz</code>) to discover Maps #6&ndash;#25 bleeders &amp; audit their websites.
+            Run <code style="color: #7dd3fc;">npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code> to discover Maps #6&ndash;#25 bleeders &amp; audit their websites.
           </div>
         </div>
-        <button type="button" class="btn btn-sm" id="loadSampleSunbizBtn" style="border-color: var(--primary); color: #ff85a9;">
+        <button type="button" class="btn btn-sm" id="loadSampleMapsBtn" style="border-color: var(--primary); color: #ff85a9;">
           🚀 Load South FL Sample Batch
         </button>
       </div>
 
       <div style="margin-bottom: 1rem;">
-        <label for="sunbizFileInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: #cbd5e1;">
-          Option 1: Upload Outreach CSV / JSON or Sunbiz Daily File (<code>.csv</code>, <code>.txt</code>)
+        <label for="mapsFileInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: #cbd5e1;">
+          Option 1: Upload Google Maps / Business Listings CSV or JSON (<code>.csv</code>, <code>.json</code>)
         </label>
-        <input type="file" id="sunbizFileInput" name="sunbiz_file" accept=".txt,.csv,.dat,.json" class="form-input" style="padding: 0.45rem;">
+        <input type="file" id="mapsFileInput" name="maps_file" accept=".csv,.json" class="form-input" style="padding: 0.45rem;">
       </div>
 
       <div style="margin-bottom: 1rem;">
-        <label for="sunbizRawTextInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
-          Option 2: Paste CSV Rows or Fixed-Width Lines
+        <label for="mapsRawTextInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
+          Option 2: Paste Google Maps / Business Listing CSV Rows
         </label>
-        <textarea id="sunbizRawTextInput" name="raw_text" class="form-input" rows="5" placeholder="doc_number,business_name,founder_name,founder_title,principal_address,city,zip,email,phone&#10;L26000194821,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,MGR,14200 SW 27TH ST,MIRAMAR,33027,,"></textarea>
+        <textarea id="mapsRawTextInput" name="raw_text" class="form-input" rows="5" placeholder="place_id,business_name,founder_name,principal_address,city,zip,gbp_rank,review_count,rating,website,email,phone&#10;ChIJ_MiramarRoofing_01,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,14200 SW 27TH ST,MIRAMAR,33027,8,34,4.8,miramarelite.com,,"></textarea>
       </div>
 
       <div class="modal-grid-2" style="margin-bottom: 1.15rem; font-size: 0.8rem; color: #cbd5e1;">
-        <label for="requireSouthFlCheckbox" class="sunbiz-check-label">
-          <input type="checkbox" id="requireSouthFlCheckbox" name="require_south_fl" class="sunbiz-checkbox" checked>
+        <label for="requireSouthFlCheckbox" class="outreach-check-label">
+          <input type="checkbox" id="requireSouthFlCheckbox" name="require_south_fl" class="outreach-checkbox" checked>
           <span>Only keep South Florida cities (Miami-Dade, Broward, Palm Beach &amp; Keys)</span>
         </label>
-        <label for="autoEnrichTopCheckbox" class="sunbiz-check-label">
-          <input type="checkbox" id="autoEnrichTopCheckbox" name="auto_enrich_top" class="sunbiz-checkbox" checked>
+        <label for="autoEnrichTopCheckbox" class="outreach-check-label">
+          <input type="checkbox" id="autoEnrichTopCheckbox" name="auto_enrich_top" class="outreach-checkbox" checked>
           <span>Smart Hybrid: Auto-audit &amp; enrich top candidates (Score 80+)</span>
         </label>
       </div>
 
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
-        <button type="button" class="btn" id="cancelSunbizImportBtn">Cancel</button>
-        <button type="button" class="btn btn-primary" id="submitSunbizImportBtn">📥 Parse &amp; Import Candidates</button>
+        <button type="button" class="btn" id="cancelMapsImportBtn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="submitMapsImportBtn">📥 Parse &amp; Import Candidates</button>
       </div>
     </div>
   </div>
@@ -2939,8 +2939,8 @@
       const refreshBtn = document.getElementById('refreshBtn');
       const logoutBtn = document.getElementById('logoutBtn');
       const newLeadBtn = document.getElementById('newLeadBtn');
-      const openSunbizImportBtn = document.getElementById('openSunbizImportBtn');
-      const importSunbizBtn = document.getElementById('importSunbizBtn');
+      const openMapsImportBtn = document.getElementById('openMapsImportBtn');
+      const importMapsBtn = document.getElementById('importMapsBtn');
       const batchEnrichBtn = document.getElementById('batchEnrichBtn');
 
       // Modals DOM
@@ -2992,15 +2992,15 @@
       const composerMailtoBtn = document.getElementById('composerMailtoBtn');
       const composerMarkPromotedBtn = document.getElementById('composerMarkPromotedBtn');
 
-      const sunbizImportModalOverlay = document.getElementById('sunbizImportModalOverlay');
-      const closeSunbizImportBtn = document.getElementById('closeSunbizImportBtn');
-      const cancelSunbizImportBtn = document.getElementById('cancelSunbizImportBtn');
-      const sunbizFileInput = document.getElementById('sunbizFileInput');
-      const sunbizRawTextInput = document.getElementById('sunbizRawTextInput');
+      const mapsImportModalOverlay = document.getElementById('mapsImportModalOverlay');
+      const closeMapsImportBtn = document.getElementById('closeMapsImportBtn');
+      const cancelMapsImportBtn = document.getElementById('cancelMapsImportBtn');
+      const mapsFileInput = document.getElementById('mapsFileInput');
+      const mapsRawTextInput = document.getElementById('mapsRawTextInput');
       const requireSouthFlCheckbox = document.getElementById('requireSouthFlCheckbox');
       const autoEnrichTopCheckbox = document.getElementById('autoEnrichTopCheckbox');
-      const submitSunbizImportBtn = document.getElementById('submitSunbizImportBtn');
-      const loadSampleSunbizBtn = document.getElementById('loadSampleSunbizBtn');
+      const submitMapsImportBtn = document.getElementById('submitMapsImportBtn');
+      const loadSampleMapsBtn = document.getElementById('loadSampleMapsBtn');
 
       const outreachPlaybookModalOverlay = document.getElementById('outreachPlaybookModalOverlay');
       const closePlaybookModalBtn = document.getElementById('closePlaybookModalBtn');
@@ -3145,7 +3145,7 @@
         withPostHog((posthog) => posthog.capture(event, properties));
       }
 
-      // First-Principles Contact Extraction (BUG-05, M2: Strip emails, URLs, bare www., ISO timestamps, extensions & Sunbiz Doc#s)
+      // First-Principles Contact Extraction (BUG-05, M2: Strip emails, URLs, bare www., ISO timestamps, extensions & Listing Doc#s)
       function parseCleanPhoneToken(rawValue) {
         if (!rawValue) return '';
         const cleaned = String(rawValue)
@@ -3227,7 +3227,7 @@
         manualModalOverlay,
         addTaskModalOverlay,
         outreachEmailModalOverlay,
-        sunbizImportModalOverlay,
+        mapsImportModalOverlay,
         outreachPlaybookModalOverlay
       ];
       let activeModalOverlay = null;
@@ -3351,7 +3351,7 @@
         manualModalOverlay,
         addTaskModalOverlay,
         outreachEmailModalOverlay,
-        sunbizImportModalOverlay,
+        mapsImportModalOverlay,
         outreachPlaybookModalOverlay
       ].forEach((overlay) => {
         if (!overlay) return;
@@ -3847,8 +3847,8 @@
         if (composerBusinessTitle) composerBusinessTitle.textContent = 'Diagnostic & Cadence Composer';
         if (composerSubtitle) composerSubtitle.textContent = 'Decision-Maker: —';
         if (composerDiagnosticScorecard) composerDiagnosticScorecard.innerHTML = '';
-        if (sunbizRawTextInput) sunbizRawTextInput.value = '';
-        if (sunbizFileInput) sunbizFileInput.value = '';
+        if (mapsRawTextInput) mapsRawTextInput.value = '';
+        if (mapsFileInput) mapsFileInput.value = '';
         if (playbookModalTitle) playbookModalTitle.textContent = 'Touch 2 Call & SMS Playbook';
         if (playbookModalSubtitle) playbookModalSubtitle.textContent = 'Owner • GBP Rank • Technical Bottleneck';
         if (pbOpenerText) pbOpenerText.textContent = '';
@@ -4011,7 +4011,7 @@
         openModal(loginModal, passcodeInput);
       });
 
-      // Data Fetching: Pipeline Leads & Local Maps / Sunbiz Outreach
+      // Data Fetching: Pipeline Leads & Google Maps / Business Listings Outreach
       async function fetchLeads() {
         try {
           const sig = getLeadsSignature();
@@ -4889,11 +4889,11 @@
               kanbanEmptyStatePanel.innerHTML = `
                 <div class="empty-state-title">Your Pipeline Board Is Ready</div>
                 <div class="empty-state-desc">
-                  Website inquiries land in <strong>New Leads</strong> automatically, or you can add a referral manually or promote newly filed South Florida businesses from Sunbiz Outreach.
+                  Website inquiries land in <strong>New Leads</strong> automatically, or you can add a referral manually or promote South Florida businesses from Google Maps Outreach.
                 </div>
                 <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px;">
                   <button type="button" class="btn btn-primary btn-sm" id="kanbanOnboardAddBtn">+ Add Manual Lead</button>
-                  <button type="button" class="btn btn-sm btn-accent-info" id="kanbanOnboardOutreachBtn">🚀 Open Sunbiz Outreach</button>
+                  <button type="button" class="btn btn-sm btn-accent-info" id="kanbanOnboardOutreachBtn">🚀 Open Maps Outreach</button>
                 </div>
               `;
               const addBtn = document.getElementById('kanbanOnboardAddBtn');
@@ -5054,11 +5054,11 @@
               <td colspan="7" style="text-align:center; padding:2.5rem 1.25rem;">
                 <div class="empty-state-title">No Pipeline Leads Yet</div>
                 <div class="empty-state-desc">
-                  Add a referral manually or promote South Florida founders from Sunbiz Outreach to start tracking deals.
+                  Add a referral manually or promote South Florida businesses from Google Maps Outreach to start tracking deals.
                 </div>
                 <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px;">
                   <button type="button" class="btn btn-primary btn-sm" id="listOnboardAddBtn">+ Add Manual Lead</button>
-                  <button type="button" class="btn btn-sm btn-accent-info" id="listOnboardOutreachBtn">🚀 Open Sunbiz Outreach</button>
+                  <button type="button" class="btn btn-sm btn-accent-info" id="listOnboardOutreachBtn">🚀 Open Maps Outreach</button>
                 </div>
               </td>
             `;
@@ -5643,7 +5643,7 @@
         }
       }
 
-      // Outreach Table Renderer (Local Maps Bleeders + Legacy Sunbiz Fallback, Strict XSS Escaping)
+      // Outreach Table Renderer (Google Maps & Business Listings, Strict XSS Escaping)
       function renderOutreachTable() {
         const activeEl = document.activeElement;
         let savedOutreachFocus = null;
@@ -5706,13 +5706,11 @@
             outreachTableBody.appendChild(tr);
             const emptyBtn = document.getElementById('emptyStateImportBtn');
             if (emptyBtn) {
-              emptyBtn.addEventListener('click', () => openModal(sunbizImportModalOverlay, loadSampleSunbizBtn));
+              emptyBtn.addEventListener('click', () => openModal(mapsImportModalOverlay, loadSampleMapsBtn));
             }
           }
           return;
         }
-
-        const sunbizSearchUrl = 'https://search.sunbiz.org/Inquiry/CorporationSearch/ByDocumentNumber';
 
         state.outreachCandidates.forEach((cand) => {
           const tr = document.createElement('tr');
@@ -5729,12 +5727,12 @@
           const displayFounder = !isGenericOwner ? rawFounder : 'Owner / Decision Maker';
           const inferredCounty = inferSouthFlCounty(cand.city, cand.zip, cand.county);
           const nicheMeta = getClientNicheMeta(cand.niche, inferredCounty, cand);
-          const filingDisplay = cand.filing_date ? formatCalendarDate(cand.filing_date) : 'Recent';
 
-          // 1. GBP Rank & Top Competitor Benchmark (with legacy Sunbiz fallback)
+          // 1. GBP Rank & Top Competitor Benchmark (with Business Listing fallback)
           const gbpRank = Number(cand.gbp_rank || 0);
           const topComps = parseTopCompetitors(cand.top_competitors);
           const topComp1 = topComps[0] || null;
+          const listingMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${bizName} ${cand.city || ''} FL`)}`;
 
           let rankAndSourceHtml = '';
           if (gbpRank > 0) {
@@ -5757,8 +5755,7 @@
           } else {
             rankAndSourceHtml = `
               <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:5px;">
-                <a href="${sunbizSearchUrl}" target="_blank" rel="noopener noreferrer" class="doc-link" data-doc-number="${escapeHtml(cand.doc_number || '')}">🏛️ Sunbiz #${escapeHtml(cand.doc_number || 'N/A')}<span class="sr-only"> — copy Sunbiz document number and open search</span></a>
-                <span style="font-size:0.72rem; color:#94a3b8;">&bull; Filed ${escapeHtml(filingDisplay)}</span>
+                <a href="${escapeHtml(listingMapsUrl)}" target="_blank" rel="noopener noreferrer" class="doc-link">📍 Business Listing &bull; ${escapeHtml(cand.city || 'South FL')}<span class="sr-only"> — open business listing on Google Maps</span></a>
               </div>
             `;
           }
@@ -5937,19 +5934,6 @@
           `;
 
           outreachTableBody.appendChild(tr);
-        });
-
-        // Copy Doc# to clipboard + toast while allowing Sunbiz new-tab navigation
-        outreachTableBody.querySelectorAll('.doc-link').forEach((link) => {
-          link.addEventListener('click', () => {
-            const docNum = link.getAttribute('data-doc-number') || '';
-            if (docNum && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-              navigator.clipboard.writeText(docNum).catch(() => {});
-            }
-            if (docNum) {
-              showToast(`Copied Doc# ${docNum} — paste on Sunbiz search`);
-            }
-          });
         });
 
         // Inline Email & Phone Save (commits on both change & blur without double-PATCH, preserving active focus)
@@ -6306,7 +6290,7 @@
         playbookModalSubtitle.textContent =
           gbpRank > 0
             ? `Decision-Maker: ${ownerDisplay} • #${gbpRank}${hasReviews ? ` (${ratingStr ? `${ratingStr}★, ` : ''}${reviewsCount} reviews)` : ''} vs ${compHeading}${compRevShort}`
-            : `Decision-Maker: ${ownerDisplay} (${cand.founder_title || 'MGR'}) • ${city}, FL • ${cand.doc_number ? `Sunbiz #${cand.doc_number}` : tierMeta.shortLabel}`;
+            : `Decision-Maker: ${ownerDisplay} (${cand.founder_title || 'Owner'}) • ${city}, FL • ${tierMeta.shortLabel}`;
 
         if (gbpRank > 0) {
           pbOpenerText.textContent =
@@ -6321,11 +6305,11 @@
           pbOpenerText.textContent =
             `"Hey ${firstName}, Christian Gomez calling locally in South Florida. Did I catch the owner of ${company}?"`;
           pbGatekeeperText.textContent =
-            `"Hey there, Christian calling locally in South Florida for ${gkTarget} regarding ${company}'s new ${city} business listing—nothing urgent. Is ${gkTarget} free for 20 seconds, or is there a better number to text?"`;
+            `"Hey there, Christian calling locally in South Florida for ${gkTarget} regarding ${company}'s ${city} Google business listing—nothing urgent. Is ${gkTarget} free for 20 seconds, or is there a better number to text?"`;
           pbDiscoveryText.textContent =
-            `"Saw ${company}'s new ${city} filing. Google takes 30–60 days to list new businesses for ~${meta.searchersFormatted} monthly searches—I built a 60-second $500 48-Hour Launchpad preview. Want me to text it?"`;
+            `"Saw ${company}'s ${city} Google business listing. There are ~${meta.searchersFormatted} monthly searches in ${county} right now—I built a 60-second custom preview to help you capture Top 3 Map Pack calls. Want me to text it?"`;
           pbVoicemailText.textContent =
-            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in South Florida (G3Z Creative) — saw ${company}'s new ${city} filing. Google takes 30–60 days to start ranking new businesses across ~${meta.searchersFormatted} monthly searches, so I put together a 60-second 48-Hour Launchpad preview for you—mind if I text the link? (786) 967-3699`;
+            `[VOICEMAIL / 2-SENTENCE OWNER SMS]\nHey ${firstName}, Christian here in South Florida (G3Z Creative) — saw ${company}'s ${city} Google business listing. Across ~${meta.searchersFormatted} monthly searches in ${county}, I put together a quick 60-second custom preview showing how to capture more Top 3 Map Pack calls—mind if I text the link? (786) 967-3699`;
         }
 
         const cleanPhone = extractValidPhone(cand.phone, '');
@@ -6556,7 +6540,7 @@
             </div>
             <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px;">
               <span class="gbp-rank-badge ${gbpRank > 0 && gbpRank <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep'}">
-                ${gbpRank > 0 ? `📍 Rank #${gbpRank}` : `🏛️ Sunbiz #${escapeHtml(cand.doc_number || 'Filing')}`}
+                ${gbpRank > 0 ? `📍 Rank #${gbpRank}` : `📍 ${escapeHtml(cand.city || 'South FL')} Listing`}
               </span>
               ${gbpRank > 0 && (ratingStr || reviewsNum > 0) ? `<span class="tech-pill tech-pill-ok">${ratingStr ? `⭐ ${escapeHtml(ratingStr)} ` : ''}${reviewsNum > 0 ? `(${reviewsNum.toLocaleString('en-US')} rev)` : ''}</span>` : ''}
               <span class="tech-pill ${lcpMs >= 4000 || !cand.website ? 'tech-pill-danger' : 'tech-pill-warn'}">⚡ ${escapeHtml(lcpLabel)}</span>
@@ -6618,7 +6602,7 @@
         composerSubtitle.textContent =
           gbpRank > 0
             ? `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} • Ranked #${gbpRank} in ${cand.city || 'South FL'} • Step ${Number(cand.cadence_step || 0)}/4`
-            : `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} (${cand.founder_title || 'MGR'}) • Sunbiz #${cand.doc_number || 'N/A'} • Step ${Number(cand.cadence_step || 0)}/4`;
+            : `Decision-Maker: ${!isGenericOwner ? rawFounder : 'Owner / Decision Maker'} (${cand.founder_title || 'Owner'}) • ${cand.city || 'South FL'} Listing • Step ${Number(cand.cadence_step || 0)}/4`;
 
         renderComposerDiagnosticScorecard(cand);
 
@@ -6880,33 +6864,33 @@
       });
 
       // Maps & Outreach Import / Sync Modal & Batch Audit/Enrich
-      function openSunbizImportModal() {
-        openModal(sunbizImportModalOverlay, loadSampleSunbizBtn);
+      function openMapsImportModal() {
+        openModal(mapsImportModalOverlay, loadSampleMapsBtn);
       }
-      openSunbizImportBtn.addEventListener('click', openSunbizImportModal);
-      importSunbizBtn.addEventListener('click', openSunbizImportModal);
-      closeSunbizImportBtn.addEventListener('click', () => closeModal(sunbizImportModalOverlay));
-      cancelSunbizImportBtn.addEventListener('click', () => closeModal(sunbizImportModalOverlay));
+      openMapsImportBtn.addEventListener('click', openMapsImportModal);
+      importMapsBtn.addEventListener('click', openMapsImportModal);
+      closeMapsImportBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
+      cancelMapsImportBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
 
-      sunbizFileInput.addEventListener('change', (e) => {
+      mapsFileInput.addEventListener('change', (e) => {
         const file = e.target.files && e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-          sunbizRawTextInput.value = String((ev.target && ev.target.result) || '');
+          mapsRawTextInput.value = String((ev.target && ev.target.result) || '');
         };
         reader.readAsText(file);
       });
 
-      submitSunbizImportBtn.addEventListener('click', async () => {
-        const rawText = sunbizRawTextInput.value.trim();
+      submitMapsImportBtn.addEventListener('click', async () => {
+        const rawText = mapsRawTextInput.value.trim();
         if (!rawText) {
           showToast('Please select a file or paste candidate rows first.');
-          sunbizRawTextInput.focus();
+          mapsRawTextInput.focus();
           return;
         }
-        submitSunbizImportBtn.disabled = true;
-        submitSunbizImportBtn.textContent = '⏳ Importing & Scoring...';
+        submitMapsImportBtn.disabled = true;
+        submitMapsImportBtn.textContent = '⏳ Importing & Scoring...';
 
         try {
           const res = await fetch('/api/crm/outreach', {
@@ -6930,9 +6914,9 @@
               inserted_count: data.inserted || 0,
               auto_enriched_count: data.auto_enriched || 0
             });
-            sunbizRawTextInput.value = '';
-            sunbizFileInput.value = '';
-            closeModal(sunbizImportModalOverlay);
+            mapsRawTextInput.value = '';
+            mapsFileInput.value = '';
+            closeModal(mapsImportModalOverlay);
             state.outreachOffset = 0;
             applyViewLayout('outreach');
             syncUrlFromState();
@@ -6944,14 +6928,14 @@
         } catch (_) {
           showToast('Failed to import outreach candidates.');
         } finally {
-          submitSunbizImportBtn.disabled = false;
-          submitSunbizImportBtn.textContent = '📥 Parse & Import Candidates';
+          submitMapsImportBtn.disabled = false;
+          submitMapsImportBtn.textContent = '📥 Parse & Import Candidates';
         }
       });
 
-      loadSampleSunbizBtn.addEventListener('click', async () => {
-        loadSampleSunbizBtn.disabled = true;
-        loadSampleSunbizBtn.textContent = '⏳ Loading...';
+      loadSampleMapsBtn.addEventListener('click', async () => {
+        loadSampleMapsBtn.disabled = true;
+        loadSampleMapsBtn.textContent = '⏳ Loading...';
         const today = new Date().toISOString().slice(0, 10);
         const starterCandidates = [
           {
@@ -7186,7 +7170,7 @@
           }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
-            closeModal(sunbizImportModalOverlay);
+            closeModal(mapsImportModalOverlay);
             state.outreachOffset = 0;
             applyViewLayout('outreach');
             syncUrlFromState();
@@ -7198,8 +7182,8 @@
         } catch (_) {
           showToast('Failed to load starter batch.');
         } finally {
-          loadSampleSunbizBtn.disabled = false;
-          loadSampleSunbizBtn.textContent = '🚀 Load South FL Sample Batch';
+          loadSampleMapsBtn.disabled = false;
+          loadSampleMapsBtn.textContent = '🚀 Load South FL Sample Batch';
         }
       });
 

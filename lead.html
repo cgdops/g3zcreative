@@ -3275,8 +3275,8 @@
           Boolean(urlParams.get('candidate_id')) ||
           Boolean(isCandidatePreview) ||
           Boolean(currentCandidate) ||
-          /sunbiz|outreach|google maps/i.test((lead && lead.source_page) || '') ||
-          /Sunbiz Doc#:|Google Maps Rank:|Doc#:/i.test((lead && lead.message) || '') ||
+          /outreach|google maps/i.test((lead && lead.source_page) || '') ||
+          /Google Maps Rank:|Doc#:/i.test((lead && lead.message) || '') ||
           Boolean(lead && lead.gbp_rank && Number(lead.gbp_rank) > 0) ||
           Boolean(lead && lead.recommended_tier)
         );
@@ -3336,7 +3336,7 @@
             );
           }
           if (cand.doc_number) {
-            diagMsgParts.push('Sunbiz Doc#: ' + cand.doc_number + ' (' + (cand.entity_type || 'FL LLC') + ')');
+            diagMsgParts.push('Listing ID: ' + cand.doc_number + ' (' + (cand.entity_type || 'Google Maps GBP') + ')');
           }
           if (cand.filing_date) {
             diagMsgParts.push('Filing Date: ' + cand.filing_date);
@@ -3361,7 +3361,7 @@
             website: cand.website || '',
             email: cand.email || '',
             phone: cand.phone || '',
-            contact_info: cand.email || cand.phone || (previewCity + ', FL (' + (cand.doc_number || 'Sunbiz') + ')'),
+            contact_info: cand.email || cand.phone || (previewCity + ', FL (' + (cand.doc_number || 'Google Maps') + ')'),
             city: previewCity,
             zip: cand.zip || '',
             county: cand.county || '',
@@ -3369,7 +3369,7 @@
             service_interest: getTierServiceInterest(tierKey, cand.niche),
             source_page: cand.place_id
               ? ('Google Maps (' + cand.place_id + ')')
-              : ('Sunbiz Outreach' + (cand.doc_number ? ' (' + cand.doc_number + ')' : '')),
+              : ('Google Maps Outreach' + (cand.doc_number ? ' (' + cand.doc_number + ')' : '')),
             status: cand.outreach_status === 'emailed' ? 'contacted' : 'new',
             estimated_value: getTierEstimatedValue(tierKey),
             enrichment_status: cand.enrichment_status || 'pending',
@@ -4725,7 +4725,7 @@
           .replace(/^[,.\s-]+|[,.\s-]+$/g, '')
           .replace(/\s{2,}/g, ' ')
           .trim();
-        if (!cleaned || /^(?:fl|florida|n\/a|none|unknown|sunbiz)$/i.test(cleaned)) {
+        if (!cleaned || /^(?:fl|florida|n\/a|none|unknown)$/i.test(cleaned)) {
           return 'South Florida';
         }
         return cleaned;
