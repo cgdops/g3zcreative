@@ -7,6 +7,7 @@
 import { checkAuth, verifyCsrf, getCorsHeaders, handleCorsOptions } from '../auth.js';
 import {
   buildCandidateRecord,
+  buildCanonicalDocNumberFromPlaceId,
   parseOutreachBulkText,
   enrichOutreachCandidate,
   buildOutreachWhereClause,
@@ -129,11 +130,26 @@ function validateDiscoveryBodyFields(body) {
     'min_rank', 'max_rank', 'rank_min', 'rank_max',
     'minRank', 'maxRank', 'rankMin', 'rankMax',
     'min_reviews', 'max_reviews', 'minReviews', 'maxReviews',
-    'depth', 'limit', 'max_audit', 'maxAudit'
+    'depth', 'limit', 'max_audit', 'maxAudit',
+    'min_rating', 'minRating', 'website_filter', 'websiteFilter',
+    'target_tier', 'targetTier'
   ];
   for (const field of discoveryScalarFields) {
     if (body[field] !== undefined && body[field] !== null && typeof body[field] === 'object') {
       return `Invalid non-primitive value for field "${field}".`;
+    }
+  }
+  for (const listField of ['cities', 'niches']) {
+    const val = body[listField];
+    if (val === undefined || val === null) continue;
+    if (typeof val === 'string') continue;
+    if (!Array.isArray(val)) {
+      return `Invalid value for field "${listField}": must be an array of strings or comma-separated string.`;
+    }
+    for (const item of val) {
+      if (typeof item !== 'string' || !item.trim()) {
+        return `Invalid item in "${listField}": every entry must be a non-empty string.`;
+      }
     }
   }
   return null;
@@ -277,9 +293,8 @@ function normalizeCandidateDiagnosticFields(rec, raw = {}) {
   // Deterministic doc_number for Google Maps records without an explicit doc_number
   const callerDocNumber = String(raw.doc_number ?? raw.docNumber ?? '').trim().toUpperCase();
   let docNumber = callerDocNumber || rec.doc_number;
-  if (placeId && (!callerDocNumber || docNumber.startsWith('GBP_'))) {
-    const cleanPlace = placeId.replace(/[^a-zA-Z0-9]/g, '').slice(-14).toUpperCase();
-    docNumber = `MAP_${cleanPlace || Date.now().toString(36).toUpperCase()}`;
+  if (placeId && (!callerDocNumber || String(docNumber || '').startsWith('GBP_'))) {
+    docNumber = buildCanonicalDocNumberFromPlaceId(placeId);
   }
 
   const gbpRankRaw = rec.gbp_rank ?? raw.gbp_rank ?? raw.gbpRank;
@@ -778,6 +793,59 @@ export async function onRequestGet(context) {
   }
 }
 
+function matchesDiscoveryFilters(rec, { minRating = 0, websiteFilter = 'all', targetTier = 'all' } = {}) {
+  if (!rec) return false;
+  if (minRating > 0 && Number(rec.rating || 0) < minRating) {
+    return false;
+  }
+  if (targetTier && targetTier !== 'all' && VALID_TIERS.has(targetTier) && rec.recommended_tier !== targetTier) {
+    return false;
+  }
+  if (websiteFilter && websiteFilter !== 'all') {
+    const status = String(rec.website_status || (rec.website ? 'unoptimized' : 'missing')).toLowerCase();
+    const lcpMs = Number(rec.lcp_ms || 0);
+    const hasSchema = rec.has_schema === 1 || rec.has_schema === true;
+    if (websiteFilter === 'any_issue' || websiteFilter === 'needs_fix') {
+      if (!(['missing', 'broken', 'slow', 'unoptimized'].includes(status) || !rec.website)) return false;
+    } else if (websiteFilter === 'missing_broken_slow') {
+      if (!(['missing', 'broken', 'slow'].includes(status) || !rec.website)) return false;
+    } else if (websiteFilter === 'missing_or_broken') {
+      if (!(['missing', 'broken'].includes(status) || !rec.website)) return false;
+    } else if (websiteFilter === 'slow') {
+      if (!(status === 'slow' || lcpMs >= 3500)) return false;
+    } else if (websiteFilter === 'needs_seo' || websiteFilter === 'unoptimized') {
+      if (!(Boolean(rec.website) && (status === 'unoptimized' || !hasSchema))) return false;
+    } else if (VALID_WEBSITE_STATUSES.has(websiteFilter)) {
+      if (status !== websiteFilter) return false;
+    }
+  }
+  return true;
+}
+
+function parseDiscoveryListParam(rawArray, rawScalar, fallbackValue, maxItems) {
+  let items = [];
+  if (Array.isArray(rawArray)) {
+    items = rawArray.map(v => String(v || '').trim()).filter(Boolean);
+  } else if (typeof rawArray === 'string' && rawArray.trim()) {
+    items = rawArray.split(',').map(v => v.trim()).filter(Boolean);
+  } else if (typeof rawScalar === 'string' && rawScalar.trim()) {
+    items = rawScalar.split(',').map(v => v.trim()).filter(Boolean);
+  }
+  if (items.length === 0) {
+    items = [fallbackValue];
+  }
+  const seen = new Set();
+  const deduped = [];
+  for (const item of items) {
+    const key = item.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    deduped.push(item);
+    if (deduped.length >= maxItems) break;
+  }
+  return deduped;
+}
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -796,19 +864,22 @@ export async function onRequestPost(context) {
     return json(request, { error: parsedBody.error }, parsedBody.status);
   }
 
-  if (!env.DB) {
-    return json(request, { error: 'D1 database binding "DB" is missing.' }, 500);
-  }
-
   try {
     const body = parsedBody.body;
     const requireSouthFlorida = body.require_south_fl !== false;
     const excludeShells = body.exclude_shells !== false;
     const autoEnrichTop = body.auto_enrich_top !== false; // Smart Hybrid default: true
     const isMapsDiscovery = body.action === 'discover_maps' || body.discover_maps === true;
+    const previewOnly = Boolean(body.preview_only || body.previewOnly || body.dry_run || body.dryRun);
+
+    if (!env.DB && !(isMapsDiscovery && previewOnly)) {
+      return json(request, { error: 'D1 database binding "DB" is missing.' }, 500);
+    }
 
     let rawRecords = [];
     let auditedCount = 0;
+    let queriesRun = 0;
+    let sourceModeUsed = 'offline_fixture';
 
     if (isMapsDiscovery) {
       const discoveryFieldError = validateDiscoveryBodyFields(body);
@@ -816,8 +887,9 @@ export async function onRequestPost(context) {
         return json(request, { error: discoveryFieldError }, 400);
       }
 
+      const parsedMaxAudit = parseInt(String(body.max_audit ?? body.maxAudit ?? 10), 10);
       const maxAudit = Math.min(
-        Math.max(parseInt(body.max_audit ?? body.maxAudit ?? 10, 10) || 10, 0),
+        Math.max(Number.isFinite(parsedMaxAudit) ? parsedMaxAudit : 10, 0),
         MAX_AUDIT_SUBREQUESTS
       );
 
@@ -826,74 +898,110 @@ export async function onRequestPost(context) {
       const minReviews = body.min_reviews ?? body.minReviews ?? 5;
       const maxReviews = body.max_reviews ?? body.maxReviews ?? 120;
 
-      const discoveryResult = await discoverMapsBleedersViaDataForSeo({
-        niche: body.niche || 'Roofing',
-        keyword: body.keyword || body.query || undefined,
-        city: body.city || 'Fort Lauderdale',
-        county: body.county || undefined,
-        state: body.state || 'FL',
-        minRank,
-        maxRank,
-        rankMin: minRank,
-        rankMax: maxRank,
-        minReviews,
-        maxReviews,
-        depth: body.depth || body.limit || 40,
-        auditWebsites: false,
-        auditTopN: 0,
-        useFixture: Boolean(body.use_fixture || body.useFixture),
-        fixtureItems: Array.isArray(body.fixture_items) ? body.fixture_items : undefined,
-        env
-      }, env);
+      const minRatingRaw = body.min_rating ?? body.minRating;
+      const minRating = minRatingRaw !== undefined && minRatingRaw !== null && minRatingRaw !== ''
+        ? Math.max(0, Math.min(5, Number(minRatingRaw) || 0))
+        : 0;
+      const websiteFilter = String(body.website_filter ?? body.websiteFilter ?? 'all').trim().toLowerCase();
+      const targetTier = String(body.target_tier ?? body.targetTier ?? 'all').trim();
 
-      const discoveredItems = Array.isArray(discoveryResult)
-        ? discoveryResult
-        : (Array.isArray(discoveryResult?.candidates)
-          ? discoveryResult.candidates
-          : (Array.isArray(discoveryResult?.items) ? discoveryResult.items : []));
+      const citiesList = parseDiscoveryListParam(body.cities, body.city, 'Pembroke Pines', 8);
+      const nichesList = parseDiscoveryListParam(body.niches, body.niche, 'Roofing', 6);
+      const pairs = [];
+      for (const cityName of citiesList) {
+        for (const nicheName of nichesList) {
+          if (pairs.length >= 12) break;
+          pairs.push({ cityName, nicheName });
+        }
+        if (pairs.length >= 12) break;
+      }
 
-      for (const rawItem of discoveredItems) {
-        let itemToBuild = { ...rawItem };
-        if (!itemToBuild.founder_name && !itemToBuild.founderName && !itemToBuild.name) {
-          itemToBuild.founder_name = 'Owner';
+      for (const { cityName, nicheName } of pairs) {
+        const discoveryResult = await discoverMapsBleedersViaDataForSeo({
+          niche: nicheName,
+          keyword: body.keyword || body.query || undefined,
+          city: cityName,
+          county: body.county || undefined,
+          state: body.state || 'FL',
+          minRank,
+          maxRank,
+          rankMin: minRank,
+          rankMax: maxRank,
+          minReviews,
+          maxReviews,
+          depth: body.depth || body.limit || 40,
+          auditWebsites: false,
+          auditTopN: 0,
+          useFixture: Boolean(body.use_fixture || body.useFixture),
+          fixtureItems: Array.isArray(body.fixture_items) ? body.fixture_items : undefined,
+          env
+        }, env);
+
+        queriesRun++;
+        const pairMode = discoveryResult?.sourceMode || 'offline_fixture';
+        if (pairMode === 'dataforseo_maps_live') {
+          sourceModeUsed = 'dataforseo_maps_live';
+        } else if (queriesRun === 1) {
+          sourceModeUsed = pairMode;
         }
 
-        // Run website technical audit exclusively in this loop up to maxAudit
-        if (
-          body.audit_websites !== false &&
-          auditedCount < maxAudit &&
-          itemToBuild.website
-        ) {
-          try {
-            const audit = await auditCandidateWebsite(itemToBuild.website, {
-              timeoutMs: 5500,
-              psiApiKey: env?.PSI_API_KEY || env?.PAGESPEED_API_KEY || null
-            });
-            if (audit && typeof audit === 'object') {
-              itemToBuild = {
-                ...itemToBuild,
-                lcp_ms: audit.lcp_ms ?? audit.lcpMs ?? null,
-                performance_score: audit.performance_score ?? audit.performanceScore ?? null,
-                has_schema: audit.has_schema ?? audit.hasSchema ?? 0,
-                has_ssl: audit.has_ssl ?? audit.hasSsl ?? (itemToBuild.website ? 1 : 0),
-                website_status: audit.website_status ?? audit.websiteStatus ?? 'unoptimized',
-                pain_summary: null,
-                recommended_tier: null,
-                score: undefined
-              };
-              auditedCount++;
+        const isFixturePair =
+          Boolean(body.use_fixture || body.useFixture) ||
+          pairMode === 'offline_fixture' ||
+          pairMode === 'custom_fixture';
+
+        const discoveredItems = Array.isArray(discoveryResult)
+          ? discoveryResult
+          : (Array.isArray(discoveryResult?.candidates)
+            ? discoveryResult.candidates
+            : (Array.isArray(discoveryResult?.items) ? discoveryResult.items : []));
+
+        for (const rawItem of discoveredItems) {
+          let itemToBuild = { ...rawItem };
+          if (!itemToBuild.founder_name && !itemToBuild.founderName && !itemToBuild.name) {
+            itemToBuild.founder_name = 'Owner';
+          }
+
+          // Run website technical audit exclusively in this loop up to maxAudit for live URLs
+          if (
+            !isFixturePair &&
+            body.audit_websites !== false &&
+            auditedCount < maxAudit &&
+            itemToBuild.website
+          ) {
+            try {
+              const audit = await auditCandidateWebsite(itemToBuild.website, {
+                timeoutMs: 5500,
+                psiApiKey: env?.PSI_API_KEY || env?.PAGESPEED_API_KEY || null
+              });
+              if (audit && typeof audit === 'object') {
+                itemToBuild = {
+                  ...itemToBuild,
+                  lcp_ms: audit.lcp_ms ?? audit.lcpMs ?? null,
+                  performance_score: audit.performance_score ?? audit.performanceScore ?? null,
+                  has_schema: audit.has_schema ?? audit.hasSchema ?? 0,
+                  has_ssl: audit.has_ssl ?? audit.hasSsl ?? (itemToBuild.website ? 1 : 0),
+                  website_status: audit.website_status ?? audit.websiteStatus ?? 'unoptimized',
+                  pain_summary: null,
+                  recommended_tier: null,
+                  score: undefined
+                };
+                auditedCount++;
+              }
+            } catch (auditErr) {
+              console.warn('Website audit skipped for', itemToBuild.website, auditErr.message);
             }
-          } catch (auditErr) {
-            console.warn('Website audit skipped for', itemToBuild.website, auditErr.message);
+          }
+
+          const built = buildCandidateRecord(itemToBuild, {
+            requireSouthFlorida: body.require_south_fl === true,
+            excludeShells
+          });
+          const normalized = normalizeCandidateDiagnosticFields(built, itemToBuild);
+          if (normalized && matchesDiscoveryFilters(normalized, { minRating, websiteFilter, targetTier })) {
+            rawRecords.push(normalized);
           }
         }
-
-        const built = buildCandidateRecord(itemToBuild, {
-          requireSouthFlorida: body.require_south_fl === true,
-          excludeShells
-        });
-        const normalized = normalizeCandidateDiagnosticFields(built, itemToBuild);
-        if (normalized) rawRecords.push(normalized);
       }
     } else if (typeof body.raw_text === 'string' && body.raw_text.trim()) {
       const parsed = parseOutreachBulkText(body.raw_text, {
@@ -968,6 +1076,19 @@ export async function onRequestPost(context) {
         if (rec.place_id) {
           docByPlaceId.set(rec.place_id, rec.doc_number);
         }
+      } else if (prev.place_id && rec.place_id && prev.place_id !== rec.place_id) {
+        let targetDoc = rec.doc_number;
+        let suffixIdx = dedupedByDoc.size + 1;
+        const pClean = rec.place_id.replace(/[^a-zA-Z0-9]/g, '').slice(-10).toUpperCase() || 'MAP';
+        while (dedupedByDoc.has(targetDoc)) {
+          targetDoc = `MAP_${pClean}_${suffixIdx++}`;
+        }
+        rec.doc_number = targetDoc;
+        if (rec.id === prev.id) {
+          rec.id = `map_${targetDoc.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+        }
+        dedupedByDoc.set(rec.doc_number, rec);
+        docByPlaceId.set(rec.place_id, rec.doc_number);
       } else {
         const mergedPlaceId = rec.place_id || prev.place_id;
         if (mergedPlaceId && !docByPlaceId.has(mergedPlaceId)) {
@@ -1000,6 +1121,26 @@ export async function onRequestPost(context) {
       }
     }
     const recordsToUpsert = [...dedupedByDoc.values()];
+
+    if (isMapsDiscovery) {
+      recordsToUpsert.sort((a, b) => (Number(b.score || 0) - Number(a.score || 0)) || (Number(b.review_count || 0) - Number(a.review_count || 0)));
+    }
+
+    if (isMapsDiscovery && previewOnly) {
+      return json(request, {
+        success: true,
+        mode: 'discover_maps',
+        preview_only: true,
+        source_mode: sourceModeUsed,
+        queries_run: queriesRun,
+        audited: auditedCount,
+        parsed: recordsToUpsert.length,
+        inserted: 0,
+        updated: 0,
+        auto_enriched: 0,
+        candidates: recordsToUpsert
+      }, 200);
+    }
 
     await ensureOutreachSchema(env.DB);
 
@@ -1106,13 +1247,42 @@ export async function onRequestPost(context) {
         if (row.place_id) existingByPlaceId.set(row.place_id, row);
       }
 
-      const statements = chunk.map((rec) => {
-        const matchedRow = existingByDoc.get(rec.doc_number) || (rec.place_id ? existingByPlaceId.get(rec.place_id) : null);
+      const usedDocNumbers = new Set(existingByDoc.keys());
+      const existingIds = new Set(existingRows.map(r => r.id).filter(Boolean));
+      const usedIds = new Set(existingIds);
+      const statements = chunk.map((rec, idx) => {
+        const placeMatch = rec.place_id ? existingByPlaceId.get(rec.place_id) : null;
+        const docMatch = existingByDoc.get(rec.doc_number) || null;
+        let matchedRow = placeMatch;
+        if (!matchedRow && docMatch) {
+          if (docMatch.place_id && rec.place_id && docMatch.place_id !== rec.place_id) {
+            const pClean = rec.place_id.replace(/[^a-zA-Z0-9]/g, '').slice(-10).toUpperCase() || 'MAP';
+            let disambigIdx = idx + 1;
+            let candidateDoc = `MAP_${pClean}_${disambigIdx}`;
+            while (usedDocNumbers.has(candidateDoc)) {
+              disambigIdx++;
+              candidateDoc = `MAP_${pClean}_${disambigIdx}`;
+            }
+            rec.doc_number = candidateDoc;
+          } else {
+            matchedRow = docMatch;
+          }
+        }
+        usedDocNumbers.add(rec.doc_number);
+
         if (matchedRow) {
           if (matchedRow.doc_number) rec.doc_number = matchedRow.doc_number;
           if (matchedRow.id) rec.id = matchedRow.id;
           updated++;
         } else {
+          if (usedIds.has(rec.id)) {
+            rec.id = `map_${rec.doc_number.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            let idIdx = idx + 1;
+            while (usedIds.has(rec.id)) {
+              rec.id = `map_${rec.doc_number.toLowerCase().replace(/[^a-z0-9]/g, '')}_${idIdx++}`;
+            }
+          }
+          usedIds.add(rec.id);
           inserted++;
           insertedRecords.push(rec);
         }
@@ -1181,7 +1351,15 @@ export async function onRequestPost(context) {
 
     return json(request, {
       success: true,
-      ...(isMapsDiscovery ? { mode: 'discover_maps', audited: auditedCount } : {}),
+      ...(isMapsDiscovery
+        ? {
+            mode: 'discover_maps',
+            source_mode: sourceModeUsed,
+            queries_run: queriesRun,
+            audited: auditedCount,
+            candidates: recordsToUpsert
+          }
+        : {}),
       parsed: recordsToUpsert.length,
       inserted,
       updated,

@@ -1541,6 +1541,262 @@
       display: inline;
     }
 
+    /* Web Outreach Candidate Sourcing UI (Quick Finder Bar + Interactive Studio) */
+    .outreach-quick-finder {
+      background: rgba(15, 23, 42, 0.55);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.1rem;
+    }
+    .outreach-quick-finder-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px 12px;
+      margin-bottom: 0.55rem;
+    }
+    .outreach-quick-finder-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .outreach-quick-finder-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .outreach-quick-finder-grid {
+      display: grid;
+      grid-template-columns: minmax(190px, 1.35fr) minmax(170px, 1fr) minmax(160px, 1fr) auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .quick-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .quick-field-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #cbd5e1;
+    }
+    .quick-finder-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .sourcing-tabs-bar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 1rem;
+    }
+    .sourcing-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .sourcing-tab-btn:hover {
+      color: #ffffff;
+      background: rgba(51, 65, 85, 0.4);
+    }
+    .sourcing-tab-btn.active {
+      background: var(--surface);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .sourcing-fieldset {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem 0.95rem;
+      margin-bottom: 0.9rem;
+      min-width: 0;
+    }
+    .sourcing-legend {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #7dd3fc;
+      padding: 0 6px;
+      letter-spacing: 0.02em;
+    }
+    .sourcing-section-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 0.55rem;
+    }
+    .sourcing-helper-note {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .preset-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 0.25rem;
+    }
+    .preset-card-btn {
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      border-radius: 9px;
+      padding: 0.65rem 0.8rem;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .preset-card-btn:hover {
+      border-color: #94a3b8;
+      background: rgba(30, 41, 59, 0.9);
+    }
+    .preset-card-btn.active {
+      border-color: var(--primary);
+      background: rgba(218, 16, 77, 0.14);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+    .preset-card-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .preset-card-desc {
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+    }
+
+    .chip-picker-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .sourcing-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      color: #cbd5e1;
+      padding: 0.38rem 0.68rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .sourcing-chip-btn:hover {
+      border-color: #94a3b8;
+      color: #ffffff;
+      background: rgba(51, 65, 85, 0.5);
+    }
+    .sourcing-chip-btn.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: #38bdf8;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .chip-demand-tag {
+      font-size: 0.67rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .sourcing-chip-btn.active .chip-demand-tag {
+      color: #bae6fd;
+    }
+
+    .sourcing-range-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .sourcing-filters-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+    .sourcing-summary-box {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.82rem;
+      color: #e0f2fe;
+      line-height: 1.45;
+    }
+    .sourcing-preview-panel {
+      background: #0f172a;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+    .sourcing-preview-header {
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.7);
+    }
+    .sourcing-preview-table-wrap {
+      max-height: 290px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+    .sourcing-preview-table-wrap table {
+      font-size: 0.78rem;
+    }
+    .sourcing-preview-table-wrap th,
+    .sourcing-preview-table-wrap td {
+      padding: 0.55rem 0.7rem;
+    }
+    .sourcing-preview-footer {
+      padding: 0.7rem 0.9rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.7);
+    }
+
     /* =======================================================================
        TABLET BREAKPOINT (640px .. 1279px):
        Exact 2.5 Kanban columns visible: calc((100% - 24px) / 2.5) + scroll-snap
@@ -1655,6 +1911,20 @@
       }
       .cadence-tabs-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .outreach-quick-finder-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .quick-finder-actions {
+        grid-column: 1 / -1;
+      }
+      .sourcing-filters-grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .sourcing-chip-btn,
+      .sourcing-tab-btn,
+      .preset-card-btn {
+        min-height: 44px;
       }
     }
 
@@ -1796,9 +2066,15 @@
         width: 100%;
         flex: 1;
       }
+      .outreach-quick-finder {
+        padding: 0.65rem 0.75rem;
+      }
       .modal-grid-2,
       .diagnostic-scorecard-bar,
-      .cadence-tabs-bar {
+      .cadence-tabs-bar,
+      .outreach-quick-finder-grid,
+      .preset-cards-grid,
+      .sourcing-tabs-bar {
         grid-template-columns: 1fr;
       }
       .scorecard-competitors-col {
@@ -1904,8 +2180,8 @@
       </h1>
     </div>
     <nav class="nav-actions" aria-label="CRM actions">
-      <button type="button" class="btn btn-sm btn-accent-info" id="openMapsImportBtn">
-        <span aria-hidden="true">📍</span> <span class="btn-text-hide">Maps </span>Sync
+      <button type="button" class="btn btn-sm btn-accent-info" id="openMapsImportBtn" title="Find and configure candidate companies for outreach">
+        <span aria-hidden="true">🔍</span> <span class="btn-text-hide">Find </span>Companies
       </button>
       <button type="button" class="btn btn-primary btn-sm" id="newLeadBtn">
         <span aria-hidden="true">+</span> <span class="btn-text-hide">New </span>Lead
@@ -2232,9 +2508,84 @@
             <span aria-hidden="true">🔍</span> Audit / Enrich Top 5
           </button>
           <button type="button" class="btn btn-sm btn-accent-info" id="importMapsBtn">
-            <span aria-hidden="true">📍</span> Maps / Outreach Sync
+            <span aria-hidden="true">🔍</span> Find Candidate Companies
           </button>
         </div>
+      </div>
+
+      <!-- Inline Quick Company Finder Bar (Human-Readable Web Sourcing) -->
+      <div class="outreach-quick-finder" id="outreachQuickFinderBar">
+        <div class="outreach-quick-finder-header">
+          <div class="outreach-quick-finder-title" id="quickFinderHeading">
+            <span aria-hidden="true">🔍</span> Quick Company Finder
+          </div>
+          <div class="outreach-quick-finder-sub">
+            Pick your outreach goal, industry, and city to pull candidate companies directly into your queue.
+          </div>
+        </div>
+        <form id="outreachQuickFinderForm" class="outreach-quick-finder-grid" aria-labelledby="quickFinderHeading">
+          <div class="quick-field-group">
+            <label for="quickSourcePreset" class="quick-field-label">Outreach Goal</label>
+            <select id="quickSourcePreset" name="preset" class="filter-select">
+              <option value="bleeders">🎯 Page 2 Bleeders (Ranked #6&ndash;#25, 5&ndash;120 reviews)</option>
+              <option value="website_upgrade">💻 Need a Website Upgrade ($3k Offer: No site, broken, or slow)</option>
+              <option value="seo_retainer">📈 Need Local SEO ($2.5k/mo Offer: Good reviews, missing local SEO)</option>
+              <option value="starter_pilot">⚡ Newer Local Operators ($500 Pilot: 1&ndash;15 reviews)</option>
+            </select>
+          </div>
+          <div class="quick-field-group">
+            <label for="quickSourceNiche" class="quick-field-label">Industry / Business Type</label>
+            <select id="quickSourceNiche" name="niche" class="filter-select">
+              <option value="Roofing">Roofing</option>
+              <option value="HVAC">HVAC</option>
+              <option value="Plumbing">Plumbing</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Landscaping & Lawn">Landscaping &amp; Lawn</option>
+              <option value="Construction & Remodeling">Construction &amp; Remodeling</option>
+              <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
+              <option value="Pest Control & Mold">Pest Control &amp; Mold</option>
+              <option value="Cleaning & Property Care">Cleaning &amp; Property Care</option>
+              <option value="Medical, Dental & Wellness">Medical, Dental &amp; Wellness</option>
+              <option value="Fitness & Studios">Fitness &amp; Studios</option>
+              <option value="Legal & Accounting">Legal &amp; Accounting</option>
+              <option value="Auto & Marine">Auto &amp; Marine</option>
+              <option value="top_home_services">⭐ Top 4 Home Services (Roofing, HVAC, Plumbing, Electrical)</option>
+            </select>
+          </div>
+          <div class="quick-field-group">
+            <label for="quickSourceCity" class="quick-field-label">Target City / Area</label>
+            <select id="quickSourceCity" name="city" class="filter-select">
+              <option value="Pembroke Pines">Pembroke Pines</option>
+              <option value="Miramar">Miramar</option>
+              <option value="Hollywood">Hollywood</option>
+              <option value="Davie">Davie</option>
+              <option value="Fort Lauderdale">Fort Lauderdale</option>
+              <option value="Weston">Weston</option>
+              <option value="Coral Springs">Coral Springs</option>
+              <option value="Plantation">Plantation</option>
+              <option value="Pompano Beach">Pompano Beach</option>
+              <option value="Doral">Doral</option>
+              <option value="Miami">Miami</option>
+              <option value="Miami Gardens">Miami Gardens</option>
+              <option value="Coral Gables">Coral Gables</option>
+              <option value="Aventura">Aventura</option>
+              <option value="Boca Raton">Boca Raton</option>
+              <option value="Delray Beach">Delray Beach</option>
+              <option value="West Palm Beach">West Palm Beach</option>
+              <option value="Key Largo">Key Largo</option>
+              <option value="Key West">Key West</option>
+              <option value="top_broward">⭐ Top 5 Broward Cities</option>
+            </select>
+          </div>
+          <div class="quick-finder-actions">
+            <button type="submit" class="btn btn-primary btn-sm" id="quickSourceSubmitBtn">
+              <span aria-hidden="true">🔍</span> Find Companies
+            </button>
+            <button type="button" class="btn btn-sm btn-accent-info" id="quickSourceAdvancedBtn">
+              <span aria-hidden="true">⚙️</span> Custom Filters &amp; Preview
+            </button>
+          </div>
+        </form>
       </div>
 
       <!-- Top Pagination Bar -->
@@ -2561,59 +2912,387 @@
     </div>
   </div>
 
-  <!-- Maps & Outreach Sync / Import Modal -->
+  <!-- Candidate Company Sourcing Studio Modal (Google Maps Discovery, Single Entry & CSV/JSON Upload) -->
   <div class="drawer-overlay" id="mapsImportModalOverlay" role="dialog" aria-modal="true" aria-labelledby="mapsImportModalTitle">
-    <div class="modal-card" style="max-width: 680px; padding: 1.75rem;">
+    <div class="modal-card" style="max-width: 880px; padding: 1.75rem;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 1rem;">
         <div>
-          <h2 id="mapsImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.35rem;">📍 Sync Google Maps &ldquo;Page 2 Bleeders&rdquo; &amp; Outreach</h2>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
-            Pull South Florida Google Maps contractors ranked <code>#6&ndash;#25</code>, audit mobile LCP + LocalBusiness schema, and classify into <strong>$3,000 Web Platform</strong> vs <strong>$2,500/mo Growth Retainer</strong> offers.
+          <h2 id="mapsImportModalTitle" style="font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.38rem;">🔍 Find Candidate Companies for Outreach</h2>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; line-height: 1.45;">
+            Choose the industries, South Florida cities, ranking range, and website issues you want to target &mdash; preview companies before adding them, or enter a business manually.
           </p>
         </div>
-        <button type="button" class="drawer-close" id="closeMapsImportBtn" aria-label="Close Maps sync dialog"><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="drawer-close" id="closeMapsImportBtn" aria-label="Close company sourcing studio"><span aria-hidden="true">&times;</span></button>
       </div>
 
-      <div style="background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
-        <div style="flex: 1 1 320px;">
-          <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff;">⚡ CLI Google Maps &amp; Technical Diagnostic Sync</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; line-height: 1.45;">
-            Run <code style="color: #7dd3fc;">npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code> to discover Maps #6&ndash;#25 bleeders &amp; audit their websites.
-          </div>
-        </div>
-        <button type="button" class="btn btn-sm" id="loadSampleMapsBtn" style="border-color: var(--primary); color: #ff85a9;">
-          🚀 Load South FL Sample Batch
+      <!-- Accessible 3-Tab Mode Switcher -->
+      <div class="sourcing-tabs-bar" role="tablist" aria-label="Company sourcing method">
+        <button type="button" role="tab" class="sourcing-tab-btn active" id="sourcingTabFindBtn" aria-selected="true" aria-controls="sourcingPanelFind" data-sourcing-tab="find" tabindex="0">
+          🔍 Find on Google Maps
+        </button>
+        <button type="button" role="tab" class="sourcing-tab-btn" id="sourcingTabSingleBtn" aria-selected="false" aria-controls="sourcingPanelSingle" data-sourcing-tab="single" tabindex="-1">
+          ➕ Add Single Company
+        </button>
+        <button type="button" role="tab" class="sourcing-tab-btn" id="sourcingTabUploadBtn" aria-selected="false" aria-controls="sourcingPanelUpload" data-sourcing-tab="upload" tabindex="-1">
+          📂 Upload CSV / JSON
         </button>
       </div>
 
-      <div style="margin-bottom: 1rem;">
-        <label for="mapsFileInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: #cbd5e1;">
-          Option 1: Upload Google Maps / Business Listings CSV or JSON (<code>.csv</code>, <code>.json</code>)
-        </label>
-        <input type="file" id="mapsFileInput" name="maps_file" accept=".csv,.json" class="form-input" style="padding: 0.45rem;">
+      <!-- TAB 1: Find on Google Maps -->
+      <div id="sourcingPanelFind" role="tabpanel" aria-labelledby="sourcingTabFindBtn">
+        <form id="mapsDiscoveryForm" aria-labelledby="mapsImportModalTitle">
+          <!-- Section 1: 1-Click Strategy Presets -->
+          <fieldset class="sourcing-fieldset">
+            <legend class="sourcing-legend">1. What kind of outreach candidates are you looking for?</legend>
+            <div class="preset-cards-grid">
+              <button type="button" class="preset-card-btn active" data-source-preset="bleeders" aria-pressed="true">
+                <span class="preset-card-title">🎯 Page 2 Bleeders</span>
+                <span class="preset-card-desc">Ranked #6&ndash;#25 with 5&ndash;120 reviews. Established local businesses losing calls to the Top 3.</span>
+              </button>
+              <button type="button" class="preset-card-btn" data-source-preset="website_upgrade" aria-pressed="false">
+                <span class="preset-card-title">💻 Need a Website Upgrade ($3k Offer)</span>
+                <span class="preset-card-desc">No website, broken link, or slow mobile load (&gt;4s) with 10+ reviews.</span>
+              </button>
+              <button type="button" class="preset-card-btn" data-source-preset="seo_retainer" aria-pressed="false">
+                <span class="preset-card-title">📈 Need Local SEO ($2.5k/mo Offer)</span>
+                <span class="preset-card-desc">Has a website and 10+ reviews, but missing local SEO schema &amp; city pages.</span>
+              </button>
+              <button type="button" class="preset-card-btn" data-source-preset="starter_pilot" aria-pressed="false">
+                <span class="preset-card-title">⚡ Newer Local Operators ($500 Pilot)</span>
+                <span class="preset-card-desc">Ranked #6&ndash;#30 with 1&ndash;15 reviews looking to grow their local presence.</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <!-- Section 2: Industry / Business Type -->
+          <fieldset class="sourcing-fieldset">
+            <legend class="sourcing-legend">2. Industry / Business Type</legend>
+            <div class="sourcing-section-top">
+              <span class="sourcing-helper-note">Pick one or more industries to search (multi-select).</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button type="button" class="btn btn-xs btn-accent-info" id="discoverSelectTopNichesBtn">⭐ Select Top 4 Home Services</button>
+                <button type="button" class="btn btn-xs" id="discoverClearNichesBtn">Clear</button>
+              </div>
+            </div>
+            <div class="chip-picker-grid" id="discoverNicheChips" role="group" aria-label="Target industries"></div>
+            <div style="margin-top: 0.75rem;">
+              <label for="discoverCustomKeywordInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
+                Optional Custom Search Keyword
+              </label>
+              <input
+                type="text"
+                id="discoverCustomKeywordInput"
+                name="keyword"
+                class="form-input"
+                aria-describedby="discoverKeywordHint"
+                placeholder='e.g. "emergency plumber" or "dental implants"'
+              >
+              <div id="discoverKeywordHint" class="sourcing-helper-note" style="margin-top: 4px;">
+                Leave blank to search automatically using the selected industries above.
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Section 3: Location (South Florida Cities) -->
+          <fieldset class="sourcing-fieldset">
+            <legend class="sourcing-legend">3. Location (South Florida Cities)</legend>
+            <div class="sourcing-section-top">
+              <span class="sourcing-helper-note">Choose target cities or select a South Florida region in 1 click.</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button type="button" class="btn btn-xs btn-accent-info" id="discoverRegionBrowardBtn">⭐ Top 5 Broward</button>
+                <button type="button" class="btn btn-xs" id="discoverRegionMiamiBtn">🏙️ Miami-Dade Hubs</button>
+                <button type="button" class="btn btn-xs" id="discoverRegionPalmBtn">🌴 Palm Beach Hubs</button>
+                <button type="button" class="btn btn-xs" id="discoverRegionKeysBtn">🏝️ Florida Keys</button>
+                <button type="button" class="btn btn-xs" id="discoverClearCitiesBtn">Clear</button>
+              </div>
+            </div>
+            <div class="chip-picker-grid" id="discoverCityChips" role="group" aria-label="Target South Florida cities"></div>
+            <div style="margin-top: 0.75rem;">
+              <label for="discoverAddCitySelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
+                Add another South Florida city
+              </label>
+              <select id="discoverAddCitySelect" name="add_city" class="form-input">
+                <option value="">+ Select another South Florida city to add...</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <!-- Section 4: Company Qualification & Website Problem Filters -->
+          <fieldset class="sourcing-fieldset">
+            <legend class="sourcing-legend">4. Company Qualification &amp; Website Problem Filters</legend>
+            <div class="modal-grid-2">
+              <div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px;">Google Maps Ranking Position</div>
+                <div class="sourcing-range-pair">
+                  <div>
+                    <label for="discoverRankMinInput" style="display: block; font-size: 0.74rem; font-weight: 600; margin-bottom: 3px; color: #cbd5e1;">From Rank #</label>
+                    <input type="number" id="discoverRankMinInput" name="min_rank" class="form-input" min="1" max="50" value="6" inputmode="numeric">
+                  </div>
+                  <div>
+                    <label for="discoverRankMaxInput" style="display: block; font-size: 0.74rem; font-weight: 600; margin-bottom: 3px; color: #cbd5e1;">To Rank #</label>
+                    <input type="number" id="discoverRankMaxInput" name="max_rank" class="form-input" min="1" max="50" value="25" inputmode="numeric">
+                  </div>
+                </div>
+                <div class="sourcing-helper-note" style="margin-top: 4px;">
+                  Ranks #1&ndash;#3 already get most calls. Ranks #6&ndash;#25 are established businesses missing out on Top 3 calls.
+                </div>
+              </div>
+              <div>
+                <div style="font-size: 0.78rem; font-weight: 700; color: #f8fafc; margin-bottom: 6px;">Customer Review Count</div>
+                <div class="sourcing-range-pair">
+                  <div>
+                    <label for="discoverMinReviewsInput" style="display: block; font-size: 0.74rem; font-weight: 600; margin-bottom: 3px; color: #cbd5e1;">Min Reviews</label>
+                    <input type="number" id="discoverMinReviewsInput" name="min_reviews" class="form-input" min="0" max="5000" value="5" inputmode="numeric">
+                  </div>
+                  <div>
+                    <label for="discoverMaxReviewsInput" style="display: block; font-size: 0.74rem; font-weight: 600; margin-bottom: 3px; color: #cbd5e1;">Max Reviews</label>
+                    <input type="number" id="discoverMaxReviewsInput" name="max_reviews" class="form-input" min="0" max="5000" value="120" inputmode="numeric">
+                  </div>
+                </div>
+                <div class="sourcing-helper-note" style="margin-top: 4px;">
+                  Filters out inactive 0-review listings and huge national chains.
+                </div>
+              </div>
+            </div>
+
+            <div class="sourcing-filters-grid-3">
+              <div>
+                <label for="discoverWebsiteFilterSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Website Problem to Target</label>
+                <select id="discoverWebsiteFilterSelect" name="website_filter" class="form-input">
+                  <option value="all">Any Website Status (Show all qualified companies)</option>
+                  <option value="any_issue">🚨 Any Website Problem (No site, broken, slow, or missing SEO)</option>
+                  <option value="missing_broken_slow">💻 No Website, Broken, or Slow Mobile Site (Best for $3,000 Web Platform)</option>
+                  <option value="missing_or_broken">❌ No Website or Broken Website Only</option>
+                  <option value="slow">🐢 Slow Mobile Website Only (&gt;4s load time)</option>
+                  <option value="needs_seo">📈 Has Website, Missing Local SEO Schema (Best for $2,500/mo Retainer)</option>
+                </select>
+              </div>
+              <div>
+                <label for="discoverMinRatingSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Minimum Star Rating</label>
+                <select id="discoverMinRatingSelect" name="min_rating" class="form-input">
+                  <option value="0">Any Star Rating</option>
+                  <option value="4.0">⭐ 4.0+ Stars</option>
+                  <option value="4.5">⭐ 4.5+ Stars</option>
+                  <option value="4.7">⭐ 4.7+ Stars</option>
+                </select>
+              </div>
+              <div>
+                <label for="discoverTargetTierSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Recommended Offer Tier</label>
+                <select id="discoverTargetTierSelect" name="target_tier" class="form-input">
+                  <option value="all">All Offer Tiers</option>
+                  <option value="platform_3k">💻 $3,000 Web Platform</option>
+                  <option value="retainer_2500">📈 $2,500/mo Growth Retainer</option>
+                  <option value="pilot_500">⚡ $500 Quick-Win Pilot</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Section 5: Automated Website Check & Contact Finder Options -->
+          <fieldset class="sourcing-fieldset">
+            <legend class="sourcing-legend">5. Automated Website Check &amp; Contact Finder Options</legend>
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8rem; color: #cbd5e1;">
+              <div class="outreach-check-label">
+                <input type="checkbox" id="discoverAuditWebsitesCheckbox" name="audit_websites" class="outreach-checkbox" checked>
+                <label for="discoverAuditWebsitesCheckbox">Check company websites automatically (tests mobile load speed, SSL &amp; LocalBusiness schema)</label>
+              </div>
+              <div class="outreach-check-label">
+                <input type="checkbox" id="autoEnrichTopCheckbox" name="auto_enrich_top" class="outreach-checkbox" checked>
+                <label for="autoEnrichTopCheckbox">Auto-find owner email &amp; phone for top matches (Score 80+)</label>
+              </div>
+              <div class="outreach-check-label">
+                <input type="checkbox" id="requireSouthFlCheckbox" name="require_south_fl" class="outreach-checkbox" checked>
+                <label for="requireSouthFlCheckbox">South Florida locations only (Miami-Dade, Broward, Palm Beach &amp; Keys)</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Live Plain-English Summary -->
+          <div class="sourcing-summary-box" id="discoverConfigSummaryBox" role="status" aria-live="polite">
+            <span id="discoverConfigSummaryText">Ready to search <strong>Roofing</strong> in <strong>Pembroke Pines</strong> for companies ranked <strong>#6&ndash;#25</strong> with <strong>5&ndash;120 reviews</strong>.</span>
+          </div>
+
+          <div id="discoverErrorBox" role="alert" style="display: none; background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 0.9rem;"></div>
+
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+            <button type="button" class="btn btn-sm" id="loadSampleMapsBtn" style="border-color: var(--primary); color: #ff85a9;">
+              ⚡ Load Sample Demo Batch
+            </button>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button type="button" class="btn btn-sm" id="cancelMapsImportBtn">Cancel</button>
+              <button type="button" class="btn btn-sm btn-accent-info" id="previewMapsDiscoveryBtn">
+                🔎 Preview Companies First
+              </button>
+              <button type="submit" class="btn btn-primary btn-sm" id="runMapsDiscoveryBtn">
+                🚀 Find &amp; Add to Outreach List
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Preview Results Table -->
+          <div class="sourcing-preview-panel" id="discoverPreviewPanel" hidden>
+            <div class="sourcing-preview-header">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+                <strong id="discoverPreviewSummary" style="font-size: 0.84rem; color: #ffffff;">0 matching companies found</strong>
+                <span class="coverage-badge" id="discoverPreviewSourceBadge">Preview Ready</span>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <button type="button" class="btn btn-xs" id="discoverPreviewSelectAllBtn">Select All</button>
+                <button type="button" class="btn btn-xs" id="discoverPreviewClearSelBtn">Clear Selection</button>
+              </div>
+            </div>
+            <div class="sourcing-preview-table-wrap" role="region" aria-label="Candidate company preview results" tabindex="0">
+              <table>
+                <caption class="sr-only">Preview of discovered outreach candidate companies</caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 36px;"><span class="sr-only">Include</span></th>
+                    <th scope="col">Business &amp; Location</th>
+                    <th scope="col">Maps Rank &amp; Reviews</th>
+                    <th scope="col">Website Diagnostic</th>
+                    <th scope="col">Offer &amp; Score</th>
+                  </tr>
+                </thead>
+                <tbody id="discoverPreviewTableBody"></tbody>
+              </table>
+            </div>
+            <div class="sourcing-preview-footer">
+              <span class="sourcing-helper-note">Uncheck any business you do not want to pursue before adding.</span>
+              <button type="button" class="btn btn-primary btn-sm" id="importSelectedPreviewBtn">
+                ✅ Add Selected Companies to Outreach List (0)
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
 
-      <div style="margin-bottom: 1rem;">
-        <label for="mapsRawTextInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
-          Option 2: Paste Google Maps / Business Listing CSV Rows
-        </label>
-        <textarea id="mapsRawTextInput" name="raw_text" class="form-input" rows="5" placeholder="place_id,business_name,founder_name,principal_address,city,zip,gbp_rank,review_count,rating,website,email,phone&#10;ChIJ_MiramarRoofing_01,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,14200 SW 27TH ST,MIRAMAR,33027,8,34,4.8,miramarelite.com,,"></textarea>
+      <!-- TAB 2: Add Single Company -->
+      <div id="sourcingPanelSingle" role="tabpanel" aria-labelledby="sourcingTabSingleBtn" hidden>
+        <form id="singleCandidateForm" aria-labelledby="sourcingTabSingleBtn">
+          <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
+            <div>
+              <label for="singleBizNameInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Company Name *</label>
+              <input type="text" id="singleBizNameInput" name="business_name" class="form-input" required placeholder="e.g. Pines Apex Roofing LLC">
+            </div>
+            <div>
+              <label for="singleFounderInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Owner / Decision-Maker Name</label>
+              <input type="text" id="singleFounderInput" name="founder_name" class="form-input" placeholder="e.g. Carlos Mendoza (or leave blank for Owner)">
+            </div>
+          </div>
+
+          <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
+            <div>
+              <label for="singleNicheSelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Industry / Business Type</label>
+              <select id="singleNicheSelect" name="niche" class="form-input">
+                <option value="Roofing">Roofing</option>
+                <option value="HVAC">HVAC</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Landscaping & Lawn">Landscaping &amp; Lawn</option>
+                <option value="Construction & Remodeling">Construction &amp; Remodeling</option>
+                <option value="Pool & Outdoor">Pool &amp; Outdoor</option>
+                <option value="Pest Control & Mold">Pest Control &amp; Mold</option>
+                <option value="Cleaning & Property Care">Cleaning &amp; Property Care</option>
+                <option value="Medical, Dental & Wellness">Medical, Dental &amp; Wellness</option>
+                <option value="Fitness & Studios">Fitness &amp; Studios</option>
+                <option value="Legal & Accounting">Legal &amp; Accounting</option>
+                <option value="Auto & Marine">Auto &amp; Marine</option>
+                <option value="Local Business">Other Local Business</option>
+              </select>
+            </div>
+            <div>
+              <label for="singleCitySelect" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">South Florida City</label>
+              <select id="singleCitySelect" name="city" class="form-input"></select>
+            </div>
+          </div>
+
+          <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
+            <div>
+              <label for="singleTitleInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Owner Role / Title</label>
+              <input type="text" id="singleTitleInput" name="founder_title" class="form-input" value="Owner" placeholder="Owner, President, Manager">
+            </div>
+            <div>
+              <label for="singleWebsiteInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Website URL</label>
+              <input type="text" id="singleWebsiteInput" name="website" class="form-input" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="e.g. pinesapexroofing.com">
+            </div>
+          </div>
+
+          <div class="modal-grid-2" style="margin-bottom: 0.85rem;">
+            <div>
+              <label for="singlePhoneInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Phone Number</label>
+              <input type="tel" id="singlePhoneInput" name="phone" class="form-input" autocomplete="off" placeholder="(954) 555-0140">
+            </div>
+            <div>
+              <label for="singleEmailInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Email Address</label>
+              <input type="email" id="singleEmailInput" name="email" class="form-input" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="owner@company.com">
+            </div>
+          </div>
+
+          <div class="sourcing-filters-grid-3" style="margin-top: 0; margin-bottom: 0.85rem;">
+            <div>
+              <label for="singleRankInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Google Maps Rank (#)</label>
+              <input type="number" id="singleRankInput" name="gbp_rank" class="form-input" min="1" max="200" inputmode="numeric" placeholder="e.g. 9">
+            </div>
+            <div>
+              <label for="singleReviewsInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Google Review Count</label>
+              <input type="number" id="singleReviewsInput" name="review_count" class="form-input" min="0" inputmode="numeric" placeholder="e.g. 34">
+            </div>
+            <div>
+              <label for="singleRatingInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Star Rating (0&ndash;5)</label>
+              <input type="number" id="singleRatingInput" name="rating" class="form-input" min="0" max="5" step="0.1" placeholder="e.g. 4.8">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label for="singleNotesInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">Notes / Outreach Context</label>
+            <textarea id="singleNotesInput" name="notes" class="form-input" rows="3" style="resize: vertical;" placeholder="Spotted on Google Maps page 2, mobile site slow to load..."></textarea>
+          </div>
+
+          <div id="singleCandidateErrorBox" role="alert" style="display: none; background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 0.9rem;"></div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button type="button" class="btn btn-sm" id="cancelSingleTabBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm" id="submitSingleCandidateBtn">➕ Add Company to Outreach List</button>
+          </div>
+        </form>
       </div>
 
-      <div class="modal-grid-2" style="margin-bottom: 1.15rem; font-size: 0.8rem; color: #cbd5e1;">
-        <label for="requireSouthFlCheckbox" class="outreach-check-label">
-          <input type="checkbox" id="requireSouthFlCheckbox" name="require_south_fl" class="outreach-checkbox" checked>
-          <span>Only keep South Florida cities (Miami-Dade, Broward, Palm Beach &amp; Keys)</span>
-        </label>
-        <label for="autoEnrichTopCheckbox" class="outreach-check-label">
-          <input type="checkbox" id="autoEnrichTopCheckbox" name="auto_enrich_top" class="outreach-checkbox" checked>
-          <span>Smart Hybrid: Auto-audit &amp; enrich top candidates (Score 80+)</span>
-        </label>
-      </div>
+      <!-- TAB 3: Upload CSV / JSON -->
+      <div id="sourcingPanelUpload" role="tabpanel" aria-labelledby="sourcingTabUploadBtn" hidden>
+        <form id="uploadCsvForm" aria-labelledby="sourcingTabUploadBtn">
+          <div style="margin-bottom: 1rem;">
+            <label for="mapsFileInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 6px; color: #cbd5e1;">
+              Option 1: Choose a CSV or JSON File (<code>.csv</code>, <code>.json</code>)
+            </label>
+            <input type="file" id="mapsFileInput" name="maps_file" accept=".csv,.json" class="form-input" style="padding: 0.45rem;">
+          </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 8px;">
-        <button type="button" class="btn" id="cancelMapsImportBtn">Cancel</button>
-        <button type="button" class="btn btn-primary" id="submitMapsImportBtn">📥 Parse &amp; Import Candidates</button>
+          <div style="margin-bottom: 1rem;">
+            <label for="mapsRawTextInput" style="display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 4px; color: #cbd5e1;">
+              Option 2: Paste Spreadsheet Rows or JSON Records
+            </label>
+            <textarea id="mapsRawTextInput" name="raw_text" class="form-input" rows="6" aria-describedby="uploadCsvFormatHint" placeholder="place_id,business_name,founder_name,principal_address,city,zip,gbp_rank,review_count,rating,website,email,phone&#10;ChIJ_MiramarRoofing_01,MIRAMAR ELITE ROOFING LLC,CARLOS MENDOZA,14200 SW 27TH ST,MIRAMAR,33027,8,34,4.8,miramarelite.com,,"></textarea>
+            <div id="uploadCsvFormatHint" class="sourcing-helper-note" style="margin-top: 4px;">
+              Include column headers such as <code>business_name</code>, <code>city</code>, <code>niche</code>, <code>website</code>, <code>phone</code>, <code>email</code>, <code>gbp_rank</code>, and <code>review_count</code>.
+            </div>
+          </div>
+
+          <div class="modal-grid-2" style="margin-bottom: 1.15rem; font-size: 0.8rem; color: #cbd5e1;">
+            <div class="outreach-check-label">
+              <input type="checkbox" id="uploadRequireSouthFlCheckbox" name="upload_require_south_fl" class="outreach-checkbox" checked>
+              <label for="uploadRequireSouthFlCheckbox">Only keep South Florida cities (Miami-Dade, Broward, Palm Beach &amp; Keys)</label>
+            </div>
+            <div class="outreach-check-label">
+              <input type="checkbox" id="uploadAutoEnrichTopCheckbox" name="upload_auto_enrich_top" class="outreach-checkbox" checked>
+              <label for="uploadAutoEnrichTopCheckbox">Smart Hybrid: Auto-audit &amp; enrich top candidates (Score 80+)</label>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button type="button" class="btn btn-sm" id="cancelUploadTabBtn">Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm" id="submitMapsImportBtn">📥 Parse &amp; Import Candidates</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -2992,13 +3671,76 @@
       const composerMailtoBtn = document.getElementById('composerMailtoBtn');
       const composerMarkPromotedBtn = document.getElementById('composerMarkPromotedBtn');
 
+      const outreachQuickFinderForm = document.getElementById('outreachQuickFinderForm');
+      const quickSourcePreset = document.getElementById('quickSourcePreset');
+      const quickSourceNiche = document.getElementById('quickSourceNiche');
+      const quickSourceCity = document.getElementById('quickSourceCity');
+      const quickSourceSubmitBtn = document.getElementById('quickSourceSubmitBtn');
+      const quickSourceAdvancedBtn = document.getElementById('quickSourceAdvancedBtn');
+
       const mapsImportModalOverlay = document.getElementById('mapsImportModalOverlay');
       const closeMapsImportBtn = document.getElementById('closeMapsImportBtn');
       const cancelMapsImportBtn = document.getElementById('cancelMapsImportBtn');
-      const mapsFileInput = document.getElementById('mapsFileInput');
-      const mapsRawTextInput = document.getElementById('mapsRawTextInput');
+      const cancelSingleTabBtn = document.getElementById('cancelSingleTabBtn');
+      const cancelUploadTabBtn = document.getElementById('cancelUploadTabBtn');
+      const sourcingTabFindBtn = document.getElementById('sourcingTabFindBtn');
+      const sourcingTabSingleBtn = document.getElementById('sourcingTabSingleBtn');
+      const sourcingTabUploadBtn = document.getElementById('sourcingTabUploadBtn');
+      const sourcingPanelFind = document.getElementById('sourcingPanelFind');
+      const sourcingPanelSingle = document.getElementById('sourcingPanelSingle');
+      const sourcingPanelUpload = document.getElementById('sourcingPanelUpload');
+      const mapsDiscoveryForm = document.getElementById('mapsDiscoveryForm');
+      const discoverSelectTopNichesBtn = document.getElementById('discoverSelectTopNichesBtn');
+      const discoverClearNichesBtn = document.getElementById('discoverClearNichesBtn');
+      const discoverNicheChips = document.getElementById('discoverNicheChips');
+      const discoverCustomKeywordInput = document.getElementById('discoverCustomKeywordInput');
+      const discoverRegionBrowardBtn = document.getElementById('discoverRegionBrowardBtn');
+      const discoverRegionMiamiBtn = document.getElementById('discoverRegionMiamiBtn');
+      const discoverRegionPalmBtn = document.getElementById('discoverRegionPalmBtn');
+      const discoverRegionKeysBtn = document.getElementById('discoverRegionKeysBtn');
+      const discoverClearCitiesBtn = document.getElementById('discoverClearCitiesBtn');
+      const discoverCityChips = document.getElementById('discoverCityChips');
+      const discoverAddCitySelect = document.getElementById('discoverAddCitySelect');
+      const discoverRankMinInput = document.getElementById('discoverRankMinInput');
+      const discoverRankMaxInput = document.getElementById('discoverRankMaxInput');
+      const discoverMinReviewsInput = document.getElementById('discoverMinReviewsInput');
+      const discoverMaxReviewsInput = document.getElementById('discoverMaxReviewsInput');
+      const discoverWebsiteFilterSelect = document.getElementById('discoverWebsiteFilterSelect');
+      const discoverMinRatingSelect = document.getElementById('discoverMinRatingSelect');
+      const discoverTargetTierSelect = document.getElementById('discoverTargetTierSelect');
+      const discoverAuditWebsitesCheckbox = document.getElementById('discoverAuditWebsitesCheckbox');
       const requireSouthFlCheckbox = document.getElementById('requireSouthFlCheckbox');
       const autoEnrichTopCheckbox = document.getElementById('autoEnrichTopCheckbox');
+      const discoverConfigSummaryText = document.getElementById('discoverConfigSummaryText');
+      const discoverErrorBox = document.getElementById('discoverErrorBox');
+      const previewMapsDiscoveryBtn = document.getElementById('previewMapsDiscoveryBtn');
+      const runMapsDiscoveryBtn = document.getElementById('runMapsDiscoveryBtn');
+      const discoverPreviewPanel = document.getElementById('discoverPreviewPanel');
+      const discoverPreviewSummary = document.getElementById('discoverPreviewSummary');
+      const discoverPreviewSourceBadge = document.getElementById('discoverPreviewSourceBadge');
+      const discoverPreviewSelectAllBtn = document.getElementById('discoverPreviewSelectAllBtn');
+      const discoverPreviewClearSelBtn = document.getElementById('discoverPreviewClearSelBtn');
+      const discoverPreviewTableBody = document.getElementById('discoverPreviewTableBody');
+      const importSelectedPreviewBtn = document.getElementById('importSelectedPreviewBtn');
+      const singleCandidateForm = document.getElementById('singleCandidateForm');
+      const singleBizNameInput = document.getElementById('singleBizNameInput');
+      const singleFounderInput = document.getElementById('singleFounderInput');
+      const singleTitleInput = document.getElementById('singleTitleInput');
+      const singleNicheSelect = document.getElementById('singleNicheSelect');
+      const singleCitySelect = document.getElementById('singleCitySelect');
+      const singleWebsiteInput = document.getElementById('singleWebsiteInput');
+      const singlePhoneInput = document.getElementById('singlePhoneInput');
+      const singleEmailInput = document.getElementById('singleEmailInput');
+      const singleRankInput = document.getElementById('singleRankInput');
+      const singleReviewsInput = document.getElementById('singleReviewsInput');
+      const singleRatingInput = document.getElementById('singleRatingInput');
+      const singleNotesInput = document.getElementById('singleNotesInput');
+      const singleCandidateErrorBox = document.getElementById('singleCandidateErrorBox');
+      const submitSingleCandidateBtn = document.getElementById('submitSingleCandidateBtn');
+      const mapsFileInput = document.getElementById('mapsFileInput');
+      const mapsRawTextInput = document.getElementById('mapsRawTextInput');
+      const uploadRequireSouthFlCheckbox = document.getElementById('uploadRequireSouthFlCheckbox');
+      const uploadAutoEnrichTopCheckbox = document.getElementById('uploadAutoEnrichTopCheckbox');
       const submitMapsImportBtn = document.getElementById('submitMapsImportBtn');
       const loadSampleMapsBtn = document.getElementById('loadSampleMapsBtn');
 
@@ -3849,6 +4591,18 @@
         if (composerDiagnosticScorecard) composerDiagnosticScorecard.innerHTML = '';
         if (mapsRawTextInput) mapsRawTextInput.value = '';
         if (mapsFileInput) mapsFileInput.value = '';
+        if (singleCandidateForm) singleCandidateForm.reset();
+        if (singleCandidateErrorBox) {
+          singleCandidateErrorBox.textContent = '';
+          singleCandidateErrorBox.style.display = 'none';
+        }
+        if (discoverErrorBox) {
+          discoverErrorBox.textContent = '';
+          discoverErrorBox.style.display = 'none';
+        }
+        if (discoverPreviewPanel) discoverPreviewPanel.hidden = true;
+        if (discoverPreviewTableBody) discoverPreviewTableBody.innerHTML = '';
+        if (typeof resetSourcingStudioState === 'function') resetSourcingStudioState();
         if (playbookModalTitle) playbookModalTitle.textContent = 'Touch 2 Call & SMS Playbook';
         if (playbookModalSubtitle) playbookModalSubtitle.textContent = 'Owner • GBP Rank • Technical Bottleneck';
         if (pbOpenerText) pbOpenerText.textContent = '';
@@ -5696,17 +6450,24 @@
           } else {
             tr.innerHTML = `
               <td colspan="6" style="text-align:center; padding:3rem 1.5rem;">
-                <div class="empty-state-title">No Local Maps or Diagnostic Outreach Candidates Yet</div>
+                <div class="empty-state-title">No Candidate Companies in Your Outreach Queue Yet</div>
                 <div class="empty-state-desc">
-                  Run <code>npm run sync:outreach -- --city="Pembroke Pines" --niche="Roofing"</code>, or load the South Florida Google Maps Page 2 Bleeders sample batch in 1 click.
+                  Use the <strong>Quick Company Finder</strong> bar above to search Google Maps by industry and South Florida city, configure custom website filters, or add a company manually.
                 </div>
-                <button type="button" class="btn btn-primary btn-sm" id="emptyStateImportBtn">📍 Load South FL Maps Bleeders Batch</button>
+                <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:8px;">
+                  <button type="button" class="btn btn-primary btn-sm" id="emptyStateImportBtn">🔍 Find Candidate Companies</button>
+                  <button type="button" class="btn btn-sm" id="emptyStateSampleBtn">⚡ Load Sample Demo Batch</button>
+                </div>
               </td>
             `;
             outreachTableBody.appendChild(tr);
             const emptyBtn = document.getElementById('emptyStateImportBtn');
             if (emptyBtn) {
-              emptyBtn.addEventListener('click', () => openModal(mapsImportModalOverlay, loadSampleMapsBtn));
+              emptyBtn.addEventListener('click', () => openMapsImportModal('find'));
+            }
+            const emptySampleBtn = document.getElementById('emptyStateSampleBtn');
+            if (emptySampleBtn && loadSampleMapsBtn) {
+              emptySampleBtn.addEventListener('click', () => loadSampleMapsBtn.click());
             }
           }
           return;
@@ -6863,14 +7624,958 @@
         }
       });
 
-      // Maps & Outreach Import / Sync Modal & Batch Audit/Enrich
-      function openMapsImportModal() {
-        openModal(mapsImportModalOverlay, loadSampleMapsBtn);
+      // Candidate Company Sourcing Studio & Quick Finder Controller
+      const SOURCING_INDUSTRIES = [
+        { value: 'Roofing', icon: '🏠', demand: '3.6k–6.4k/mo' },
+        { value: 'HVAC', icon: '❄️', demand: '6.3k–12.9k/mo' },
+        { value: 'Plumbing', icon: '🔧', demand: '8.5k–17.2k/mo' },
+        { value: 'Electrical', icon: '⚡', demand: '3.5k–6.1k/mo' },
+        { value: 'Landscaping & Lawn', icon: '🌿', demand: '2.0k–3.9k/mo' },
+        { value: 'Construction & Remodeling', icon: '🔨', demand: '2.3k–4.3k/mo' },
+        { value: 'Pool & Outdoor', icon: '🏊', demand: '0.8k–1.3k/mo' },
+        { value: 'Pest Control & Mold', icon: '🛡️', demand: '2.5k–4.7k/mo' },
+        { value: 'Cleaning & Property Care', icon: '✨', demand: '2.8k–4.1k/mo' },
+        { value: 'Medical, Dental & Wellness', icon: '🦷', demand: '17.3k–24.5k/mo' },
+        { value: 'Fitness & Studios', icon: '💪', demand: '11.8k–31.0k/mo' },
+        { value: 'Legal & Accounting', icon: '⚖️', demand: '0.8k–1.3k/mo' },
+        { value: 'Auto & Marine', icon: '🚤', demand: '3.7k–6.3k/mo' }
+      ];
+
+      const SOURCING_TOP_HOME_NICHES = ['Roofing', 'HVAC', 'Plumbing', 'Electrical'];
+
+      const SOURCING_POPULAR_CITIES = [
+        'Pembroke Pines',
+        'Miramar',
+        'Hollywood',
+        'Davie',
+        'Fort Lauderdale',
+        'Weston',
+        'Coral Springs',
+        'Doral',
+        'Miami',
+        'Coral Gables',
+        'Aventura',
+        'Boca Raton',
+        'West Palm Beach',
+        'Key West'
+      ];
+
+      const SOURCING_CITIES_BY_COUNTY = [
+        {
+          county: 'Broward County',
+          cities: [
+            'Pembroke Pines', 'Miramar', 'Hollywood', 'Davie', 'Fort Lauderdale',
+            'Weston', 'Coral Springs', 'Plantation', 'Sunrise', 'Pompano Beach',
+            'Cooper City', 'Southwest Ranches', 'Hallandale Beach', 'Dania Beach',
+            'Deerfield Beach', 'Coconut Creek', 'Parkland', 'Tamarac', 'Margate',
+            'Lauderhill', 'Oakland Park', 'Wilton Manors', 'Lighthouse Point'
+          ]
+        },
+        {
+          county: 'Miami-Dade County',
+          cities: [
+            'Doral', 'Miami', 'Miami Gardens', 'Miami Lakes', 'Coral Gables',
+            'Aventura', 'Miami Beach', 'North Miami Beach', 'North Miami',
+            'Hialeah', 'Kendall', 'Pinecrest', 'Palmetto Bay', 'Cutler Bay',
+            'Homestead', 'Sunny Isles Beach', 'South Miami', 'Key Biscayne'
+          ]
+        },
+        {
+          county: 'Palm Beach County',
+          cities: [
+            'Boca Raton', 'Delray Beach', 'Boynton Beach', 'West Palm Beach',
+            'Wellington', 'Jupiter', 'Palm Beach Gardens', 'Palm Beach',
+            'Royal Palm Beach', 'Lake Worth Beach', 'Greenacres', 'North Palm Beach'
+          ]
+        },
+        {
+          county: 'Monroe County (Florida Keys)',
+          cities: ['Key Largo', 'Islamorada', 'Marathon', 'Key West', 'Tavernier']
+        }
+      ];
+
+      const SOURCING_REGION_PRESETS = {
+        broward: ['Miramar', 'Pembroke Pines', 'Hollywood', 'Davie', 'Fort Lauderdale'],
+        miami: ['Doral', 'Miami', 'Miami Gardens', 'Coral Gables', 'Aventura'],
+        palm: ['Boca Raton', 'Delray Beach', 'West Palm Beach', 'Wellington', 'Jupiter'],
+        keys: ['Key Largo', 'Islamorada', 'Marathon', 'Key West', 'Tavernier']
+      };
+
+      const SOURCING_STRATEGY_PRESETS = {
+        bleeders: {
+          label: 'Page 2 Bleeders',
+          minRank: 6,
+          maxRank: 25,
+          minReviews: 5,
+          maxReviews: 120,
+          websiteFilter: 'all',
+          minRating: '0',
+          targetTier: 'all'
+        },
+        website_upgrade: {
+          label: 'Need a Website Upgrade ($3k Offer)',
+          minRank: 6,
+          maxRank: 25,
+          minReviews: 10,
+          maxReviews: 150,
+          websiteFilter: 'missing_broken_slow',
+          minRating: '0',
+          targetTier: 'platform_3k'
+        },
+        seo_retainer: {
+          label: 'Need Local SEO ($2.5k/mo Offer)',
+          minRank: 6,
+          maxRank: 25,
+          minReviews: 10,
+          maxReviews: 200,
+          websiteFilter: 'needs_seo',
+          minRating: '4.5',
+          targetTier: 'retainer_2500'
+        },
+        starter_pilot: {
+          label: 'Newer Local Operators ($500 Pilot)',
+          minRank: 6,
+          maxRank: 30,
+          minReviews: 1,
+          maxReviews: 15,
+          websiteFilter: 'all',
+          minRating: '0',
+          targetTier: 'pilot_500'
+        }
+      };
+
+      const sourcingState = {
+        activeTab: 'find',
+        preset: 'bleeders',
+        selectedNiches: new Set(['Roofing']),
+        selectedCities: new Set(['Pembroke Pines']),
+        availableChipCities: [...SOURCING_POPULAR_CITIES],
+        previewCandidates: [],
+        selectedPreviewKeys: new Set(),
+        isBusy: false
+      };
+
+      const SOURCING_TABS = [
+        { key: 'find', btn: sourcingTabFindBtn, panel: sourcingPanelFind },
+        { key: 'single', btn: sourcingTabSingleBtn, panel: sourcingPanelSingle },
+        { key: 'upload', btn: sourcingTabUploadBtn, panel: sourcingPanelUpload }
+      ];
+
+      function switchSourcingTab(tabKey, opts = {}) {
+        const valid = SOURCING_TABS.some((t) => t.key === tabKey) ? tabKey : 'find';
+        sourcingState.activeTab = valid;
+        SOURCING_TABS.forEach(({ key, btn, panel }) => {
+          const isActive = key === valid;
+          if (btn) {
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', String(isActive));
+            btn.setAttribute('tabindex', isActive ? '0' : '-1');
+            if (isActive && opts.moveFocus) btn.focus();
+          }
+          if (panel) {
+            panel.hidden = !isActive;
+          }
+        });
       }
-      openMapsImportBtn.addEventListener('click', openMapsImportModal);
-      importMapsBtn.addEventListener('click', openMapsImportModal);
+
+      SOURCING_TABS.forEach(({ key, btn }, idx) => {
+        if (!btn) return;
+        btn.addEventListener('click', () => switchSourcingTab(key));
+        btn.addEventListener('keydown', (e) => {
+          let nextIdx = null;
+          if (e.key === 'ArrowRight') nextIdx = (idx + 1) % SOURCING_TABS.length;
+          else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + SOURCING_TABS.length) % SOURCING_TABS.length;
+          else if (e.key === 'Home') nextIdx = 0;
+          else if (e.key === 'End') nextIdx = SOURCING_TABS.length - 1;
+          if (nextIdx !== null) {
+            e.preventDefault();
+            switchSourcingTab(SOURCING_TABS[nextIdx].key, { moveFocus: true });
+          }
+        });
+      });
+
+      function populateSourcingCityDropdowns() {
+        if (discoverAddCitySelect) {
+          discoverAddCitySelect.innerHTML = '<option value="">+ Select another South Florida city to add...</option>';
+          SOURCING_CITIES_BY_COUNTY.forEach((group) => {
+            const optGroup = document.createElement('optgroup');
+            optGroup.label = group.county;
+            group.cities.forEach((cityName) => {
+              const opt = document.createElement('option');
+              opt.value = cityName;
+              opt.textContent = cityName;
+              optGroup.appendChild(opt);
+            });
+            discoverAddCitySelect.appendChild(optGroup);
+          });
+        }
+
+        if (singleCitySelect) {
+          singleCitySelect.innerHTML = '';
+          SOURCING_CITIES_BY_COUNTY.forEach((group) => {
+            const optGroup = document.createElement('optgroup');
+            optGroup.label = group.county;
+            group.cities.forEach((cityName) => {
+              const opt = document.createElement('option');
+              opt.value = cityName;
+              opt.textContent = cityName;
+              if (cityName === 'Pembroke Pines') opt.selected = true;
+              optGroup.appendChild(opt);
+            });
+            singleCitySelect.appendChild(optGroup);
+          });
+        }
+      }
+
+      function renderSourcingNicheChips() {
+        if (!discoverNicheChips) return;
+        discoverNicheChips.innerHTML = '';
+        SOURCING_INDUSTRIES.forEach((ind) => {
+          const isSelected = sourcingState.selectedNiches.has(ind.value);
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `sourcing-chip-btn${isSelected ? ' active' : ''}`;
+          btn.setAttribute('aria-pressed', String(isSelected));
+          btn.dataset.niche = ind.value;
+          btn.innerHTML = `<span aria-hidden="true">${ind.icon}</span> <span>${escapeHtml(ind.value)}</span> <span class="chip-demand-tag">~${escapeHtml(ind.demand)}</span>`;
+          btn.addEventListener('click', () => {
+            if (sourcingState.selectedNiches.has(ind.value)) {
+              sourcingState.selectedNiches.delete(ind.value);
+            } else {
+              sourcingState.selectedNiches.add(ind.value);
+            }
+            renderSourcingNicheChips();
+            updateSourcingSummary();
+          });
+          discoverNicheChips.appendChild(btn);
+        });
+      }
+
+      function renderSourcingCityChips() {
+        if (!discoverCityChips) return;
+        discoverCityChips.innerHTML = '';
+        sourcingState.selectedCities.forEach((city) => {
+          if (!sourcingState.availableChipCities.includes(city)) {
+            sourcingState.availableChipCities.push(city);
+          }
+        });
+        sourcingState.availableChipCities.forEach((cityName) => {
+          const isSelected = sourcingState.selectedCities.has(cityName);
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `sourcing-chip-btn${isSelected ? ' active' : ''}`;
+          btn.setAttribute('aria-pressed', String(isSelected));
+          btn.dataset.city = cityName;
+          btn.innerHTML = `<span aria-hidden="true">📍</span> <span>${escapeHtml(cityName)}</span>`;
+          btn.addEventListener('click', () => {
+            if (sourcingState.selectedCities.has(cityName)) {
+              sourcingState.selectedCities.delete(cityName);
+            } else {
+              sourcingState.selectedCities.add(cityName);
+            }
+            renderSourcingCityChips();
+            updateSourcingSummary();
+          });
+          discoverCityChips.appendChild(btn);
+        });
+      }
+
+      function syncPresetButtonsUi(activeKey) {
+        sourcingState.preset = activeKey;
+        document.querySelectorAll('.preset-card-btn[data-source-preset]').forEach((btn) => {
+          const isMatch = btn.getAttribute('data-source-preset') === activeKey;
+          btn.classList.toggle('active', isMatch);
+          btn.setAttribute('aria-pressed', String(isMatch));
+        });
+      }
+
+      function applySourcingStrategyPreset(presetKey) {
+        const cfg = SOURCING_STRATEGY_PRESETS[presetKey];
+        if (!cfg) return;
+        syncPresetButtonsUi(presetKey);
+        if (discoverRankMinInput) discoverRankMinInput.value = String(cfg.minRank);
+        if (discoverRankMaxInput) discoverRankMaxInput.value = String(cfg.maxRank);
+        if (discoverMinReviewsInput) discoverMinReviewsInput.value = String(cfg.minReviews);
+        if (discoverMaxReviewsInput) discoverMaxReviewsInput.value = String(cfg.maxReviews);
+        if (discoverWebsiteFilterSelect) discoverWebsiteFilterSelect.value = cfg.websiteFilter;
+        if (discoverMinRatingSelect) discoverMinRatingSelect.value = cfg.minRating;
+        if (discoverTargetTierSelect) discoverTargetTierSelect.value = cfg.targetTier;
+        updateSourcingSummary();
+      }
+
+      function readStudioDiscoveryConfig() {
+        let minRank = parseInt(discoverRankMinInput ? discoverRankMinInput.value : '6', 10);
+        let maxRank = parseInt(discoverRankMaxInput ? discoverRankMaxInput.value : '25', 10);
+        if (!Number.isFinite(minRank)) minRank = 6;
+        if (!Number.isFinite(maxRank)) maxRank = 25;
+        minRank = Math.max(1, Math.min(50, minRank));
+        maxRank = Math.max(1, Math.min(50, maxRank));
+        if (minRank > maxRank) {
+          const tmp = minRank;
+          minRank = maxRank;
+          maxRank = tmp;
+        }
+
+        let minReviews = parseInt(discoverMinReviewsInput ? discoverMinReviewsInput.value : '5', 10);
+        let maxReviews = parseInt(discoverMaxReviewsInput ? discoverMaxReviewsInput.value : '120', 10);
+        if (!Number.isFinite(minReviews) || minReviews < 0) minReviews = 0;
+        if (!Number.isFinite(maxReviews) || maxReviews < 0) maxReviews = 120;
+        if (maxReviews < minReviews) maxReviews = minReviews;
+
+        const keyword = discoverCustomKeywordInput ? discoverCustomKeywordInput.value.trim() : '';
+        const selectedNiches = Array.from(sourcingState.selectedNiches);
+        const niches = selectedNiches.length > 0 ? selectedNiches : (keyword ? ['Local Business'] : []);
+        const cities = Array.from(sourcingState.selectedCities);
+
+        const websiteFilter = discoverWebsiteFilterSelect ? discoverWebsiteFilterSelect.value : 'all';
+        const minRating = discoverMinRatingSelect ? parseFloat(discoverMinRatingSelect.value) || 0 : 0;
+        const targetTier = discoverTargetTierSelect ? discoverTargetTierSelect.value : 'all';
+
+        return {
+          cities,
+          niches,
+          keyword,
+          minRank,
+          maxRank,
+          minReviews,
+          maxReviews,
+          websiteFilter,
+          minRating,
+          targetTier,
+          auditWebsites: discoverAuditWebsitesCheckbox ? discoverAuditWebsitesCheckbox.checked : true,
+          autoEnrichTop: autoEnrichTopCheckbox ? autoEnrichTopCheckbox.checked : true,
+          requireSouthFl: requireSouthFlCheckbox ? requireSouthFlCheckbox.checked : true
+        };
+      }
+
+      function updateSourcingSummary() {
+        if (!discoverConfigSummaryText) return;
+        const cfg = readStudioDiscoveryConfig();
+        const nicheDisplay = cfg.keyword
+          ? `"${escapeHtml(cfg.keyword)}"${cfg.niches.length > 0 ? ` (${escapeHtml(cfg.niches.join(', '))})` : ''}`
+          : (cfg.niches.length > 0 ? escapeHtml(cfg.niches.join(', ')) : 'no industry selected yet');
+        const cityDisplay = cfg.cities.length > 0 ? escapeHtml(cfg.cities.join(', ')) : 'no city selected yet';
+
+        const filterLabels = [];
+        if (cfg.websiteFilter && cfg.websiteFilter !== 'all') {
+          const selectedOpt = discoverWebsiteFilterSelect && discoverWebsiteFilterSelect.selectedOptions[0];
+          if (selectedOpt) filterLabels.push(selectedOpt.textContent.replace(/^[^\w]+/, '').trim());
+        }
+        if (cfg.minRating > 0) filterLabels.push(`${cfg.minRating.toFixed(1)}+ stars`);
+        if (cfg.targetTier && cfg.targetTier !== 'all') {
+          const tierMeta = getOfferTierMeta(cfg.targetTier);
+          filterLabels.push(`${tierMeta.shortLabel} tier`);
+        }
+
+        const pairCount = cfg.cities.length * Math.max(1, cfg.niches.length);
+        const filterPhrase = filterLabels.length > 0 ? ` matching <strong>${escapeHtml(filterLabels.join(' • '))}</strong>` : '';
+        const pairWarn = pairCount > 12
+          ? ` <span style="color:#fca5a5;">(${pairCount} city × industry pairs selected — reduce to 12 or fewer)</span>`
+          : '';
+
+        discoverConfigSummaryText.innerHTML =
+          `Ready to search <strong>${nicheDisplay}</strong> in <strong>${cityDisplay}</strong> for companies ranked <strong>#${cfg.minRank}&ndash;#${cfg.maxRank}</strong> with <strong>${cfg.minReviews}&ndash;${cfg.maxReviews} reviews</strong>${filterPhrase}.${pairWarn}`;
+      }
+
+      function clearStudioError() {
+        if (!discoverErrorBox) return;
+        discoverErrorBox.style.display = 'none';
+        discoverErrorBox.textContent = '';
+      }
+
+      function showStudioError(msg) {
+        if (!discoverErrorBox) return;
+        discoverErrorBox.textContent = msg;
+        discoverErrorBox.style.display = 'block';
+      }
+
+      function getPreviewCandidateKey(cand, idx) {
+        return String(cand.place_id || cand.doc_number || cand.id || `preview_${idx}`);
+      }
+
+      function syncPreviewSelectionCountUi() {
+        if (!importSelectedPreviewBtn) return;
+        const count = sourcingState.selectedPreviewKeys.size;
+        importSelectedPreviewBtn.disabled = count === 0 || sourcingState.isBusy;
+        importSelectedPreviewBtn.textContent = `✅ Add Selected Companies to Outreach List (${count})`;
+      }
+
+      function renderDiscoveryPreview(data) {
+        if (!discoverPreviewPanel || !discoverPreviewTableBody) return;
+        const list = Array.isArray(data && data.candidates) ? data.candidates : [];
+        sourcingState.previewCandidates = list;
+        sourcingState.selectedPreviewKeys = new Set(list.map((c, idx) => getPreviewCandidateKey(c, idx)));
+
+        discoverPreviewPanel.hidden = false;
+        if (discoverPreviewSummary) {
+          discoverPreviewSummary.textContent = `${list.length} matching ${list.length === 1 ? 'company' : 'companies'} found`;
+        }
+        if (discoverPreviewSourceBadge) {
+          discoverPreviewSourceBadge.textContent =
+            data && data.source_mode === 'dataforseo_maps_live'
+              ? `🌐 Live Google Maps (${Number(data.audited || 0)} websites checked)`
+              : '🧪 Sample Preview Mode (No live Maps API key configured)';
+        }
+
+        discoverPreviewTableBody.innerHTML = '';
+        if (list.length === 0) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="5" style="text-align:center; padding:1.25rem; color:var(--text-muted);">No companies matched these filters. Try widening the ranking range, review count, or website problem filter.</td>`;
+          discoverPreviewTableBody.appendChild(tr);
+          syncPreviewSelectionCountUi();
+          return;
+        }
+
+        list.forEach((cand, idx) => {
+          const rowKey = getPreviewCandidateKey(cand, idx);
+          const checkId = `preview-cand-check-${idx}`;
+          const bizName = cand.business_name_clean || cand.business_name || 'Local Business';
+          const webStatus = String(cand.website_status || (cand.website ? 'unoptimized' : 'missing'));
+          const statusLabelMap = {
+            missing: '❌ No Website',
+            broken: '⚠️ Broken / No SSL',
+            slow: '🐢 Slow Mobile',
+            unoptimized: '🧩 Missing Local SEO',
+            healthy: '✅ Healthy Site'
+          };
+          const statusCls = webStatus === 'healthy' ? 'tech-pill-ok' : (webStatus === 'unoptimized' ? 'tech-pill-warn' : 'tech-pill-danger');
+          const tierMeta = getOfferTierMeta(inferRecommendedTier(cand));
+          const ratingStr = cand.rating && Number(cand.rating) > 0 ? `⭐ ${Number(cand.rating).toFixed(1)}` : '';
+          const revCount = Number(cand.review_count || 0);
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>
+              <input type="checkbox" id="${escapeHtml(checkId)}" class="outreach-checkbox preview-cand-checkbox" data-preview-key="${escapeHtml(rowKey)}" checked>
+              <label for="${escapeHtml(checkId)}" class="sr-only">Include ${escapeHtml(bizName)}</label>
+            </td>
+            <td>
+              <div style="font-weight:700; color:#ffffff;">${escapeHtml(bizName)}</div>
+              <div style="font-size:0.72rem; color:var(--text-muted);">${escapeHtml(cand.niche || 'Local Business')} &bull; ${escapeHtml(cand.city || 'South FL')}, FL</div>
+              ${cand.phone ? `<div style="font-size:0.71rem; color:#7dd3fc; margin-top:2px;">📞 ${escapeHtml(cand.phone)}</div>` : ''}
+            </td>
+            <td>
+              <span class="gbp-rank-badge ${Number(cand.gbp_rank || 0) <= 15 ? 'gbp-rank-bleeder' : 'gbp-rank-deep'}">#${Number(cand.gbp_rank || 0) || '—'}</span>
+              <div style="font-size:0.72rem; color:#fde68a; margin-top:3px;">${escapeHtml(ratingStr)} (${revCount} rev)</div>
+            </td>
+            <td>
+              <span class="tech-pill ${statusCls}">${escapeHtml(statusLabelMap[webStatus] || webStatus)}</span>
+              ${cand.website ? `<div style="font-size:0.71rem; color:#7dd3fc; margin-top:3px;">${escapeHtml(cand.website)}</div>` : ''}
+              ${cand.pain_summary ? `<div style="font-size:0.7rem; color:#cbd5e1; margin-top:2px;">${escapeHtml(cand.pain_summary)}</div>` : ''}
+            </td>
+            <td>
+              <span class="tier-pill ${tierMeta.badgeClass}">${tierMeta.icon} ${escapeHtml(tierMeta.shortLabel)}</span>
+              <div style="margin-top:4px;"><span class="score-pill ${Number(cand.score || 0) >= 80 ? 'score-high' : 'score-med'}">Score ${Number(cand.score || 70)}</span></div>
+            </td>
+          `;
+
+          const chk = tr.querySelector('.preview-cand-checkbox');
+          if (chk) {
+            chk.addEventListener('change', () => {
+              if (chk.checked) sourcingState.selectedPreviewKeys.add(rowKey);
+              else sourcingState.selectedPreviewKeys.delete(rowKey);
+              syncPreviewSelectionCountUi();
+            });
+          }
+          discoverPreviewTableBody.appendChild(tr);
+        });
+        syncPreviewSelectionCountUi();
+      }
+
+      function setSourcingBusyState(busy, activeLabel = '') {
+        sourcingState.isBusy = Boolean(busy);
+        if (previewMapsDiscoveryBtn) {
+          previewMapsDiscoveryBtn.disabled = sourcingState.isBusy;
+          previewMapsDiscoveryBtn.textContent = busy && activeLabel === 'preview'
+            ? '⏳ Searching & Checking Sites...'
+            : '🔎 Preview Companies First';
+        }
+        if (runMapsDiscoveryBtn) {
+          runMapsDiscoveryBtn.disabled = sourcingState.isBusy;
+          runMapsDiscoveryBtn.textContent = busy && activeLabel === 'run'
+            ? '⏳ Finding & Adding...'
+            : '🚀 Find & Add to Outreach List';
+        }
+        if (quickSourceSubmitBtn) {
+          quickSourceSubmitBtn.disabled = sourcingState.isBusy;
+          quickSourceSubmitBtn.innerHTML = busy && activeLabel === 'quick'
+            ? '⏳ Finding Companies...'
+            : '<span aria-hidden="true">🔍</span> Find Companies';
+        }
+        syncPreviewSelectionCountUi();
+      }
+
+      async function executeMapsDiscovery(config, { previewOnly = false } = {}) {
+        const payload = {
+          action: 'discover_maps',
+          cities: config.cities,
+          city: config.cities[0] || 'Pembroke Pines',
+          niches: config.niches,
+          niche: config.niches[0] || 'Roofing',
+          keyword: config.keyword || undefined,
+          min_rank: config.minRank,
+          max_rank: config.maxRank,
+          min_reviews: config.minReviews,
+          max_reviews: config.maxReviews,
+          min_rating: config.minRating || 0,
+          website_filter: config.websiteFilter || 'all',
+          target_tier: config.targetTier || 'all',
+          audit_websites: config.auditWebsites !== false,
+          auto_enrich_top: config.autoEnrichTop !== false,
+          require_south_fl: config.requireSouthFl !== false,
+          preview_only: Boolean(previewOnly)
+        };
+
+        const res = await fetch('/api/crm/outreach', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.status === 401) {
+          handleUnauthorizedResponse();
+          return { ok: false, unauthorized: true };
+        }
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          return { ok: false, error: data.error || 'Could not search for candidate companies.' };
+        }
+        return { ok: true, data };
+      }
+
+      async function finishOutreachImportAndRefresh(toastMessage, { closeStudio = true } = {}) {
+        if (closeStudio) closeModal(mapsImportModalOverlay);
+        state.outreachOffset = 0;
+        applyViewLayout('outreach');
+        syncUrlFromState();
+        await fetchOutreach();
+        showToast(toastMessage);
+      }
+
+      function resetSourcingStudioState() {
+        sourcingState.previewCandidates = [];
+        sourcingState.selectedPreviewKeys = new Set();
+        sourcingState.selectedNiches = new Set(['Roofing']);
+        sourcingState.selectedCities = new Set(['Pembroke Pines']);
+        sourcingState.availableChipCities = [...SOURCING_POPULAR_CITIES];
+        if (discoverCustomKeywordInput) discoverCustomKeywordInput.value = '';
+        applySourcingStrategyPreset('bleeders');
+        renderSourcingNicheChips();
+        renderSourcingCityChips();
+        updateSourcingSummary();
+        clearStudioError();
+        if (discoverPreviewPanel) discoverPreviewPanel.hidden = true;
+        if (discoverPreviewTableBody) discoverPreviewTableBody.innerHTML = '';
+        switchSourcingTab('find');
+      }
+
+      function openMapsImportModal(defaultTab = 'find') {
+        clearStudioError();
+        if (singleCandidateErrorBox) {
+          singleCandidateErrorBox.style.display = 'none';
+          singleCandidateErrorBox.textContent = '';
+        }
+        switchSourcingTab(typeof defaultTab === 'string' ? defaultTab : 'find');
+        const focusTarget =
+          sourcingState.activeTab === 'single'
+            ? (singleBizNameInput || sourcingTabSingleBtn)
+            : sourcingState.activeTab === 'upload'
+              ? (mapsFileInput || sourcingTabUploadBtn)
+              : (sourcingTabFindBtn || closeMapsImportBtn);
+        openModal(mapsImportModalOverlay, focusTarget);
+      }
+
+      populateSourcingCityDropdowns();
+      renderSourcingNicheChips();
+      renderSourcingCityChips();
+      applySourcingStrategyPreset('bleeders');
+
+      // Strategy Preset Cards
+      document.querySelectorAll('.preset-card-btn[data-source-preset]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-source-preset');
+          if (key) applySourcingStrategyPreset(key);
+        });
+      });
+
+      // Industry & City Quick Select Buttons
+      if (discoverSelectTopNichesBtn) {
+        discoverSelectTopNichesBtn.addEventListener('click', () => {
+          sourcingState.selectedNiches = new Set(SOURCING_TOP_HOME_NICHES);
+          renderSourcingNicheChips();
+          updateSourcingSummary();
+        });
+      }
+      if (discoverClearNichesBtn) {
+        discoverClearNichesBtn.addEventListener('click', () => {
+          sourcingState.selectedNiches.clear();
+          renderSourcingNicheChips();
+          updateSourcingSummary();
+        });
+      }
+      [
+        [discoverRegionBrowardBtn, SOURCING_REGION_PRESETS.broward],
+        [discoverRegionMiamiBtn, SOURCING_REGION_PRESETS.miami],
+        [discoverRegionPalmBtn, SOURCING_REGION_PRESETS.palm],
+        [discoverRegionKeysBtn, SOURCING_REGION_PRESETS.keys]
+      ].forEach(([btnEl, cityList]) => {
+        if (!btnEl) return;
+        btnEl.addEventListener('click', () => {
+          sourcingState.selectedCities = new Set(cityList);
+          renderSourcingCityChips();
+          updateSourcingSummary();
+        });
+      });
+      if (discoverClearCitiesBtn) {
+        discoverClearCitiesBtn.addEventListener('click', () => {
+          sourcingState.selectedCities.clear();
+          renderSourcingCityChips();
+          updateSourcingSummary();
+        });
+      }
+      if (discoverAddCitySelect) {
+        discoverAddCitySelect.addEventListener('change', () => {
+          const picked = discoverAddCitySelect.value.trim();
+          if (!picked) return;
+          sourcingState.selectedCities.add(picked);
+          renderSourcingCityChips();
+          updateSourcingSummary();
+          discoverAddCitySelect.value = '';
+        });
+      }
+
+      [
+        discoverCustomKeywordInput,
+        discoverRankMinInput,
+        discoverRankMaxInput,
+        discoverMinReviewsInput,
+        discoverMaxReviewsInput,
+        discoverWebsiteFilterSelect,
+        discoverMinRatingSelect,
+        discoverTargetTierSelect
+      ].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', () => {
+          if (el !== discoverCustomKeywordInput) syncPresetButtonsUi('custom');
+          updateSourcingSummary();
+        });
+        el.addEventListener('change', () => {
+          if (el !== discoverCustomKeywordInput) syncPresetButtonsUi('custom');
+          updateSourcingSummary();
+        });
+      });
+
+      function validateStudioDiscoveryConfig(config) {
+        if (config.cities.length === 0) {
+          return 'Please pick at least one South Florida city to search.';
+        }
+        if (config.niches.length === 0 && !config.keyword) {
+          return 'Please pick at least one industry or enter a custom search keyword.';
+        }
+        if (config.cities.length * config.niches.length > 12) {
+          return `Please select up to 12 city × industry combinations at once (currently ${config.cities.length} × ${config.niches.length} = ${config.cities.length * config.niches.length}).`;
+        }
+        return null;
+      }
+
+      if (previewMapsDiscoveryBtn) {
+        previewMapsDiscoveryBtn.addEventListener('click', async () => {
+          if (sourcingState.isBusy) return;
+          clearStudioError();
+          const config = readStudioDiscoveryConfig();
+          const err = validateStudioDiscoveryConfig(config);
+          if (err) {
+            showStudioError(err);
+            return;
+          }
+          setSourcingBusyState(true, 'preview');
+          try {
+            const result = await executeMapsDiscovery(config, { previewOnly: true });
+            if (result.unauthorized) return;
+            if (!result.ok) {
+              showStudioError(result.error);
+              return;
+            }
+            renderDiscoveryPreview(result.data);
+          } finally {
+            setSourcingBusyState(false);
+          }
+        });
+      }
+
+      if (discoverPreviewSelectAllBtn) {
+        discoverPreviewSelectAllBtn.addEventListener('click', () => {
+          sourcingState.selectedPreviewKeys = new Set(
+            sourcingState.previewCandidates.map((c, idx) => getPreviewCandidateKey(c, idx))
+          );
+          if (discoverPreviewTableBody) {
+            discoverPreviewTableBody.querySelectorAll('.preview-cand-checkbox').forEach((chk) => {
+              chk.checked = true;
+            });
+          }
+          syncPreviewSelectionCountUi();
+        });
+      }
+
+      if (discoverPreviewClearSelBtn) {
+        discoverPreviewClearSelBtn.addEventListener('click', () => {
+          sourcingState.selectedPreviewKeys.clear();
+          if (discoverPreviewTableBody) {
+            discoverPreviewTableBody.querySelectorAll('.preview-cand-checkbox').forEach((chk) => {
+              chk.checked = false;
+            });
+          }
+          syncPreviewSelectionCountUi();
+        });
+      }
+
+      if (importSelectedPreviewBtn) {
+        importSelectedPreviewBtn.addEventListener('click', async () => {
+          if (sourcingState.isBusy) return;
+          const selected = sourcingState.previewCandidates.filter((c, idx) =>
+            sourcingState.selectedPreviewKeys.has(getPreviewCandidateKey(c, idx))
+          );
+          if (selected.length === 0) {
+            showStudioError('Select at least one company from the preview table to add.');
+            return;
+          }
+          clearStudioError();
+          setSourcingBusyState(true);
+          importSelectedPreviewBtn.textContent = `⏳ Adding ${selected.length}...`;
+          try {
+            const res = await fetch('/api/crm/outreach', {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                candidates: selected,
+                require_south_fl: requireSouthFlCheckbox ? requireSouthFlCheckbox.checked : true,
+                auto_enrich_top: autoEnrichTopCheckbox ? autoEnrichTopCheckbox.checked : true
+              })
+            });
+            if (res.status === 401) {
+              handleUnauthorizedResponse();
+              return;
+            }
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              showStudioError(data.error || 'Could not add selected companies.');
+              return;
+            }
+            captureCrmEvent('outreach_discovery_imported', {
+              mode: 'preview_selected',
+              inserted: data.inserted || 0,
+              updated: data.updated || 0
+            });
+            if (discoverPreviewPanel) discoverPreviewPanel.hidden = true;
+            await finishOutreachImportAndRefresh(
+              `Added ${data.inserted || 0} new & updated ${data.updated || 0} candidate companies in your Outreach queue!`
+            );
+          } catch (_) {
+            showStudioError('Network error while adding selected companies.');
+          } finally {
+            setSourcingBusyState(false);
+          }
+        });
+      }
+
+      if (mapsDiscoveryForm) {
+        mapsDiscoveryForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (sourcingState.isBusy) return;
+          clearStudioError();
+          const config = readStudioDiscoveryConfig();
+          const err = validateStudioDiscoveryConfig(config);
+          if (err) {
+            showStudioError(err);
+            return;
+          }
+          setSourcingBusyState(true, 'run');
+          try {
+            const result = await executeMapsDiscovery(config, { previewOnly: false });
+            if (result.unauthorized) return;
+            if (!result.ok) {
+              showStudioError(result.error);
+              return;
+            }
+            const data = result.data || {};
+            captureCrmEvent('outreach_discovery_imported', {
+              mode: 'direct_studio',
+              queries_run: data.queries_run || 1,
+              inserted: data.inserted || 0,
+              updated: data.updated || 0
+            });
+            if (discoverPreviewPanel) discoverPreviewPanel.hidden = true;
+            await finishOutreachImportAndRefresh(
+              `Found ${data.parsed || 0} companies — added ${data.inserted || 0} new & updated ${data.updated || 0} (${data.auto_enriched || 0} auto-enriched)!`
+            );
+          } finally {
+            setSourcingBusyState(false);
+          }
+        });
+      }
+
+      // Inline Quick Company Finder Bar Handlers
+      if (outreachQuickFinderForm) {
+        outreachQuickFinderForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (sourcingState.isBusy) return;
+          const presetKey = quickSourcePreset ? quickSourcePreset.value : 'bleeders';
+          const preset = SOURCING_STRATEGY_PRESETS[presetKey] || SOURCING_STRATEGY_PRESETS.bleeders;
+          const rawNiche = quickSourceNiche ? quickSourceNiche.value : 'Roofing';
+          const rawCity = quickSourceCity ? quickSourceCity.value : 'Pembroke Pines';
+
+          const niches = rawNiche === 'top_home_services' ? [...SOURCING_TOP_HOME_NICHES] : [rawNiche];
+          let cities = rawCity === 'top_broward' ? [...SOURCING_REGION_PRESETS.broward] : [rawCity];
+          if (cities.length * niches.length > 12) {
+            cities = cities.slice(0, Math.max(1, Math.floor(12 / niches.length)));
+          }
+
+          setSourcingBusyState(true, 'quick');
+          try {
+            const result = await executeMapsDiscovery({
+              cities,
+              niches,
+              keyword: '',
+              minRank: preset.minRank,
+              maxRank: preset.maxRank,
+              minReviews: preset.minReviews,
+              maxReviews: preset.maxReviews,
+              websiteFilter: preset.websiteFilter,
+              minRating: parseFloat(preset.minRating) || 0,
+              targetTier: preset.targetTier,
+              auditWebsites: true,
+              autoEnrichTop: true,
+              requireSouthFl: true
+            }, { previewOnly: false });
+
+            if (result.unauthorized) return;
+            if (!result.ok) {
+              showToast(result.error || 'Could not find candidate companies.');
+              return;
+            }
+            const data = result.data || {};
+            captureCrmEvent('outreach_discovery_imported', {
+              mode: 'quick_finder',
+              preset: presetKey,
+              inserted: data.inserted || 0,
+              updated: data.updated || 0
+            });
+            await finishOutreachImportAndRefresh(
+              `Found ${data.parsed || 0} companies — added ${data.inserted || 0} new & updated ${data.updated || 0}!`,
+              { closeStudio: false }
+            );
+          } finally {
+            setSourcingBusyState(false);
+          }
+        });
+      }
+
+      if (quickSourceAdvancedBtn) {
+        quickSourceAdvancedBtn.addEventListener('click', () => {
+          const presetKey = quickSourcePreset ? quickSourcePreset.value : 'bleeders';
+          const rawNiche = quickSourceNiche ? quickSourceNiche.value : 'Roofing';
+          const rawCity = quickSourceCity ? quickSourceCity.value : 'Pembroke Pines';
+          sourcingState.selectedNiches = new Set(
+            rawNiche === 'top_home_services' ? SOURCING_TOP_HOME_NICHES : [rawNiche]
+          );
+          sourcingState.selectedCities = new Set(
+            rawCity === 'top_broward' ? SOURCING_REGION_PRESETS.broward : [rawCity]
+          );
+          renderSourcingNicheChips();
+          renderSourcingCityChips();
+          applySourcingStrategyPreset(presetKey);
+          openMapsImportModal('find');
+        });
+      }
+
+      // Tab 2: Add Single Company Handler
+      if (singleCandidateForm) {
+        singleCandidateForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (singleCandidateErrorBox) {
+            singleCandidateErrorBox.style.display = 'none';
+            singleCandidateErrorBox.textContent = '';
+          }
+          const bizName = singleBizNameInput ? singleBizNameInput.value.trim() : '';
+          if (!bizName) {
+            if (singleCandidateErrorBox) {
+              singleCandidateErrorBox.textContent = 'Company Name is required.';
+              singleCandidateErrorBox.style.display = 'block';
+            }
+            if (singleBizNameInput) singleBizNameInput.focus();
+            return;
+          }
+
+          const payload = {
+            business_name: bizName,
+            founder_name: (singleFounderInput && singleFounderInput.value.trim()) || 'Owner',
+            founder_title: (singleTitleInput && singleTitleInput.value.trim()) || 'Owner',
+            niche: (singleNicheSelect && singleNicheSelect.value) || 'Local Business',
+            city: (singleCitySelect && singleCitySelect.value) || 'Pembroke Pines',
+            state: 'FL',
+            website: singleWebsiteInput ? singleWebsiteInput.value.trim() : '',
+            phone: singlePhoneInput ? singlePhoneInput.value.trim() : '',
+            email: singleEmailInput ? singleEmailInput.value.trim() : '',
+            notes: singleNotesInput ? singleNotesInput.value.trim() : ''
+          };
+          if (singleRankInput && singleRankInput.value.trim() !== '') {
+            payload.gbp_rank = Number(singleRankInput.value.trim());
+          }
+          if (singleReviewsInput && singleReviewsInput.value.trim() !== '') {
+            payload.review_count = Number(singleReviewsInput.value.trim());
+          }
+          if (singleRatingInput && singleRatingInput.value.trim() !== '') {
+            payload.rating = Number(singleRatingInput.value.trim());
+          }
+
+          if (submitSingleCandidateBtn) {
+            submitSingleCandidateBtn.disabled = true;
+            submitSingleCandidateBtn.textContent = '⏳ Saving Company...';
+          }
+
+          try {
+            const res = await fetch('/api/crm/outreach', {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (res.status === 401) {
+              handleUnauthorizedResponse();
+              return;
+            }
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              if (singleCandidateErrorBox) {
+                singleCandidateErrorBox.textContent = data.error || 'Could not add company.';
+                singleCandidateErrorBox.style.display = 'block';
+              }
+              return;
+            }
+            captureCrmEvent('outreach_single_company_added', { niche: payload.niche, city: payload.city });
+            singleCandidateForm.reset();
+            await finishOutreachImportAndRefresh(`Added ${bizName} to your Outreach queue!`);
+          } catch (_) {
+            if (singleCandidateErrorBox) {
+              singleCandidateErrorBox.textContent = 'Network error while saving company.';
+              singleCandidateErrorBox.style.display = 'block';
+            }
+          } finally {
+            if (submitSingleCandidateBtn) {
+              submitSingleCandidateBtn.disabled = false;
+              submitSingleCandidateBtn.textContent = '➕ Add Company to Outreach List';
+            }
+          }
+        });
+      }
+
+      openMapsImportBtn.addEventListener('click', () => openMapsImportModal('find'));
+      importMapsBtn.addEventListener('click', () => openMapsImportModal('find'));
       closeMapsImportBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
       cancelMapsImportBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
+      if (cancelSingleTabBtn) cancelSingleTabBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
+      if (cancelUploadTabBtn) cancelUploadTabBtn.addEventListener('click', () => closeModal(mapsImportModalOverlay));
 
       mapsFileInput.addEventListener('change', (e) => {
         const file = e.target.files && e.target.files[0];
@@ -6893,14 +8598,21 @@
         submitMapsImportBtn.textContent = '⏳ Importing & Scoring...';
 
         try {
+          const requireSouthFlVal = uploadRequireSouthFlCheckbox
+            ? uploadRequireSouthFlCheckbox.checked
+            : (requireSouthFlCheckbox ? requireSouthFlCheckbox.checked : true);
+          const autoEnrichVal = uploadAutoEnrichTopCheckbox
+            ? uploadAutoEnrichTopCheckbox.checked
+            : (autoEnrichTopCheckbox ? autoEnrichTopCheckbox.checked : true);
+
           const res = await fetch('/api/crm/outreach', {
             method: 'POST',
             credentials: 'same-origin',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               raw_text: rawText,
-              require_south_fl: requireSouthFlCheckbox.checked,
-              auto_enrich_top: autoEnrichTopCheckbox.checked
+              require_south_fl: requireSouthFlVal,
+              auto_enrich_top: autoEnrichVal
             })
           });
           if (res.status === 401) {
@@ -6916,12 +8628,9 @@
             });
             mapsRawTextInput.value = '';
             mapsFileInput.value = '';
-            closeModal(mapsImportModalOverlay);
-            state.outreachOffset = 0;
-            applyViewLayout('outreach');
-            syncUrlFromState();
-            await fetchOutreach();
-            showToast(`Imported ${data.inserted || 0} South FL candidates (${data.auto_enriched || 0} auto-enriched)!`);
+            await finishOutreachImportAndRefresh(
+              `Imported ${data.inserted || 0} South FL candidates (${data.auto_enriched || 0} auto-enriched)!`
+            );
           } else {
             showToast(data.error || 'Import failed.');
           }
@@ -7170,12 +8879,9 @@
           }
           const data = await res.json().catch(() => ({}));
           if (res.ok) {
-            closeModal(mapsImportModalOverlay);
-            state.outreachOffset = 0;
-            applyViewLayout('outreach');
-            syncUrlFromState();
-            await fetchOutreach();
-            showToast(`Loaded ${data.inserted || starterCandidates.length} South FL Google Maps Bleeder candidates!`);
+            await finishOutreachImportAndRefresh(
+              `Loaded ${data.inserted || starterCandidates.length} South FL Google Maps Bleeder candidates!`
+            );
           } else {
             showToast(data.error || 'Failed to load starter batch.');
           }
@@ -7183,7 +8889,7 @@
           showToast('Failed to load starter batch.');
         } finally {
           loadSampleMapsBtn.disabled = false;
-          loadSampleMapsBtn.textContent = '🚀 Load South FL Sample Batch';
+          loadSampleMapsBtn.textContent = '⚡ Load Sample Demo Batch';
         }
       });
 

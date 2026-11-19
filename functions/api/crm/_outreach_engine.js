@@ -20,7 +20,25 @@ function getTimeoutSignal(ms = 8000) {
  * Shared across discovery, candidate building, and API upserts.
  */
 export function buildCanonicalDocNumberFromPlaceId(placeId) {
-  const cleaned = String(placeId || '').replace(/[^a-zA-Z0-9]/g, '').slice(-14).toUpperCase();
+  const raw = String(placeId || '').trim();
+  if (!raw) {
+    return `MAP_${Date.now().toString(36).toUpperCase()}`;
+  }
+
+  // Deterministic collision-free doc_number for synthetic/fixture Maps place_ids
+  const syntheticMatch = raw.match(/^ChIJ_(?:bleed|leader)(\d+)_([a-z0-9]+)_([a-z0-9]+)$/i);
+  if (syntheticMatch) {
+    const [, rankDigits, cityPart, nichePart] = syntheticMatch;
+    return `MAP_${cityPart.slice(0, 6)}${nichePart.slice(0, 4)}${rankDigits}`.toUpperCase();
+  }
+
+  const fixMatch = raw.match(/^ChIJ_FIX_([A-Z0-9]+)_([A-Z0-9]+)_(\d+)$/i);
+  if (fixMatch) {
+    const [, cityPart, nichePart, rankDigits] = fixMatch;
+    return `MAP_FIX_${cityPart.slice(0, 4)}${nichePart.slice(0, 4)}${rankDigits}`.toUpperCase();
+  }
+
+  const cleaned = raw.replace(/[^a-zA-Z0-9]/g, '').slice(-14).toUpperCase();
   return cleaned ? `MAP_${cleaned}` : `MAP_${Date.now().toString(36).toUpperCase()}`;
 }
 
@@ -1641,10 +1659,12 @@ export async function auditCandidateWebsite(websiteOrUrl, options = {}) {
 export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput = 'Roofing') {
   const cityMeta = matchSouthFloridaLocation(cityInput, '', 'FL');
   const city = cityMeta.isSouthFlorida ? cityMeta.city : (normalizeSouthFlCity(cityInput) || 'Pembroke Pines');
+  const county = cityMeta.county || 'Broward County';
   const classification = classifyAndScoreBusiness(nicheInput, cityMeta, nicheInput);
   const niche = NICHE_RULES.find(r => r.niche.toLowerCase() === String(nicheInput || '').toLowerCase())?.niche || classification.niche || 'Roofing';
   const citySlug = city.toLowerCase().replace(/[^a-z0-9]/g, '');
   const nicheSlug = niche.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const isDefaultFixture = city === 'Pembroke Pines' && niche === 'Roofing';
 
   const zipByCity = {
     'Pembroke Pines': '33028',
@@ -1658,6 +1678,11 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
     'Plantation': '33324',
     'Doral': '33178',
     'Miami': '33134',
+    'Miami Gardens': '33055',
+    'Coral Gables': '33134',
+    'Aventura': '33180',
+    'Delray Beach': '33444',
+    'West Palm Beach': '33401',
     'Boca Raton': '33432',
     'Key West': '33040',
     'Key Largo': '33037',
@@ -1665,8 +1690,65 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
     'Islamorada': '33036',
     'Tavernier': '33070'
   };
-  const zip = zipByCity[city] || '33028';
+  let zip = zipByCity[city];
+  if (!zip) {
+    const cityUpper = city.toUpperCase();
+    for (const [z, mappedCity] of SOUTH_FL_ZIP_CITIES.entries()) {
+      if (mappedCity === cityUpper) {
+        zip = z;
+        break;
+      }
+    }
+  }
+  if (!zip) {
+    zip = county === 'Palm Beach County' ? '33401' : county === 'Miami-Dade County' ? '33134' : county === 'Monroe County' ? '33040' : '33028';
+  }
 
+  const areaCodes = county === 'Palm Beach County'
+    ? ['561', '561']
+    : (county === 'Miami-Dade County' || county === 'Monroe County')
+      ? ['305', '786']
+      : ['954', '754'];
+
+  let seed = 0;
+  const seedKey = `${citySlug}:${nicheSlug}`;
+  for (let i = 0; i < seedKey.length; i++) {
+    seed = (seed * 31 + seedKey.charCodeAt(i)) >>> 0;
+  }
+
+  const FOUNDER_POOL = [
+    'Carlos Mendoza',
+    'David Morales',
+    'Michael Castellanos',
+    'Roberto Alvarez',
+    'Steven Henao',
+    'Daniel Quintero',
+    'Elena Navarro',
+    'Anthony Russo',
+    'Jorge Diaz',
+    'Sofia Delgado',
+    'Marco Silva',
+    'Luis Herrera',
+    'Gabriel Torres',
+    'Natalie Vega',
+    'Kevin Brooks',
+    'Rachel Fernandez'
+  ];
+
+  const pickFounder = (idx, defaultName) => {
+    if (isDefaultFixture) return defaultName;
+    return FOUNDER_POOL[(seed + idx * 3 + 6) % FOUNDER_POOL.length];
+  };
+
+  const pickPhone = (idx, defaultPhone) => {
+    if (isDefaultFixture) return defaultPhone;
+    const area = areaCodes[(seed + idx) % areaCodes.length];
+    const exch = 210 + ((seed + idx * 79) % 740);
+    const line = String(1100 + ((seed * 13 + idx * 317) % 8800)).padStart(4, '0');
+    return `(${area}) ${exch}-${line}`;
+  };
+
+  const leaderArea = areaCodes[0];
   const nicheShort = niche.split(/[&\s]+/)[0];
 
   return [
@@ -1682,7 +1764,7 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       rating: { value: 4.9, votes_count: 148 },
       domain: `${citySlug}premier${nicheSlug}.com`,
       url: `https://${citySlug}premier${nicheSlug}.com`,
-      phone: '(954) 555-0101',
+      phone: `(${leaderArea}) 555-0101`,
       address_info: { address: `101 Pines Blvd`, city, zip, region: 'FL' },
       is_closed: false
     },
@@ -1697,7 +1779,7 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       rating: { value: 4.8, votes_count: 112 },
       domain: `allstarsfl${nicheSlug}.com`,
       url: `https://allstarsfl${nicheSlug}.com`,
-      phone: '(954) 555-0102',
+      phone: `(${leaderArea}) 555-0102`,
       address_info: { address: `240 Flamingo Rd`, city, zip, region: 'FL' },
       is_closed: false
     },
@@ -1712,7 +1794,7 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       rating: { value: 4.8, votes_count: 89 },
       domain: `goldcoast${nicheSlug}fl.com`,
       url: `https://goldcoast${nicheSlug}fl.com`,
-      phone: '(954) 555-0103',
+      phone: `(${leaderArea}) 555-0103`,
       address_info: { address: `880 University Dr`, city, zip, region: 'FL' },
       is_closed: false
     },
@@ -1729,10 +1811,10 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       rating: { value: 4.9, votes_count: 42 },
       domain: `apex${citySlug}${nicheSlug}.com`,
       url: `https://apex${citySlug}${nicheSlug}.com`,
-      phone: '(954) 612-4410',
-      address_info: { address: `11420 Pines Blvd Ste 204`, city, zip, region: 'FL' },
+      phone: pickPhone(0, '(954) 612-4410'),
+      address_info: { address: isDefaultFixture ? `11420 Pines Blvd Ste 204` : `11420 Main Blvd Ste 204`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'Carlos Mendoza',
+      founder_name: pickFounder(0, 'Carlos Mendoza'),
       founder_title: 'Owner',
       fixture_diagnostic: {
         website_status: 'slow',
@@ -1746,17 +1828,17 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       type: 'maps_search',
       rank_group: 9,
       rank_absolute: 9,
-      title: `Atlantic Shield ${nicheShort} & Masters`,
+      title: isDefaultFixture ? `Atlantic Shield ${nicheShort} & Masters` : `${city} Shield ${nicheShort} & Masters`,
       place_id: `ChIJ_bleed09_${citySlug}_${nicheSlug}`,
       cid: `9009_${citySlug}_${nicheSlug}`,
       category: `${nicheShort} Contractor`,
       rating: { value: 4.8, votes_count: 31 },
       domain: null,
       url: null,
-      phone: '(954) 703-8821',
-      address_info: { address: `6800 Dykes Rd`, city, zip, region: 'FL' },
+      phone: pickPhone(1, '(954) 703-8821'),
+      address_info: { address: isDefaultFixture ? `6800 Dykes Rd` : `6800 Commerce Way`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'David Morales',
+      founder_name: pickFounder(1, 'David Morales'),
       founder_title: 'President',
       fixture_diagnostic: {
         website_status: 'missing',
@@ -1770,17 +1852,17 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       type: 'maps_search',
       rank_group: 11,
       rank_absolute: 11,
-      title: `Broward Precision ${nicheShort} Group`,
+      title: isDefaultFixture ? `Broward Precision ${nicheShort} Group` : `${city} Precision ${nicheShort} Group`,
       place_id: `ChIJ_bleed11_${citySlug}_${nicheSlug}`,
       cid: `9011_${citySlug}_${nicheSlug}`,
       category: `${nicheShort} Service`,
       rating: { value: 4.9, votes_count: 37 },
-      domain: `precision${nicheSlug}broward.com`,
-      url: `https://precision${nicheSlug}broward.com`,
-      phone: '(954) 819-3304',
-      address_info: { address: `1850 NW 122nd Ter`, city, zip, region: 'FL' },
+      domain: isDefaultFixture ? `precision${nicheSlug}broward.com` : `precision${nicheSlug}${citySlug}.com`,
+      url: isDefaultFixture ? `https://precision${nicheSlug}broward.com` : `https://precision${nicheSlug}${citySlug}.com`,
+      phone: pickPhone(2, '(954) 819-3304'),
+      address_info: { address: isDefaultFixture ? `1850 NW 122nd Ter` : `1850 NW 22nd Ave`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'Michael Castellanos',
+      founder_name: pickFounder(2, 'Michael Castellanos'),
       founder_title: 'Managing Member',
       fixture_diagnostic: {
         website_status: 'unoptimized',
@@ -1794,17 +1876,17 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       type: 'maps_search',
       rank_group: 14,
       rank_absolute: 14,
-      title: `Sunshine State ${nicheShort} Specialists`,
+      title: isDefaultFixture ? `Sunshine State ${nicheShort} Specialists` : `Sunshine ${city} ${nicheShort} Specialists`,
       place_id: `ChIJ_bleed14_${citySlug}_${nicheSlug}`,
       cid: `9014_${citySlug}_${nicheSlug}`,
       category: `${nicheShort} Contractor`,
       rating: { value: 4.7, votes_count: 19 },
       domain: `sunshine${nicheSlug}${citySlug}.com`,
       url: `http://sunshine${nicheSlug}${citySlug}.com`,
-      phone: '(754) 224-9105',
-      address_info: { address: `420 SW 145th Ave`, city, zip, region: 'FL' },
+      phone: pickPhone(3, '(754) 224-9105'),
+      address_info: { address: isDefaultFixture ? `420 SW 145th Ave` : `420 SW 14th Ave`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'Roberto Alvarez',
+      founder_name: pickFounder(3, 'Roberto Alvarez'),
       founder_title: 'Owner',
       fixture_diagnostic: {
         website_status: 'broken',
@@ -1818,17 +1900,17 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       type: 'maps_search',
       rank_group: 17,
       rank_absolute: 17,
-      title: `Tri-County Elite ${nicheShort}`,
+      title: isDefaultFixture ? `Tri-County Elite ${nicheShort}` : `${city} Elite ${nicheShort}`,
       place_id: `ChIJ_bleed17_${citySlug}_${nicheSlug}`,
       cid: `9017_${citySlug}_${nicheSlug}`,
       category: `${nicheShort} Service`,
       rating: { value: 4.8, votes_count: 23 },
-      domain: `tricountyelite${nicheSlug}.com`,
-      url: `https://tricountyelite${nicheSlug}.com`,
-      phone: '(954) 391-6720',
-      address_info: { address: `9900 Sheridan St`, city, zip, region: 'FL' },
+      domain: isDefaultFixture ? `tricountyelite${nicheSlug}.com` : `${citySlug}elite${nicheSlug}.com`,
+      url: isDefaultFixture ? `https://tricountyelite${nicheSlug}.com` : `https://${citySlug}elite${nicheSlug}.com`,
+      phone: pickPhone(4, '(954) 391-6720'),
+      address_info: { address: isDefaultFixture ? `9900 Sheridan St` : `9900 Griffin Rd`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'Steven Henao',
+      founder_name: pickFounder(4, 'Steven Henao'),
       founder_title: 'Founder',
       fixture_diagnostic: {
         website_status: 'unoptimized',
@@ -1849,10 +1931,10 @@ export function getOfflineMapsFixture(cityInput = 'Pembroke Pines', nicheInput =
       rating: { value: 5.0, votes_count: 8 },
       domain: null,
       url: `https://facebook.com/${citySlug}nextgen${nicheSlug}`,
-      phone: '(954) 448-1920',
-      address_info: { address: `1600 Hiatus Rd`, city, zip, region: 'FL' },
+      phone: pickPhone(5, '(954) 448-1920'),
+      address_info: { address: isDefaultFixture ? `1600 Hiatus Rd` : `1600 Palm Ave`, city, zip, region: 'FL' },
       is_closed: false,
-      founder_name: 'Daniel Quintero',
+      founder_name: pickFounder(5, 'Daniel Quintero'),
       founder_title: 'Owner',
       fixture_diagnostic: {
         website_status: 'missing',
@@ -2033,7 +2115,7 @@ export async function discoverMapsBleedersViaDataForSeo(options = {}, envArg = n
     const itemZip = String(item.address_info?.zip || item.zip || '').trim();
 
     const candidateRecord = buildCandidateRecord({
-      id: `gbp_${placeId.toLowerCase().replace(/[^a-z0-9]/g, '').slice(-20)}`,
+      id: `gbp_${placeId.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 64)}`,
       doc_number: docNumber,
       place_id: placeId,
       cid,
@@ -2156,7 +2238,7 @@ export function buildCandidateRecord(raw, options = { requireSouthFlorida: true,
     : (['in_cadence', 'emailed', 'promoted'].includes(outreachStatus) ? 1 : 0);
 
   return {
-    id: raw.id || (placeId ? `gbp_${String(placeId).toLowerCase().replace(/[^a-z0-9]/g, '').slice(-20)}` : `map_${docNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}`),
+    id: raw.id || (placeId ? `gbp_${String(placeId).toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 64)}` : `map_${docNumber.toLowerCase().replace(/[^a-z0-9]/g, '')}`),
     doc_number: docNumber,
     place_id: placeId ? String(placeId).trim() : null,
     cid: raw.cid ? String(raw.cid).trim() : null,
