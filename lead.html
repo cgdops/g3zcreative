@@ -3,7 +3,7 @@
 <head>
   <meta name="robots" content="noindex, follow">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Lead Details — G3Z Creative CRM</title>
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
@@ -58,6 +58,7 @@
 
     html {
       color-scheme: dark;
+      scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
     }
 
     html, body {
@@ -121,9 +122,9 @@
       white-space: nowrap;
     }
 
-    :where(a, button, input, select, textarea, summary):focus-visible {
+    :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
       outline: 2px solid var(--info);
-      outline-offset: 2px;
+      outline-offset: 3px;
     }
 
     header {
@@ -238,7 +239,7 @@
       width: 100%;
       max-width: 1440px;
       margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem;
+      padding: 1.5rem 1.25rem calc(5.5rem + env(safe-area-inset-bottom, 0px));
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 490px);
       gap: 1.5rem;
@@ -965,7 +966,7 @@
     }
     .app-toast {
       position: fixed;
-      bottom: 1.25rem;
+      bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
       right: 1.25rem;
       z-index: 2500;
       background: #1e293b;
@@ -1674,6 +1675,130 @@
       color: #052e16;
     }
 
+    /* Bottom Corner Pipeline Lead Navigation */
+    @media (min-width: 1121px) and (max-width: 2000px) {
+      .playbook-sidebar {
+        max-height: calc(100vh - 11rem);
+        max-height: calc(100dvh - 11rem);
+      }
+    }
+
+    .lead-pager-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 150;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 0.75rem;
+      pointer-events: none;
+      padding: 0 max(1.25rem, env(safe-area-inset-right, 0px)) max(1.1rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px));
+    }
+    .lead-pager-bar.is-auth-pending {
+      visibility: hidden;
+      opacity: 0;
+    }
+    .lead-pager-btn {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      min-block-size: 48px;
+      min-inline-size: 176px;
+      max-inline-size: min(260px, calc(50vw - 1.75rem));
+      padding: 0.5rem 0.9rem;
+      background: rgba(19, 27, 46, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid #475569;
+      border-radius: 12px;
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+      transition: background-color 150ms ease-out, border-color 150ms ease-out, box-shadow 150ms ease-out, scale 150ms ease-out;
+    }
+    .lead-pager-prev:hover:not(.is-disabled) {
+      background: var(--surface-hover);
+      border-color: #94a3b8;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.68);
+    }
+    .lead-pager-next {
+      border-color: rgba(218, 16, 77, 0.65);
+      justify-content: space-between;
+    }
+    .lead-pager-next:hover:not(.is-disabled) {
+      background: var(--surface-hover);
+      border-color: var(--primary);
+      box-shadow: 0 12px 30px rgba(218, 16, 77, 0.32);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .lead-pager-btn:active:not(.is-disabled) {
+        scale: 0.98;
+      }
+    }
+    .lead-pager-btn.is-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: var(--border);
+      box-shadow: none;
+    }
+    .lead-pager-arrow {
+      min-block-size: 30px;
+      min-inline-size: 30px;
+      padding: 0 0.35rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      transition: background-color 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out;
+    }
+    .lead-pager-next .lead-pager-arrow {
+      background: var(--primary-subtle);
+      border-color: rgba(218, 16, 77, 0.45);
+      color: #ff85ab;
+    }
+    .lead-pager-next:hover:not(.is-disabled) .lead-pager-arrow {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+    .lead-pager-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-inline-size: 0;
+      flex: 1;
+      text-align: left;
+    }
+    .lead-pager-copy-right {
+      text-align: right;
+    }
+    .lead-pager-kicker {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lead-pager-name {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     @media (max-width: 1120px) {
       .lead-workspace {
         grid-template-columns: minmax(0, 1fr);
@@ -1721,7 +1846,8 @@
       .playbook-reset-btn,
       .objection-summary,
       .lead-task-btn,
-      .lead-tasks-history summary {
+      .lead-tasks-history summary,
+      .lead-pager-btn {
         min-height: 44px;
         min-width: 44px;
       }
@@ -1737,7 +1863,28 @@
         padding: 0.75rem 0.9rem;
       }
       .lead-workspace {
-        padding: 1rem 0.85rem 3rem;
+        padding: 1rem 0.85rem calc(5.5rem + env(safe-area-inset-bottom, 0px));
+      }
+      .lead-pager-bar {
+        pointer-events: auto;
+        background: rgba(11, 15, 23, 0.94);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--border);
+        padding: 0.55rem max(0.75rem, env(safe-area-inset-right, 0px)) max(0.55rem, env(safe-area-inset-bottom, 0px)) max(0.75rem, env(safe-area-inset-left, 0px));
+        gap: 0.5rem;
+      }
+      .lead-pager-btn {
+        flex: 1 1 0;
+        min-inline-size: 0;
+        max-inline-size: none;
+        min-block-size: 44px;
+        padding: 0.42rem 0.6rem;
+        gap: 0.45rem;
+      }
+      .lead-pager-arrow {
+        min-block-size: 26px;
+        min-inline-size: 26px;
+        font-size: 0.85rem;
       }
       .lead-hero {
         padding: 1.25rem 1rem;
@@ -2496,6 +2643,24 @@
   </aside>
   </div><!-- /.lead-workspace -->
 
+  <!-- Bottom Corner Pipeline Lead Navigation -->
+  <nav id="leadPagerBar" class="lead-pager-bar is-auth-pending" aria-label="Pipeline leads" inert>
+    <a id="prevLeadBtn" class="lead-pager-btn lead-pager-prev is-disabled" role="link" aria-disabled="true" tabindex="0">
+      <span class="lead-pager-arrow" aria-hidden="true">&larr;</span>
+      <span class="lead-pager-copy">
+        <span class="lead-pager-kicker" id="prevLeadKicker">Previous Lead</span>
+        <span class="lead-pager-name" id="prevLeadName">Loading...</span>
+      </span>
+    </a>
+    <a id="nextLeadBtn" class="lead-pager-btn lead-pager-next is-disabled" role="link" aria-disabled="true" tabindex="0">
+      <span class="lead-pager-copy lead-pager-copy-right">
+        <span class="lead-pager-kicker" id="nextLeadKicker">Next Lead</span>
+        <span class="lead-pager-name" id="nextLeadName">Loading...</span>
+      </span>
+      <span class="lead-pager-arrow" aria-hidden="true">&rarr;</span>
+    </a>
+  </nav>
+
   <script>
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -2565,12 +2730,24 @@
       let isCreatingTask = false;
       let isSavingOutcome = false;
       const busyTaskIds = new Set();
+      let navQueue = [];
+      let navQueueMode = null; // 'lead' | 'candidate'
+      let navQueueLoaded = false;
+      let navQueueLoadingPromise = null;
+      let navQueueSeq = 0;
 
       // Elements
       const skipLink = document.getElementById('skipLink');
       const appHeader = document.getElementById('appHeader');
       const appToast = document.getElementById('appToast');
       const backBtn = document.getElementById('backBtn');
+      const leadPagerBar = document.getElementById('leadPagerBar');
+      const prevLeadBtn = document.getElementById('prevLeadBtn');
+      const prevLeadKicker = document.getElementById('prevLeadKicker');
+      const prevLeadName = document.getElementById('prevLeadName');
+      const nextLeadBtn = document.getElementById('nextLeadBtn');
+      const nextLeadKicker = document.getElementById('nextLeadKicker');
+      const nextLeadName = document.getElementById('nextLeadName');
 
       const loginModal = document.getElementById('loginModal');
       const loginForm = document.getElementById('loginForm');
@@ -2867,7 +3044,7 @@
       let activeModalRestoreEl = null;
 
       function setBackgroundInert(isInert) {
-        [skipLink, appHeader, leadWorkspace].forEach((el) => {
+        [skipLink, appHeader, leadWorkspace, leadPagerBar].forEach((el) => {
           if (!el) return;
           el.inert = isInert;
           if (isInert) {
@@ -3024,6 +3201,14 @@
         isCreatingTask = false;
         isSavingOutcome = false;
         busyTaskIds.clear();
+        navQueueSeq += 1;
+        navQueue = [];
+        navQueueMode = null;
+        navQueueLoaded = false;
+        navQueueLoadingPromise = null;
+        if (leadPagerBar) leadPagerBar.classList.add('is-auth-pending');
+        setPagerLinkState(prevLeadBtn, null, -1, prevLeadKicker, prevLeadName, 'Previous Lead', 'Locked');
+        setPagerLinkState(nextLeadBtn, null, -1, nextLeadKicker, nextLeadName, 'Next Lead', 'Locked');
         closeModalDialog(deleteConfirmModal, { restoreFocus: false });
         if (deleteModalDesc) {
           deleteModalDesc.textContent = 'Permanently remove this contact and activity history? This action cannot be undone.';
@@ -3108,6 +3293,7 @@
       }
 
       function loadActiveRecord() {
+        ensureNavQueueLoaded(false);
         if (leadId) {
           fetchLeadDetails();
         } else if (candidateId) {
@@ -3123,6 +3309,7 @@
             identifyCrmUser(data);
             setBackgroundInert(false);
             leadWorkspace.classList.remove('is-auth-pending');
+            if (leadPagerBar) leadPagerBar.classList.remove('is-auth-pending');
             closeModalDialog(loginModal, { restoreFocus: false });
             loadActiveRecord();
           } else {
@@ -3149,6 +3336,7 @@
             passcodeInput.value = '';
             setBackgroundInert(false);
             leadWorkspace.classList.remove('is-auth-pending');
+            if (leadPagerBar) leadPagerBar.classList.remove('is-auth-pending');
             closeModalDialog(loginModal, { restoreFocus: false });
             loadActiveRecord();
             requestAnimationFrame(() => {
@@ -3611,6 +3799,11 @@
         }
         renderTimeline(notes, lead);
         syncPlaybookFromLead(lead);
+        syncCurrentRecordIntoNavQueue();
+        renderNavPager();
+        if (!navQueueLoaded || navQueueMode !== (isCandidatePreview ? 'candidate' : 'lead')) {
+          ensureNavQueueLoaded(false);
+        }
       }
 
       const TASK_TYPE_LABELS = {
@@ -4371,6 +4564,9 @@
           }
           if (res.ok) {
             captureLeadEvent('lead_deleted');
+            navQueue = navQueue.filter(
+              (item) => !(item && item.kind === 'lead' && String(item.id) === String(leadId))
+            );
             const dest = getSafeReturnHref(isOutreachLead(currentLead));
             closeModalDialog(deleteConfirmModal, { restoreFocus: false });
             window.location.href = dest;
@@ -6032,14 +6228,538 @@
           candidateId = null;
           isCandidatePreview = false;
           resetPlaybookGates();
+          renderNavPager();
+          if (!navQueueLoaded || navQueueMode !== 'lead') {
+            ensureNavQueueLoaded(false);
+          }
           fetchLeadDetails();
         } else if (poppedCandId) {
           leadId = null;
           candidateId = poppedCandId;
           isCandidatePreview = true;
           resetPlaybookGates();
+          renderNavPager();
+          if (!navQueueLoaded || navQueueMode !== 'candidate') {
+            ensureNavQueueLoaded(false);
+          }
           fetchCandidatePreview();
         }
+      });
+
+      const KANBAN_STAGE_ORDER = {
+        new: 0,
+        contacted: 1,
+        qualified: 2,
+        proposal: 3,
+        won: 4,
+        lost: 5,
+        spam: 5
+      };
+
+      function formatNavItemTitle(item) {
+        if (!item) return 'Unnamed Lead';
+        const rawName = String(item.name || '').trim();
+        const rawCompany = String(item.company || '').trim();
+        if (rawCompany && isPlaceholderFirstName(rawName, rawCompany)) {
+          return rawCompany;
+        }
+        if (rawName && rawCompany && rawName.toLowerCase() !== rawCompany.toLowerCase()) {
+          return rawName + ' \u00b7 ' + rawCompany;
+        }
+        return rawCompany || rawName || 'Unnamed Lead';
+      }
+
+      function parseReturnContext() {
+        const defaultCtx = {
+          tab: isCandidatePreview ? 'outreach' : 'list',
+          q: '',
+          status: 'all',
+          tfilter: 'all_pending',
+          ostatus: 'active',
+          niche: 'all',
+          city: 'all',
+          tier: 'all',
+          webstatus: 'all',
+          cadence: 'all',
+          contact: 'all'
+        };
+        const validRet = validateReturnUrl(rawReturnParam);
+        if (!validRet) return defaultCtx;
+        try {
+          const baseOrigin = (typeof window !== 'undefined' && window.location && window.location.origin)
+            ? window.location.origin
+            : 'https://g3zcreative.com';
+          const parsed = new URL(validRet, baseOrigin);
+          const p = parsed.searchParams;
+          const h = String(parsed.hash || '').toLowerCase();
+          let tab = (p.get('tab') || '').trim().toLowerCase();
+          if (!tab) {
+            if (h === '#kanban') tab = 'kanban';
+            else if (h === '#tasks') tab = 'tasks';
+            else if (h === '#outreach') tab = 'outreach';
+            else tab = 'list';
+          }
+          return {
+            tab,
+            q: (p.get('q') || '').trim(),
+            status: (p.get('status') || 'all').trim(),
+            tfilter: (p.get('tfilter') || 'all_pending').trim(),
+            ostatus: (p.get('ostatus') || 'active').trim(),
+            niche: (p.get('niche') || 'all').trim(),
+            city: (p.get('city') || 'all').trim(),
+            tier: (p.get('tier') || 'all').trim(),
+            webstatus: (p.get('webstatus') || 'all').trim(),
+            cadence: (p.get('cadence') || 'all').trim(),
+            contact: (p.get('contact') || 'all').trim()
+          };
+        } catch (_) {
+          return defaultCtx;
+        }
+      }
+
+      function compareNavLeadItems(a, b, tab) {
+        if (tab === 'kanban') {
+          const rankA = KANBAN_STAGE_ORDER[String((a && a.status) || 'new').toLowerCase()] ?? 6;
+          const rankB = KANBAN_STAGE_ORDER[String((b && b.status) || 'new').toLowerCase()] ?? 6;
+          if (rankA !== rankB) return rankA - rankB;
+        }
+        const da = parseUtcDate(a && a.created_at);
+        const db = parseUtcDate(b && b.created_at);
+        const ta = da ? da.getTime() : 0;
+        const tb = db ? db.getTime() : 0;
+        if (tb !== ta) return tb - ta;
+        const idA = String((a && a.id) || '');
+        const idB = String((b && b.id) || '');
+        if (idB > idA) return 1;
+        if (idB < idA) return -1;
+        return 0;
+      }
+
+      function buildNavItemHref(item) {
+        const params = new URLSearchParams();
+        if (item.kind === 'candidate') {
+          params.set('candidate_id', item.id);
+          params.set('playbook', '1');
+        } else {
+          params.set('id', item.id);
+          if (urlParams.get('playbook') === '1' || item.candidateId) {
+            params.set('playbook', '1');
+          }
+        }
+        const validRet = validateReturnUrl(rawReturnParam);
+        if (validRet) params.set('return', validRet);
+        return '/lead?' + params.toString();
+      }
+
+      function setPagerLinkState(linkEl, item, itemIdx, kickerEl, nameEl, kickerText, emptyText) {
+        if (!linkEl) return;
+        if (item) {
+          linkEl.setAttribute('href', buildNavItemHref(item));
+          linkEl.removeAttribute('role');
+          linkEl.removeAttribute('aria-disabled');
+          linkEl.removeAttribute('tabindex');
+          linkEl.classList.remove('is-disabled');
+          linkEl.dataset.navIdx = String(itemIdx);
+          const label = formatNavItemTitle(item);
+          if (kickerEl) kickerEl.textContent = kickerText;
+          if (nameEl) nameEl.textContent = label;
+          linkEl.title = kickerText + ' \u2014 ' + label;
+        } else {
+          linkEl.removeAttribute('href');
+          delete linkEl.dataset.navIdx;
+          linkEl.removeAttribute('title');
+          linkEl.setAttribute('role', 'link');
+          linkEl.setAttribute('aria-disabled', 'true');
+          linkEl.setAttribute('tabindex', '0');
+          linkEl.classList.add('is-disabled');
+          if (kickerEl) kickerEl.textContent = kickerText;
+          if (nameEl) nameEl.textContent = emptyText;
+        }
+      }
+
+      function getActiveNavQueueIndex() {
+        if (!Array.isArray(navQueue) || navQueue.length === 0) return -1;
+        if (!isCandidatePreview && leadId) {
+          const leadIdx = navQueue.findIndex(
+            (item) => item && item.kind === 'lead' && String(item.id) === String(leadId)
+          );
+          if (leadIdx !== -1) return leadIdx;
+        }
+        if (candidateId) {
+          const candIdx = navQueue.findIndex(
+            (item) => item && String(item.candidateId || (item.kind === 'candidate' ? item.id : '')) === String(candidateId)
+          );
+          if (candIdx !== -1) return candIdx;
+        }
+        if (currentCandidate && currentCandidate.id) {
+          const linkedCandIdx = navQueue.findIndex(
+            (item) => item && String(item.candidateId || '') === String(currentCandidate.id)
+          );
+          if (linkedCandIdx !== -1) return linkedCandIdx;
+        }
+        return -1;
+      }
+
+      function syncCurrentRecordIntoNavQueue() {
+        if (!navQueueLoaded) return;
+        const activeKind = isCandidatePreview ? 'candidate' : 'lead';
+        if (navQueueMode && navQueueMode !== activeKind) return;
+        const activeId = isCandidatePreview ? candidateId : leadId;
+        if (!activeId) return;
+
+        const idx = getActiveNavQueueIndex();
+        const updatedEntry = {
+          kind: activeKind,
+          id: String(activeId),
+          candidateId: (currentCandidate && currentCandidate.id)
+            ? String(currentCandidate.id)
+            : (isCandidatePreview ? String(activeId) : null),
+          name: (currentLead && currentLead.name) || (currentCandidate && currentCandidate.founder_name) || '',
+          company: (currentLead && currentLead.company) || (currentCandidate && (currentCandidate.business_name_clean || currentCandidate.business_name)) || '',
+          status: isCandidatePreview
+            ? ((currentCandidate && currentCandidate.outreach_status) || 'uncontacted')
+            : ((currentLead && currentLead.status) || 'new'),
+          created_at: (currentLead && currentLead.created_at) || (currentCandidate && (currentCandidate.created_at || currentCandidate.filing_date)) || ''
+        };
+
+        if (idx !== -1) {
+          navQueue[idx] = {
+            ...navQueue[idx],
+            ...updatedEntry,
+            created_at: updatedEntry.created_at || navQueue[idx].created_at || ''
+          };
+          return;
+        }
+
+        if (!currentLead && !currentCandidate) return;
+
+        const ctx = parseReturnContext();
+        if (activeKind === 'lead' && ctx.tab !== 'tasks') {
+          let insertAt = navQueue.findIndex((existing) => compareNavLeadItems(updatedEntry, existing, ctx.tab) < 0);
+          if (insertAt === -1) insertAt = navQueue.length;
+          navQueue.splice(insertAt, 0, updatedEntry);
+        } else {
+          navQueue.unshift(updatedEntry);
+        }
+      }
+
+      function renderNavPager() {
+        const noun = navQueueMode === 'candidate' ? 'Queue' : 'Pipeline';
+        if (!navQueueLoaded) {
+          setPagerLinkState(prevLeadBtn, null, -1, prevLeadKicker, prevLeadName, 'Previous Lead', 'Loading...');
+          setPagerLinkState(nextLeadBtn, null, -1, nextLeadKicker, nextLeadName, 'Next Lead', 'Loading...');
+          return;
+        }
+        const total = navQueue.length;
+        const idx = getActiveNavQueueIndex();
+        if (total === 0 || idx === -1) {
+          setPagerLinkState(prevLeadBtn, null, -1, prevLeadKicker, prevLeadName, 'Start of ' + noun, 'No previous lead');
+          setPagerLinkState(nextLeadBtn, null, -1, nextLeadKicker, nextLeadName, 'End of ' + noun, 'No next lead');
+          return;
+        }
+        const prevItem = idx > 0 ? navQueue[idx - 1] : null;
+        const nextItem = idx < total - 1 ? navQueue[idx + 1] : null;
+        setPagerLinkState(
+          prevLeadBtn,
+          prevItem,
+          idx - 1,
+          prevLeadKicker,
+          prevLeadName,
+          prevItem ? ('Previous \u00b7 ' + idx + ' of ' + total) : ('Start of ' + noun + ' \u00b7 1 of ' + total),
+          'No previous lead'
+        );
+        setPagerLinkState(
+          nextLeadBtn,
+          nextItem,
+          idx + 1,
+          nextLeadKicker,
+          nextLeadName,
+          nextItem ? ('Next \u00b7 ' + (idx + 2) + ' of ' + total) : ('End of ' + noun + ' \u00b7 ' + total + ' of ' + total),
+          'No next lead'
+        );
+      }
+
+      function mapLeadToNavItem(l) {
+        return {
+          kind: 'lead',
+          id: String(l.id),
+          candidateId: null,
+          name: l.name || '',
+          company: l.company || '',
+          status: l.status || 'new',
+          created_at: l.created_at || ''
+        };
+      }
+
+      function mapCandidateToNavItem(c) {
+        return {
+          kind: c.lead_id ? 'lead' : 'candidate',
+          id: String(c.lead_id || c.id),
+          candidateId: String(c.id),
+          name: c.founder_name || '',
+          company: c.business_name_clean || c.business_name || '',
+          status: c.lead_id ? 'promoted' : (c.outreach_status || 'uncontacted'),
+          created_at: c.created_at || c.filing_date || ''
+        };
+      }
+
+      async function fetchLeadsNavList(q, status, tab) {
+        const params = new URLSearchParams({
+          q: q || '',
+          status: status || 'all',
+          limit: '500'
+        });
+        const res = await fetch('/api/crm/leads?' + params.toString(), {
+          credentials: 'same-origin',
+          cache: 'no-store'
+        });
+        if (res.status === 401) return { unauthorized: true, items: [] };
+        if (!res.ok) return { unauthorized: false, items: [] };
+        const data = await res.json().catch(() => ({}));
+        const rawLeads = Array.isArray(data.leads) ? data.leads : [];
+        const mapped = rawLeads.map(mapLeadToNavItem);
+        if (tab === 'kanban') {
+          mapped.sort((a, b) => compareNavLeadItems(a, b, 'kanban'));
+        }
+        return { unauthorized: false, items: mapped };
+      }
+
+      async function fetchOutreachNavList(paramsObj) {
+        const params = new URLSearchParams(paramsObj);
+        const res = await fetch('/api/crm/outreach?' + params.toString(), {
+          credentials: 'same-origin',
+          cache: 'no-store'
+        });
+        if (res.status === 401) return { unauthorized: true, items: [] };
+        if (!res.ok) return { unauthorized: false, items: [] };
+        const data = await res.json().catch(() => ({}));
+        const rawCandidates = Array.isArray(data.candidates) ? data.candidates : [];
+        return { unauthorized: false, items: rawCandidates.map(mapCandidateToNavItem) };
+      }
+
+      async function ensureNavQueueLoaded(forceReload) {
+        const targetMode = isCandidatePreview ? 'candidate' : 'lead';
+        if (!forceReload && navQueueLoaded && navQueueMode === targetMode) {
+          syncCurrentRecordIntoNavQueue();
+          renderNavPager();
+          return;
+        }
+        if (navQueueLoadingPromise && !forceReload && navQueueMode === targetMode) {
+          return navQueueLoadingPromise;
+        }
+
+        const seq = ++navQueueSeq;
+        navQueueMode = targetMode;
+        if (forceReload) {
+          navQueueLoaded = false;
+          renderNavPager();
+        }
+
+        const ctx = parseReturnContext();
+
+        const promise = (async () => {
+          try {
+            let items = [];
+            if (targetMode === 'lead') {
+              if (ctx.tab === 'tasks') {
+                const taskParams = new URLSearchParams({
+                  filter: ctx.tfilter || 'all_pending',
+                  q: ctx.q || '',
+                  limit: '500'
+                });
+                const res = await fetch('/api/crm/tasks?' + taskParams.toString(), {
+                  credentials: 'same-origin',
+                  cache: 'no-store'
+                });
+                if (res.status === 401) {
+                  handleUnauthorizedSession();
+                  return;
+                }
+                if (res.ok) {
+                  const data = await res.json().catch(() => ({}));
+                  const tasks = Array.isArray(data.tasks) ? data.tasks : [];
+                  const seenIds = new Set();
+                  tasks.forEach((task) => {
+                    if (!task || !task.lead_id) return;
+                    const idStr = String(task.lead_id);
+                    if (seenIds.has(idStr)) return;
+                    seenIds.add(idStr);
+                    items.push({
+                      kind: 'lead',
+                      id: idStr,
+                      candidateId: null,
+                      name: task.lead_name || '',
+                      company: task.lead_company || '',
+                      status: task.lead_status || 'new',
+                      created_at: task.lead_created_at || task.created_at || ''
+                    });
+                  });
+                }
+                if (items.length === 0) {
+                  const fallback = await fetchLeadsNavList('', 'all', 'list');
+                  if (fallback.unauthorized) {
+                    handleUnauthorizedSession();
+                    return;
+                  }
+                  items = fallback.items;
+                }
+              } else {
+                const primary = await fetchLeadsNavList(ctx.q, ctx.status, ctx.tab);
+                if (primary.unauthorized) {
+                  handleUnauthorizedSession();
+                  return;
+                }
+                items = primary.items;
+                if (items.length === 0 && (ctx.status !== 'all' || ctx.q)) {
+                  const fallback = await fetchLeadsNavList('', 'all', ctx.tab);
+                  if (fallback.unauthorized) {
+                    handleUnauthorizedSession();
+                    return;
+                  }
+                  items = fallback.items;
+                }
+              }
+            } else {
+              const primary = await fetchOutreachNavList({
+                q: ctx.q || '',
+                niche: ctx.niche || 'all',
+                city: ctx.city || 'all',
+                tier: ctx.tier || 'all',
+                webstatus: ctx.webstatus || 'all',
+                website_status: ctx.webstatus || 'all',
+                cadence: ctx.cadence || 'all',
+                contact: ctx.contact || 'all',
+                status: ctx.ostatus || 'active',
+                limit: '200',
+                offset: '0'
+              });
+              if (primary.unauthorized) {
+                handleUnauthorizedSession();
+                return;
+              }
+              items = primary.items;
+              const wasOutreachFiltered =
+                Boolean(ctx.q) ||
+                ctx.niche !== 'all' ||
+                ctx.city !== 'all' ||
+                ctx.tier !== 'all' ||
+                ctx.webstatus !== 'all' ||
+                ctx.cadence !== 'all' ||
+                ctx.contact !== 'all' ||
+                ctx.ostatus !== 'active';
+              if (items.length === 0 && wasOutreachFiltered) {
+                const fallback = await fetchOutreachNavList({
+                  status: 'active',
+                  limit: '200',
+                  offset: '0'
+                });
+                if (fallback.unauthorized) {
+                  handleUnauthorizedSession();
+                  return;
+                }
+                items = fallback.items;
+              }
+            }
+
+            if (seq !== navQueueSeq) return;
+            navQueue = items;
+            navQueueLoaded = true;
+            syncCurrentRecordIntoNavQueue();
+            renderNavPager();
+          } catch (err) {
+            if (seq !== navQueueSeq) return;
+            navQueue = [];
+            navQueueLoaded = true;
+            syncCurrentRecordIntoNavQueue();
+            renderNavPager();
+          } finally {
+            if (seq === navQueueSeq) {
+              navQueueLoadingPromise = null;
+            }
+          }
+        })();
+
+        navQueueLoadingPromise = promise;
+        return promise;
+      }
+
+      async function navigateToQueueItem(item, direction) {
+        if (!item || isSavingOutcome) return;
+        activeLoadSeq += 1;
+        const targetHref = buildNavItemHref(item);
+        manualPlaybookModeOverride = null;
+        resetPlaybookGates();
+        resetLeadTaskForm();
+        noteInput.value = '';
+        enrichResult.innerHTML = '';
+        saveToast.style.display = 'none';
+        if (typeof playbookQuickStatusMsg !== 'undefined' && playbookQuickStatusMsg) {
+          playbookQuickStatusMsg.textContent = '';
+        }
+
+        if (item.kind === 'candidate') {
+          candidateId = String(item.id);
+          leadId = null;
+          isCandidatePreview = true;
+          currentLead = null;
+          currentCandidate = null;
+          urlParams.delete('id');
+          urlParams.set('candidate_id', candidateId);
+          urlParams.set('playbook', '1');
+          window.history.pushState({ candidateId }, '', targetHref);
+        } else {
+          leadId = String(item.id);
+          candidateId = null;
+          isCandidatePreview = false;
+          currentLead = null;
+          currentCandidate = null;
+          urlParams.set('id', leadId);
+          urlParams.delete('candidate_id');
+          if (item.candidateId) {
+            urlParams.set('playbook', '1');
+          }
+          window.history.pushState({ leadId }, '', targetHref);
+        }
+
+        renderNavPager();
+        captureLeadEvent('lead_pipeline_navigated', { direction, target_kind: item.kind });
+
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+
+        if (isCandidatePreview) {
+          await fetchCandidatePreview();
+        } else {
+          await fetchLeadDetails();
+        }
+      }
+
+      [prevLeadBtn, nextLeadBtn].forEach((linkEl) => {
+        if (!linkEl) return;
+        linkEl.addEventListener('click', (e) => {
+          if (linkEl.getAttribute('aria-disabled') === 'true' || isSavingOutcome) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+          if (e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+            e.preventDefault();
+            const rawIdx = Number(linkEl.dataset.navIdx);
+            const item = Number.isInteger(rawIdx) ? navQueue[rawIdx] : null;
+            if (item) {
+              navigateToQueueItem(item, linkEl === prevLeadBtn ? 'previous' : 'next');
+            }
+          }
+        });
+        linkEl.addEventListener('keydown', (e) => {
+          if (
+            (e.key === 'Enter' || e.key === ' ') &&
+            (linkEl.getAttribute('aria-disabled') === 'true' || isSavingOutcome)
+          ) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
       });
 
       renderPlaybookScripts();
