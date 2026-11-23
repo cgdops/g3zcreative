@@ -1,0 +1,767 @@
+[
+  {
+    "slug": "miami-fl",
+    "city": "Miami",
+    "county": "Miami-Dade County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 25.7617, "lng": -80.1918 },
+    "title": "Managed AWS Services Miami FL | AWS Cloud Consulting & FinOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Miami, FL. Architecture, migration, FinOps cost reduction (25-45%), SOC 2/HIPAA security & 24/7 operations for Brickell & Wynwood.",
+    "h1": "Managed AWS Cloud Services in Miami, FL",
+    "badge": "Miami & Brickell AWS Cloud Engineering",
+    "heroSubheading": "Scale mission-critical workloads across Brickell, Wynwood, and Downtown Miami without burning capital on bloated AWS bills or offshore ticket queues. Founder-led AWS architecture, FinOps cost optimization, and 24/7 managed cloud operations.",
+    "businessCorridors": "Brickell Financial District, Downtown Miami, Wynwood Tech Corridor, and Design District",
+    "keyIndustries": [
+      {
+        "name": "FinTech & Cross-Border Banking",
+        "workload": "PCI-DSS and SOC 2 compliant VPCs, AWS KMS envelope encryption, CloudTrail immutable audit logs, and low-latency API gateways serving US and LATAM markets."
+      },
+      {
+        "name": "Venture-Backed SaaS & AI Startups",
+        "workload": "Auto-scaling ECS Fargate and EKS clusters, CI/CD Terraform pipelines, and Amazon Bedrock generative AI inference environments with strict token and GPU cost guardrails."
+      },
+      {
+        "name": "International Trade & Real Estate Tech",
+        "workload": "High-throughput RDS Aurora PostgreSQL databases, S3 data lakes, and CloudFront global edge caching built for multi-lingual, high-traffic commercial platforms."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, PCI-DSS, ISO 27001, and LATAM cross-border data governance",
+    "localPainPoint": "Fast-growing Miami fintechs, SaaS teams, and Brickell enterprises routinely inherit over-provisioned EC2 fleets, unmonitored NAT Gateway egress charges, and ad-hoc IAM policies created during rapid product sprints—resulting in 30% to 45% wasted monthly AWS spend and audit friction.",
+    "localSolutionAngle": "Based in South Florida, G3Z Creative embeds directly with your Miami engineering or operations leadership. We execute Well-Architected migrations, codify your infrastructure in Terraform, lock down IAM and GuardDuty security baselines, and cut runaway AWS bills—while you retain 100% ownership of your AWS accounts.",
+    "drAndLatencyNote": "Miami businesses benefit directly from the AWS Miami Local Zone (us-east-1-mia-1a) for single-digit millisecond local latency, paired with automated Multi-AZ failover and cross-region replication to us-east-2 (Ohio) so Atlantic hurricane events never interrupt revenue or customer SLAs.",
+    "faqs": [
+      {
+        "q": "How much do managed AWS services cost in Miami, FL?",
+        "a": "G3Z Creative offers transparent, month-to-month AWS pricing with zero markup on your AWS bill: a one-time $1,500 AWS Architecture & FinOps Audit, Managed AWS Core starting at $1,500/month, and Managed AWS Scale & Compliance starting at $3,500+/month for multi-account, Terraform-managed, and SOC 2/PCI-ready environments."
+      },
+      {
+        "q": "Can you reduce our existing AWS bill for our Miami SaaS or fintech platform?",
+        "a": "Yes. Most Miami companies we audit save 25% to 45% within the first 30 to 60 days through compute right-sizing, Savings Plans and Reserved Instance structuring, S3 lifecycle tiering, NAT Gateway optimization, and eliminating idle dev/staging resources."
+      },
+      {
+        "q": "Do we keep full root ownership of our AWS accounts?",
+        "a": "Always. Unlike traditional MSPs that lock clients into reseller sub-accounts, your organization retains 100% ownership of your AWS Organizations root account, billing relationship, and Terraform infrastructure code."
+      },
+      {
+        "q": "How do you handle low latency and hurricane disaster recovery for Miami workloads?",
+        "a": "We combine AWS us-east-1 and the AWS Miami Local Zone (us-east-1-mia-1a) with Multi-AZ architectures and automated cross-region backups to us-east-2, giving your Miami business tested RPO/RTO recovery targets well ahead of storm season."
+      }
+    ],
+    "nearbySlugs": ["coral-gables-fl", "doral-fl", "aventura-fl", "miramar-fl", "fort-lauderdale-fl"]
+  },
+  {
+    "slug": "doral-fl",
+    "city": "Doral",
+    "county": "Miami-Dade County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 25.8195, "lng": -80.3553 },
+    "title": "Managed AWS Services Doral FL | Logistics & Enterprise Cloud | G3Z Creative",
+    "metaDescription": "Managed AWS cloud solutions in Doral, FL. Cloud migration, ERP/WMS modernization, AWS FinOps & hurricane DR for Doral logistics, trade & corporate HQs.",
+    "h1": "Managed AWS Cloud Services in Doral, FL",
+    "badge": "Doral Logistics & Corporate Cloud Ops",
+    "heroSubheading": "Modernize legacy on-premise servers, ERP/WMS integrations, and corporate applications in Doral with resilient, cost-optimized AWS cloud infrastructure managed by local South Florida engineers.",
+    "businessCorridors": "Doral Logistics Corridor, Beacon Centre, CityPlace Doral, and MIA West Cargo Hub",
+    "keyIndustries": [
+      {
+        "name": "International Freight, Logistics & 3PL",
+        "workload": "High-availability EDI/API integration pipelines, AWS Site-to-Site VPN & Direct Connect links to warehouse floors, and resilient RDS databases powering real-time shipment tracking."
+      },
+      {
+        "name": "Multinational Regional Headquarters",
+        "workload": "AWS Organizations multi-account landing zones, centralized IAM Identity Center (SSO), automated endpoint backup, and unified cost allocation across regional business units."
+      },
+      {
+        "name": "Import/Export & Wholesale Distribution",
+        "workload": "Migration of aging on-premise Windows/SQL Server ERPs to managed AWS EC2 and Amazon RDS with automated failover and zero-downtime cutovers."
+      }
+    ],
+    "complianceFocus": "SOC 2, C-TPAT supply-chain data security, PCI-DSS, and multi-entity audit readiness",
+    "localPainPoint": "Doral's freight forwarders, distributors, and regional HQs frequently rely on aging on-premise server closets near Miami International Airport—creating single points of failure during power grid surges, tropical storms, and peak shipping seasons.",
+    "localSolutionAngle": "G3Z Creative migrates Doral commercial operations off fragile local hardware into Well-Architected AWS environments with automated off-site replication, predictable monthly cloud spend, and direct South Florida engineering support.",
+    "drAndLatencyNote": "Proximity to the AWS Miami Local Zone enables responsive warehouse management (WMS) and scanner workloads in Doral, while cross-region replication to us-east-2 protects customs, billing, and inventory records against South Florida weather disruptions.",
+    "faqs": [
+      {
+        "q": "Can you migrate our Doral warehouse ERP or SQL Server to AWS without halting operations?",
+        "a": "Yes. We use AWS Application Migration Service (MGN) and Database Migration Service (DMS) with staged cutover rehearsals over off-peak weekend windows so your Doral logistics and fulfillment teams stay operational."
+      },
+      {
+        "q": "How do you connect our Doral offices and warehouses securely to AWS?",
+        "a": "We architect redundant AWS Site-to-Site VPN tunnels or AWS Direct Connect links with strict VPC firewall rules and Zero-Trust IAM policies so warehouse terminals and remote branches communicate securely."
+      },
+      {
+        "q": "What is the starting cost for managed AWS cloud support in Doral?",
+        "a": "We start with a $1,500 one-time AWS Architecture & FinOps Audit (or migration readiness plan). Ongoing Managed AWS Core starts at $1,500/month, and Managed AWS Scale & Compliance starts at $3,500+/month, billed month-to-month."
+      },
+      {
+        "q": "Why work with a South Florida AWS partner instead of a national call-center MSP?",
+        "a": "G3Z Creative is headquartered minutes north of Doral in Miramar, FL. You work directly with senior technical leadership—no tiered helpdesk scripts, no hidden AWS billing markups, and rapid response during critical shipping or storm events."
+      }
+    ],
+    "nearbySlugs": ["miami-fl", "coral-gables-fl", "miramar-fl", "pembroke-pines-fl", "aventura-fl"]
+  },
+  {
+    "slug": "coral-gables-fl",
+    "city": "Coral Gables",
+    "county": "Miami-Dade County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 25.7215, "lng": -80.2684 },
+    "title": "Managed AWS Services Coral Gables FL | Secure Cloud & FinOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Coral Gables, FL. Security-hardened AWS architecture, compliance, FinOps & 24/7 monitoring for law firms, wealth & multinationals.",
+    "h1": "Managed AWS Cloud Services in Coral Gables, FL",
+    "badge": "Coral Gables Enterprise & Professional Cloud",
+    "heroSubheading": "Enterprise-grade AWS security, compliance guardrails, and predictable cloud operations for Coral Gables multinationals, private wealth firms, and commercial law practices.",
+    "businessCorridors": "Miracle Mile, Ponce de Leon Financial Corridor, Merrick Park, and Alhambra Circle",
+    "keyIndustries": [
+      {
+        "name": "Wealth Management & Private Banking",
+        "workload": "Encrypted S3 document vaults, AWS KMS customer-managed keys, GuardDuty continuous threat detection, and immutable CloudTrail logging for strict regulatory oversight."
+      },
+      {
+        "name": "Commercial Law & Professional Services",
+        "workload": "Zero-Trust remote access, secure client portals hosted on ECS/CloudFront, automated nightly RDS snapshots, and isolated VPCs protecting privileged client matter data."
+      },
+      {
+        "name": "LATAM Multinational Corporate Offices",
+        "workload": "Multi-region AWS CloudFront acceleration, centralized AWS Organizations governance, and cross-border application hosting with clear per-subsidiary FinOps chargebacks."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, SEC/FINRA data retention alignment, ISO 27001, and ABA cybersecurity standards",
+    "localPainPoint": "Executive firms along Ponce de Leon and Miracle Mile face escalating cyber-insurance requirements, strict client security questionnaires, and opaque IT retainers where cloud costs climb without executive visibility.",
+    "localSolutionAngle": "G3Z Creative implements transparent, Well-Architected AWS environments with automated security posture scoring (AWS Security Hub), clear executive FinOps reporting, and direct access to senior South Florida cloud engineers.",
+    "drAndLatencyNote": "We eliminate on-premise server room risk in Coral Gables office towers by running Multi-AZ AWS workloads backed by automated cross-region disaster recovery in us-east-2, ensuring business continuity before, during, and after hurricane warnings.",
+    "faqs": [
+      {
+        "q": "Can G3Z Creative help our Coral Gables firm pass cyber-insurance and SOC 2 audits on AWS?",
+        "a": "Yes. We configure AWS Security Hub, GuardDuty, Config rules, IAM least-privilege roles, MFA enforcement, KMS encryption at rest/in transit, and centralized CloudTrail logs so your AWS environment is audit-ready."
+      },
+      {
+        "q": "Do you support multi-subsidiary AWS accounts for Coral Gables multinationals?",
+        "a": "Yes. We design AWS Organizations landing zones with Service Control Policies (SCPs), isolated dev/prod/subsidiary accounts, and automated cost allocation tags so leadership sees exact spend by division."
+      },
+      {
+        "q": "How does your transparent AWS pricing work?",
+        "a": "We never mark up your AWS invoice. Our AWS Architecture & FinOps Audit is $1,500 one-time, Managed AWS Core is $1,500/month, and Managed AWS Scale & Compliance is $3,500+/month on a flexible month-to-month basis."
+      },
+      {
+        "q": "Can you host custom client portals or private AI tools on our AWS account?",
+        "a": "Yes. We architect and manage custom web portals, internal CRMs, and private Amazon Bedrock AI document-analysis workflows inside your own isolated AWS VPC so sensitive client data never trains public models."
+      }
+    ],
+    "nearbySlugs": ["miami-fl", "doral-fl", "aventura-fl", "miramar-fl", "hollywood-fl"]
+  },
+  {
+    "slug": "aventura-fl",
+    "city": "Aventura",
+    "county": "Miami-Dade County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 25.9565, "lng": -80.1392 },
+    "title": "Managed AWS Services Aventura FL | HIPAA Cloud & AWS Ops | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Aventura, FL. HIPAA-ready AWS hosting, FinOps cost optimization, security & 24/7 monitoring for healthcare, retail & wealth firms.",
+    "h1": "Managed AWS Cloud Services in Aventura, FL",
+    "badge": "Aventura Healthcare & Commercial AWS",
+    "heroSubheading": "High-availability, HIPAA-ready AWS infrastructure and proactive FinOps cost management for Aventura medical groups, luxury real estate firms, and Northeast Miami-Dade enterprises.",
+    "businessCorridors": "Biscayne Boulevard Corridor, Aventura Hospital Medical District, and Country Club Drive Commercial Towers",
+    "keyIndustries": [
+      {
+        "name": "Healthcare Clinics & Specialty Medical Groups",
+        "workload": "HIPAA-eligible AWS services under BAA, encrypted RDS patient portals, automated backup retention, and isolated private subnets protecting ePHI."
+      },
+      {
+        "name": "Luxury Real Estate & Property Tech",
+        "workload": "Global CloudFront CDN acceleration for media-heavy listings, serverless APIs on AWS Lambda, and scalable CRM/lead-routing backends."
+      },
+      {
+        "name": "Retail Commerce & Private Family Offices",
+        "workload": "PCI-aware eCommerce cloud hosting, WAF DDoS protection, and automated FinOps budgets that stop unexpected traffic spikes from inflating monthly bills."
+      }
+    ],
+    "complianceFocus": "HIPAA / HITECH ePHI safeguards, PCI-DSS, and SOC 2 security controls",
+    "localPainPoint": "Aventura medical practices and commercial offices operate in a dense coastal corridor where downtime, non-compliant file sharing, or hurricane power outages can disrupt patient care and high-value transactions.",
+    "localSolutionAngle": "Located just west of Aventura in Miramar, G3Z Creative builds resilient, HIPAA-aligned AWS architectures with automated failover, proactive monitoring, and transparent monthly cloud governance.",
+    "drAndLatencyNote": "Coastal Aventura offices cannot afford server closets exposed to storm surge or prolonged outages. We architect Multi-AZ AWS deployments with cross-region replication to us-east-2 so clinical and commercial apps remain reachable from anywhere.",
+    "faqs": [
+      {
+        "q": "Can you architect a HIPAA-compliant AWS environment for our Aventura medical group?",
+        "a": "Yes. We configure your AWS account using HIPAA-eligible services (EC2, RDS, S3, KMS, CloudTrail, ECS), enforce encryption at rest and in transit, implement strict IAM access controls, and align your stack with your AWS Business Associate Addendum (BAA)."
+      },
+      {
+        "q": "How quickly can G3Z Creative audit our current AWS costs and security posture?",
+        "a": "Our $1,500 one-time AWS Architecture & FinOps Audit is delivered within 5 to 7 business days, giving you a concrete security scorecard and immediate cost-reduction actions typically saving 25% to 45%."
+      },
+      {
+        "q": "Do you manage both AWS infrastructure and custom web/CRM applications?",
+        "a": "Yes. Unlike infrastructure-only MSPs, G3Z Creative brings full-stack software engineering, workflow automation, and AWS cloud operations under one local South Florida roof."
+      },
+      {
+        "q": "What ongoing support is included in Managed AWS Core?",
+        "a": "Starting at $1,500/month, Managed AWS Core includes 24/7 CloudWatch uptime and anomaly alerting, automated patching and backups, IAM/security hygiene, monthly FinOps optimization, and direct engineer access."
+      }
+    ],
+    "nearbySlugs": ["hollywood-fl", "miami-fl", "miramar-fl", "pembroke-pines-fl", "fort-lauderdale-fl"]
+  },
+  {
+    "slug": "fort-lauderdale-fl",
+    "city": "Fort Lauderdale",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.1224, "lng": -80.1373 },
+    "title": "Managed AWS Services Fort Lauderdale FL | Cloud Consulting & DevOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Fort Lauderdale, FL. AWS migration, Terraform IaC, FinOps cost optimization & 24/7 cloud ops for Las Olas & Cypress Creek firms.",
+    "h1": "Managed AWS Cloud Services in Fort Lauderdale, FL",
+    "badge": "Fort Lauderdale & Broward AWS Engineering",
+    "heroSubheading": "Production-grade AWS architecture, DevOps automation, and FinOps cost control for Fort Lauderdale SaaS companies, maritime enterprises, and Las Olas corporate teams.",
+    "businessCorridors": "Las Olas Boulevard, Downtown Fort Lauderdale, Cypress Creek Tech Corridor, and Port Everglades Commercial Zone",
+    "keyIndustries": [
+      {
+        "name": "B2B SaaS & Software Engineering Teams",
+        "workload": "Containerized ECS Fargate and EKS orchestration, GitHub Actions CI/CD pipelines, Terraform Infrastructure as Code, and staging/prod environment parity."
+      },
+      {
+        "name": "Maritime, Yachting & Port Logistics",
+        "workload": "Globally distributed CloudFront + Route 53 applications, resilient fleet-management APIs, and low-bandwidth-tolerant sync services backed by DynamoDB and Aurora."
+      },
+      {
+        "name": "Aviation, Finance & Mid-Market Enterprises",
+        "workload": "Full data-center-to-AWS migrations, Active Directory / IAM Identity Center integration, and automated AWS Backup vaults with air-gapped recovery."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, PCI-DSS, HIPAA, and Well-Architected operational excellence",
+    "localPainPoint": "Fort Lauderdale engineering teams often spend 30%+ of senior developer time firefighting AWS IAM permissions, broken CI/CD deploys, and rising cloud bills—or pay $160K+/year for a single full-time DevOps hire who still creates single-person risk.",
+    "localSolutionAngle": "G3Z Creative gives Fort Lauderdale businesses senior AWS architecture, Terraform automation, 24/7 monitoring, and continuous FinOps savings at a fraction of a full-time DevOps salary—with zero long-term lock-in.",
+    "drAndLatencyNote": "Fort Lauderdale coastal and downtown operations face annual hurricane continuity mandates. Our Multi-AZ us-east-1 architectures with automated us-east-2 disaster recovery ensure zero data loss and rapid failover regardless of local grid conditions.",
+    "faqs": [
+      {
+        "q": "Why hire G3Z Creative for managed AWS in Fort Lauderdale instead of a full-time DevOps engineer?",
+        "a": "A senior AWS/DevOps engineer in Broward County costs $150,000 to $190,000+ in salary and benefits and leaves coverage gaps during PTO or turnover. Our Managed AWS retainers start at $1,500 to $3,500+/month with documented Terraform code and 24/7 automated alerting."
+      },
+      {
+        "q": "Do you work with Terraform and modern CI/CD pipelines on AWS?",
+        "a": "Yes. We codify VPCs, ECS/EKS clusters, RDS databases, and IAM policies in Terraform (or AWS CDK) integrated directly into your GitHub Actions or GitLab CI workflows so every infrastructure change is peer-reviewed and repeatable."
+      },
+      {
+        "q": "Can you take over an existing messy AWS account in Fort Lauderdale?",
+        "a": "Absolutely. We start with our $1,500 AWS Architecture & FinOps Audit to map every resource, close security gaps, cut wasted spend by 25% to 45%, and transition your environment into clean Infrastructure as Code."
+      },
+      {
+        "q": "How close is G3Z Creative to Fort Lauderdale?",
+        "a": "We are headquartered right in Broward County (Miramar, FL), making on-site executive reviews along Las Olas or Cypress Creek easy whenever needed."
+      }
+    ],
+    "nearbySlugs": ["hollywood-fl", "plantation-fl", "davie-fl", "miramar-fl", "boca-raton-fl"]
+  },
+  {
+    "slug": "miramar-fl",
+    "city": "Miramar",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 25.9861, "lng": -80.3378 },
+    "title": "Managed AWS Services Miramar FL | Local AWS Cloud Partner | G3Z Creative",
+    "metaDescription": "Headquartered in Miramar, FL, G3Z Creative delivers managed AWS cloud services, migrations, FinOps cost reduction & 24/7 monitoring for Miramar Park of Commerce.",
+    "h1": "Managed AWS Cloud Services in Miramar, FL",
+    "badge": "G3Z Headquarters — Miramar, FL",
+    "heroSubheading": "Headquartered right here in Miramar, FL. G3Z Creative engineers, migrates, and manages secure, cost-optimized AWS cloud infrastructure for enterprises across Miramar Park of Commerce and Southwest Broward.",
+    "businessCorridors": "Miramar Park of Commerce, Miramar Town Center, Huntington Corporate Park, and I-75 Commercial Corridor",
+    "keyIndustries": [
+      {
+        "name": "Aviation, Aerospace & Telecom Enterprises",
+        "workload": "High-reliability AWS VPCs, automated patching and compliance reporting, AWS Direct Connect hybrid networking, and resilient multi-region data pipelines."
+      },
+      {
+        "name": "Healthcare Systems & Regional Clinics",
+        "workload": "HIPAA-aligned AWS cloud hosting, encrypted Aurora/RDS databases, automated backup policies, and strict IAM role separation."
+      },
+      {
+        "name": "Mid-Market B2B & Automated Service Platforms",
+        "workload": "Serverless AWS Lambda & ECS workloads, private n8n/AI automation clusters, custom CRM hosting, and FinOps cost guardrails."
+      }
+    ],
+    "complianceFocus": "HIPAA, SOC 2, PCI-DSS, and enterprise hybrid-cloud security",
+    "localPainPoint": "Businesses across Miramar Park of Commerce and the I-75 corridor often juggle fragmented IT vendors who understand desktop support but lack deep AWS architecture, Terraform, and FinOps engineering expertise.",
+    "localSolutionAngle": "As a Miramar-based technical engineering studio, G3Z Creative delivers direct, founder-led AWS cloud management—combining Well-Architected security, 25–45% FinOps bill savings, and seamless integration with custom software and AI workflows.",
+    "drAndLatencyNote": "From our base in Miramar (33025), we architect South Florida workloads using AWS us-east-1, the Miami Local Zone for low-latency regional access, and automated cross-region disaster recovery in us-east-2 for hurricane resilience.",
+    "faqs": [
+      {
+        "q": "Is G3Z Creative physically located in Miramar, FL?",
+        "a": "Yes. G3Z Creative is headquartered in Miramar, FL (2751 SW 116th Ave, Miramar, FL 33025). We work directly with Miramar and Broward County leadership both remotely and in person."
+      },
+      {
+        "q": "What AWS services do you manage for Miramar businesses?",
+        "a": "We manage the full AWS lifecycle: cloud migrations, VPC/IAM security hardening, EC2/ECS/Lambda compute, RDS/Aurora databases, Terraform Infrastructure as Code, 24/7 CloudWatch monitoring, hurricane DR, FinOps cost optimization, and Amazon Bedrock AI workloads."
+      },
+      {
+        "q": "How much does Managed AWS cost with G3Z Creative?",
+        "a": "Start with a $1,500 one-time AWS Architecture & FinOps Audit. Ongoing Managed AWS Core starts at $1,500/month and Managed AWS Scale & Compliance starts at $3,500+/month—month-to-month with zero markup on your AWS spend."
+      },
+      {
+        "q": "Can you work alongside our internal Miramar IT team?",
+        "a": "Yes. We frequently operate as a dedicated AWS cloud and DevOps engineering extension for internal IT managers—handling cloud architecture, IaC, security posture, and FinOps while your internal team focuses on end-user support."
+      }
+    ],
+    "nearbySlugs": ["pembroke-pines-fl", "doral-fl", "weston-fl", "davie-fl", "hollywood-fl"]
+  },
+  {
+    "slug": "pembroke-pines-fl",
+    "city": "Pembroke Pines",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.0078, "lng": -80.2963 },
+    "title": "Managed AWS Services Pembroke Pines FL | Cloud Migration & Ops | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Pembroke Pines, FL. HIPAA-ready cloud hosting, AWS FinOps cost savings & 24/7 monitoring for healthcare, B2B & growing firms.",
+    "h1": "Managed AWS Cloud Services in Pembroke Pines, FL",
+    "badge": "Pembroke Pines & SW Broward AWS Partner",
+    "heroSubheading": "Eliminate server downtime, surprise cloud bills, and compliance headaches. Local South Florida AWS architects delivering managed cloud operations, HIPAA-ready hosting, and FinOps savings for Pembroke Pines businesses.",
+    "businessCorridors": "Pines Boulevard Commercial Corridor, Pembroke Gardens Business District, and Memorial Hospital West Medical Hub",
+    "keyIndustries": [
+      {
+        "name": "Medical Practices & Outpatient Healthcare",
+        "workload": "HIPAA-ready AWS architectures with encrypted RDS databases, automated daily backups, AWS KMS key management, and strict VPC network isolation."
+      },
+      {
+        "name": "Professional Services, CPA & Insurance Firms",
+        "workload": "Secure client document portals, high-availability Windows/Linux workloads on EC2, and automated disaster recovery replacing vulnerable office servers."
+      },
+      {
+        "name": "Growing Multi-Location Service Brands",
+        "workload": "Scalable custom CRM platforms, n8n workflow automation clusters on ECS, and CloudFront-accelerated web applications."
+      }
+    ],
+    "complianceFocus": "HIPAA / HITECH, SOC 2, and cyber-insurance readiness",
+    "localPainPoint": "Growing Pembroke Pines healthcare practices and B2B offices outgrow shared hosting and aging office servers, yet dread the complexity and runaway costs of self-managing AWS.",
+    "localSolutionAngle": "Based right next door in Miramar, G3Z Creative makes enterprise-grade AWS simple and predictable for Pembroke Pines teams—handling migration, security, monitoring, and cost control on a transparent month-to-month retainer.",
+    "drAndLatencyNote": "We replace fragile local office servers along Pines Blvd with Multi-AZ AWS cloud architectures and automated cross-region backups to us-east-2 so your team can operate seamlessly during South Florida storm events.",
+    "faqs": [
+      {
+        "q": "Can you move our Pembroke Pines business off on-premise servers or expensive hosting to AWS?",
+        "a": "Yes. We plan and execute staged migrations from local office servers, legacy VPS hosts, or bloated cloud setups into right-sized AWS architectures with minimal to zero business disruption."
+      },
+      {
+        "q": "How do you prevent surprise AWS billing spikes?",
+        "a": "Every managed account gets AWS Budgets anomaly alerts, tagging discipline, right-sized compute, Savings Plans where appropriate, and monthly FinOps audits—typically cutting waste by 25% to 45%."
+      },
+      {
+        "q": "Are your Pembroke Pines AWS services month-to-month?",
+        "a": "Yes. Our AWS Architecture & FinOps Audit is $1,500 one-time, Managed AWS Core is $1,500/month, and Managed AWS Scale & Compliance is $3,500+/month with no multi-year lock-in."
+      },
+      {
+        "q": "Do you support HIPAA workloads for Pembroke Pines medical offices?",
+        "a": "Yes. We deploy exclusively HIPAA-eligible AWS services configured for encryption at rest and in transit, CloudTrail auditing, and strict least-privilege IAM access."
+      }
+    ],
+    "nearbySlugs": ["miramar-fl", "weston-fl", "davie-fl", "hollywood-fl", "plantation-fl"]
+  },
+  {
+    "slug": "sunrise-fl",
+    "city": "Sunrise",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.1669, "lng": -80.2566 },
+    "title": "Managed AWS Services Sunrise FL | Sawgrass Corporate Cloud | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Sunrise, FL. Enterprise AWS architecture, FinOps cost optimization, Terraform IaC & 24/7 cloud ops for Sawgrass Corporate Park.",
+    "h1": "Managed AWS Cloud Services in Sunrise, FL",
+    "badge": "Sunrise & Sawgrass Corporate Park AWS",
+    "heroSubheading": "Well-Architected AWS engineering, FinOps cost governance, and 24/7 managed cloud operations tailored for corporate headquarters and enterprise teams across Sunrise and Sawgrass International Corporate Park.",
+    "businessCorridors": "Sawgrass International Corporate Park, Sunrise Boulevard Commercial Corridor, and Amerant Bank Arena / Sawgrass Hub",
+    "keyIndustries": [
+      {
+        "name": "Enterprise Headquarters & Shared Services",
+        "workload": "Multi-account AWS Organizations landing zones, centralized IAM Identity Center, cross-account Transit Gateway networking, and executive FinOps showback."
+      },
+      {
+        "name": "Healthcare Tech & Insurance Operations",
+        "workload": "HIPAA and SOC 2 hardened VPCs, encrypted Aurora clusters, automated AWS Config compliance checks, and immutable backup vaults."
+      },
+      {
+        "name": "High-Volume Retail & Digital Commerce",
+        "workload": "Auto-scaling ECS/EKS storefronts, CloudFront + AWS WAF edge protection, and ElastiCache Redis layers built for seasonal traffic surges."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, HIPAA, PCI-DSS, and enterprise AWS Organizations governance",
+    "localPainPoint": "Corporate IT groups in Sawgrass International Corporate Park frequently battle multi-account AWS sprawl, unallocated cloud spend across departments, and slow manual infrastructure provisioning.",
+    "localSolutionAngle": "G3Z Creative brings disciplined Terraform Infrastructure as Code, automated AWS Security Hub guardrails, and proactive FinOps engineering to Sunrise enterprises—cutting waste while accelerating engineering velocity.",
+    "drAndLatencyNote": "Located on the western edge of Broward County, Sunrise corporate offices rely on uninterrupted cloud uptime during storm season. We engineer Multi-AZ us-east-1 workloads with tested cross-region DR failover to us-east-2.",
+    "faqs": [
+      {
+        "q": "Can G3Z Creative manage multi-account AWS Organizations for our Sunrise headquarters?",
+        "a": "Yes. We architect and govern multi-account AWS landing zones with isolated production, staging, and security accounts, Service Control Policies (SCPs), and automated per-department FinOps cost reporting."
+      },
+      {
+        "q": "How much can FinOps optimization save an enterprise AWS account in Sunrise?",
+        "a": "Across mid-market and corporate AWS accounts, our FinOps sprints routinely uncover 25% to 45% in recurring savings through Savings Plans, right-sizing, storage tiering, and idle-resource automation."
+      },
+      {
+        "q": "Do you support hybrid cloud connectivity back to Sunrise office networks?",
+        "a": "Yes. We configure redundant AWS Site-to-Site VPN and AWS Direct Connect links with Transit Gateway routing so corporate offices connect securely to private AWS subnets."
+      },
+      {
+        "q": "What are your engagement options for Sunrise companies?",
+        "a": "Start with our $1,500 one-time AWS Architecture & FinOps Audit, or partner ongoing via Managed AWS Core ($1,500/mo) or Managed AWS Scale & Compliance ($3,500+/mo)."
+      }
+    ],
+    "nearbySlugs": ["plantation-fl", "weston-fl", "fort-lauderdale-fl", "davie-fl", "miramar-fl"]
+  },
+  {
+    "slug": "plantation-fl",
+    "city": "Plantation",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.1276, "lng": -80.2331 },
+    "title": "Managed AWS Services Plantation FL | Cloud Architecture & FinOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Plantation, FL. AWS migration, DevOps, Terraform IaC, security & FinOps cost reduction for Plantation corporate & tech hubs.",
+    "h1": "Managed AWS Cloud Services in Plantation, FL",
+    "badge": "Plantation Corporate & Tech Cloud Ops",
+    "heroSubheading": "Modernize enterprise apps, slash wasted cloud spend, and automate DevOps on AWS. Local Broward County cloud architects supporting Plantation corporate parks and technology teams.",
+    "businessCorridors": "Plantation Midtown Business District, Cornerstone Corporate Center, and University Drive Tech Corridor",
+    "keyIndustries": [
+      {
+        "name": "Technology, Software & Spatial/AI Engineering",
+        "workload": "Scalable ECS/EKS clusters, GPU/Bedrock AI inference pipelines, Terraform IaC modules, and automated CI/CD release pipelines."
+      },
+      {
+        "name": "Global Logistics & Corporate Operations",
+        "workload": "Resilient enterprise APIs, AWS Step Functions workflow orchestration, RDS Aurora high-availability databases, and centralized CloudWatch observability."
+      },
+      {
+        "name": "Financial & Legal Services",
+        "workload": "Security-hardened VPCs, GuardDuty threat monitoring, automated encryption via KMS, and audit-ready compliance logging."
+      }
+    ],
+    "complianceFocus": "SOC 2, ISO 27001, PCI-DSS, and enterprise DevSecOps",
+    "localPainPoint": "Plantation technology and corporate teams often face bloated legacy cloud architectures and slow deployment cycles where developers wait days for manual infrastructure changes.",
+    "localSolutionAngle": "G3Z Creative transforms Plantation AWS footprints into clean, self-documented Terraform stacks with automated security checks, 24/7 alerting, and continuous FinOps optimization.",
+    "drAndLatencyNote": "We pair low-latency us-east-1 and Miami Local Zone routing with automated Multi-AZ failover and us-east-2 cross-region backups so Plantation corporate operations never miss an SLA during Broward storm season.",
+    "faqs": [
+      {
+        "q": "Can you modernize legacy EC2 workloads into containers or serverless on AWS?",
+        "a": "Yes. We routinely refactor monolithic EC2 deployments into ECS Fargate, AWS Lambda, and managed RDS Aurora—cutting operational overhead and reducing monthly compute bills by 30%+."
+      },
+      {
+        "q": "How do you handle AWS security monitoring for Plantation businesses?",
+        "a": "We deploy AWS GuardDuty, Security Hub, CloudTrail, and automated IAM Access Analyzer alerts routed to 24/7 incident response workflows so misconfigurations or threats are caught immediately."
+      },
+      {
+        "q": "What does an initial AWS audit include?",
+        "a": "Our $1,500 one-time AWS Architecture & FinOps Audit evaluates all 6 pillars of the AWS Well-Architected Framework, pinpoints security risks, and delivers an itemized cost-savings roadmap."
+      },
+      {
+        "q": "Will we be locked into a multi-year MSP contract?",
+        "a": "Never. All G3Z Creative Managed AWS retainers ($1,500/mo Core; $3,500+/mo Scale & Compliance) are month-to-month, and you keep 100% ownership of your AWS account and Terraform codebase."
+      }
+    ],
+    "nearbySlugs": ["sunrise-fl", "fort-lauderdale-fl", "davie-fl", "weston-fl", "miramar-fl"]
+  },
+  {
+    "slug": "weston-fl",
+    "city": "Weston",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.1004, "lng": -80.3998 },
+    "title": "Managed AWS Services Weston FL | Healthcare & Enterprise AWS | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Weston, FL. HIPAA-compliant AWS architecture, FinOps cost optimization & 24/7 operations for Weston Park of Commerce & healthcare.",
+    "h1": "Managed AWS Cloud Services in Weston, FL",
+    "badge": "Weston Healthcare & Corporate AWS",
+    "heroSubheading": "Secure, HIPAA-ready AWS cloud architecture and executive-grade FinOps governance for Weston Park of Commerce enterprises, healthcare leaders, and international corporate offices.",
+    "businessCorridors": "Weston Park of Commerce, Meridian Business Campus, Weston Town Center, and Cleveland Clinic Medical Corridor",
+    "keyIndustries": [
+      {
+        "name": "Healthcare Systems & Medical Technology",
+        "workload": "HIPAA-compliant AWS landing zones, encrypted RDS/Aurora patient databases, S3 WORM backup vaults, and automated CloudTrail/Config audit trails."
+      },
+      {
+        "name": "Corporate Campuses & B2B SaaS",
+        "workload": "Terraform-managed production environments, ECS Fargate microservices, CI/CD automation, and 24/7 CloudWatch/OpenTelemetry observability."
+      },
+      {
+        "name": "International Trade & Private Equity Portfolios",
+        "workload": "Multi-account AWS Organizations governance, rapid post-acquisition cloud consolidation, and FinOps cost reduction across portfolio companies."
+      }
+    ],
+    "complianceFocus": "HIPAA / HITECH, SOC 2 Type II, and executive cyber-risk governance",
+    "localPainPoint": "Weston's healthcare operators and Meridian Business Campus firms demand strict uptime and regulatory compliance without paying inflated enterprise-consultancy retainers or surrendering control of their cloud infrastructure.",
+    "localSolutionAngle": "Just minutes from Weston via I-75, G3Z Creative provides founder-led AWS architecture, HIPAA/SOC 2 security engineering, and transparent monthly FinOps governance with zero AWS billing markup.",
+    "drAndLatencyNote": "We protect Weston healthcare and corporate workloads with Multi-AZ AWS architectures and automated cross-region disaster recovery in us-east-2—delivering verifiable RPO/RTO resilience through every South Florida hurricane season.",
+    "faqs": [
+      {
+        "q": "How does G3Z Creative support HIPAA compliance on AWS for Weston healthcare teams?",
+        "a": "We architect isolated VPCs using exclusively HIPAA-eligible AWS services, enforce KMS encryption everywhere, lock down IAM with MFA and least privilege, and enable continuous AWS Config and CloudTrail audit logging."
+      },
+      {
+        "q": "Can you consolidate AWS accounts for a Weston corporate group or PE portfolio?",
+        "a": "Yes. We unify fragmented accounts under AWS Organizations, apply centralized security guardrails (SCPs), and leverage consolidated Savings Plans to cut combined AWS spend by 25% to 45%."
+      },
+      {
+        "q": "What is the turnaround for your AWS Architecture & FinOps Audit?",
+        "a": "We complete our $1,500 one-time audit in 5 to 7 business days, delivering an executive summary, security findings, and prioritized cost-reduction actions."
+      },
+      {
+        "q": "Do you provide 24/7 monitoring and incident alerting?",
+        "a": "Yes. Both Managed AWS Core ($1,500/mo) and Managed AWS Scale & Compliance ($3,500+/mo) include 24/7 CloudWatch health, latency, error-rate, and security alerting."
+      }
+    ],
+    "nearbySlugs": ["sunrise-fl", "plantation-fl", "miramar-fl", "pembroke-pines-fl", "davie-fl"]
+  },
+  {
+    "slug": "hollywood-fl",
+    "city": "Hollywood",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.0112, "lng": -80.1495 },
+    "title": "Managed AWS Services Hollywood FL | Cloud Migration & Security | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Hollywood, FL. Cloud migration, HIPAA-ready hosting, FinOps cost optimization & 24/7 AWS ops for healthcare, hospitality & B2B.",
+    "h1": "Managed AWS Cloud Services in Hollywood, FL",
+    "badge": "Hollywood & Coastal Broward AWS",
+    "heroSubheading": "Resilient, hurricane-proof AWS cloud infrastructure, FinOps cost optimization, and 24/7 managed operations for Hollywood healthcare networks, hospitality platforms, and commercial businesses.",
+    "businessCorridors": "Downtown Hollywood, Memorial Regional Medical Corridor, Port Everglades South, and Hollywood Beach Hospitality District",
+    "keyIndustries": [
+      {
+        "name": "Healthcare & Clinical Operations",
+        "workload": "HIPAA-eligible AWS architectures, encrypted patient intake and portal applications, automated RDS snapshots, and strict network segmentation."
+      },
+      {
+        "name": "Hospitality, Tourism & Booking Platforms",
+        "workload": "High-traffic CloudFront + AWS WAF storefronts, auto-scaling ECS booking APIs, and PCI-aware payment architecture built for peak winter tourism."
+      },
+      {
+        "name": "Commercial Contractors & Regional Distributors",
+        "workload": "Migration of legacy Windows/SQL systems to managed AWS, custom CRM/dispatch platforms, and automated n8n workflow pipelines."
+      }
+    ],
+    "complianceFocus": "HIPAA, PCI-DSS for hospitality/payments, and coastal hurricane continuity",
+    "localPainPoint": "Coastal Hollywood businesses face salt-air infrastructure degradation, seasonal traffic spikes, and hurricane evacuation risks—making fragile on-premise servers and unmanaged hosting a liability.",
+    "localSolutionAngle": "Headquartered 15 minutes west in Miramar, G3Z Creative transitions Hollywood companies to Multi-AZ AWS cloud architectures with automated scaling, WAF security, and transparent FinOps cost control.",
+    "drAndLatencyNote": "Hollywood's coastal geography makes off-site cloud continuity non-negotiable. We deploy Multi-AZ us-east-1 workloads with automated cross-region failover to us-east-2 so your operations stay online even during coastal storm surges.",
+    "faqs": [
+      {
+        "q": "Can you help our Hollywood hospitality or booking site handle winter peak traffic on AWS?",
+        "a": "Yes. We architect auto-scaling ECS Fargate or EC2 fleets behind Application Load Balancers, CloudFront edge caching, and AWS WAF so seasonal traffic spikes scale smoothly without downtime or manual intervention."
+      },
+      {
+        "q": "How do you protect Hollywood healthcare workloads on AWS?",
+        "a": "We configure private VPC subnets, KMS encryption at rest and in transit, automated encrypted backups, GuardDuty threat detection, and IAM least-privilege policies aligned with HIPAA requirements."
+      },
+      {
+        "q": "What does it cost to get started with G3Z Creative for AWS?",
+        "a": "Our one-time AWS Architecture & FinOps Audit is $1,500. Ongoing Managed AWS Core starts at $1,500/month and Managed AWS Scale & Compliance starts at $3,500+/month, billed month-to-month."
+      },
+      {
+        "q": "Can you host our custom CRM and marketing automation tools on AWS?",
+        "a": "Yes. We build and host custom CRMs, client portals, and private n8n/AI automation pipelines directly inside your AWS account so you own your data and avoid per-seat SaaS bloat."
+      }
+    ],
+    "nearbySlugs": ["fort-lauderdale-fl", "aventura-fl", "miramar-fl", "pembroke-pines-fl", "davie-fl"]
+  },
+  {
+    "slug": "davie-fl",
+    "city": "Davie",
+    "county": "Broward County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.0765, "lng": -80.2521 },
+    "title": "Managed AWS Services Davie FL | Cloud Engineering & FinOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Davie, FL. AWS architecture, EdTech & research cloud ops, FinOps cost savings & 24/7 monitoring across the Davie & NSU corridor.",
+    "h1": "Managed AWS Cloud Services in Davie, FL",
+    "badge": "Davie & Central Broward AWS Engineering",
+    "heroSubheading": "Scalable AWS architecture, FinOps cost discipline, and 24/7 managed cloud operations for Davie's EdTech innovators, healthcare clinics, and fast-growing commercial enterprises.",
+    "businessCorridors": "South Florida Education Center (NSU Corridor), University Drive Commercial Hub, and I-595 Business Parks",
+    "keyIndustries": [
+      {
+        "name": "EdTech, Research & Academic Platforms",
+        "workload": "Auto-scaling LMS and student portals on ECS/CloudFront, FERPA-conscious data isolation, S3 research storage tiering, and cost-controlled compute bursts."
+      },
+      {
+        "name": "Healthcare & Clinical Practices",
+        "workload": "HIPAA-ready AWS RDS databases, encrypted S3 archives, automated backup verification, and zero-trust remote access."
+      },
+      {
+        "name": "Commercial Logistics & B2B Trade Operators",
+        "workload": "I-595 corridor ERP migrations to AWS, serverless API integrations, custom dispatch software, and automated workflow pipelines."
+      }
+    ],
+    "complianceFocus": "FERPA, HIPAA, SOC 2, and predictable FinOps budget guardrails",
+    "localPainPoint": "Organizations along Davie's University Drive and I-595 corridors often suffer from unpredictable cloud bills during peak academic or commercial cycles and lack dedicated DevOps talent to maintain security and uptime.",
+    "localSolutionAngle": "G3Z Creative pairs deep AWS cloud engineering with full-stack software and automation expertise right here in Broward County—giving Davie organizations reliable, cost-optimized cloud operations without enterprise overhead.",
+    "drAndLatencyNote": "We architect Davie AWS environments with Multi-AZ redundancy in us-east-1, Miami Local Zone edge proximity, and automated cross-region disaster recovery to us-east-2 for seamless continuity year-round.",
+    "faqs": [
+      {
+        "q": "Can you optimize AWS costs for seasonal EdTech or academic traffic spikes in Davie?",
+        "a": "Yes. We configure predictive auto-scaling, ECS Fargate Spot/Savings Plans, and CloudFront caching so your platform handles peak enrollment or exam loads effortlessly while scaling down during quiet months."
+      },
+      {
+        "q": "Do you help Davie businesses migrate legacy apps to AWS?",
+        "a": "Yes. We handle discovery, architecture design, staged data migration, DNS cutover, and post-migration hardening so your legacy Windows, Linux, or database workloads move cleanly to AWS."
+      },
+      {
+        "q": "How much do your Managed AWS services cost?",
+        "a": "We offer a $1,500 one-time AWS Architecture & FinOps Audit, Managed AWS Core at $1,500/month, and Managed AWS Scale & Compliance starting at $3,500+/month—month-to-month with zero AWS bill markup."
+      },
+      {
+        "q": "Can you integrate AI and automation pipelines into our AWS account?",
+        "a": "Yes. We deploy private Amazon Bedrock AI workflows, Lambda microservices, and self-hosted n8n automation pipelines directly inside your secure AWS VPC."
+      }
+    ],
+    "nearbySlugs": ["plantation-fl", "pembroke-pines-fl", "miramar-fl", "fort-lauderdale-fl", "weston-fl"]
+  },
+  {
+    "slug": "boca-raton-fl",
+    "city": "Boca Raton",
+    "county": "Palm Beach County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.3683, "lng": -80.1289 },
+    "title": "Managed AWS Services Boca Raton FL | SaaS, DevOps & FinOps | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Boca Raton, FL. AWS architecture, Terraform DevOps, FinOps cost reduction (25-45%) & SOC 2 security for BRiC & Palm Beach SaaS.",
+    "h1": "Managed AWS Cloud Services in Boca Raton, FL",
+    "badge": "Boca Raton SaaS & Enterprise Cloud",
+    "heroSubheading": "High-velocity AWS architecture, Terraform DevOps, and aggressive FinOps cost optimization for Boca Raton's B2B SaaS leaders, corporate campuses, and Palm Beach County enterprises.",
+    "businessCorridors": "Boca Raton Innovation Campus (BRiC), Park at Broken Sound, Mizner Park Financial Corridor, and FAU Research Park",
+    "keyIndustries": [
+      {
+        "name": "B2B SaaS, Security & Enterprise Software",
+        "workload": "Multi-tenant ECS Fargate and EKS clusters, Terraform Infrastructure as Code, GitHub Actions CI/CD, and SOC 2 Type II hardened production pipelines."
+      },
+      {
+        "name": "Corporate HQs & Private Equity Platforms",
+        "workload": "AWS Organizations multi-account governance, consolidated FinOps Savings Plans, and high-availability RDS Aurora data platforms."
+      },
+      {
+        "name": "Healthcare Tech & Biotech Ventures",
+        "workload": "HIPAA-aligned data lakes on S3, Amazon Bedrock private AI inference, KMS encryption, and automated audit compliance."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, HIPAA, PCI-DSS, and SaaS enterprise customer security readiness",
+    "localPainPoint": "Boca Raton SaaS and tech companies at BRiC and Park at Broken Sound frequently see AWS cloud spend erode gross margins by 10 to 15 points—while engineering leaders struggle to pass enterprise customer security reviews quickly.",
+    "localSolutionAngle": "G3Z Creative acts as your dedicated South Florida AWS cloud engineering and FinOps partner: tightening gross margins by cutting 25% to 45% in cloud waste, codifying your stack in Terraform, and keeping your production environment SOC 2 ready.",
+    "drAndLatencyNote": "We engineer Boca Raton SaaS and corporate workloads across Multi-AZ us-east-1 with automated cross-region failover to us-east-2, guaranteeing customer SLAs even during severe Palm Beach coastal storms.",
+    "faqs": [
+      {
+        "q": "How can Managed AWS FinOps improve gross margins for our Boca Raton SaaS company?",
+        "a": "We eliminate idle compute, right-size RDS and EC2/ECS fleets, structure Compute Savings Plans, optimize CloudWatch log retention and NAT Gateway egress, and implement unit-cost tagging—typically cutting AWS spend by 25% to 45%."
+      },
+      {
+        "q": "Can you help our Boca Raton tech team prepare AWS for SOC 2 Type II certification?",
+        "a": "Yes. We implement AWS Security Hub, GuardDuty, CloudTrail, AWS Config, least-privilege IAM, encrypted backups, and Terraform change control so your infrastructure maps cleanly to SOC 2 trust criteria (Vanta, Drata, or Secureframe)."
+      },
+      {
+        "q": "Do you support Amazon Bedrock and AI workloads on AWS?",
+        "a": "Yes. We architect secure, rate-limited Amazon Bedrock, vector database, and serverless AI orchestration pipelines inside your VPC with strict cost and hallucination guardrails."
+      },
+      {
+        "q": "What are your pricing tiers for Boca Raton businesses?",
+        "a": "Start with a $1,500 one-time AWS Architecture & FinOps Audit. Ongoing retainers are transparent and month-to-month: Managed AWS Core at $1,500/month and Managed AWS Scale & Compliance at $3,500+/month."
+      }
+    ],
+    "nearbySlugs": ["west-palm-beach-fl", "palm-beach-gardens-fl", "fort-lauderdale-fl", "plantation-fl", "miramar-fl"]
+  },
+  {
+    "slug": "west-palm-beach-fl",
+    "city": "West Palm Beach",
+    "county": "Palm Beach County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.7153, "lng": -80.0534 },
+    "title": "Managed AWS Services West Palm Beach FL | FinTech & Cloud Ops | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in West Palm Beach, FL. Security-hardened AWS architecture, SOC 2/FINRA readiness, FinOps & 24/7 ops for Wall Street South firms.",
+    "h1": "Managed AWS Cloud Services in West Palm Beach, FL",
+    "badge": "West Palm Beach & Wall Street South AWS",
+    "heroSubheading": "Institutional-grade AWS security, Zero-Trust cloud architecture, and transparent FinOps governance engineered for West Palm Beach financial firms, hedge funds, legal practices, and commercial enterprises.",
+    "businessCorridors": "Flagler Drive Financial Corridor (Wall Street South), CityPlace / Downtown West Palm Beach, and Palm Beach Lakes Corporate Hub",
+    "keyIndustries": [
+      {
+        "name": "Financial Services, Private Equity & Hedge Funds",
+        "workload": "Zero-Trust VPC architectures, AWS KMS encryption, GuardDuty + Security Hub continuous threat monitoring, and immutable CloudTrail/S3 Object Lock compliance archives."
+      },
+      {
+        "name": "Commercial Law & Advisory Firms",
+        "workload": "Encrypted client portals, private Amazon Bedrock document-analysis workflows inside isolated VPCs, and automated multi-region disaster recovery."
+      },
+      {
+        "name": "Healthcare & Regional Real Estate Groups",
+        "workload": "HIPAA-ready RDS Aurora databases, high-speed CloudFront web platforms, and consolidated multi-entity AWS Organizations billing."
+      }
+    ],
+    "complianceFocus": "SOC 2 Type II, SEC/FINRA cybersecurity alignment, HIPAA, and Zero-Trust IAM",
+    "localPainPoint": "As West Palm Beach rapidly expands as 'Wall Street South,' financial, legal, and mid-market firms face rigorous institutional security audits and escalating cloud costs without dedicated in-house AWS architects.",
+    "localSolutionAngle": "G3Z Creative delivers senior, South Florida-based AWS architecture, continuous security posture management, and transparent FinOps cost control—giving West Palm Beach leadership institutional rigor with boutique responsiveness.",
+    "drAndLatencyNote": "We protect downtown West Palm Beach and Flagler Drive firms from Atlantic hurricane outages with Multi-AZ us-east-1 deployments and automated cross-region disaster recovery in us-east-2.",
+    "faqs": [
+      {
+        "q": "How do you secure AWS accounts for West Palm Beach financial and legal firms?",
+        "a": "We enforce AWS Organizations guardrails, hardware/SSO MFA via IAM Identity Center, least-privilege IAM roles, KMS encryption at rest and in transit, private VPC endpoints, GuardDuty threat detection, and immutable CloudTrail audit logs."
+      },
+      {
+        "q": "Can we deploy private AI tools on AWS without exposing confidential data?",
+        "a": "Yes. We architect private Amazon Bedrock and RAG pipelines inside your own AWS VPC using PrivateLink endpoints so proprietary financial or legal documents never leave your security boundary or train third-party models."
+      },
+      {
+        "q": "How does G3Z Creative charge for Managed AWS in West Palm Beach?",
+        "a": "Our AWS Architecture & FinOps Audit is $1,500 one-time. Ongoing Managed AWS Core is $1,500/month and Managed AWS Scale & Compliance is $3,500+/month—month-to-month with zero markup on AWS infrastructure costs."
+      },
+      {
+        "q": "Do we retain full ownership of our AWS account and infrastructure code?",
+        "a": "100%. Your organization owns the AWS root account, billing relationship, and every line of Terraform code we write."
+      }
+    ],
+    "nearbySlugs": ["boca-raton-fl", "palm-beach-gardens-fl", "fort-lauderdale-fl", "miramar-fl", "miami-fl"]
+  },
+  {
+    "slug": "palm-beach-gardens-fl",
+    "city": "Palm Beach Gardens",
+    "county": "Palm Beach County",
+    "stateAbbr": "FL",
+    "state": "Florida",
+    "geo": { "lat": 26.8234, "lng": -80.1387 },
+    "title": "Managed AWS Services Palm Beach Gardens FL | Biotech & B2B Cloud | G3Z Creative",
+    "metaDescription": "Managed AWS cloud services in Palm Beach Gardens, FL. HIPAA & SOC 2 AWS architecture, FinOps cost optimization & 24/7 cloud ops for PGA Corridor enterprises.",
+    "h1": "Managed AWS Cloud Services in Palm Beach Gardens, FL",
+    "badge": "Palm Beach Gardens & PGA Corridor AWS",
+    "heroSubheading": "Reliable, compliance-ready AWS cloud architecture, FinOps cost savings, and 24/7 managed operations for Palm Beach Gardens life sciences, wealth advisory, and PGA Boulevard corporate teams.",
+    "businessCorridors": "PGA Boulevard Corporate Corridor, Alton & Scripps/UF Health Biotech Hub, and Legacy Place Commercial District",
+    "keyIndustries": [
+      {
+        "name": "Life Sciences, Biotech & Healthcare Innovation",
+        "workload": "HIPAA-aligned AWS compute and S3 research data lakes, automated lifecycle archival to Glacier, encrypted Aurora databases, and reproducible Terraform environments."
+      },
+      {
+        "name": "Wealth Advisory & Family Offices",
+        "workload": "Hardened AWS VPCs, GuardDuty security monitoring, encrypted document portals, and automated cross-region disaster recovery."
+      },
+      {
+        "name": "Enterprise SaaS & Regional Service Groups",
+        "workload": "High-availability ECS Fargate applications, CI/CD release automation, custom CRM hosting, and proactive FinOps budget governance."
+      }
+    ],
+    "complianceFocus": "HIPAA / HITECH, SOC 2 Type II, and research data integrity",
+    "localPainPoint": "Biotech, healthcare, and corporate teams along the PGA Boulevard corridor frequently overpay for unoptimized cloud storage and compute while struggling to maintain continuous security compliance.",
+    "localSolutionAngle": "G3Z Creative delivers hands-on South Florida AWS engineering—combining storage and compute FinOps savings (25–45%), automated security guardrails, and 24/7 CloudWatch operational reliability.",
+    "drAndLatencyNote": "Palm Beach Gardens enterprises need uninterrupted cloud access throughout Atlantic hurricane season. We architect Multi-AZ us-east-1 workloads paired with automated us-east-2 cross-region disaster recovery.",
+    "faqs": [
+      {
+        "q": "Can you optimize large S3 storage and compute bills for Palm Beach Gardens biotech or analytics workloads?",
+        "a": "Yes. We implement S3 Intelligent-Tiering and Glacier lifecycle policies, Spot/Savings Plan compute strategies, and automated idle-cluster shutdowns—routinely reducing monthly AWS spend by 25% to 45%."
+      },
+      {
+        "q": "Do you provide HIPAA and SOC 2 architecture support on AWS?",
+        "a": "Yes. We configure HIPAA-eligible AWS services, KMS encryption, AWS Config compliance rules, GuardDuty, and immutable CloudTrail logging aligned with HIPAA and SOC 2 frameworks."
+      },
+      {
+        "q": "How quickly can we start with G3Z Creative?",
+        "a": "We can kick off our $1,500 one-time AWS Architecture & FinOps Audit within 48 hours and deliver your complete security and cost-reduction roadmap within 5 to 7 business days."
+      },
+      {
+        "q": "What ongoing managed AWS retainers do you offer?",
+        "a": "Managed AWS Core starts at $1,500/month for 24/7 alerting, patching, backups, and monthly FinOps; Managed AWS Scale & Compliance starts at $3,500+/month for Terraform IaC, CI/CD, multi-region DR, and compliance guardrails."
+      }
+    ],
+    "nearbySlugs": ["west-palm-beach-fl", "boca-raton-fl", "fort-lauderdale-fl", "sunrise-fl", "miramar-fl"]
+  }
+]

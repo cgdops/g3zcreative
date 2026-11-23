@@ -7,6 +7,7 @@
     "sync:outreach": "node scripts/sync-maps-outreach.mjs",
     "sync:maps": "node scripts/sync-maps-outreach.mjs",
     "build:pseo": "node scripts/build-pseo.js",
+    "build:aws": "node scripts/build-aws-pages.js",
     "build:sitemap": "node scripts/build-sitemap.js",
     "build": "node scripts/sync-templates.js",
     "fetch:gsc": "node scripts/fetch-gsc.js",

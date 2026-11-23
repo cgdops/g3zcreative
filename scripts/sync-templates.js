@@ -94,10 +94,11 @@ console.log('🔄 Synchronizing templates/nav.html and templates/footer.html acr
 const totalUpdated = scanAndSync(ROOT);
 console.log(`✅ Synced header & footer templates across ${totalUpdated} HTML files.`);
 
-// Rebuild pSEO and Sitemap
-console.log('\n🚀 Rebuilding Programmatic SEO pages & Sitemap...');
+// Rebuild pSEO, Managed AWS Location Pages, and Sitemap
+console.log('\n🚀 Rebuilding Programmatic SEO, Managed AWS Pages & Sitemap...');
 try {
   execSync('node scripts/build-pseo.js', { stdio: 'inherit', cwd: ROOT });
+  execSync('node scripts/build-aws-pages.js', { stdio: 'inherit', cwd: ROOT });
   execSync('node scripts/build-sitemap.js', { stdio: 'inherit', cwd: ROOT });
   execSync('node scripts/validate-nav-links.js', { stdio: 'inherit', cwd: ROOT });
   console.log('\n🎉 Entire site navigation & layout successfully synchronized!');
