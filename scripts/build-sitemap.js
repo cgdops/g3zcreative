@@ -21,7 +21,8 @@ const TODAY = new Date().toISOString().split('T')[0];
 const SKIP_DIRS = new Set([
   '.git', '.github', '.wrangler', '.claude', 'node_modules',
   'scripts', 'templates', 'migrations', 'functions', 'src',
-  'css', 'js', 'images', 'videos', 'data', 'content-strategy'
+  'css', 'js', 'images', 'videos', 'data', 'content-strategy',
+  'tools', 'scratch', 'playbooks'
 ]);
 
 /* Individual pages that must never be indexed.
