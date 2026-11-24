@@ -33,15 +33,23 @@ function validateFile(filePath) {
   const errors = [];
   const warnings = [];
 
+  const DISALLOWED_NAV_PATTERNS = [
+    'dance-studios',
+    'social-media-marketing',
+    'managed-aws',
+    'graphic-design',
+    'branding.html',
+    'google-ads'
+  ];
+
   const megaMenuMatch = content.match(/<div class="mega-nav-dropdown-list-wrapper">[\s\S]*?<\/nav>/i);
   if (megaMenuMatch) {
     const hrefs = extractHrefs(megaMenuMatch[0]);
     for (const href of hrefs) {
-      if (href.includes('dance-studios')) {
-        errors.push(`Found dance-studios in navbar dropdown: ${href}`);
-      }
-      if (href.includes('social-media-marketing')) {
-        errors.push(`Found social-media-marketing in navbar dropdown: ${href}`);
+      for (const banned of DISALLOWED_NAV_PATTERNS) {
+        if (href.includes(banned)) {
+          errors.push(`Found off-focus link (${banned}) in navbar dropdown: ${href}`);
+        }
       }
       const resolved = resolveFile(filePath, href);
       if (resolved && !fs.existsSync(resolved)) {
@@ -54,8 +62,10 @@ function validateFile(filePath) {
   if (footerMatch) {
     const hrefs = extractHrefs(footerMatch[0]);
     for (const href of hrefs) {
-      if (href.includes('dance-studios')) {
-        errors.push(`Found dance-studios in footer: ${href}`);
+      for (const banned of DISALLOWED_NAV_PATTERNS) {
+        if (href.includes(banned)) {
+          errors.push(`Found off-focus link (${banned}) in footer: ${href}`);
+        }
       }
       const resolved = resolveFile(filePath, href);
       if (resolved && !fs.existsSync(resolved)) {

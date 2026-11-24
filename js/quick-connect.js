@@ -387,9 +387,9 @@
         
         <div id="qcFormView">
           <div class="qc-modal-header">
-            <div class="qc-badge">⚡ Instant Connect</div>
-            <h3 class="qc-modal-title" id="qcModalTitle">Let's Discuss Your Project</h3>
-            <p class="qc-modal-desc">Reach Christian directly or send a 1-minute inquiry. No automated phone trees or spam.</p>
+            <div class="qc-badge">🔍 Free Baseline Audit</div>
+            <h3 class="qc-modal-title" id="qcModalTitle">Get Your Free AI &amp; Local Search Audit</h3>
+            <p class="qc-modal-desc">We'll test how your business shows up in Google Maps, ChatGPT &amp; AI Overviews and send a 90-second video breakdown. No sales pitch.</p>
           </div>
 
           <div class="qc-fast-options">
@@ -409,14 +409,14 @@
               <input type="text" name="_gotcha" style="display:none !important;" tabindex="-1" autocomplete="off">
               
               <div class="qc-form-group">
-                <label class="qc-label">I'm interested in:</label>
+                <label class="qc-label">What are you looking for?</label>
                 <div class="qc-service-pills" id="qcServicePills">
-                  <button type="button" class="qc-pill qc-pill-active" data-service="Programmatic SEO / GEO">Programmatic SEO</button>
-                  <button type="button" class="qc-pill" data-service="Website Design & Build">Website Design</button>
-                  <button type="button" class="qc-pill" data-service="AI Workflow Automations">AI Automations</button>
-                  <button type="button" class="qc-pill" data-service="General Consultation">General Inquiry</button>
+                  <button type="button" class="qc-pill qc-pill-active" data-service="Free AI & Local Search Audit">Free Search Audit</button>
+                  <button type="button" class="qc-pill" data-service="$500 Fast Landing Page Pilot">$500 Pilot</button>
+                  <button type="button" class="qc-pill" data-service="$3,000 Core Search-to-Lead System">$3,000 Core System</button>
+                  <button type="button" class="qc-pill" data-service="$2,500/mo Growth Engine Retainer">Growth Retainer</button>
                 </div>
-                <input type="hidden" name="service_interest" id="qcServiceInput" value="Programmatic SEO / GEO">
+                <input type="hidden" name="service_interest" id="qcServiceInput" value="Free AI & Local Search Audit">
               </div>
 
               <div class="qc-form-group">
@@ -430,21 +430,21 @@
               </div>
 
               <div class="qc-form-group">
-                <label class="qc-label" for="qcCompany">Company / Website (Optional)</label>
-                <input type="text" id="qcCompany" name="company" class="qc-input" placeholder="e.g. Acme Services or acme.com">
+                <label class="qc-label" for="qcCompany">Business Name &amp; Website URL</label>
+                <input type="text" id="qcCompany" name="company" class="qc-input" placeholder="e.g. Apex Roofing — apexroofingfl.com">
               </div>
 
               <div class="qc-form-group">
-                <label class="qc-label" for="qcMessage">What are your main goals? (Optional)</label>
-                <textarea id="qcMessage" name="message" class="qc-textarea" placeholder="Tell us what you'd like to achieve..."></textarea>
+                <label class="qc-label" for="qcMessage">Trade &amp; Service Area (Optional)</label>
+                <textarea id="qcMessage" name="message" class="qc-textarea" placeholder="e.g. Roofing in Pembroke Pines &amp; Miramar — want more exclusive replacement calls..."></textarea>
               </div>
 
               <button type="submit" class="qc-submit-btn" id="qcSubmitBtn">
-                <span>Start Conversation</span>
+                <span>Request Free Search Audit</span>
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
               </button>
 
-              <div class="qc-privacy-note">🔒 Zero spam guarantee. We’ll only reach out regarding your inquiry.</div>
+              <div class="qc-privacy-note">🔒 Zero spam guarantee. We’ll only send your audit &amp; reply to your request.</div>
             </form>
           </div>
         </div>
@@ -452,8 +452,8 @@
         <!-- Success View -->
         <div id="qcSuccessView" class="qc-success-view">
           <div class="qc-success-icon">✓</div>
-          <h3 class="qc-success-title">Message Received!</h3>
-          <p class="qc-success-desc" id="qcSuccessDesc">Thank you! Christian has received your details and will call or message you promptly to start the conversation.</p>
+          <h3 class="qc-success-title">Audit Request Received!</h3>
+          <p class="qc-success-desc" id="qcSuccessDesc">Thank you! Christian has your details and will run your Google Maps &amp; AI Search baseline audit and send your 90-second video breakdown shortly.</p>
           <div style="display:flex; flex-direction:column; gap:8px;">
             <a href="tel:${PHONE_RAW}" class="qc-fast-btn" style="background:#da104d; color:white; border-color:#da104d;">
               <span>Need an immediate answer? Call ${PHONE_NUMBER}</span>
@@ -470,8 +470,8 @@
       <a href="tel:${PHONE_RAW}" class="qc-phone-badge" title="Direct Phone">
         <span>📞 ${PHONE_NUMBER}</span>
       </a>
-      <button type="button" class="qc-floating-btn" id="qcFloatingBtn" aria-label="Start conversation">
-        <span>💬 Start Conversation</span>
+      <button type="button" class="qc-floating-btn" id="qcFloatingBtn" aria-label="Get Free Search Audit">
+        <span>🔍 Free Search Audit</span>
       </button>
     </div>
   `;
