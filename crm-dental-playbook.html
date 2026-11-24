@@ -562,12 +562,12 @@
         const spec = v('specialty', '[Open Specialty Slot]');
         const loom = v('loom', '[LOOM_URL]');
 
-        document.getElementById('p1').textContent = `solo dental practices near ${city}`;
-        document.getElementById('p2').textContent = `Why did you choose to show me these? What other solo dental practices are near ${city} that aren't shown here, including why each one wasn't shown?`;
+        document.getElementById('p1').textContent = `best private dentist in ${city} for implants, crowns, or cosmetic care`;
+        document.getElementById('p2').textContent = `Why did you choose to show me these? What other top-rated private dentists are near ${city} that aren't shown here, including why each one wasn't shown?`;
 
         document.getElementById('loomScript').textContent =
 `[0:00–0:10 HOOK]
-"Hey ${doc}, I ran a quick Google AI Mode search for solo dentists in ${city} today and noticed something weird about ${prac}."
+"Hey ${doc}, I ran a quick Google AI Mode search that a high-value patient would type—'best private dentist in ${city}'—and noticed something weird about ${prac}."
 
 [0:10–0:35 PROOF — SCROLL TO "WHY IT WASN'T SHOWN"]
 "You have ${stars}, which is incredible—but Google AI explicitly left you off the top 3 shortlist because it thinks you overlap with ${comp} right down the road."
@@ -579,14 +579,14 @@
 "I mapped out the 3 changes to claim that uncontested slot in ${city}. Worth a quick 15-minute walkthrough between patients this week? No pitch—I'll just show you the exact map."`;
 
         document.getElementById('dmScript').textContent =
-`${doc} — recorded a 55-sec screen video showing why Google AI Mode is hiding ${prac} despite your ${stars} (and showing ${comp} instead). Worth a quick peek? ${loom}`;
+`${doc} — recorded a 55-sec screen video showing why Google AI Mode is hiding ${prac} on high-value "${city} dentist" searches despite your ${stars} (and showing ${comp} instead). Worth a quick peek? ${loom}`;
 
         document.getElementById('emailScript').textContent =
 `Subject: Google AI is hiding ${prac} (55s video)
 
 Hi ${doc},
 
-I ran a Google AI search for solo dental practices in ${city} today and saw something worth flagging for you.
+I ran a Google AI search a local patient would type—"best private dentist in ${city} for implants, crowns, or cosmetic care"—and saw something worth flagging for you.
 
 Even with ${stars}, Google AI explicitly left ${prac} off the initial 3-practice shortlist because it thinks you overlap with ${comp}—even though it already sees your edge (${spec}).
 

@@ -15,8 +15,8 @@ Google AI Mode does not rank "the top 3 general dentists"—it curates **3 non-o
 ## Stage 0: Target Selection (5 Minutes / Zip Code)
 
 Run these two prompts in Google AI Mode:
-1. `solo dental practices near [City]`
-2. `Why did you choose to show me these? What other solo dental practices are near [City] that aren't shown here, including why each one wasn't shown?`
+1. `best private dentist in [City] for implants, crowns, or cosmetic care` *(or swap in the highest-value local angle: `best cosmetic dentist in [City]`, `gentle dentist for anxious patients in [City]`, or `best dentist in [City] without insurance`)*
+2. `Why did you choose to show me these? What other top-rated private dentists are near [City] that aren't shown here, including why each one wasn't shown?`
 
 **Qualifying Criteria:**
 - Independent / solo dentist (not a corporate DSO).
@@ -29,7 +29,7 @@ Run these two prompts in Google AI Mode:
 
 Record while scrolling directly to the **"Why it wasn't shown"** bullet under their practice:
 
-- **0:00–0:10 (Hook):** *"Hey Dr. [Name], I ran a quick Google AI Mode search for solo dentists in [City] today and noticed something weird about [Practice Name]."*
+- **0:00–0:10 (Hook):** *"Hey Dr. [Name], I ran a quick Google AI Mode search that a high-value patient would type—'best private dentist in [City]'—and noticed something weird about [Practice Name]."*
 - **0:10–0:35 (Proof):** *"You have [Stars & Reviews], which is incredible—but Google AI explicitly left you off the top 3 shortlist because it thinks you overlap with [Picked Neighbor] down the road."*
 - **0:35–0:50 (Open Slot):** *"The crazy part is Google AI already noticed your real edge—[Open Specialty Slot]—it just isn't connecting that to the main search slot yet."*
 - **0:50–1:00 (CTA):** *"I mapped out the 3 changes to claim that uncontested slot in [City]. Worth a quick 15-minute walkthrough between patients this week? No pitch—I'll just show you the exact map."*
