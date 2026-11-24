@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dental AI Slot CRM Playbook | G3Z Creative Internal</title>
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #da104d;
+      --primary-hover: #b90b3f;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #0b1220;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #4ade80;
+      --info: #38bdf8;
+      --warning: #fbbf24;
+      --focus-ring: #38bdf8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--bg);
+      color-scheme: dark;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    :where(a, button, input, textarea, summary):focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Young Serif', Georgia, serif;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    /* Header matching crm.html */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .brand img { height: 28px; width: 28px; }
+
+    .brand-title {
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(218, 16, 77, 0.2);
+      color: #fda4af;
+      border: 1px solid rgba(218, 16, 77, 0.4);
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover { background: #334155; }
+    .btn-primary { background: var(--primary); border-color: var(--primary); color: #ffffff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-info { border-color: rgba(56, 189, 248, 0.45); color: #7dd3fc; }
+    .btn-xs { padding: 0.3rem 0.65rem; font-size: 0.76rem; }
+
+    .wrap {
+      width: min(1140px, 100% - 2rem);
+      margin: 1.5rem auto 4rem;
+    }
+
+    /* Sticky Prospect Merge Panel */
+    .merge-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .merge-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .merge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.88rem;
+    }
+
+    /* Stage Sections */
+    .stage-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .stage-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+
+    .stage-kicker {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--info);
+      margin-bottom: 0.3rem;
+    }
+
+    .stage-title {
+      font-size: 1.35rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .stage-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0 0 1.1rem;
+    }
+
+    .script-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .script-card:last-child { margin-bottom: 0; }
+
+    .script-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .script-label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #fda4af;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .script-body {
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    /* Interactive Checklists */
+    .checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .checklist li label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      cursor: pointer;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+    }
+
+    .checklist input[type="checkbox"] {
+      margin-top: 0.25rem;
+      accent-color: var(--success);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Accordion for Objection Handlers */
+    .accordion {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .accordion details {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 1rem;
+    }
+
+    .accordion summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 0;
+      font-weight: 700;
+      font-size: 0.94rem;
+      cursor: pointer;
+      color: #f8fafc;
+    }
+
+    .accordion summary::-webkit-details-marker { display: none; }
+
+    .accordion summary::before {
+      content: "";
+      inline-size: 0.9em;
+      block-size: 0.9em;
+      flex-shrink: 0;
+      background-color: var(--info);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat center / contain;
+      rotate: -90deg;
+    }
+
+    .accordion details[open] > summary::before { rotate: 0deg; }
+
+    .accordion details::details-content {
+      interpolate-size: allow-keywords;
+      overflow: clip;
+      contain: layout;
+    }
+
+    .accordion details:not([open])::details-content { block-size: 0; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .accordion summary::before { transition: rotate 0.2s ease; }
+      .accordion details::details-content {
+        transition: block-size, content-visibility, display;
+        transition-duration: 0.25s;
+        transition-timing-function: ease-in-out;
+        transition-behavior: allow-discrete;
+      }
+    }
+
+    .accordion-body {
+      padding: 0 0 1rem 1.5rem;
+      color: #cbd5e1;
+      font-size: 0.9rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: #16a34a;
+      color: #ffffff;
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 100;
+    }
+
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="/images/favicon.png" alt="G3Z Creative">
+      <h1 class="brand-title">
+        <span>Dental AI Slot Playbook</span>
+        <span class="badge">Internal CRM SOP</span>
+      </h1>
+    </div>
+    <nav class="nav-actions" aria-label="Playbook navigation">
+      <a href="/crm.html" class="btn">&larr; Back to CRM</a>
+      <a href="/search-to-seat-system.html" target="_blank" rel="noopener" class="btn btn-primary" id="openStackPageBtn">🚀 Open Personalized Stack Page</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- Live Prospect Merge Fields -->
+    <section class="merge-panel" aria-labelledby="mergeHeading">
+      <div class="merge-header">
+        <div>
+          <h2 id="mergeHeading" style="font-size: 1.15rem;">Active Prospect Merge Fields</h2>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">Fill once &rarr; every Loom script, DM, email, call track, and the live Stack Page link updates automatically.</div>
+        </div>
+        <button type="button" class="btn btn-xs btn-info" id="loadSampleBtn">Load Miramar Example</button>
+      </div>
+      <div class="merge-grid">
+        <div class="field">
+          <label for="mDoctor">Lead Dentist</label>
+          <input id="mDoctor" type="text" placeholder="Dr. Margaret Michael">
+        </div>
+        <div class="field">
+          <label for="mPractice">Practice Name</label>
+          <input id="mPractice" type="text" placeholder="Healthy Smiles Dentistry">
+        </div>
+        <div class="field">
+          <label for="mCity">City</label>
+          <input id="mCity" type="text" placeholder="Miramar">
+        </div>
+        <div class="field">
+          <label for="mStars">Rating &amp; Reviews</label>
+          <input id="mStars" type="text" placeholder="5.0★ and 304 reviews">
+        </div>
+        <div class="field">
+          <label for="mCompetitor">Picked Neighbor</label>
+          <input id="mCompetitor" type="text" placeholder="Smiles in Miramar">
+        </div>
+        <div class="field">
+          <label for="mSpecialty">Open Specialty Slot</label>
+          <input id="mSpecialty" type="text" placeholder="in-house uninsured plan & late Tuesday hours">
+        </div>
+        <div class="field">
+          <label for="mLoom">Loom Video URL</label>
+          <input id="mLoom" type="url" placeholder="https://www.loom.com/share/...">
+        </div>
+      </div>
+    </section>
+
+    <div class="stage-grid">
+      <!-- Stage 0: Target Discovery -->
+      <section class="stage-card">
+        <div class="stage-kicker">Stage 0 &bull; 5-Minute Research</div>
+        <h2 class="stage-title">Run the 2-Prompt Google AI Mode Test</h2>
+        <p class="stage-desc">Only target solo practices with <strong>4.7★–5.0★</strong> and <strong>150+ reviews</strong> that Google AI Mode explicitly left off the initial 3-pack.</p>
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Prompt 1 (Initial Search)</span>
+            <button type="button" class="btn btn-xs" data-copy="p1">📋 Copy</button>
+          </div>
+          <div class="script-body" id="p1"></div>
+        </div>
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Prompt 2 (Expose Hidden Practices &amp; Exact Exclusion Reasons)</span>
+            <button type="button" class="btn btn-xs" data-copy="p2">📋 Copy</button>
+          </div>
+          <div class="script-body" id="p2"></div>
+        </div>
+      </section>
+
+      <!-- Stage 1: 60-Second Loom -->
+      <section class="stage-card">
+        <div class="stage-kicker">Stage 1 &bull; The Wedge</div>
+        <h2 class="stage-title">60-Second Loom Recording Script</h2>
+        <p class="stage-desc">Diagnose, never pitch. Scroll directly to the <em>"Why it wasn't shown"</em> bullet on screen while recording.</p>
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Time-Stamped Loom Talk Track (55–60 Seconds)</span>
+            <button type="button" class="btn btn-xs" data-copy="loomScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="loomScript"></div>
+        </div>
+      </section>
+
+      <!-- Stage 2: Multi-Channel Delivery -->
+      <section class="stage-card">
+        <div class="stage-kicker">Stage 2 &bull; CRM Outreach Cadence</div>
+        <h2 class="stage-title">Delivering the Loom Past the Gatekeeper</h2>
+        <p class="stage-desc">Solo dentists don't read generic inbox spam. Hit Direct DM + Email + Front Desk Nudge on Day 1, then follow up Day +2 and Day +5.</p>
+
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Touch 1A — Instagram / LinkedIn Direct Message</span>
+            <button type="button" class="btn btn-xs" data-copy="dmScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="dmScript"></div>
+        </div>
+
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Touch 1B — Cold Email (Direct to Practice / Doctor)</span>
+            <button type="button" class="btn btn-xs" data-copy="emailScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="emailScript"></div>
+        </div>
+
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Touch 1C — Front Desk Call-Ahead (2 Hours After Email)</span>
+            <button type="button" class="btn btn-xs" data-copy="gatekeeperScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="gatekeeperScript"></div>
+        </div>
+
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Touch 2 (Day +2) — Short Bump Email / SMS</span>
+            <button type="button" class="btn btn-xs" data-copy="followupScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="followupScript"></div>
+        </div>
+      </section>
+
+      <!-- Stage 3: 15-Minute Zoom Call -->
+      <section class="stage-card">
+        <div class="stage-kicker">Stage 3 &bull; Live Call</div>
+        <h2 class="stage-title">15-Minute "AI Slot Audit" Call Script</h2>
+        <p class="stage-desc">Click <strong>"🚀 Open Personalized Stack Page"</strong> in the top bar before joining Zoom so their name, city, and specialty are already live on screen.</p>
+
+        <div class="script-card">
+          <div class="script-header">
+            <span class="script-label">Minute-by-Minute Call Track (0:00–15:00)</span>
+            <button type="button" class="btn btn-xs" data-copy="callScript">📋 Copy</button>
+          </div>
+          <div class="script-body" id="callScript"></div>
+        </div>
+
+        <h3 style="font-size: 1.05rem; margin: 1.1rem 0 0.6rem;">Objection Handlers</h3>
+        <section class="accordion" aria-label="Objection handlers">
+          <details>
+            <summary>"We already have an SEO / marketing agency."</summary>
+            <div class="accordion-body">
+              "Totally fair—and we don't touch your existing SEO or rebuild your website. Your current team got you to 5 stars, which is why this is frustrating: Google AI Mode isn't penalizing your SEO, it's deduplicating you because you look identical to the dentist next door. We bolt on the specialty slot positioning and schema right alongside what they're doing."
+            </div>
+          </details>
+          <details>
+            <summary>"I'm too busy chairside to manage another project."</summary>
+            <div class="accordion-body">
+              "That's why we designed this for solo doctors. We need one 30-minute kickoff call with you and your office manager to confirm the specialty slot. We handle 95% of the build and hand your front desk a 1-page script."
+            </div>
+          </details>
+          <details>
+            <summary>"Send me a proposal and I'll think about it."</summary>
+            <div class="accordion-body">
+              "Happy to send you this exact personalized link right now. Just a heads up on timing: because we only take one practice per specialty in this 5-mile radius, I'm reaching out to the other excluded practices on this list on Thursday. Want me to hold your slot until tomorrow at 5 PM, or should we lock it in now?"
+            </div>
+          </details>
+        </section>
+      </section>
+
+      <!-- Stage 4 & 5: Close + First 72 Hours -->
+      <section class="stage-card">
+        <div class="stage-kicker">Stage 4 &amp; 5 &bull; Cash Collection &amp; Fast Win</div>
+        <h2 class="stage-title">On-Call Close &amp; First 72-Hour Fulfillment Checklist</h2>
+        <p class="stage-desc">Never let a verbal "yes" leave Zoom without payment + kickoff booked.</p>
+        <ul class="checklist">
+          <li><label><input type="checkbox"> <strong>On Zoom:</strong> Send Stripe payment link (Option A: $3,000 Sprint or Option B: $1,750/mo 90-day pilot) + 1-page agreement.</label></li>
+          <li><label><input type="checkbox"> <strong>Hour 1:</strong> Send intake form (GBP Manager invite, Website CMS login, top 1–2 high-margin procedures).</label></li>
+          <li><label><input type="checkbox"> <strong>Hour 1 (CRM):</strong> Move lead to <em>Closed Won</em>, log deal value, and tag zip-code + specialty as <strong>LOCKED</strong> so we never pitch a neighbor for that slot.</label></li>
+          <li><label><input type="checkbox"> <strong>Day 2:</strong> Run 30-minute kickoff with doctor + office manager; hand off 1-page Front Desk AI-Lead Script.</label></li>
+          <li><label><input type="checkbox"> <strong>Day 7 (Fast Win):</strong> Publish GBP specialty overhaul, first specialty hub page + JSON-LD entity schema, and activate Signal-Rich SMS review trigger.</label></li>
+          <li><label><input type="checkbox"> <strong>Day 30 &amp; Day 60:</strong> Run 20-prompt baseline snapshot across Google AI Mode, ChatGPT, and Perplexity; send 1-page visual proof report.</label></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard!</div>
+
+  <script>
+    (function () {
+      const fields = {
+        doctor: document.getElementById('mDoctor'),
+        practice: document.getElementById('mPractice'),
+        city: document.getElementById('mCity'),
+        stars: document.getElementById('mStars'),
+        competitor: document.getElementById('mCompetitor'),
+        specialty: document.getElementById('mSpecialty'),
+        loom: document.getElementById('mLoom')
+      };
+
+      const v = (key, fallback) => (fields[key].value.trim() || fallback);
+
+      function renderAll() {
+        const doc = v('doctor', 'Dr. [Last Name]');
+        const prac = v('practice', '[Practice Name]');
+        const city = v('city', '[City]');
+        const stars = v('stars', '5.0★ and 300+ reviews');
+        const comp = v('competitor', '[Neighboring Practice]');
+        const spec = v('specialty', '[Open Specialty Slot]');
+        const loom = v('loom', '[LOOM_URL]');
+
+        document.getElementById('p1').textContent = `solo dental practices near ${city}`;
+        document.getElementById('p2').textContent = `Why did you choose to show me these? What other solo dental practices are near ${city} that aren't shown here, including why each one wasn't shown?`;
+
+        document.getElementById('loomScript').textContent =
+`[0:00–0:10 HOOK]
+"Hey ${doc}, I ran a quick Google AI Mode search for solo dentists in ${city} today and noticed something weird about ${prac}."
+
+[0:10–0:35 PROOF — SCROLL TO "WHY IT WASN'T SHOWN"]
+"You have ${stars}, which is incredible—but Google AI explicitly left you off the top 3 shortlist because it thinks you overlap with ${comp} right down the road."
+
+[0:35–0:50 THE OPEN SLOT]
+"The crazy part is Google AI already noticed your real edge—${spec}—it just isn't connecting that to the main search slot yet."
+
+[0:50–1:00 CTA]
+"I mapped out the 3 changes to claim that uncontested slot in ${city}. Worth a quick 15-minute walkthrough between patients this week? No pitch—I'll just show you the exact map."`;
+
+        document.getElementById('dmScript').textContent =
+`${doc} — recorded a 55-sec screen video showing why Google AI Mode is hiding ${prac} despite your ${stars} (and showing ${comp} instead). Worth a quick peek? ${loom}`;
+
+        document.getElementById('emailScript').textContent =
+`Subject: Google AI is hiding ${prac} (55s video)
+
+Hi ${doc},
+
+I ran a Google AI search for solo dental practices in ${city} today and saw something worth flagging for you.
+
+Even with ${stars}, Google AI explicitly left ${prac} off the initial 3-practice shortlist because it thinks you overlap with ${comp}—even though it already sees your edge (${spec}).
+
+I recorded a 55-second screen video showing the exact reason Google gave and the open specialty slot sitting right next door:
+${loom}
+
+Worth a quick 15-minute walkthrough between patients this week?
+
+Best,
+Christian Gomez
+G3Z Creative | (786) 967-3699`;
+
+        document.getElementById('gatekeeperScript').textContent =
+`"Hi! I'm Christian—not trying to sell you guys anything over the phone. I sent ${doc} a 55-second screen recording earlier about a Google AI listing issue that's showing ${comp} instead of ${prac} even though you have ${stars}. Could you flag that email for ${doc} at lunch?"`;
+
+        document.getElementById('followupScript').textContent =
+`Hi ${doc} — quick bump on that 55-sec video showing how to claim the ${spec} slot in Google AI Mode for ${city}: ${loom}
+
+We only take one practice per specialty in ${city}, so wanted to check in with you first before reaching out to the other offices on that list. Open to a quick 15-min chat Thursday?`;
+
+        document.getElementById('callScript').textContent =
+`[0:00–3:00 LIVE PROOF]
+• Share screen showing Google AI Mode for ${city}.
+• "If a patient with a $5,000 case searches this tonight, who gets the call?" (Pause and let them answer.)
+
+[3:00–6:00 ANCHOR THE VALUE — SWITCH TO PERSONALIZED STACK PAGE ROI SLIDERS]
+• "What's one new ${spec} / high-margin patient worth to you in year one?"
+• Plug their number into the ROI calculator on screen at a conservative 2 patients/month.
+• "So owning this one uncontested slot is easily $90k–$120k/year in production with $0 in ad spend."
+
+[6:00–11:00 PRESENT THE STACK]
+• Scroll through the 4 items ($8,500 combined value):
+  1. Uncontested AI Specialty Overhaul (GBP + Entity Schema + 3–5 hub pages on existing site)
+  2. Signal-Rich Review Accelerator (nudges patients to mention ${spec})
+  3. AI-Ready Conversion Kit + 1-Page Front Desk Script
+  4. Monthly AI Shortlist Defense + Call Attribution
+• Emphasize: "Only 30 minutes of your time at kickoff—we do 95% of the build."
+
+[11:00–15:00 SCARCITY, GUARANTEE & CLOSE]
+• Show Option A ($3,000 Sprint + $1,250/mo Mo 3+) vs Option B ($1,750/mo x 3-mo Pilot).
+• "If ${prac} isn't in Google AI Mode's shortlist for ${spec} in 60 days, we work for free until you are."
+• "And once you lock in ${spec} in ${city}, we turn away every neighbor."
+• "Which option makes more sense for your cash flow—Option A or Option B?"`;
+
+        // Update Stack Page URL
+        const url = new URL('/search-to-seat-system.html', window.location.origin);
+        if (fields.practice.value.trim()) url.searchParams.set('practice', fields.practice.value.trim());
+        if (fields.doctor.value.trim()) url.searchParams.set('doctor', fields.doctor.value.trim());
+        if (fields.city.value.trim()) url.searchParams.set('city', fields.city.value.trim());
+        if (fields.specialty.value.trim()) url.searchParams.set('specialty', fields.specialty.value.trim());
+        if (fields.stars.value.trim()) url.searchParams.set('stars', fields.stars.value.trim());
+        document.getElementById('openStackPageBtn').href = url.pathname + url.search;
+      }
+
+      Object.values(fields).forEach(el => el.addEventListener('input', renderAll));
+
+      document.getElementById('loadSampleBtn').addEventListener('click', () => {
+        fields.doctor.value = 'Dr. Margaret Michael';
+        fields.practice.value = 'Healthy Smiles: Family & Cosmetic Dentistry';
+        fields.city.value = 'Miramar, FL';
+        fields.stars.value = '5.0★ and 304 reviews';
+        fields.competitor.value = 'Smiles in Miramar';
+        fields.specialty.value = 'In-House Uninsured Dental Plan & Late Tuesday Hours';
+        fields.loom.value = 'https://www.loom.com/share/example';
+        renderAll();
+      });
+
+      const toast = document.getElementById('toast');
+      let toastTimer;
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      document.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const text = document.getElementById(btn.getAttribute('data-copy')).textContent;
+          try {
+            await navigator.clipboard.writeText(text);
+            showToast('✓ Copied to clipboard');
+          } catch {
+            window.prompt('Copy script:', text);
+          }
+        });
+      });
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

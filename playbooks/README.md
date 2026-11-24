@@ -9,6 +9,7 @@ by running it on G3Z Creative first.
 | [02 — Schema & Entity Graph](02-schema-entity-graph.md) | Q3 | `@graph` construction, the seven rules, validation |
 | [03 — Extractable Content](03-extractable-content.md) | Q4 | Retrieval mechanism, the rules, the extraction test |
 | [04 — Fallback Value Map](04-fallback-value-map.md) | Q5 | Dual-justification constraint, zero-click honesty |
+| [05 — Dental AI Slot CRM Playbook](05-dental-ai-slot-crm-playbook.md) | Outbound + Close | 2-prompt Google AI Mode test, 60s Loom, CRM cadence, 15-min Stack call |
 
 ## Tooling
 
